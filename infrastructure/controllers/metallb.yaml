@@ -5,6 +5,7 @@ metadata:
   name: metallb-system
   labels:
     toolkit.fluxcd.io/tenant: sre-team
+---
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
