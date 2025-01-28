@@ -4,6 +4,5 @@ metadata:
   name: l2-advertisment
   namespace: metallb-system
 spec:
-  ipAddressPools:
-  - metallb-pool 
-
+  interfaces:
+    - eno16
