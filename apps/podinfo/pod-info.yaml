@@ -50,8 +50,8 @@ spec:
   ingressClassName: nginx
   tls: 
   - hosts:
-    - podinfo.prizrak.me
-    secretName: podinfo-tls
+    - "*.prizrak.me"
+    secretName: prizrak.me
   rules:
   - host: podinfo.prizrak.me
     http:
