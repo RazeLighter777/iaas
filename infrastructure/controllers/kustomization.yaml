@@ -4,3 +4,4 @@ resources:
   - cert-manager.yaml
   - ingress-nginx.yaml
   - metallb.yaml
+  - longhorn.yaml
