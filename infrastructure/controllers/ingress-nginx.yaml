@@ -35,5 +35,7 @@ spec:
     controller:
       service:
         type: "LoadBalancer"
+      extra-args:
+        default-ssl-certificate: "cert-manager/prizrak.me"
     admissionWebhooks:
       enabled: false
