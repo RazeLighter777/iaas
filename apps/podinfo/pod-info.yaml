@@ -48,6 +48,10 @@ annotations:
   cert-manager.io/issuer: "letsencrypt-issuer"
 spec:
   ingressClassName: nginx
+  tls: 
+  - hosts:
+    - podinfo.prizrak.me
+    secretName: podinfo-tls
   rules:
   - host: podinfo.prizrak.me
     http:
