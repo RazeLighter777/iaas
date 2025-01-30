@@ -14,10 +14,3 @@ spec:
   values:
     redis:
       usePassword: true
-      #password: "authentik"  : this is commented out to use the secret
-  valuesFrom:
-    - kind: Secret
-      name: redis-authentik-password
-      valuesKey: password
-      targetPath: redis.password
-      optional: false

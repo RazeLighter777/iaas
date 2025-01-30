@@ -73,7 +73,7 @@ spec:
       targetPath: authentik.secret_key
       optional: false
     - kind: Secret
-      name: redis-authentik-password
-      valuesKey: password
+      name: redis
+      valuesKey: redis-password
       targetPath: redis.password
       optional: false
