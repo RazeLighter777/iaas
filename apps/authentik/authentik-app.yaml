@@ -77,3 +77,4 @@ spec:
       valuesKey: redis-password
       targetPath: authentik.redis.password
       optional: false
+      
