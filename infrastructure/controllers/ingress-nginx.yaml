@@ -39,6 +39,8 @@ spec:
         default-ssl-certificate: "cert-manager/prizrak.me"
       allowSnippetAnnotations: true
       config:
+        #for forward auth. otherwise ingress-nginx throws a fit
         annotations-risk-level: "critical"
+        strict-validate-path-type: "false"
     admissionWebhooks:
       enabled: false
