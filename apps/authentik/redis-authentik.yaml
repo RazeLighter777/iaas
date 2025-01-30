@@ -6,22 +6,17 @@ metadata:
   namespace: authentik
 spec:
   interval: 5m
-  chart:
-    spec:
-      chart: redis
-      version: 20.6.3
-      sourceRef:
-        kind: HelmRepository
-        name: bitnami
-        namespace: redis
-      interval: 5m
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
+  releaseName: redis
+  chartRef:
+    kind: OCIRepository
+    name: redis
   values:
-    global:
-      defaultStorageClass: longhorn
+    redis:
+      usePassword: true
+      #password: "authentik"  : this is commented out to use the secret
+  valuesFrom:
+    - kind: Secret
+      name: redis-authentik-password
+      valuesKey: password
+      targetPath: redis.password
+      optional: false
