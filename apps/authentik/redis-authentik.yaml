@@ -10,6 +10,7 @@ spec:
   chartRef:
     kind: OCIRepository
     name: redis
+    namespace: redis
   values:
     redis:
       usePassword: true
