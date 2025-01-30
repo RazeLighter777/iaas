@@ -38,5 +38,7 @@ spec:
       extraArgs:
         default-ssl-certificate: "cert-manager/prizrak.me"
       allowSnippetAnnotations: true
+      config:
+        annotations-risk-level: "critical"
     admissionWebhooks:
       enabled: false
