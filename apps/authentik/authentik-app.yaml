@@ -39,7 +39,6 @@ spec:
         name: app #default database name for cloudnative-pg database
       redis:
         host: redis-master
-        password: file:///redis-creds/password
     server:
       volumes:
         - name: redis-creds
@@ -51,9 +50,6 @@ spec:
       volumeMounts:
         - name: postgres-creds
           mountPath: /postgres-creds
-          readOnly: true
-        - name: redis-creds
-          mountPath: /redis-creds
           readOnly: true
       ingress:
         enabled: true
@@ -75,4 +71,9 @@ spec:
       name: authentik-secret-key
       valuesKey: secret_key
       targetPath: authentik.secret_key
+      optional: false
+    - kind: Secret
+      name: redis-authentik-password
+      valuesKey: password
+      targetPath: redis.password
       optional: false
