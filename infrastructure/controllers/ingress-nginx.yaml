@@ -37,5 +37,6 @@ spec:
         type: "LoadBalancer"
       extraArgs:
         default-ssl-certificate: "cert-manager/prizrak.me"
+      allowSnippetAnnotations: true
     admissionWebhooks:
       enabled: false
