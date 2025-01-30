@@ -20,6 +20,7 @@ metadata:
   name: capacitor-ingress
   namespace: flux-system
 spec:
+  ingressClassName: nginx
   rules:
     - host: capacitor.prizrak.me
       http:
