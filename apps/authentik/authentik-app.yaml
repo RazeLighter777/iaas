@@ -42,6 +42,9 @@ spec:
         password: file:///redis-creds/password
     server:
       volumes:
+        - name: redis-creds
+          secret:
+            secretName: redis-authentik-password
         - name: postgres-creds
           secret:
             secretName: cloudnative-database-authentik-cluster-app
