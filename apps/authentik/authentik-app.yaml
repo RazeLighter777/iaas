@@ -49,6 +49,9 @@ spec:
         - name: postgres-creds
           mountPath: /postgres-creds
           readOnly: true
+        - name: redis-creds
+          mountPath: /redis-creds
+          readOnly: true
       ingress:
         enabled: true
         pathType: Prefix
