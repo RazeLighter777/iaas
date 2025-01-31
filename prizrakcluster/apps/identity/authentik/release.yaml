@@ -87,8 +87,8 @@ spec:
     name: redis
     namespace: redis
   values:
-    redis:
-      usePassword: true
+    global:
+      storageClass: longhorn
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
