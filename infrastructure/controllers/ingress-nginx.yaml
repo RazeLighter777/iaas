@@ -33,6 +33,8 @@ spec:
       interval: 12h
   values:
     controller:
+      ingressClassResource:
+        default: "true"
       service:
         type: "LoadBalancer"
       extraArgs:
