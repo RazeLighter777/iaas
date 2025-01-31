@@ -18,6 +18,7 @@ metadata:
   name: kube-prometheus-stack
   namespace: kube-prometheus-stack
 spec:
+  timeout: 20m
   interval: 1m
   chart:
     spec:
