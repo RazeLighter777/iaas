@@ -14,12 +14,8 @@ metadata:
   namespace: authentik
 spec:
   dependsOn:
-    - kind: HelmRelease
-      name: redis-authentik
-      namespace: authentik
-    - kind: HelmRelease
-      name: cloudnative-database-authentik
-      namespace: authentik
+    - name: redis-authentik
+    - name: cloudnative-database-authentik
   chart:
     spec:
       chart: authentik
