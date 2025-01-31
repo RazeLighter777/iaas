@@ -36,6 +36,9 @@ spec:
     remediation:
       retries: 3
   values:
+    prometheusOperator:
+      tls:
+        enabled: false
     prometheus:
       prometheusSpec:
         storageSpec:
