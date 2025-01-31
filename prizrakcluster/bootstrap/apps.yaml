@@ -11,7 +11,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./apps
+  path: ./prizrakcluster/apps
   prune: true
   wait: true
   timeout: 20m0s

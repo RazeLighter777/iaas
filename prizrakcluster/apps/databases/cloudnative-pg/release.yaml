@@ -1,15 +1,20 @@
 ---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cloudnative-pg
+---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: cloudnative-database-authentik
-  namespace: authentik
+  name: cloudnative-pg
+  namespace: cloudnative-pg
 spec:
   interval: 5m
   chart:
     spec:
-      chart: cluster
-      version: 0.2.0
+      chart: cloudnative-pg
+      version: 0.23.0
       sourceRef:
         kind: HelmRepository
         name: cloudnative-pg
@@ -22,8 +27,3 @@ spec:
     cleanupOnFail: true
     remediation:
       retries: 3
-  values:
-    cluster:
-      storage:
-        storageClass: longhorn
-      instances: 3

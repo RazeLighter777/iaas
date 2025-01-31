@@ -1,11 +1,3 @@
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: HelmRepository
-metadata:
-  name: goauthentik
-  namespace: authentik
-spec:
-  interval: 15m
-  url: https://charts.goauthentik.io/
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -81,3 +73,51 @@ spec:
       targetPath: authentik.redis.password
       optional: false
       
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: redis-authentik
+  namespace: authentik
+spec:
+  interval: 5m
+  releaseName: redis
+  chartRef:
+    kind: OCIRepository
+    name: redis
+    namespace: redis
+  values:
+    redis:
+      usePassword: true
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: cloudnative-database-authentik
+  namespace: authentik
+spec:
+  dependsOn:
+    - name: cloudnative-pg
+      namespace: cloudnative-pg
+  interval: 5m
+  chart:
+    spec:
+      chart: cluster
+      version: 0.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: cloudnative-pg
+        namespace: cloudnative-pg
+      interval: 5m
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    cluster:
+      storage:
+        storageClass: longhorn
+      instances: 3
