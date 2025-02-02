@@ -11,4 +11,3 @@ spec:
     group: cert-manager.io
   dnsNames:
     - "*.prizrak.me"
-    - prizrak.me
