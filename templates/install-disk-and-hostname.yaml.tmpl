@@ -4,3 +4,6 @@ machine:
     disk: ${install_disk}
   network:
     hostname: ${hostname}
+  kubelet:
+    extraArgs:
+      rotate-server-certificates: true
