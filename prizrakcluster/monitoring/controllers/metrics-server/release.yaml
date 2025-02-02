@@ -15,5 +15,3 @@ spec:
         name: metrics-server
       interval: 12h
   values:
-    args:
-      - --kubelet-insecure-tls
