@@ -1,9 +1,9 @@
 terraform {
   required_providers {
     proxmox = {
-      source = "Terraform-for-Proxmox/proxmox"
-      version = "0.0.1"
-    } 
+      source = "bpg/proxmox"
+      version = "0.70.1"
+    }
     talos = {
       source = "siderolabs/talos"
       version = "0.7.1"
@@ -21,7 +21,12 @@ data "sops_file" "proxmox_secrets" {
 
 
 provider "proxmox" {
-  pm_api_url   = data.sops_file.tf_secrets.data["data.pm_api_url"]
-  pm_user      = data.sops_file.tf_secrets.data["data.pm_user"]
-  pm_password  = data.sops_file.tf_secrets.data["data.pm_password"]
+  endpoint   = data.sops_file.proxmox_secrets.data["data.api_url"]
+  username      = data.sops_file.proxmox_secrets.data["data.username"]
+  password  = data.sops_file.proxmox_secrets.data["data.password"]
+  insecure = true
+  ssh {
+    agent = true
+    username = data.sops_file.proxmox_secrets.data["data.username"]
+  }
 }
