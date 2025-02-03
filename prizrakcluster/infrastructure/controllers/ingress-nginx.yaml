@@ -44,5 +44,10 @@ spec:
         #for forward auth. otherwise ingress-nginx throws a fit
         annotations-risk-level: "critical"
         strict-validate-path-type: "false"
+      metrics:
+        enabled: true
+      annotations:
+        prometheus.io/port: "10254"
+        prometheus.io/scrape: "true"
     admissionWebhooks:
       enabled: false
