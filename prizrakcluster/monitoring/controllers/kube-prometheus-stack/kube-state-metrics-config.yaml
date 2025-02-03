@@ -4,7 +4,30 @@ kube-state-metrics:
   # retain any existing kube-state-metrics configuration.
   collectors: [ ]
   extraArgs:
-    - --custom-resource-state-only=false
+    - --custom-resource-state-only=true
+  rbac:
+    extraRules:
+      - apiGroups:
+          - source.toolkit.fluxcd.io
+          - kustomize.toolkit.fluxcd.io
+          - helm.toolkit.fluxcd.io
+          - notification.toolkit.fluxcd.io
+          - image.toolkit.fluxcd.io
+        resources:
+          - gitrepositories
+          - buckets
+          - helmrepositories
+          - helmcharts
+          - ocirepositories
+          - kustomizations
+          - helmreleases
+          - alerts
+          - providers
+          - receivers
+          - imagerepositories
+          - imagepolicies
+          - imageupdateautomations
+        verbs: [ "list", "watch" ]
   customResourceState:
     enabled: true
     config:
