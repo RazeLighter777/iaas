@@ -1,0 +1,15 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: sillytavern
+  namespace: sillytavern
+spec:
+  path: "./"
+  interval: 5m
+  prune: true
+  healthChecks:
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: sillytavern
+      namespace: sillytavern

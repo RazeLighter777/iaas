@@ -4,6 +4,10 @@ machine:
     disk: ${install_disk}
   network:
     hostname: ${hostname}
-  kubelet:
+cluster:
+  controllerManager:
     extraArgs:
-      rotate-server-certificates: true
+      bind-address: 0.0.0.0
+  scheduler:
+    extraArgs:
+      bind-address: 0.0.0.0
