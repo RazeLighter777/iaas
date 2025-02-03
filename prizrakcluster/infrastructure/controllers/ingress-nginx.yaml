@@ -46,8 +46,6 @@ spec:
         strict-validate-path-type: "false"
       metrics:
         enabled: true
-        serviceMonitor:
-          enabled: true
       podAnnotations:
         prometheus.io/port: "10254"
         prometheus.io/scrape: "true"
