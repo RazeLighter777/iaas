@@ -46,7 +46,7 @@ spec:
         strict-validate-path-type: "false"
       metrics:
         enabled: true
-      annotations:
+      podAnnotations:
         prometheus.io/port: "10254"
         prometheus.io/scrape: "true"
     admissionWebhooks:
