@@ -13,7 +13,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: kube-prometheus-stack
-        namespace: monitoring
+        namespace: flux-system
       interval: 5m
   install:
     crds: CreateReplace
