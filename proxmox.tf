@@ -52,7 +52,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp_01" {
   tags        = ["terraform"]
   node_name   = each.value.name
   on_boot     = true
-
+  boot_order = ["virtio1"]
   cpu {
     cores = 14
     type = "host"
@@ -65,15 +65,16 @@ resource "proxmox_virtual_environment_vm" "talos_cp_01" {
   agent {
     enabled = true
   }
-
+ 
   network_device {
     bridge = "vmbr0"
   }
 
   # install cd
   cdrom {
-    file_id = proxmox_virtual_environment_download_file.talos_nocloud_image[each.value.name].id
-    enabled = true
+    file_id = "none"
+    #file_id = proxmox_virtual_environment_download_file.talos_nocloud_image[each.value.name].id
+    enabled = false
   }
 
   # root disk
