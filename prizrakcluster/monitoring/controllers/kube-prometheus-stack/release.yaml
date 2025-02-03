@@ -20,7 +20,7 @@ spec:
   upgrade:
     crds: CreateReplace
   dependsOn:
-    - name: longhorn
+    - name: longhorn-release
       namespace: longhorn-system
   values:
     prometheus-node-exporter:
