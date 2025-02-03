@@ -4,7 +4,7 @@ namespace: monitoring
 resources:
   - grafana-ingress.yaml
   - prometheus-ingress.yaml
-  - ./monitoring/*.yaml
+  - ./monitoring
 configMapGenerator:
   - name: flux-grafana-dashboards
     files:
