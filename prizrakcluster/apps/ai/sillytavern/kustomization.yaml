@@ -1,11 +1,11 @@
 ---
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: sillytavern
   namespace: sillytavern
 spec:
-  path: "./"
+  path: "./prizrakcluster/apps/ai/sillytavern"
   interval: 5m
   prune: true
   healthChecks:
@@ -13,3 +13,6 @@ spec:
       kind: Deployment
       name: sillytavern
       namespace: sillytavern
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
