@@ -10,7 +10,6 @@ configMapGenerator:
       - dashboards/control-plane.json
       - dashboards/cluster.json
       - dashboards/logs.json
-      - dashboards/kubernetes.json
     options:
       labels:
         grafana_dashboard: "1"
