@@ -26,7 +26,7 @@ spec:
     ollama:
       models:
         pull:
-          - deepseek-r1:32b
+          - deepseek-r1:7b
     persistentVolume:
       enabled: true
       size: 64Gi
