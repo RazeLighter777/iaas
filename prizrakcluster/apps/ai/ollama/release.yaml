@@ -27,6 +27,9 @@ spec:
       models:
         pull:
           - deepseek-r1:7b
+          - deepseek-r1:32b
+        run:
+          - deepseek-r1:32b
     persistentVolume:
       enabled: true
       size: 64Gi
