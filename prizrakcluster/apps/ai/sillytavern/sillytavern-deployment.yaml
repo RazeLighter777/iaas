@@ -24,7 +24,7 @@ spec:
         io.kompose.service: sillytavern
     spec:
       containers:
-        - image: ghcr.io/sillytavern/sillytavern:latest
+        - image: ghcr.io/sillytavern/sillytavern:staging
           name: sillytavern
           ports:
             - containerPort: 8000
