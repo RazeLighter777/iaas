@@ -54,12 +54,13 @@ resource "proxmox_virtual_environment_vm" "talos_cp_01" {
   on_boot     = true
   boot_order = ["virtio1"]
   cpu {
-    cores = 14
+    cores = 28
     type = "host"
   }
 
   memory {
-    dedicated = 50000
+    dedicated = 62000
+    floating = 62000
   }
 
   agent {
@@ -79,7 +80,7 @@ resource "proxmox_virtual_environment_vm" "talos_cp_01" {
 
   # root disk
   disk {
-    datastore_id = "iscsi_vg_proxmox"
+    datastore_id = "local-lvm"
     interface    = "virtio1"
     file_format  = "raw"
     size         = 200
