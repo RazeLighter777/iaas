@@ -130,6 +130,6 @@ spec:
     cluster:
       storage:
         storageClass: longhorn
-      instances: 3
+      instances: 1
       monitoring:
         enabled: true
