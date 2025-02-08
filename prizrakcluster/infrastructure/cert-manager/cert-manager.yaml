@@ -26,7 +26,7 @@ spec:
   dependsOn:
     - name: cert-manager
   interval: 5m
-  path: "./prizrakcluster/infrastructure/crds"
+  path: "./prizrakcluster/infrastructure/cert-manager/crds"
   prune: true
   sourceRef:
     kind: GitRepository
