@@ -1,0 +1,11 @@
+
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: OCIRepository
+metadata:
+  name: redis
+  namespace: flux-system
+spec:
+  interval: 15m
+  url: oci://registry-1.docker.io/bitnamicharts/redis
+  ref:
+    tag: 20.6.3

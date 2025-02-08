@@ -7,14 +7,14 @@ metadata:
 spec:
   interval: 10m0s
   dependsOn:
-    - name: infra-configs
+    - name: platforms
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./prizrakcluster/apps
+  path: ./prizrakcluster/platforms
   prune: true
   wait: true
-  timeout: 20m0s
+  timeout: 10m0s
   decryption:
     provider: sops
     secretRef:

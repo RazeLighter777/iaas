@@ -1,0 +1,135 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: authentik
+  namespace: authentik
+spec:
+  dependsOn:
+    - name: redis-authentik
+    - name: cloudnative-database-authentik
+    - name: cloudnative-pg 
+      namespace: cloudnative-pg
+  chart:
+    spec:
+      chart: authentik
+      version: 2024.12.3
+      sourceRef:
+        kind: HelmRepository
+        name: goauthentik
+        namespace: flux-system
+  interval: 1m0s
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    authentik:
+      #secret_key: load from secret authentik-secret-key
+      postgresql:
+        host: cloudnative-database-authentik-cluster-rw
+        user: file:///postgres-creds/username
+        password: file:///postgres-creds/password
+        name: app #default database name for cloudnative-pg database
+      redis:
+        host: redis-master
+    server:
+      metrics:
+        enabled: true
+        serviceMonitor:
+          enabled: true
+      volumes:
+        - name: redis-creds
+          secret:
+            secretName: redis-authentik-password
+        - name: postgres-creds
+          secret:
+            secretName: cloudnative-database-authentik-cluster-app
+      volumeMounts:
+        - name: postgres-creds
+          mountPath: /postgres-creds
+          readOnly: true
+      ingress:
+        enabled: true
+        pathType: Prefix
+        hosts:
+          - authentik.prizrak.me
+        ingressClassName: nginx
+    worker:
+      volumes:
+        - name: postgres-creds
+          secret:
+            secretName: cloudnative-database-authentik-cluster-app
+      volumeMounts:
+        - name: postgres-creds
+          mountPath: /postgres-creds
+          readOnly: true
+  valuesFrom:
+    - kind: Secret
+      name: authentik-secret-key
+      valuesKey: secret_key
+      targetPath: authentik.secret_key
+      optional: false
+    - kind: Secret
+      name: redis
+      valuesKey: redis-password
+      targetPath: authentik.redis.password
+      optional: false
+      
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: redis-authentik
+  namespace: authentik
+spec:
+  interval: 5m
+  releaseName: redis
+  chartRef:
+    kind: OCIRepository
+    name: redis
+    namespace: flux-system
+  values:
+    global:
+      storageClass: longhorn
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: cloudnative-database-authentik
+  namespace: authentik
+spec:
+  dependsOn:
+    - name: cloudnative-pg
+      namespace: cloudnative-pg
+  interval: 5m
+  chart:
+    spec:
+      chart: cluster
+      version: 0.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: cloudnative-pg
+        namespace: flux-system
+      interval: 5m
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    cluster:
+      storage:
+        storageClass: longhorn
+      instances: 1
+      monitoring:
+        enabled: true
