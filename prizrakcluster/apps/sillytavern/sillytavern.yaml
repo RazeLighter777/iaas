@@ -5,7 +5,7 @@ metadata:
   name: sillytavern
   namespace: sillytavern
 spec:
-  path: "./prizrakcluster/apps/ai/sillytavern"
+  path: "./prizrakcluster/apps/sillytavern"
   interval: 5m
   prune: true
   healthChecks:
