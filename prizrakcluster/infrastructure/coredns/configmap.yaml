@@ -16,14 +16,13 @@ data:
           class error
       }
       prometheus :9153
-
+      k8s_external prizrak.me {
+          fallthrough
+      }
       kubernetes cluster.local in-addr.arpa ip6.arpa {
           pods insecure
           fallthrough in-addr.arpa ip6.arpa
           ttl 30
-      }
-      k8s_gateway:github.com/ori-edge/k8s_gateway prizrak.me {
-        resources
       }
       forward . 8.8.8.8 9.9.9.9 {
         max_concurrent 1000
