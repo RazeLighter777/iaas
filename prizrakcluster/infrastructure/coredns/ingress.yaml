@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: ext-dns-udp
-  namespace: coredns
+  namespace: kube-system
   annotations:
     metallb.universe.tf/allow-shared-ip: "DNS"
 spec:
@@ -21,7 +21,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: ext-dns-tcp
-  namespace: coredns
+  namespace: kube-system
   annotations:
     metallb.universe.tf/allow-shared-ip: "DNS"
 spec:
