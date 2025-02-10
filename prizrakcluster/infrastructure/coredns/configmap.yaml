@@ -25,7 +25,7 @@ data:
       k8s_gateway:github.com/ori-edge/k8s_gateway prizrak.me {
         resources
       }
-      forward . /etc/resolv.conf {
+      forward . 8.8.8.8 9.9.9.9 {
         max_concurrent 1000
       }
       cache 30 {
