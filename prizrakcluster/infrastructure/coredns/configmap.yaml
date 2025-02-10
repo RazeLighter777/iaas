@@ -24,8 +24,8 @@ data:
           fallthrough in-addr.arpa ip6.arpa
           ttl 30
       }
-      forward . 8.8.8.8 9.9.9.9 {
-        max_concurrent 1000
+      forward . /etc/resolv.conf {
+          max_concurrent 1000
       }
       cache 30 {
         disable success cluster.local
