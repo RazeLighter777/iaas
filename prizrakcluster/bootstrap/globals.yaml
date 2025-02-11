@@ -9,6 +9,9 @@ spec:
   prune: true
   wait: true
   timeout: 10m0s
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
   path: ./prizrakcluster/bootstrap
   patches:
     - patch: |-
