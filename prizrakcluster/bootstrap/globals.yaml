@@ -14,16 +14,16 @@ spec:
     name: flux-system
   path: ./prizrakcluster/bootstrap
   patches:
-    patch: |-
-      - op: add
-        path: /spec/postBuild/substitute/domain_name
-        value: "prizrak.me"
-      - op: add
-        path: /spec/postBuild/substitute/dns_server_ip
-        value: "192.168.1.14"
-      - op: add
-        path: /spec/postBuild/substitute/ingress_ip
-        value: "192.168.1.10"
-    target:
-      kind: Kustomization
-      namespace: flux-system
+    - patch: |-
+        - op: add
+          path: /spec/postBuild/substitute/domain_name
+          value: "prizrak.me"
+        - op: add
+          path: /spec/postBuild/substitute/dns_server_ip
+          value: "192.168.1.14"
+        - op: add
+          path: /spec/postBuild/substitute/ingress_ip
+          value: "192.168.1.10"
+      target:
+        kind: Kustomization
+        namespace: flux-system
