@@ -1,0 +1,18 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: globals
+  namespace: flux-system
+spec:
+  path: ./prizrakcluster/bootstrap
+  patches:
+    - patch: |-
+        apiVersion: kustomize.toolkit.fluxcd.io/v1
+        kind: Kustomization
+        spec:
+          postBuild:
+            substitute:
+              domain_name: "prizrak.me"
+              dns_server_ip: "192.168.1.14"
+              ingress_ip: "192.168.1.10"

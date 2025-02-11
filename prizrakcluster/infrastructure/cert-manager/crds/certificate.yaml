@@ -1,13 +1,13 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: prizrak.me
+  name: ${domain_name}
   namespace: cert-manager
 spec:
-  secretName: prizrak.me
+  secretName: ${domain_name}
   issuerRef:
     name: letsencrypt-issuer
     kind: ClusterIssuer
     group: cert-manager.io
   dnsNames:
-    - "*.prizrak.me"
+    - "*.${domain_name}"

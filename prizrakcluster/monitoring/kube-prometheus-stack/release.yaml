@@ -53,7 +53,7 @@ spec:
       adminPassword: flux
       grafana.ini:
         server:
-          root_url: https://grafana.prizrak.me
+          root_url: https://grafana.${domain_name}
       dashboardProviders:
         dashboardproviders.yaml:
           apiVersion: 1

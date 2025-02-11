@@ -8,7 +8,7 @@ metadata:
         http://ak-outpost-embedded.authentik.svc.cluster.local:9000/outpost.goauthentik.io/auth/nginx
     # If you're using domain-level auth, use the authentication URL instead of the application URL
     nginx.ingress.kubernetes.io/auth-signin: |-
-        https://sillytavern.prizrak.me/outpost.goauthentik.io/start?rd=$scheme://$http_host$escaped_request_uri
+        https://sillytavern.${domain_name}/outpost.goauthentik.io/start?rd=$scheme://$http_host$escaped_request_uri
     nginx.ingress.kubernetes.io/auth-response-headers: |-
         Set-Cookie,X-authentik-username,X-authentik-groups,X-authentik-email,X-authentik-name,X-authentik-uid
     nginx.ingress.kubernetes.io/auth-snippet: |
@@ -17,7 +17,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: sillytavern.prizrak.me
+  - host: sillytavern.${domain_name}
     http: 
       paths:
       - pathType: Prefix
