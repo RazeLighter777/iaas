@@ -2,5 +2,11 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended"
-  ]
+  ],
+  "kubernetes": {
+    "fileMatch": ["prizrakcluster/.+\\.yaml$"]
+  },
+  "flux": {
+    "fileMatch": ["prizrakcluster/.+\\.yaml$"]
+  }
 }
