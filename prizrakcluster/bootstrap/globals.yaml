@@ -5,6 +5,10 @@ metadata:
   name: globals
   namespace: flux-system
 spec:
+  interval: 30s
+  prune: true
+  wait: true
+  timeout: 10m0s
   path: ./prizrakcluster/bootstrap
   patches:
     - patch: |-
