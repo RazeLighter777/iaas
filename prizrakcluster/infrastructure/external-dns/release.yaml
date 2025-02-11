@@ -25,10 +25,11 @@ spec:
   values:
     provider:
       name: pihole
+    sources:
+      - service
+      - ingress
+    policy: sync
     extraArgs:
-      - "--source=ingress"
-      - "--registry=noop"
-      - "--policy=sync"
       - "--pihole-server=http://pihole.pihole.svc.cluster.local"
     env:
       - name: EXTERNAL_DNS_PIHOLE_PASSWORD
