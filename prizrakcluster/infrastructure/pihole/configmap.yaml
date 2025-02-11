@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pihole-config
+  namespace: pihole
+data:
+  TZ: "America/New_York"
+  PERSISTENT_VOLUMES: "/etc-pihole:/etc/pihole,/etc-dnsmasq.d:/etc/dnsmasq.d"
+  PIHOLE_DNS_: "1.1.1.1;8.8.8.8"
+  DNSSEC: "true"
+  DNSMASQ_LISTENING: "local"
+  
