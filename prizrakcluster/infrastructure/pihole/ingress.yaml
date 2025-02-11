@@ -15,7 +15,7 @@ spec:
       targetPort: 53
       protocol: UDP
   selector:
-    k8s-app:  kube-dns
+    app: pihole
 ---
 apiVersion: v1
 kind: Service
