@@ -6,15 +6,19 @@ metadata:
 spec:
   ports:
     - port: 53
+      name: "dns"
       protocol: TCP
       targetPort: 53
     - port: 53
+      name: "dns over udp"
       protocol: UDP
       targetPort: 53
     - port: 67
+      name: "dhcp"
       protocol: UDP
       targetPort: 67
     - port: 80
+      name: "web"
       protocol: TCP
       targetPort: 80
   selector:
