@@ -36,11 +36,6 @@ spec:
                 secretKeyRef:
                   name: pihole-secrets
                   key: WEBPASSWORD
-            - name: PERSISTENT_VOLUMES
-              valueFrom:
-                configMapKeyRef:
-                  name: pihole-config
-                  key: PERSISTENT_VOLUMES
           volumeMounts:
             - name: pihole-data
               mountPath: /etc/pihole
@@ -59,8 +54,8 @@ spec:
                 - NET_ADMIN
       volumes:
         - name: pihole-data
-          hostPath:
-            path: /etc-pihole
+          persistentVolumeClaim:
+            claimName: config-pvc
         - name: dnsmasq-data
-          hostPath:
-            path: /etc-dnsmasq.d
+          persistentVolumeClaim:
+            claimName: dnsmasq-pvc
