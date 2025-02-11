@@ -52,10 +52,6 @@ spec:
             requests:
               memory: "256Mi"
               cpu: "250m"
-          securityContext:
-            capabilities:
-              add:
-                - NET_ADMIN
       volumes:
         - name: pihole-data
           persistentVolumeClaim:
