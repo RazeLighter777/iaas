@@ -17,9 +17,14 @@ spec:
     - patch: |-
         apiVersion: kustomize.toolkit.fluxcd.io/v1
         kind: Kustomization
+        metadata:
+          name: required-for-kustomize-but-not-used
+          namespace: flux-system
         spec:
           postBuild:
             substitute:
               domain_name: "prizrak.me"
               dns_server_ip: "192.168.1.14"
               ingress_ip: "192.168.1.10"
+      target:
+        kind: Kustomization
