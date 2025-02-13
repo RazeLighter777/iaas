@@ -19,3 +19,7 @@ spec:
     secretRef:
       name: sops-age
   prune: true
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-settings

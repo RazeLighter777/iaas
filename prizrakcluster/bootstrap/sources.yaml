@@ -5,6 +5,8 @@ metadata:
   name: sources
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: settings
   interval: 30s
   retryInterval: 1m
   timeout: 5m
