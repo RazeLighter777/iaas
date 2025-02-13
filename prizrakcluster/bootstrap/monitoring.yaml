@@ -16,3 +16,7 @@ spec:
     kind: GitRepository
     name: flux-system
   path: ./prizrakcluster/monitoring
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-settings
