@@ -39,5 +39,4 @@ spec:
             - kind: ConfigMap
               name: cluster-settings
       target:
-        group: kustomize.toolkit.fluxcd.io
         kind: Kustomization
