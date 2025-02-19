@@ -146,7 +146,7 @@ spec:
       - kind: Secret
         name: truenas-secrets
         valuesKey: truenas_username
-        targetPath: httpConnection.username
+        targetPath: sshConnection.username
       - kind: Secret
         name: truenas-secrets
         valuesKey: truenas_api_key
