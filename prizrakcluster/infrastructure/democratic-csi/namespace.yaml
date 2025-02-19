@@ -5,3 +5,4 @@ metadata:
   name: democratic-csi
   labels:
     toolkit.fluxcd.io/tenant: sre-team
+    pod-security.kubernetes.io/enforce: privileged
