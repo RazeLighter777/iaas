@@ -147,11 +147,14 @@ spec:
         name: truenas-secrets
         valuesKey: truenas_username
         targetPath: driver.config.sshConnection.username
+        optional: false
       - kind: Secret
         name: truenas-secrets
         valuesKey: truenas_api_key
         targetPath: driver.config.httpConnection.apiKey
+        optional: false
       - kind: Secret
         name: truenas-secrets
         valuesKey: truenas_ssh_key
         targetPath: driver.config.sshConnection.privateKey
+        optional: false
