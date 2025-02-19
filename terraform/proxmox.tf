@@ -5,29 +5,19 @@ locals {
   }
 
   default_gateway = "192.168.1.254"
-  default_dns = "192.168.1.1"
+  default_dns = "192.168.1.254"
   subnet = "/24"
   cluster_name = "prizrakcluster"
   cluster_endpoint = "https://192.168.1.8:6443"
   nodes = [
       {
-        name = "hpbw243"
+        name = "nuc"
         ip = "192.168.1.8"
         config = "controlplane"
       }, 
       {
-        name = "hpbs243"
+        name = "node1"
         ip = "192.168.1.9"
-        config = "controlplane"
-      },  
-      {
-        name = "hpbt243"
-        ip = "192.168.1.11"
-        config = "controlplane"
-      },  
-      {
-        name = "hpbv243"
-        ip = "192.168.1.12"
         config = "worker"
       }
     ]
@@ -52,15 +42,15 @@ resource "proxmox_virtual_environment_vm" "talos_cp_01" {
   tags        = ["terraform"]
   node_name   = each.value.name
   on_boot     = true
-  boot_order = ["virtio1"]
+  boot_order = ["virtio1", "ide0"]
   cpu {
-    cores = 28
+    cores = 8
     type = "host"
   }
 
   memory {
-    dedicated = 62000
-    floating = 62000
+    dedicated = 32000
+    floating = 32000
   }
 
   agent {
@@ -73,9 +63,9 @@ resource "proxmox_virtual_environment_vm" "talos_cp_01" {
 
   # install cd
   cdrom {
-    file_id = "none"
-    #file_id = proxmox_virtual_environment_download_file.talos_nocloud_image[each.value.name].id
-    enabled = false
+    #file_id = "none"
+    file_id = proxmox_virtual_environment_download_file.talos_nocloud_image[each.value.name].id
+    interface = "ide0"
   }
 
   # root disk
@@ -100,7 +90,6 @@ resource "proxmox_virtual_environment_vm" "talos_cp_01" {
       ipv4 {
         address = "${each.value.ip}${local.subnet}"
         gateway = local.default_gateway
-
       }
     }
   }
@@ -122,18 +111,13 @@ variable "node_data" {
     controlplanes = {
       "192.168.1.8" = {
         install_disk = "/dev/vda"
+        hostname     = "cp0"
       },
-      "192.168.1.9" = {
-        install_disk = "/dev/vda"
-      },
-      "192.168.1.11" = {
-        install_disk = "/dev/vda"
-      }
     }
     workers = {
-      "192.168.1.12" = {
+      "192.168.1.9" = {
         install_disk = "/dev/vda"
-        hostname     = "worker-1"
+        hostname     = "w1"
       },
     }
   }
