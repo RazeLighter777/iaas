@@ -16,7 +16,7 @@ spec:
         namespace: flux-system
       interval: 12h
   values:
-    csidriver:
+    csiDriver:
       name: freenas-iscsi
     driver: freenas-iscsi
     instance_id:
