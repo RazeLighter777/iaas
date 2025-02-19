@@ -6,7 +6,7 @@ metadata:
   name: config-pvc
   namespace: pihole
 spec:
-  storageClassName: longhorn
+  storageClassName: freenas-iscsi-csi
   accessModes:
     - ReadWriteOnce
   resources:
