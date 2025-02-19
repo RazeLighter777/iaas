@@ -20,7 +20,7 @@ spec:
       name: freenas-iscsi
     driver:
       config:
-        driverName: freenas-iscsi
+        driver: freenas-iscsi
         instance_id:
         httpConnection:
           protocol: http
