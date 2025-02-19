@@ -114,6 +114,22 @@ spec:
       extentRpm: "SSD"
       # 0-100 (0 == ignore)
       extentAvailThreshold: 0
+  storageClasses:
+  - name: freenas-iscsi-csi
+    defaultClass: false
+    reclaimPolicy: Delete
+    volumeBindingMode: Immediate
+    allowVolumeExpansion: true
+    parameters:
+      # for block-based storage can be ext3, ext4, xfs
+      fsType: ext4
+    mountOptions: []
+    secrets:
+      provisioner-secret:
+      controller-publish-secret:
+      node-stage-secret:
+      node-publish-secret:
+      controller-expand-secret:
   valuesFrom:
     - kind: Secret
       name: truenas-secrets
