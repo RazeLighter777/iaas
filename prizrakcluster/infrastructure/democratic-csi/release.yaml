@@ -40,9 +40,8 @@ spec:
           # use only 1 of apiKey or username/password
           # if both are present, apiKey is preferred
           # apiKey is only available starting in TrueNAS-12
-          #apiKey:
+          #apiKey: see valuesFrom
           #username: See valuesFrom
-          # password: see valuesFrom
           allowInsecure: true
           # use apiVersion 2 for TrueNAS-12 and up (will work on 11.x in some scenarios as well)
           # leave unset for auto-detection
@@ -150,8 +149,8 @@ spec:
         targetPath: httpConnection.username
       - kind: Secret
         name: truenas-secrets
-        valuesKey: truenas_password
-        targetPath: httpConnection.password
+        valuesKey: truenas_api_key
+        targetPath: httpConnection.apiKey
       - kind: Secret
         name: truenas-secrets
         valuesKey: truenas_ssh_key
