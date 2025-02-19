@@ -34,9 +34,9 @@ spec:
         driver: freenas-iscsi
         instance_id:
         httpConnection:
-          protocol: https
+          protocol: http
           host: ${truenas_ip}
-          port: 443
+          port: 80
           # use only 1 of apiKey or username/password
           # if both are present, apiKey is preferred
           # apiKey is only available starting in TrueNAS-12
