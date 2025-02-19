@@ -30,7 +30,9 @@ spec:
         image: democraticcsi/democratic-csi:next
         imagePullPolicy: Always
         logLevel: debug
-
+    controller:
+      driver:
+        logLevel: debug
     csiDriver:
       name: freenas-iscsi
     driver:
