@@ -27,6 +27,10 @@ spec:
             value: /usr/local/sbin/iscsiadm
         iscsiDirHostPath: /usr/local/etc/iscsi
         iscsiDirHostPathType: ""
+        image: democraticcsi/democratic-csi:next
+        imagePullPolicy: Always
+        logLevel: debug
+
     csiDriver:
       name: freenas-iscsi
     driver:
