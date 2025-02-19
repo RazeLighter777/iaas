@@ -16,6 +16,17 @@ spec:
         namespace: flux-system
       interval: 12h
   values:
+    # for talos extension
+    node:
+      hostPID: true
+      driver:
+        extraEnv:
+          - name: ISCSIADM_HOST_STRATEGY
+            value: nsenter
+          - name: ISCSIADM_HOST_PATH
+            value: /usr/local/sbin/iscsiadm
+        iscsiDirHostPath: /usr/local/etc/iscsi
+        iscsiDirHostPathType: ""
     csiDriver:
       name: freenas-iscsi
     driver:
