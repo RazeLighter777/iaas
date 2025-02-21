@@ -27,12 +27,12 @@ spec:
             value: /usr/local/sbin/iscsiadm
         iscsiDirHostPath: /usr/local/etc/iscsi
         iscsiDirHostPathType: ""
-        image: democraticcsi/democratic-csi:next
+        image: democraticcsi/democratic-csi:latest
         imagePullPolicy: Always
-        logLevel: debug
+        logLevel: trace
     controller:
       driver:
-        logLevel: debug
+        logLevel: trace
     csiDriver:
       name: org.democratic-csi.iscsi
     storageClasses:
