@@ -6,7 +6,7 @@ metadata:
   name: st-plugins
   namespace: sillytavern
 spec:
-  storageClassName: freenas-iscsi-csi
+  storageClassName: truenas-iscsi
   accessModes:
     - ReadWriteOnce
   resources:
