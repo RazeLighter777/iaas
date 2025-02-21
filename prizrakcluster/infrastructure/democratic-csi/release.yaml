@@ -25,6 +25,8 @@ spec:
             value: nsenter
           - name: ISCSIADM_HOST_PATH
             value: /usr/local/sbin/iscsiadm
+          - name: NODE_DEBUG
+            value: http,https
         iscsiDirHostPath: /usr/local/etc/iscsi
         iscsiDirHostPathType: ""
         logLevel: silly
