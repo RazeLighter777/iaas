@@ -27,10 +27,10 @@ spec:
             value: /usr/local/sbin/iscsiadm
         iscsiDirHostPath: /usr/local/etc/iscsi
         iscsiDirHostPathType: ""
-        logLevel: debug
+        logLevel: silly
     controller:
       driver:
-        logLevel: debug
+        logLevel: silly
     csiDriver:
       name: org.democratic-csi.iscsi
     storageClasses:
