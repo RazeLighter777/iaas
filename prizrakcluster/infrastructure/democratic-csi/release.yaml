@@ -29,10 +29,10 @@ spec:
         iscsiDirHostPathType: ""
         image: democraticcsi/democratic-csi:latest
         imagePullPolicy: Always
-        logLevel: trace
+        logLevel: debug
     controller:
       driver:
-        logLevel: trace
+        logLevel: debug
     csiDriver:
       name: org.democratic-csi.iscsi
     storageClasses:
