@@ -1,9 +1,9 @@
-Name:             democratic-csi-freenas-iscsi-controller-588c4fc8d-5xbtg
+Name:             democratic-csi-freenas-iscsi-controller-588c4fc8d-psqjl
 Namespace:        democratic-csi
 Priority:         0
 Service Account:  democratic-csi-freenas-iscsi-controller-sa
-Node:             w1/192.168.1.9
-Start Time:       Fri, 21 Feb 2025 21:49:49 +0000
+Node:             cp0/192.168.1.8
+Start Time:       Fri, 21 Feb 2025 22:47:12 +0000
 Labels:           app.kubernetes.io/component=controller-linux
                   app.kubernetes.io/csi-role=controller
                   app.kubernetes.io/instance=democratic-csi-freenas-iscsi
@@ -13,13 +13,13 @@ Labels:           app.kubernetes.io/component=controller-linux
 Annotations:      checksum/configmap: 5f1bbcdd8da9333fab40535e55f5110b84b3d9b4b8cd9564f78b7b8e9b220165
                   checksum/secret: da64b013dffc6186ba80c0183ca456c9cfda540fa5ab7d8546c37d6b0493cbac
 Status:           Running
-IP:               10.244.1.40
+IP:               10.244.0.27
 IPs:
-  IP:           10.244.1.40
+  IP:           10.244.0.27
 Controlled By:  ReplicaSet/democratic-csi-freenas-iscsi-controller-588c4fc8d
 Containers:
   external-attacher:
-    Container ID:  containerd://04ff17f23c39f52ac0add26eda20a4bc0c35d62974a61d0e78d4eb9dd11f8f16
+    Container ID:  containerd://8dc5a5e04779fa88e95359bef4f1a1b53c5f6f99d9338856b08ff8e4e58bee82
     Image:         registry.k8s.io/sig-storage/csi-attacher:v4.4.0
     Image ID:      registry.k8s.io/sig-storage/csi-attacher@sha256:dbded4ebe299973e31d0ef55815eb07a990fc67872b14900a8e69232acae4f2d
     Port:          <none>
@@ -36,16 +36,16 @@ Containers:
     Last State:     Terminated
       Reason:       Error
       Exit Code:    1
-      Started:      Fri, 21 Feb 2025 21:55:39 +0000
-      Finished:     Fri, 21 Feb 2025 21:55:39 +0000
+      Started:      Fri, 21 Feb 2025 22:48:38 +0000
+      Finished:     Fri, 21 Feb 2025 22:48:38 +0000
     Ready:          False
-    Restart Count:  6
+    Restart Count:  4
     Environment:    <none>
     Mounts:
       /csi-data from socket-dir (rw)
-      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-rml2f (ro)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-s74j4 (ro)
   external-provisioner:
-    Container ID:  containerd://a72ae9c4e9e00365af8a0db3699a2c5ab73388212bd3828088a7b8ac1f658a86
+    Container ID:  containerd://bd8846d665a3623ef4594725ebc012bbfc189afd9c1c39fcf95d9b58978c5457
     Image:         registry.k8s.io/sig-storage/csi-provisioner:v3.6.0
     Image ID:      registry.k8s.io/sig-storage/csi-provisioner@sha256:6de50bacfd72627ffe4209e3db8ad7391d04ea6fb741bf51feab6c5dcfd80002
     Port:          <none>
@@ -63,19 +63,19 @@ Containers:
     Last State:     Terminated
       Reason:       Error
       Exit Code:    1
-      Started:      Fri, 21 Feb 2025 21:55:39 +0000
-      Finished:     Fri, 21 Feb 2025 21:55:39 +0000
+      Started:      Fri, 21 Feb 2025 22:48:38 +0000
+      Finished:     Fri, 21 Feb 2025 22:48:38 +0000
     Ready:          False
-    Restart Count:  6
+    Restart Count:  4
     Environment:
       NODE_NAME:   (v1:spec.nodeName)
       NAMESPACE:  democratic-csi (v1:metadata.namespace)
-      POD_NAME:   democratic-csi-freenas-iscsi-controller-588c4fc8d-5xbtg (v1:metadata.name)
+      POD_NAME:   democratic-csi-freenas-iscsi-controller-588c4fc8d-psqjl (v1:metadata.name)
     Mounts:
       /csi-data from socket-dir (rw)
-      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-rml2f (ro)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-s74j4 (ro)
   external-resizer:
-    Container ID:  containerd://1b1801353e4f2dac14912d9c570d7c6fe8e94a65466e2293fbf94f7ccc845594
+    Container ID:  containerd://58dd4c525d6451cb9465a25fe4cffa712011d496f553d90652798db89851952b
     Image:         registry.k8s.io/sig-storage/csi-resizer:v1.9.0
     Image ID:      registry.k8s.io/sig-storage/csi-resizer@sha256:f1f352df97874442624fcef23eab04aa038f66cb0e361212f6ec09e92998184d
     Port:          <none>
@@ -92,19 +92,19 @@ Containers:
     Last State:     Terminated
       Reason:       Error
       Exit Code:    255
-      Started:      Fri, 21 Feb 2025 21:55:39 +0000
-      Finished:     Fri, 21 Feb 2025 21:55:39 +0000
+      Started:      Fri, 21 Feb 2025 22:48:38 +0000
+      Finished:     Fri, 21 Feb 2025 22:48:38 +0000
     Ready:          False
-    Restart Count:  6
+    Restart Count:  4
     Environment:
       NODE_NAME:   (v1:spec.nodeName)
       NAMESPACE:  democratic-csi (v1:metadata.namespace)
-      POD_NAME:   democratic-csi-freenas-iscsi-controller-588c4fc8d-5xbtg (v1:metadata.name)
+      POD_NAME:   democratic-csi-freenas-iscsi-controller-588c4fc8d-psqjl (v1:metadata.name)
     Mounts:
       /csi-data from socket-dir (rw)
-      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-rml2f (ro)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-s74j4 (ro)
   external-snapshotter:
-    Container ID:  containerd://6923b02839ced2379a16856b118c9262f592323cc80e18ed5d7fe57fb5671436
+    Container ID:  containerd://b388865fafcd908aaebd761d7410f96abb8d836b55caf88de1a1f796f98880a2
     Image:         registry.k8s.io/sig-storage/csi-snapshotter:v6.3.0
     Image ID:      registry.k8s.io/sig-storage/csi-snapshotter@sha256:93fbf54dd67f586428ea339743160e1a5110c058afde3c2e824f11fbc6efae53
     Port:          <none>
@@ -121,19 +121,19 @@ Containers:
     Last State:     Terminated
       Reason:       Error
       Exit Code:    1
-      Started:      Fri, 21 Feb 2025 21:55:39 +0000
-      Finished:     Fri, 21 Feb 2025 21:55:39 +0000
+      Started:      Fri, 21 Feb 2025 22:48:38 +0000
+      Finished:     Fri, 21 Feb 2025 22:48:38 +0000
     Ready:          False
-    Restart Count:  6
+    Restart Count:  4
     Environment:
       NODE_NAME:   (v1:spec.nodeName)
       NAMESPACE:  democratic-csi (v1:metadata.namespace)
-      POD_NAME:   democratic-csi-freenas-iscsi-controller-588c4fc8d-5xbtg (v1:metadata.name)
+      POD_NAME:   democratic-csi-freenas-iscsi-controller-588c4fc8d-psqjl (v1:metadata.name)
     Mounts:
       /csi-data from socket-dir (rw)
-      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-rml2f (ro)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-s74j4 (ro)
   csi-driver:
-    Container ID:  containerd://738da4914dc19aca948ae9b13a198285348ed14e17f16d08872d13632e081e9a
+    Container ID:  containerd://bb290c6f95757c20c3389f87c32269799c4e84ef86702f5353b8c16b93ba44b7
     Image:         docker.io/democraticcsi/democratic-csi:latest
     Image ID:      docker.io/democraticcsi/democratic-csi@sha256:da41c0c24cbcf67426519b48676175ab3a16e1d3e50847fa06152f5eddf834b1
     Port:          <none>
@@ -146,14 +146,9 @@ Containers:
       --csi-mode=controller
       --server-socket=/csi-data/csi.sock.internal
     State:          Running
-      Started:      Fri, 21 Feb 2025 21:55:50 +0000
-    Last State:     Terminated
-      Reason:       Error
-      Exit Code:    15
-      Started:      Fri, 21 Feb 2025 21:52:51 +0000
-      Finished:     Fri, 21 Feb 2025 21:55:49 +0000
+      Started:      Fri, 21 Feb 2025 22:47:13 +0000
     Ready:          True
-    Restart Count:  2
+    Restart Count:  0
     Liveness:       exec [bin/liveness-probe --csi-version=1.5.0 --csi-address=/csi-data/csi.sock.internal] delay=10s timeout=15s period=60s #success=1 #failure=3
     Environment:
       NODE_EXTRA_CA_CERTS:  /tmp/certs/extra-ca-certs.crt
@@ -161,15 +156,15 @@ Containers:
       /config from config (rw)
       /csi-data from socket-dir (rw)
       /tmp/certs from extra-ca-certs (rw)
-      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-rml2f (ro)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-s74j4 (ro)
   csi-proxy:
-    Container ID:   containerd://cdaecbea11377edc8069c69eb19b3248bec5e5c606520638eb3538e05f056d32
+    Container ID:   containerd://8998457032aecdb5968f6e2156a1626a84500958da85c2c162d6958f5ca15b57
     Image:          docker.io/democraticcsi/csi-grpc-proxy:v0.5.6
     Image ID:       docker.io/democraticcsi/csi-grpc-proxy@sha256:fc5fc1fe9c682463fe8b219db070930e77067d76449749ef5ba99cedd30fa437
     Port:           <none>
     Host Port:      <none>
     State:          Running
-      Started:      Fri, 21 Feb 2025 21:49:50 +0000
+      Started:      Fri, 21 Feb 2025 22:47:13 +0000
     Ready:          True
     Restart Count:  0
     Environment:
@@ -177,7 +172,7 @@ Containers:
       PROXY_TO:  unix:///csi-data/csi.sock.internal
     Mounts:
       /csi-data from socket-dir (rw)
-      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-rml2f (ro)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-s74j4 (ro)
 Conditions:
   Type                        Status
   PodReadyToStartContainers   True 
@@ -198,7 +193,7 @@ Volumes:
     Type:      ConfigMap (a volume populated by a ConfigMap)
     Name:      democratic-csi-freenas-iscsi
     Optional:  false
-  kube-api-access-rml2f:
+  kube-api-access-s74j4:
     Type:                    Projected (a volume that contains injected data from multiple sources)
     TokenExpirationSeconds:  3607
     ConfigMapName:           kube-root-ca.crt
@@ -209,47 +204,49 @@ Node-Selectors:              kubernetes.io/os=linux
 Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
                              node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
 Events:
-  Type     Reason     Age                     From               Message
-  ----     ------     ----                    ----               -------
-  Normal   Scheduled  8m19s                   default-scheduler  Successfully assigned democratic-csi/democratic-csi-freenas-iscsi-controller-588c4fc8d-5xbtg to w1
-  Normal   Pulled     8m19s                   kubelet            Container image "registry.k8s.io/sig-storage/csi-snapshotter:v6.3.0" already present on machine
-  Normal   Created    8m19s                   kubelet            Created container: external-attacher
-  Normal   Started    8m19s                   kubelet            Started container external-attacher
-  Normal   Created    8m19s                   kubelet            Created container: external-snapshotter
-  Normal   Created    8m18s                   kubelet            Created container: csi-proxy
-  Normal   Pulling    8m18s                   kubelet            Pulling image "docker.io/democraticcsi/democratic-csi:latest"
-  Normal   Started    8m18s                   kubelet            Started container csi-proxy
-  Normal   Pulled     8m18s                   kubelet            Container image "docker.io/democraticcsi/csi-grpc-proxy:v0.5.6" already present on machine
-  Normal   Started    8m18s                   kubelet            Started container csi-driver
-  Normal   Created    8m18s                   kubelet            Created container: csi-driver
-  Normal   Pulled     8m18s                   kubelet            Successfully pulled image "docker.io/democraticcsi/democratic-csi:latest" in 304ms (304ms including waiting). Image size: 189761792 bytes.
-  Normal   Started    8m18s                   kubelet            Started container external-snapshotter
-  Normal   Created    8m16s (x2 over 8m19s)   kubelet            Created container: external-provisioner
-  Normal   Pulled     8m16s (x2 over 8m19s)   kubelet            Container image "registry.k8s.io/sig-storage/csi-provisioner:v3.6.0" already present on machine
-  Normal   Started    8m16s (x2 over 8m19s)   kubelet            Started container external-provisioner
-  Normal   Started    8m16s (x2 over 8m19s)   kubelet            Started container external-resizer
-  Normal   Created    8m16s (x2 over 8m19s)   kubelet            Created container: external-resizer
-  Normal   Pulled     8m16s (x2 over 8m19s)   kubelet            Container image "registry.k8s.io/sig-storage/csi-resizer:v1.9.0" already present on machine
-  Warning  BackOff    7m45s (x6 over 8m15s)   kubelet            Back-off restarting failed container external-resizer in pod democratic-csi-freenas-iscsi-controller-588c4fc8d-5xbtg_democratic-csi(f856c253-90de-49da-84e7-ba7500d50d68)
-  Warning  BackOff    7m45s (x6 over 8m15s)   kubelet            Back-off restarting failed container external-snapshotter in pod democratic-csi-freenas-iscsi-controller-588c4fc8d-5xbtg_democratic-csi(f856c253-90de-49da-84e7-ba7500d50d68)
-  Warning  BackOff    7m30s (x7 over 8m15s)   kubelet            Back-off restarting failed container external-provisioner in pod democratic-csi-freenas-iscsi-controller-588c4fc8d-5xbtg_democratic-csi(f856c253-90de-49da-84e7-ba7500d50d68)
-  Warning  BackOff    3m14s (x30 over 8m14s)  kubelet            Back-off restarting failed container external-attacher in pod democratic-csi-freenas-iscsi-controller-588c4fc8d-5xbtg_democratic-csi(f856c253-90de-49da-84e7-ba7500d50d68)
-  Normal   Pulled     2m30s (x7 over 8m19s)   kubelet            Container image "registry.k8s.io/sig-storage/csi-attacher:v4.4.0" already present on machine
+  Type     Reason     Age                    From               Message
+  ----     ------     ----                   ----               -------
+  Normal   Scheduled  2m29s                  default-scheduler  Successfully assigned democratic-csi/democratic-csi-freenas-iscsi-controller-588c4fc8d-psqjl to cp0
+  Normal   Created    2m29s                  kubelet            Created container: csi-proxy
+  Normal   Pulled     2m29s                  kubelet            Container image "docker.io/democraticcsi/csi-grpc-proxy:v0.5.6" already present on machine
+  Normal   Created    2m29s                  kubelet            Created container: external-snapshotter
+  Normal   Started    2m29s                  kubelet            Started container external-snapshotter
+  Normal   Started    2m29s                  kubelet            Started container csi-proxy
+  Normal   Started    2m29s                  kubelet            Started container csi-driver
+  Normal   Pulled     2m29s                  kubelet            Container image "registry.k8s.io/sig-storage/csi-resizer:v1.9.0" already present on machine
+  Normal   Created    2m29s                  kubelet            Created container: external-resizer
+  Normal   Started    2m29s                  kubelet            Started container external-resizer
+  Normal   Pulled     2m29s                  kubelet            Container image "registry.k8s.io/sig-storage/csi-snapshotter:v6.3.0" already present on machine
+  Normal   Pulling    2m29s                  kubelet            Pulling image "docker.io/democraticcsi/democratic-csi:latest"
+  Normal   Pulled     2m29s                  kubelet            Successfully pulled image "docker.io/democraticcsi/democratic-csi:latest" in 335ms (335ms including waiting). Image size: 189761792 bytes.
+  Normal   Created    2m29s                  kubelet            Created container: csi-driver
+  Normal   Started    2m27s (x2 over 2m29s)  kubelet            Started container external-provisioner
+  Normal   Created    2m27s (x2 over 2m30s)  kubelet            Created container: external-attacher
+  Normal   Pulled     2m27s (x2 over 2m30s)  kubelet            Container image "registry.k8s.io/sig-storage/csi-attacher:v4.4.0" already present on machine
+  Normal   Created    2m27s (x2 over 2m30s)  kubelet            Created container: external-provisioner
+  Normal   Pulled     2m27s (x2 over 2m30s)  kubelet            Container image "registry.k8s.io/sig-storage/csi-provisioner:v3.6.0" already present on machine
+  Normal   Started    2m27s (x2 over 2m30s)  kubelet            Started container external-attacher
+  Warning  BackOff    92s (x6 over 2m26s)    kubelet            Back-off restarting failed container external-resizer in pod democratic-csi-freenas-iscsi-controller-588c4fc8d-psqjl_democratic-csi(e9ede4de-8131-4e23-9370-6efc28477579)
+  Warning  BackOff    92s (x6 over 2m26s)    kubelet            Back-off restarting failed container external-attacher in pod democratic-csi-freenas-iscsi-controller-588c4fc8d-psqjl_democratic-csi(e9ede4de-8131-4e23-9370-6efc28477579)
+  Warning  BackOff    92s (x6 over 2m26s)    kubelet            Back-off restarting failed container external-provisioner in pod democratic-csi-freenas-iscsi-controller-588c4fc8d-psqjl_democratic-csi(e9ede4de-8131-4e23-9370-6efc28477579)
+  Warning  BackOff    92s (x6 over 2m26s)    kubelet            Back-off restarting failed container external-snapshotter in pod democratic-csi-freenas-iscsi-controller-588c4fc8d-psqjl_democratic-csi(e9ede4de-8131-4e23-9370-6efc28477579)
+  Warning  Unhealthy  89s                    kubelet            Liveness probe failed: grpc implementation: @grpc/grpc-js
+error: {"code":9,"details":"TrueNAS api is unavailable: Error: FreeNAS error getting system version info: {\"errors\":{\"v2\":\"TypeError: Cannot read properties of undefined (reading 'metadata')\",\"v1\":\"TypeError: Cannot read properties of undefined (reading 'metadata')\"},\"responses\":{}}","metadata":{"content-type":["application/grpc+proto"],"date":["Fri, 21 Feb 2025 22:48:13 GMT"]}}, data: undefined
 
 
-Name:             democratic-csi-freenas-iscsi-node-9zv9z
+Name:             democratic-csi-freenas-iscsi-node-gj7jt
 Namespace:        democratic-csi
 Priority:         0
 Service Account:  democratic-csi-freenas-iscsi-node-sa
 Node:             w1/192.168.1.9
-Start Time:       Fri, 21 Feb 2025 21:49:29 +0000
+Start Time:       Fri, 21 Feb 2025 22:42:46 +0000
 Labels:           app.kubernetes.io/component=node-linux
                   app.kubernetes.io/csi-role=node
                   app.kubernetes.io/instance=democratic-csi-freenas-iscsi
                   app.kubernetes.io/managed-by=Helm
                   app.kubernetes.io/name=democratic-csi
-                  controller-revision-hash=7bbcc9bdf8
-                  pod-template-generation=2
+                  controller-revision-hash=7776f6f6b4
+                  pod-template-generation=3
 Annotations:      checksum/configmap: 5f1bbcdd8da9333fab40535e55f5110b84b3d9b4b8cd9564f78b7b8e9b220165
                   checksum/secret: da64b013dffc6186ba80c0183ca456c9cfda540fa5ab7d8546c37d6b0493cbac
 Status:           Running
@@ -259,7 +256,7 @@ IPs:
 Controlled By:  DaemonSet/democratic-csi-freenas-iscsi-node
 Containers:
   csi-driver:
-    Container ID:  containerd://5a6c70a1442836e46884ee4874ae0b748078a360d686af5ae593b5f3c188b6da
+    Container ID:  containerd://a63f21cbe242f47138d7cea6ce5c50cf786f7d13c5f6e653ed2c6de44b8ac364
     Image:         docker.io/democraticcsi/democratic-csi:latest
     Image ID:      docker.io/democraticcsi/democratic-csi@sha256:da41c0c24cbcf67426519b48676175ab3a16e1d3e50847fa06152f5eddf834b1
     Port:          <none>
@@ -272,7 +269,7 @@ Containers:
       --csi-mode=node
       --server-socket=/csi-data/csi.sock.internal
     State:          Running
-      Started:      Fri, 21 Feb 2025 21:49:29 +0000
+      Started:      Fri, 21 Feb 2025 22:42:47 +0000
     Ready:          True
     Restart Count:  0
     Liveness:       exec [bin/liveness-probe --csi-version=1.5.0 --csi-address=/csi-data/csi.sock.internal] delay=10s timeout=15s period=60s #success=1 #failure=3
@@ -281,6 +278,7 @@ Containers:
       NODE_EXTRA_CA_CERTS:     /tmp/certs/extra-ca-certs.crt
       ISCSIADM_HOST_STRATEGY:  nsenter
       ISCSIADM_HOST_PATH:      /usr/local/sbin/iscsiadm
+      NODE_DEBUG:              http,https
     Mounts:
       /config from config (rw)
       /csi-data from socket-dir (rw)
@@ -294,15 +292,15 @@ Containers:
       /usr/local/etc/iscsi from iscsi-dir (rw)
       /var/lib/iscsi from iscsi-info (rw)
       /var/lib/kubelet from kubelet-dir (rw)
-      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-kn5f5 (ro)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-v9ddh (ro)
   csi-proxy:
-    Container ID:   containerd://550455fd7ac1831b2f5571b0e70fb6a89f17e14f2cf95bc80a4c9d36e13aff63
+    Container ID:   containerd://b8308aa9b2f596a4d34d32755cf04c61ac3b354f8204371821664719d94c575b
     Image:          docker.io/democraticcsi/csi-grpc-proxy:v0.5.6
     Image ID:       docker.io/democraticcsi/csi-grpc-proxy@sha256:fc5fc1fe9c682463fe8b219db070930e77067d76449749ef5ba99cedd30fa437
     Port:           <none>
     Host Port:      <none>
     State:          Running
-      Started:      Fri, 21 Feb 2025 21:49:30 +0000
+      Started:      Fri, 21 Feb 2025 22:42:47 +0000
     Ready:          True
     Restart Count:  0
     Environment:
@@ -310,9 +308,9 @@ Containers:
       PROXY_TO:  unix:///csi-data/csi.sock.internal
     Mounts:
       /csi-data from socket-dir (rw)
-      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-kn5f5 (ro)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-v9ddh (ro)
   driver-registrar:
-    Container ID:  containerd://f04ba61f362700501a2f395cd021368b3cec22625cb078c625534fb4869dedc9
+    Container ID:  containerd://c02a4b84b55e841419478117b6e696f3872b402fbe8f6168bb0340e00f5029be
     Image:         registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.9.0
     Image ID:      registry.k8s.io/sig-storage/csi-node-driver-registrar@sha256:cd21e19cd8bbd5bc56f1b4f1398a436e7897da2995d6d036c9729be3f4e456e6
     Port:          <none>
@@ -322,7 +320,7 @@ Containers:
       --csi-address=/csi-data/csi.sock
       --kubelet-registration-path=/var/lib/kubelet/plugins/org.democratic-csi.iscsi/csi.sock
     State:          Running
-      Started:      Fri, 21 Feb 2025 21:49:30 +0000
+      Started:      Fri, 21 Feb 2025 22:42:48 +0000
     Ready:          True
     Restart Count:  0
     Liveness:       exec [/csi-node-driver-registrar --kubelet-registration-path=/var/lib/kubelet/plugins/org.democratic-csi.iscsi/csi.sock --mode=kubelet-registration-probe] delay=0s timeout=1s period=10s #success=1 #failure=3
@@ -332,9 +330,9 @@ Containers:
       /csi-data from socket-dir (rw)
       /registration from registration-dir (rw)
       /var/lib/kubelet from kubelet-dir (rw)
-      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-kn5f5 (ro)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-v9ddh (ro)
   cleanup:
-    Container ID:  containerd://c247c355691cd5805b85e69a01cb483058c6a097ab50cd695550c02218579512
+    Container ID:  containerd://8ede031f4fe67487b3bd1b9db67be0d961e62ab3337e70649400b65b25a095d4
     Image:         docker.io/busybox:1.32.0
     Image ID:      docker.io/library/busybox@sha256:bde48e1751173b709090c2539fdf12d6ba64e88ec7a4301591227ce925f3c678
     Port:          <none>
@@ -346,14 +344,14 @@ Containers:
     Args:
       while true; do sleep 2; done;
     State:          Running
-      Started:      Fri, 21 Feb 2025 21:49:30 +0000
+      Started:      Fri, 21 Feb 2025 22:42:48 +0000
     Ready:          True
     Restart Count:  0
     Environment:    <none>
     Mounts:
       /plugins from plugins-dir (rw)
       /registration from registration-dir (rw)
-      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-kn5f5 (ro)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-v9ddh (ro)
 Conditions:
   Type                        Status
   PodReadyToStartContainers   True 
@@ -418,7 +416,7 @@ Volumes:
     Type:      ConfigMap (a volume populated by a ConfigMap)
     Name:      democratic-csi-freenas-iscsi
     Optional:  false
-  kube-api-access-kn5f5:
+  kube-api-access-v9ddh:
     Type:                    Projected (a volume that contains injected data from multiple sources)
     TokenExpirationSeconds:  3607
     ConfigMapName:           kube-root-ca.crt
@@ -436,35 +434,35 @@ Tolerations:                 node.kubernetes.io/disk-pressure:NoSchedule op=Exis
 Events:
   Type    Reason     Age    From               Message
   ----    ------     ----   ----               -------
-  Normal  Scheduled  8m39s  default-scheduler  Successfully assigned democratic-csi/democratic-csi-freenas-iscsi-node-9zv9z to w1
-  Normal  Pulling    8m39s  kubelet            Pulling image "docker.io/democraticcsi/democratic-csi:latest"
-  Normal  Pulled     8m39s  kubelet            Successfully pulled image "docker.io/democraticcsi/democratic-csi:latest" in 300ms (300ms including waiting). Image size: 189761792 bytes.
-  Normal  Created    8m39s  kubelet            Created container: csi-driver
-  Normal  Started    8m39s  kubelet            Started container csi-driver
-  Normal  Pulled     8m39s  kubelet            Container image "docker.io/democraticcsi/csi-grpc-proxy:v0.5.6" already present on machine
-  Normal  Created    8m39s  kubelet            Created container: csi-proxy
-  Normal  Started    8m38s  kubelet            Started container csi-proxy
-  Normal  Pulled     8m38s  kubelet            Container image "registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.9.0" already present on machine
-  Normal  Created    8m38s  kubelet            Created container: driver-registrar
-  Normal  Started    8m38s  kubelet            Started container driver-registrar
-  Normal  Pulled     8m38s  kubelet            Container image "docker.io/busybox:1.32.0" already present on machine
-  Normal  Created    8m38s  kubelet            Created container: cleanup
-  Normal  Started    8m38s  kubelet            Started container cleanup
+  Normal  Scheduled  6m55s  default-scheduler  Successfully assigned democratic-csi/democratic-csi-freenas-iscsi-node-gj7jt to w1
+  Normal  Pulling    6m55s  kubelet            Pulling image "docker.io/democraticcsi/democratic-csi:latest"
+  Normal  Pulled     6m55s  kubelet            Successfully pulled image "docker.io/democraticcsi/democratic-csi:latest" in 341ms (341ms including waiting). Image size: 189761792 bytes.
+  Normal  Created    6m55s  kubelet            Created container: csi-driver
+  Normal  Started    6m55s  kubelet            Started container csi-driver
+  Normal  Pulled     6m55s  kubelet            Container image "docker.io/democraticcsi/csi-grpc-proxy:v0.5.6" already present on machine
+  Normal  Created    6m55s  kubelet            Created container: csi-proxy
+  Normal  Started    6m55s  kubelet            Started container csi-proxy
+  Normal  Pulled     6m55s  kubelet            Container image "registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.9.0" already present on machine
+  Normal  Created    6m55s  kubelet            Created container: driver-registrar
+  Normal  Started    6m54s  kubelet            Started container driver-registrar
+  Normal  Pulled     6m54s  kubelet            Container image "docker.io/busybox:1.32.0" already present on machine
+  Normal  Created    6m54s  kubelet            Created container: cleanup
+  Normal  Started    6m54s  kubelet            Started container cleanup
 
 
-Name:             democratic-csi-freenas-iscsi-node-tv2jr
+Name:             democratic-csi-freenas-iscsi-node-zq7zd
 Namespace:        democratic-csi
 Priority:         0
 Service Account:  democratic-csi-freenas-iscsi-node-sa
 Node:             cp0/192.168.1.8
-Start Time:       Fri, 21 Feb 2025 21:49:28 +0000
+Start Time:       Fri, 21 Feb 2025 22:42:48 +0000
 Labels:           app.kubernetes.io/component=node-linux
                   app.kubernetes.io/csi-role=node
                   app.kubernetes.io/instance=democratic-csi-freenas-iscsi
                   app.kubernetes.io/managed-by=Helm
                   app.kubernetes.io/name=democratic-csi
-                  controller-revision-hash=7bbcc9bdf8
-                  pod-template-generation=2
+                  controller-revision-hash=7776f6f6b4
+                  pod-template-generation=3
 Annotations:      checksum/configmap: 5f1bbcdd8da9333fab40535e55f5110b84b3d9b4b8cd9564f78b7b8e9b220165
                   checksum/secret: da64b013dffc6186ba80c0183ca456c9cfda540fa5ab7d8546c37d6b0493cbac
 Status:           Running
@@ -474,7 +472,7 @@ IPs:
 Controlled By:  DaemonSet/democratic-csi-freenas-iscsi-node
 Containers:
   csi-driver:
-    Container ID:  containerd://483c7b93d97d966927da7917523c5678b6fa14548d374adb8dbc9b3765e4bc67
+    Container ID:  containerd://ca2f4f0bfc7d199f80d872503c5cb0f8089395bb4ed0b19ab3ad6497056d0184
     Image:         docker.io/democraticcsi/democratic-csi:latest
     Image ID:      docker.io/democraticcsi/democratic-csi@sha256:da41c0c24cbcf67426519b48676175ab3a16e1d3e50847fa06152f5eddf834b1
     Port:          <none>
@@ -487,7 +485,7 @@ Containers:
       --csi-mode=node
       --server-socket=/csi-data/csi.sock.internal
     State:          Running
-      Started:      Fri, 21 Feb 2025 21:49:29 +0000
+      Started:      Fri, 21 Feb 2025 22:42:49 +0000
     Ready:          True
     Restart Count:  0
     Liveness:       exec [bin/liveness-probe --csi-version=1.5.0 --csi-address=/csi-data/csi.sock.internal] delay=10s timeout=15s period=60s #success=1 #failure=3
@@ -496,6 +494,7 @@ Containers:
       NODE_EXTRA_CA_CERTS:     /tmp/certs/extra-ca-certs.crt
       ISCSIADM_HOST_STRATEGY:  nsenter
       ISCSIADM_HOST_PATH:      /usr/local/sbin/iscsiadm
+      NODE_DEBUG:              http,https
     Mounts:
       /config from config (rw)
       /csi-data from socket-dir (rw)
@@ -509,15 +508,15 @@ Containers:
       /usr/local/etc/iscsi from iscsi-dir (rw)
       /var/lib/iscsi from iscsi-info (rw)
       /var/lib/kubelet from kubelet-dir (rw)
-      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-jtb2h (ro)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-kq282 (ro)
   csi-proxy:
-    Container ID:   containerd://f27a19963ec39ca0a20e0f4535d0b7398f43baa6de99ee706ca2246128ea4304
+    Container ID:   containerd://c8832dacb71d1f6293b54ff86a3d26342baae91093445307f2c23fb4ddb151a6
     Image:          docker.io/democraticcsi/csi-grpc-proxy:v0.5.6
     Image ID:       docker.io/democraticcsi/csi-grpc-proxy@sha256:fc5fc1fe9c682463fe8b219db070930e77067d76449749ef5ba99cedd30fa437
     Port:           <none>
     Host Port:      <none>
     State:          Running
-      Started:      Fri, 21 Feb 2025 21:49:29 +0000
+      Started:      Fri, 21 Feb 2025 22:42:49 +0000
     Ready:          True
     Restart Count:  0
     Environment:
@@ -525,9 +524,9 @@ Containers:
       PROXY_TO:  unix:///csi-data/csi.sock.internal
     Mounts:
       /csi-data from socket-dir (rw)
-      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-jtb2h (ro)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-kq282 (ro)
   driver-registrar:
-    Container ID:  containerd://0b81010172af1a71f1450b9250b9ec774399145300451ce5448366a4a7d18361
+    Container ID:  containerd://cf253e64ae2aed2691b9f8f1e2560180f4480b4f4ac6f403982cdb556bae6cc0
     Image:         registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.9.0
     Image ID:      registry.k8s.io/sig-storage/csi-node-driver-registrar@sha256:cd21e19cd8bbd5bc56f1b4f1398a436e7897da2995d6d036c9729be3f4e456e6
     Port:          <none>
@@ -537,7 +536,7 @@ Containers:
       --csi-address=/csi-data/csi.sock
       --kubelet-registration-path=/var/lib/kubelet/plugins/org.democratic-csi.iscsi/csi.sock
     State:          Running
-      Started:      Fri, 21 Feb 2025 21:49:29 +0000
+      Started:      Fri, 21 Feb 2025 22:42:49 +0000
     Ready:          True
     Restart Count:  0
     Liveness:       exec [/csi-node-driver-registrar --kubelet-registration-path=/var/lib/kubelet/plugins/org.democratic-csi.iscsi/csi.sock --mode=kubelet-registration-probe] delay=0s timeout=1s period=10s #success=1 #failure=3
@@ -547,9 +546,9 @@ Containers:
       /csi-data from socket-dir (rw)
       /registration from registration-dir (rw)
       /var/lib/kubelet from kubelet-dir (rw)
-      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-jtb2h (ro)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-kq282 (ro)
   cleanup:
-    Container ID:  containerd://015d772cd0635b4b49ffb5fad0ec370843f9f64512ac096a5aaa619d94c9baca
+    Container ID:  containerd://e69ac9a98410056cbaf353afa2fcd8859ec28af44a5b3f322f782fe24801b80d
     Image:         docker.io/busybox:1.32.0
     Image ID:      docker.io/library/busybox@sha256:bde48e1751173b709090c2539fdf12d6ba64e88ec7a4301591227ce925f3c678
     Port:          <none>
@@ -561,14 +560,14 @@ Containers:
     Args:
       while true; do sleep 2; done;
     State:          Running
-      Started:      Fri, 21 Feb 2025 21:49:29 +0000
+      Started:      Fri, 21 Feb 2025 22:42:49 +0000
     Ready:          True
     Restart Count:  0
     Environment:    <none>
     Mounts:
       /plugins from plugins-dir (rw)
       /registration from registration-dir (rw)
-      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-jtb2h (ro)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-kq282 (ro)
 Conditions:
   Type                        Status
   PodReadyToStartContainers   True 
@@ -633,7 +632,7 @@ Volumes:
     Type:      ConfigMap (a volume populated by a ConfigMap)
     Name:      democratic-csi-freenas-iscsi
     Optional:  false
-  kube-api-access-jtb2h:
+  kube-api-access-kq282:
     Type:                    Projected (a volume that contains injected data from multiple sources)
     TokenExpirationSeconds:  3607
     ConfigMapName:           kube-root-ca.crt
@@ -651,17 +650,17 @@ Tolerations:                 node.kubernetes.io/disk-pressure:NoSchedule op=Exis
 Events:
   Type    Reason     Age    From               Message
   ----    ------     ----   ----               -------
-  Normal  Scheduled  8m39s  default-scheduler  Successfully assigned democratic-csi/democratic-csi-freenas-iscsi-node-tv2jr to cp0
-  Normal  Pulling    8m39s  kubelet            Pulling image "docker.io/democraticcsi/democratic-csi:latest"
-  Normal  Pulled     8m39s  kubelet            Successfully pulled image "docker.io/democraticcsi/democratic-csi:latest" in 304ms (304ms including waiting). Image size: 189761792 bytes.
-  Normal  Created    8m39s  kubelet            Created container: csi-driver
-  Normal  Started    8m39s  kubelet            Started container csi-driver
-  Normal  Pulled     8m39s  kubelet            Container image "docker.io/democraticcsi/csi-grpc-proxy:v0.5.6" already present on machine
-  Normal  Created    8m39s  kubelet            Created container: csi-proxy
-  Normal  Started    8m39s  kubelet            Started container csi-proxy
-  Normal  Pulled     8m39s  kubelet            Container image "registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.9.0" already present on machine
-  Normal  Created    8m39s  kubelet            Created container: driver-registrar
-  Normal  Started    8m39s  kubelet            Started container driver-registrar
-  Normal  Pulled     8m39s  kubelet            Container image "docker.io/busybox:1.32.0" already present on machine
-  Normal  Created    8m39s  kubelet            Created container: cleanup
-  Normal  Started    8m39s  kubelet            Started container cleanup
+  Normal  Scheduled  6m53s  default-scheduler  Successfully assigned democratic-csi/democratic-csi-freenas-iscsi-node-zq7zd to cp0
+  Normal  Pulling    6m53s  kubelet            Pulling image "docker.io/democraticcsi/democratic-csi:latest"
+  Normal  Pulled     6m53s  kubelet            Successfully pulled image "docker.io/democraticcsi/democratic-csi:latest" in 377ms (377ms including waiting). Image size: 189761792 bytes.
+  Normal  Created    6m53s  kubelet            Created container: csi-driver
+  Normal  Started    6m53s  kubelet            Started container csi-driver
+  Normal  Pulled     6m53s  kubelet            Container image "docker.io/democraticcsi/csi-grpc-proxy:v0.5.6" already present on machine
+  Normal  Created    6m53s  kubelet            Created container: csi-proxy
+  Normal  Started    6m53s  kubelet            Started container csi-proxy
+  Normal  Pulled     6m53s  kubelet            Container image "registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.9.0" already present on machine
+  Normal  Created    6m53s  kubelet            Created container: driver-registrar
+  Normal  Started    6m53s  kubelet            Started container driver-registrar
+  Normal  Pulled     6m53s  kubelet            Container image "docker.io/busybox:1.32.0" already present on machine
+  Normal  Created    6m53s  kubelet            Created container: cleanup
+  Normal  Started    6m53s  kubelet            Started container cleanup
