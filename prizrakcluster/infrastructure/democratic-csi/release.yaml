@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: democratic-csi
-      version: "*"
+      version: 
       sourceRef:
         kind: HelmRepository
         name: democratic-csi
@@ -20,6 +20,7 @@ spec:
     node:
       hostPID: true
       driver:
+        image: docker.io/democraticcsi/democratic-csi:v1.9.3
         extraEnv:
           - name: ISCSIADM_HOST_STRATEGY
             value: nsenter
@@ -28,6 +29,7 @@ spec:
           - name: NODE_DEBUG
             value: http,https
         iscsiDirHostPath: /usr/local/etc/iscsi
+
         iscsiDirHostPathType: ""
         logLevel: silly
     controller:
