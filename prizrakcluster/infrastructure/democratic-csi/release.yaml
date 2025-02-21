@@ -27,8 +27,6 @@ spec:
             value: /usr/local/sbin/iscsiadm
         iscsiDirHostPath: /usr/local/etc/iscsi
         iscsiDirHostPathType: ""
-        image: democraticcsi/democratic-csi:latest
-        imagePullPolicy: Always
         logLevel: debug
     controller:
       driver:
@@ -36,14 +34,15 @@ spec:
     csiDriver:
       name: org.democratic-csi.iscsi
     storageClasses:
-    - name: freenas-iscsi-csi
-      defaultClass: false
+    - name: truenas-iscsi
+      defaultClass: true
       reclaimPolicy: Delete
       volumeBindingMode: Immediate
       allowVolumeExpansion: true
       parameters:
         # for block-based storage can be ext3, ext4, xfs
-        fsType: xfs
+        fsType: ext4
+        detachedVolumesFromSnapshots: "false"
     mountOptions: []
     secrets:
       provisioner-secret:
@@ -53,52 +52,28 @@ spec:
       controller-expand-secret:
     driver:
       config:
-        driver: freenas-iscsi
+        driver: freenas-api-iscsi
         instance_id:
         httpConnection:
-          protocol: http
+          protocol: https
           host: ${truenas_ip}
-          port: 80
-          username: root
+          port: 443
           allowInsecure: true
           apiVersion: 2
-        sshConnection:
-          host: ${truenas_ip}
-          port: 22
-          username: root
-          # use either password or key
-            #      privateKey: |
-            #        -----BEGIN RSA PRIVATE KEY-----
-            #        ...
-            #        -----END RSA PRIVATE KEY-----
         zfs:
-          # the example below is useful for TrueNAS 12
-          cli:
-            paths:
-              zfs: /usr/local/sbin/zfs
-              zpool: /usr/local/sbin/zpool
-              sudo: /usr/local/bin/sudo
-              chroot: /usr/sbin/chroot
-          # total volume name (zvol/<datasetParentName>/<pvc name>) length cannot exceed 63 chars
-          # https://www.ixsystems.com/documentation/freenas/11.2-U5/storage.html#zfs-zvol-config-opts-tab
-          # standard volume naming overhead is 46 chars
-          # datasetParentName should therefore be 17 chars or less
-          datasetParentName: testpool/k8s/iscsi/v
-          detachedSnapshotsDatasetParentName: testpool/k8s/iscsi/s
-          # "" (inherit), lz4, gzip-9, etc
+          datasetParentName: nvme1tb/k8s/iscsi/volumes
+          detachedSnapshotsDatasetParentName: nvme1tb/k8s/iscsi/snapshots
           zvolCompression:
-          # "" (inherit), on, off, verify
           zvolDedup:
           zvolEnableReservation: false
-          # 512, 1K, 2K, 4K, 8K, 16K, 64K, 128K default is 16K
           zvolBlocksize:
         iscsi:
-          targetPortal: ${truenas_ip}
+          targetPortal: ${truenas_ip}:3260
           targetPortals: []
           # leave empty to omit usage of -I with iscsiadm
           interface:
           namePrefix: csi-
-          nameSuffix: "-cluster"
+          nameSuffix: "-talos"
           # add as many as needed
           targetGroups:
             # get the correct ID from the "portal" section in the UI
@@ -114,9 +89,9 @@ spec:
           extentXenCompat: false
           extentDisablePhysicalBlocksize: true
           # 512, 1024, 2048, or 4096,
-          extentBlocksize: 4096
+          extentBlocksize: 512
           # "" (let FreeNAS decide, currently defaults to SSD), Unknown, SSD, 5400, 7200, 10000, 15000
-          extentRpm: "7200"
+          extentRpm: "SSD"
           # 0-100 (0 == ignore)
           extentAvailThreshold: 0
 
@@ -124,16 +99,6 @@ spec:
   valuesFrom:
     - kind: Secret
       name: truenas-secrets
-      valuesKey: truenas_username
-      targetPath: driver.config.sshConnection.username
-      optional: false
-    - kind: Secret
-      name: truenas-secrets
       valuesKey: truenas_api_key
       targetPath: driver.config.httpConnection.apiKey
-      optional: false
-    - kind: Secret
-      name: truenas-secrets
-      valuesKey: truenas_ssh_key
-      targetPath: driver.config.sshConnection.privateKey
       optional: false

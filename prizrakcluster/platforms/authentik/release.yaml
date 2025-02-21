@@ -129,7 +129,7 @@ spec:
   values:
     cluster:
       storage:
-        storageClass: longhorn
+        storageClass: truenas-iscsi
       instances: 1
       monitoring:
         enabled: true

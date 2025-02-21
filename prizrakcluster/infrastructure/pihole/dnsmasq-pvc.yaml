@@ -6,7 +6,7 @@ metadata:
   name: dnsmasq-pvc
   namespace: pihole
 spec:
-  storageClassName: freenas-iscsi-csi
+  storageClassName: truenas-iscsi
   accessModes:
     - ReadWriteOnce
   resources:
