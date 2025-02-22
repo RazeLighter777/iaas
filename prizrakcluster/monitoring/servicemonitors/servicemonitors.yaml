@@ -7,6 +7,7 @@ metadata:
 spec:
   dependsOn:
     - name: kube-prometheus-stack
+      namespace: monitoring
   interval: 5m
   path: "./prizrakcluster/monitoring/servicemonitors/servicemonitors"
   prune: true
