@@ -94,7 +94,7 @@ spec:
     namespace: flux-system
   values:
     global:
-      storageClass: longhorn
+      storageClass: truenas-iscsi
     metrics:
       enabled: true
       serviceMonitor:
