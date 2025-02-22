@@ -42,7 +42,6 @@ spec:
     keepHistory: false
   maxHistory: 3
   values:
-    controller:
     csiDriver:
       name: "org.democratic-csi.iscsi"
     node:
