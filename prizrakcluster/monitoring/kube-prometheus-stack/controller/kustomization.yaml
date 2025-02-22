@@ -6,7 +6,6 @@ resources:
   - ./release.yaml
   - ./grafana-ingress.yaml
   - ./prometheus-ingress.yaml
-  - ./kube-prometheus-stack.yaml
 configMapGenerator:
   - name: flux-grafana-dashboards
     files:
