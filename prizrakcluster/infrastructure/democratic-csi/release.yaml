@@ -31,11 +31,11 @@ spec:
         iscsiDirHostPath: /usr/local/etc/iscsi
 
         iscsiDirHostPathType: ""
-        logLevel: silly
+        logLevel: info
     controller:
       driver:
         image: docker.io/democraticcsi/democratic-csi:v1.9.3
-        logLevel: silly
+        logLevel: info
     csiDriver:
       name: org.democratic-csi.iscsi
     storageClasses:
