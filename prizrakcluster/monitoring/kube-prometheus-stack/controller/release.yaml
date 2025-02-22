@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: kube-prometheus-stack
-      version: 68.4.4
+      version: 69.4.1
       sourceRef:
         kind: HelmRepository
         name: prometheus-charts
@@ -48,7 +48,7 @@ spec:
       enabled: true
       image:
         repository: grafana/grafana
-        tag: 11.5.0@sha256:0a2874cf39c6487093c682215f7c7903ed8646d78ae5f911af945d2dfcc0a447
+        tag: 11.5.2@sha256:8b37a2f028f164ce7b9889e1765b9d6ee23fec80f871d156fbf436d6198d32b7
       defaultDashboardsEnabled: false
       adminPassword: flux
       grafana.ini:
