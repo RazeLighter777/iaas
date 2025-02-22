@@ -1,109 +1,89 @@
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: democratic-csi-freenas-iscsi
+  name: &app democratic-csi
   namespace: democratic-csi
 spec:
-  interval: 30m
+  interval: 5m
   chart:
     spec:
       chart: democratic-csi
-      version: 0.14.7
+      interval: 10m
       sourceRef:
         kind: HelmRepository
         name: democratic-csi
         namespace: flux-system
-      interval: 12h
+      version: 0.14.7
+  driftDetection:
+    mode: enabled
+  install:
+    crds: CreateReplace
+    createNamespace: true
+    remediation:
+      retries: 3
+    replace: true
+    timeout: 10m
+  upgrade:
+    remediation:
+      remediateLastFailure: true
+      retries: 3
+      strategy: rollback
+    cleanupOnFail: true
+    crds: CreateReplace
+  test:
+    enable: true
+  rollback:
+    recreate: true
+    force: true
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  maxHistory: 3
   values:
-    # for talos extension
-    node:
-      hostPID: true
-      driver:
-        image: docker.io/democraticcsi/democratic-csi:v1.9.3
-        extraEnv:
-          - name: ISCSIADM_HOST_STRATEGY
-            value: nsenter
-          - name: ISCSIADM_HOST_PATH
-            value: /usr/local/sbin/iscsiadm
-          - name: NODE_DEBUG
-            value: http,https
-        iscsiDirHostPath: /usr/local/etc/iscsi
-
-        iscsiDirHostPathType: ""
-        logLevel: info
     controller:
-      driver:
-        image: docker.io/democraticcsi/democratic-csi:v1.9.3
-        logLevel: info
+      priorityClassName: platform-cluster-critical
     csiDriver:
-      name: org.democratic-csi.iscsi
+      name: "org.democratic-csi.iscsi"
+    node:
+      driver:
+        extraEnv:
+        - name: ISCSIADM_HOST_STRATEGY
+          value: nsenter
+        - name: ISCSIADM_HOST_PATH
+          value: /usr/local/sbin/iscsiadm
+        iscsiDirHostPath: /usr/local/etc/iscsi
+        iscsiDirHostPathType: ""
+      hostPID: true
+      priorityClassName: platform-node-critical
+    driver:
+      existingConfigSecret: driver-config
+      config:
+        # please see the most up-to-date example of the corresponding config here:
+        # https://github.com/democratic-csi/democratic-csi/tree/master/examples
+        # YOU MUST COPY THE DATA HERE INLINE!
+        driver: freenas-api-iscsi
     storageClasses:
     - name: truenas-iscsi
-      defaultClass: true
+      defaultClass: false
       reclaimPolicy: Delete
       volumeBindingMode: Immediate
       allowVolumeExpansion: true
       parameters:
         # for block-based storage can be ext3, ext4, xfs
+        # for nfs should be nfs
         fsType: ext4
         detachedVolumesFromSnapshots: "false"
-    mountOptions: []
-    secrets:
-      provisioner-secret:
-      controller-publish-secret:
-      node-stage-secret:
-      node-publish-secret:
-      controller-expand-secret:
-    driver:
-      config:
-        driver: freenas-api-iscsi
-        instance_id:
-        httpConnection:
-          protocol: https
-          host: ${truenas_ip}
-          port: 443
-          allowInsecure: true
-          apiVersion: 2
-        zfs:
-          datasetParentName: nvme1tb/k8s/iscsi/volumes
-          detachedSnapshotsDatasetParentName: nvme1tb/k8s/iscsi/snapshots
-          zvolCompression:
-          zvolDedup:
-          zvolEnableReservation: false
-          zvolBlocksize:
-        iscsi:
-          targetPortal: ${truenas_ip}:3260
-          targetPortals: []
-          # leave empty to omit usage of -I with iscsiadm
-          interface:
-          namePrefix: csi-
-          nameSuffix: "-talos"
-          # add as many as needed
-          targetGroups:
-            # get the correct ID from the "portal" section in the UI
-            - targetGroupPortalGroup: 1
-              # get the correct ID from the "initiators" section in the UI
-              targetGroupInitiatorGroup: 1
-              # None, CHAP, or CHAP Mutual
-              targetGroupAuthType: None
-              # get the correct ID from the "Authorized Access" section of the UI
-              # only required if using Chap
-              targetGroupAuthGroup:
-          extentInsecureTpc: true
-          extentXenCompat: false
-          extentDisablePhysicalBlocksize: true
-          # 512, 1024, 2048, or 4096,
-          extentBlocksize: 512
-          # "" (let FreeNAS decide, currently defaults to SSD), Unknown, SSD, 5400, 7200, 10000, 15000
-          extentRpm: "SSD"
-          # 0-100 (0 == ignore)
-          extentAvailThreshold: 0
-
-      
-  valuesFrom:
-    - kind: Secret
-      name: truenas-secrets
-      valuesKey: truenas_api_key
-      targetPath: driver.config.httpConnection.apiKey
-      optional: false
+      mountOptions: []
+      secrets:
+        controller-expand-secret: null
+        controller-publish-secret: null
+        node-publish-secret: null
+        node-stage-secret: null
+        provisioner-secret: null
+    volumeSnapshotClasses:
+    - name: truenas-iscsi
+      parameters:
+        detachedSnapshots: "true"
+        
