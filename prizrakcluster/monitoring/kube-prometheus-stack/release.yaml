@@ -20,7 +20,7 @@ spec:
   upgrade:
     crds: CreateReplace
   dependsOn:
-    - name: democratic-csi-freenas-iscsi
+    - name: democratic-csi
       namespace: democratic-csi
   values:
     prometheus-node-exporter:
