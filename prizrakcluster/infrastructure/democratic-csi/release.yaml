@@ -82,8 +82,3 @@ spec:
         node-publish-secret: null
         node-stage-secret: null
         provisioner-secret: null
-    volumeSnapshotClasses:
-    - name: truenas-iscsi
-      parameters:
-        detachedSnapshots: "true"
-        
