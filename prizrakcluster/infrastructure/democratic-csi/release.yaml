@@ -43,7 +43,6 @@ spec:
   maxHistory: 3
   values:
     controller:
-      priorityClassName: platform-cluster-critical
     csiDriver:
       name: "org.democratic-csi.iscsi"
     node:
@@ -56,7 +55,6 @@ spec:
         iscsiDirHostPath: /usr/local/etc/iscsi
         iscsiDirHostPathType: ""
       hostPID: true
-      priorityClassName: platform-node-critical
     driver:
       existingConfigSecret: driver-config
       config:
