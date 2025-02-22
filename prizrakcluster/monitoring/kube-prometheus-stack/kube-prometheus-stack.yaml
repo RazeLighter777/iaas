@@ -12,7 +12,7 @@ spec:
       name: kube-prometheus-stack
       namespace: monitoring
   interval: 5m
-  path: "./prizrakcluster/monitoring/kube-prometheus-stack"
+  path: "./prizrakcluster/monitoring/kube-prometheus-stack/controller"
   prune: true
   sourceRef:
     kind: GitRepository
