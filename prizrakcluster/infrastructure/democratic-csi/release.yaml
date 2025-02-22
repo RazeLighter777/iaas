@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app democratic-csi
+  name: &app democratic-csi-iscsi
   namespace: democratic-csi
 spec:
   interval: 5m
@@ -55,7 +55,7 @@ spec:
         iscsiDirHostPathType: ""
       hostPID: true
     driver:
-      existingConfigSecret: driver-config
+      existingConfigSecret: iscsi-driver-config
       config:
         # please see the most up-to-date example of the corresponding config here:
         # https://github.com/democratic-csi/democratic-csi/tree/master/examples
@@ -71,6 +71,77 @@ spec:
         # for block-based storage can be ext3, ext4, xfs
         # for nfs should be nfs
         fsType: ext4
+        detachedVolumesFromSnapshots: "false"
+      mountOptions: []
+      secrets:
+        controller-expand-secret: null
+        controller-publish-secret: null
+        node-publish-secret: null
+        node-stage-secret: null
+        provisioner-secret: null
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app democratic-csi-nfs
+  namespace: democratic-csi
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: democratic-csi
+      interval: 10m
+      sourceRef:
+        kind: HelmRepository
+        name: democratic-csi
+        namespace: flux-system
+      version: 0.14.7
+  driftDetection:
+    mode: enabled
+  install:
+    crds: CreateReplace
+    createNamespace: true
+    remediation:
+      retries: 3
+    replace: true
+    timeout: 10m
+  upgrade:
+    remediation:
+      remediateLastFailure: true
+      retries: 3
+      strategy: rollback
+    cleanupOnFail: true
+    crds: CreateReplace
+  test:
+    enable: true
+  rollback:
+    recreate: true
+    force: true
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  maxHistory: 3
+  values:
+    csiDriver:
+      name: "org.democratic-csi.nfs"
+    driver:
+      existingConfigSecret: iscsi-driver-config
+      config:
+        # please see the most up-to-date example of the corresponding config here:
+        # https://github.com/democratic-csi/democratic-csi/tree/master/examples
+        # YOU MUST COPY THE DATA HERE INLINE!
+        driver: freenas-api-nfs
+    storageClasses:
+    - name: truenas-nfs
+      defaultClass: false
+      reclaimPolicy: Delete
+      volumeBindingMode: Immediate
+      allowVolumeExpansion: true
+      parameters:
+        # for block-based storage can be ext3, ext4, xfs
+        # for nfs should be nfs
+        fsType: nfs
         detachedVolumesFromSnapshots: "false"
       mountOptions: []
       secrets:
