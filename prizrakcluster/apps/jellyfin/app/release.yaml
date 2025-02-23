@@ -58,15 +58,17 @@ spec:
         storageClass: truenas-iscsi
         advancedMounts:
           main: 
-            - path: /config
+            main:
+              - path: /config
       jellyfin-server-cache:
         enabled: true
         accessMode: ReadWriteOnce
         type: emptyDir
         size: 10Gi
         advancedMounts:
-            main: 
-              - path: /cache
+            main:
+              main: 
+                - path: /cache
       # dri:
       #   enabled: true
       #   hostPath: /dev/dri
