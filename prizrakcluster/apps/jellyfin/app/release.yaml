@@ -45,3 +45,5 @@ spec:
           paths:
             - path: /
               pathType: Prefix
+    metrics:
+      enabled: true
