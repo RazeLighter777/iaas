@@ -8,3 +8,4 @@ data:
   ingress_ip: 192.168.1.10
   dns_server_ip: 192.168.1.14
   truenas_ip: 192.168.1.55
+  media_share_path: /mnt/nvme1tb/media	

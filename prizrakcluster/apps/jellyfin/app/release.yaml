@@ -1,0 +1,47 @@
+
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: jellyfin
+  namespace: jellyfin
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: jellyfin
+      interval: 10m
+      sourceRef:
+        kind: HelmRepository
+        name: jellyfin
+        namespace: flux-system
+      version: 12.0.0
+  values:
+    persistence:
+      media:
+        enabled: true
+        existingClaim: media
+      config:
+        enabled: true
+        size: 10Gi
+        storageClass: truenas-iscsi
+    ingress:
+      enabled: true
+      className: nginx
+      annotations:
+        kubernetes.io/ingress.class: nginx
+        nginx.ingress.kubernetes.io/proxy-body-size: 100m
+        nginx.ingress.kubernetes.io/proxy-set-headers: /etc/nginx/proxy_set_headers
+        nginx.ingress.kubernetes.io/configuration-snippet: |
+          proxy_set_header X-Forwarded-Host $host;
+          proxy_set_header X-Forwarded-Port $server_port;
+          proxy_set_header X-Forwarded-Proto $scheme;
+          proxy_set_header X-Forwarded-Ssl on;
+          proxy_set_header X-Forwarded-Ssl-Proto $scheme;
+          proxy_set_header X-Forwarded-Ssl-Port $server_port;
+          proxy_set_header X-Forwarded-Ssl-Host $host;
+      hosts:
+        - host: jellyfin.${domain_name}
+          paths:
+            - path: /
+              pathType: Prefix

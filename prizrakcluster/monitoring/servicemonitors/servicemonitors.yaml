@@ -8,6 +8,8 @@ spec:
   dependsOn:
     - name: kube-prometheus-stack
       namespace: flux-system
+    - name: apps
+      namespace: flux-system
   interval: 5m
   path: "./prizrakcluster/monitoring/servicemonitors/servicemonitors"
   prune: true
