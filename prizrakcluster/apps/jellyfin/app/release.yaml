@@ -61,6 +61,7 @@ spec:
             - path: /config
       jellyfin-server-cache:
         enabled: true
+        accessMode: ReadWriteOnce
         type: emptyDir
         size: 10Gi
         advancedMounts:
