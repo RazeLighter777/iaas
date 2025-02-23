@@ -19,9 +19,6 @@ spec:
     crds: CreateReplace
   upgrade:
     crds: CreateReplace
-  dependsOn:
-    - name: democratic-csi
-      namespace: democratic-csi
   values:
     prometheus-node-exporter:
       tolerations:
