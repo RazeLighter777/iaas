@@ -53,10 +53,12 @@ spec:
                 readOnly: true
       jellyfin-db-volume:
         enabled: true
+        size: 10Gi
+        accessMode: ReadWriteOnce
         storageClass: truenas-iscsi
         advancedMounts:
-            main: 
-              - path: /config
+          main: 
+            - path: /config
       jellyfin-server-cache:
         enabled: true
         type: emptyDir
