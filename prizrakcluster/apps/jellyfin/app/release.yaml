@@ -15,7 +15,7 @@ spec:
         kind: HelmRepository
         name: jellyfin
         namespace: flux-system
-      version: 12.0.0
+      version: 2.1.0
   values:
     persistence:
       media:
