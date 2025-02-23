@@ -62,13 +62,14 @@ spec:
               - path: /config
       jellyfin-server-cache:
         enabled: true
-        accessMode: ReadWriteOnce
         type: emptyDir
-        size: 10Gi
         advancedMounts:
             main:
               main: 
                 - path: /cache
+                  subPath: cache
+                - path: /transcode
+                  subPath: transcode
       # dri:
       #   enabled: true
       #   hostPath: /dev/dri
