@@ -5,7 +5,7 @@ metadata:
   namespace: jellyfin
 spec:
   accessModes:
-    - ReadOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: 10Gi # actually meaningless for NFS

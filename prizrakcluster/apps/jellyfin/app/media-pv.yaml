@@ -8,7 +8,7 @@ spec:
   capacity:
     storage: 10Gi # actually meaningless for NFS
   accessModes:
-    - ReadOnce
+    - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   mountOptions:
     - nfsvers=3
