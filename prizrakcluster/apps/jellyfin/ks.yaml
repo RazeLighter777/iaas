@@ -8,11 +8,6 @@ spec:
   path: "./prizrakcluster/apps/jellyfin/app"
   interval: 5m
   prune: true
-  healthChecks:
-    - apiVersion: apps/v1
-      kind: HelmRelease
-      name: jellyfin
-      namespace: jellyfin
   sourceRef:
     kind: GitRepository
     name: flux-system
