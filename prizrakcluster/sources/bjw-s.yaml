@@ -2,8 +2,9 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: jellyfin
+  name: bjw-s
   namespace: flux-system
 spec:
   interval: 24h
-  url: https://jellyfin.github.io/jellyfin-helm
+  url: https://bjw-s.github.io/helm-charts/
+
