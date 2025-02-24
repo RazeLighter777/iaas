@@ -1,0 +1,186 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/refs/heads/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: radarr
+  namespace: media
+spec:
+  dependsOn:
+    - name: cloudnative-database-media
+      namespace: media
+  interval: 5m
+  chart:
+    spec:
+      version: 3.7.1
+      chart: app-template
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 5m
+  install:
+    timeout: 10m
+    replace: true
+    crds: CreateReplace
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      remediateLastFailure: true
+      retries: 3
+      strategy: rollback
+    cleanupOnFail: true
+    crds: CreateReplace
+  test:
+    enable: true
+  rollback:
+    recreate: true
+    force: true
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  driftDetection:
+    mode: enabled
+  maxHistory: 3
+  values:
+    controllers:
+      radarr:
+        strategy: Recreate
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 16.8
+            env:
+              - name: INIT_POSTGRES_DBNAME
+                value: radarr_main radarr_log
+              - name: INIT_POSTGRES_HOST
+                value: &dbhost cloudnative-database-media-cluster-rw
+              - name: INIT_POSTGRES_SUPER_PASS
+                valueFrom:
+                  secretKeyRef:
+                    name: cloudnative-database-media-cluster-superuser
+                    key: password
+              - name: INIT_POSTGRES_USER
+                value: &dbuser radarr
+              - name: INIT_POSTGRES_PASS
+                valueFrom:
+                  secretKeyRef:
+                    name: cloudnative-database-media-cluster-app
+                    key: password
+        containers:
+          app:
+            image:
+              repository: ghcr.io/onedr0p/radarr-develop
+              # renovate: datasource=github-releases depName=onedr0p/radarr-develop
+              tag: 5.19.2.9720@sha256:f2f5d4f1b5a9dcffbcc731a7f52e5180f308f5de981ea0a8aea54ae8856a46c0
+            env:
+                - name: RADARR__APP__INSTANCENAME
+                  value: ${domain_name} Sonarr
+                - name: RADARR__APP__THEME
+                  value: dark
+                - name: RADARR__AUTH__METHOD
+                  value: External
+                - name: RADARR__AUTH__REQUIRED
+                  value: DisabledForLocalAddresses
+                - name: RADARR__LOG__DBENABLED
+                  value: "True"
+                - name: RADARR__LOG__LEVEL
+                  value: info
+                - name: RADARR__SERVER__PORT
+                  value: &port 8989
+                - name: RADARR__UPDATE__BRANCH
+                  value: develop
+                - name: RADARR__POSTGRES__HOST
+                  value: *dbhost
+                - name: RADARR__POSTGRES__PORT
+                  value: "5432"
+                - name: RADARR__POSTGRES__USER
+                  value: *dbuser
+                - name: RADARR__POSTGRES__PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: cloudnative-database-media-cluster-app
+                      key: password
+                - name: RADARR__POSTGRES__MAINDB
+                  value: radarr_main
+                - name: RADARR__POSTGRES__LOGDB
+                  value: radarr_log
+                - name: TZ
+                  value: ${timezone}    
+            envFrom:
+              - secretRef:
+                  name: arrs-api-keys
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /ping
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 100m
+                memory: 512Mi
+              limits:
+                memory: 4Gi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile: { type: RuntimeDefault }
+    service:
+      app:
+        controller: radarr
+        ports:
+          http:
+            port: *port
+    persistence:
+      config:
+        enabled: true
+        storageClass: truenas-iscsi
+        size: 100Mi
+        accessMode: ReadWriteOnce
+        globalMounts:
+          - path: /config
+      cache:
+        enabled: true
+        type: emptyDir
+        globalMounts:
+          - path: /config/MediaCover
+      tmp:
+        type: emptyDir
+      media:
+        enabled: true
+        existingClaim: media
+        advancedMounts:
+          radarr:
+            app:
+              - path: /media
+                readOnly: false #radarr needs write access to the media folder
+    ingress:
+      app:
+        enabled: true
+        hosts:
+          - host: radarr.${domain_name}
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: app
+                  port: *port
