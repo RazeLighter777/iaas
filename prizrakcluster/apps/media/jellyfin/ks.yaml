@@ -5,7 +5,7 @@ metadata:
   name: jellyfin
   namespace: flux-system
 spec:
-  path: "./prizrakcluster/apps/jellyfin/app"
+  path: "./prizrakcluster/apps/media/jellyfin/app"
   interval: 5m
   prune: true
   sourceRef:
