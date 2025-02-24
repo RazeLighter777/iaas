@@ -90,7 +90,7 @@ spec:
                 - name: SONARR__LOG__LEVEL
                   value: info
                 - name: SONARR__SERVER__PORT
-                  value: *port
+                  value: &port "8989"
                 - name: SONARR__UPDATE__BRANCH
                   value: develop
                 - name: SONARR__POSTGRES__HOST
