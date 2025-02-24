@@ -6,3 +6,5 @@ resources:
   - ./media-pvc.yaml
   - ./media-pv.yaml
   - ./arrs-api-keys.sops.yaml
+  - ./sonarr/ks.yaml
+  - ./jellyfin/ks.yaml
