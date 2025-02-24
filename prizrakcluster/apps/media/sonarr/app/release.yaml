@@ -176,7 +176,7 @@ spec:
               - path: /media
                 readOnly: false #sonarr needs write access to the media folder
     ingress:
-      sonarr:
+      app:
         enabled: true
         hosts:
           - host: sonarr.${domain_name}
@@ -184,5 +184,5 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  identifier: sonarr
+                  identifier: app
                   port: *port
