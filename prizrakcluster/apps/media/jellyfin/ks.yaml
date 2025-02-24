@@ -16,3 +16,7 @@ spec:
     substituteFrom:
       - kind: ConfigMap
         name: cluster-settings
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
