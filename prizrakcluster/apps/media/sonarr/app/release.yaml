@@ -67,7 +67,7 @@ spec:
                 valueFrom:
                   secretKeyRef:
                     name: cloudnative-database-media-cluster-superuser
-                    key: user
+                    key: username
               - name: INIT_POSTGRES_USER
                 value: &dbuser sonarr
               - name: INIT_POSTGRES_PASS
