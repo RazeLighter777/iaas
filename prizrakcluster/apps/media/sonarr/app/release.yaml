@@ -108,8 +108,6 @@ spec:
                   value: sonarr_main
                 - name: SONARR__POSTGRES__LOGDB
                   value: sonarr_log
-                - name: SONARR__LOG__SIZELIMIT
-                  value: 100MB
                 - name: SONARR__SERVER__URLBASE
                   value: sonarr.${domain_name}
                 - name: TZ
