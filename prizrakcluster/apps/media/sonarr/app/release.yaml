@@ -57,7 +57,7 @@ spec:
               - name: INIT_POSTGRES_DBNAME
                 value: sonarr_main sonarr_log
               - name: INIT_POSTGRES_HOST
-                value: &dbhost cloudnative-database-media-app-cluster-rw.media.svc.cluster.local
+                value: &dbhost cloudnative-database-media-cluster-rw
               - name: INIT_POSTGRES_SUPER_PASS
                 valueFrom:
                   secretKeyRef:
