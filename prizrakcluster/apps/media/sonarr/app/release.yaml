@@ -61,13 +61,8 @@ spec:
               - name: INIT_POSTGRES_SUPER_PASS
                 valueFrom:
                   secretKeyRef:
-                    name: cloudnative-database-media-cluster-app
-                    key: password
-              - name: INIT_POSTGRES_SUPER_USER
-                valueFrom:
-                  secretKeyRef:
                     name: cloudnative-database-media-cluster-superuser
-                    key: username
+                    key: password
               - name: INIT_POSTGRES_USER
                 value: &dbuser sonarr
               - name: INIT_POSTGRES_PASS
