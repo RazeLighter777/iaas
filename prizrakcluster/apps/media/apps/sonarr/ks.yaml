@@ -5,7 +5,7 @@ metadata:
   name: sonarr
   namespace: flux-system
 spec:
-  path: "./prizrakcluster/apps/media/sonarr/app"
+  path: "./prizrakcluster/apps/media/apps/sonarr/app"
   interval: 5m
   prune: true
   sourceRef:
