@@ -1,0 +1,32 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: democratic-csi
+  namespace: flux-system
+spec:
+  healthChecks:
+    - apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      name: democratic-csi-iscsi
+      namespace: democratic-csi
+    - apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      name: democratic-csi-node-manual
+      namespace: democratic-csi
+  targetNamespace: democratic-csi
+  path: "./prizrakcluster/infrastructure/democratic-csi/controller"
+  interval: 5m
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-settings
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age

@@ -5,6 +5,7 @@ metadata:
   name: metallb 
   namespace: flux-system
 spec:
+  targetNamespace: metallb
   interval: 5m
   path: "./prizrakcluster/infrastructure/metallb/controller"
   prune: true
@@ -18,6 +19,7 @@ metadata:
   name: metallb-crds
   namespace: flux-system
 spec:
+  targetNamespace: metallb
   dependsOn:
     - name: metallb
   interval: 5m
