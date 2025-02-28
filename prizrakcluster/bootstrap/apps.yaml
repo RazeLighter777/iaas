@@ -5,7 +5,6 @@ metadata:
   name: apps
   namespace: flux-system
 spec:
-  targetNamespace: apps
   interval: 10m0s
   dependsOn:
     - name: platforms
