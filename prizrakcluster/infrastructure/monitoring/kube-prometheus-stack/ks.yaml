@@ -8,6 +8,7 @@ metadata:
 spec:
   dependsOn:
     - name: democratic-csi
+      namespace: flux-system
   targetNamespace: monitoring
   #health check for helmrelease
   healthChecks:
