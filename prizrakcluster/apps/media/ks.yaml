@@ -5,8 +5,7 @@ metadata:
   name: media
   namespace: flux-system
 spec:
-  targetNamespace: media
-  path: "./prizrakcluster/apps/media"
+  path: "./prizrakcluster/apps/media/apps"
   interval: 5m
   prune: true
   sourceRef:
