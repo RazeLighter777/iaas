@@ -19,7 +19,7 @@ metadata:
   name: metallb-crds
   namespace: flux-system
 spec:
-  targetNamespace: metallb
+  targetNamespace: metallb-system
   dependsOn:
     - name: metallb
   interval: 5m

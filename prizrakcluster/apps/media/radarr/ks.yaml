@@ -5,6 +5,7 @@ metadata:
   name: radarr
   namespace: flux-system
 spec:
+  targetNamespace: media
   path: "./prizrakcluster/apps/media/radarr/app"
   interval: 5m
   prune: true
