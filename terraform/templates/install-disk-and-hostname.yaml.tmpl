@@ -4,13 +4,20 @@ machine:
     disk: ${install_disk}
   network:
     hostname: ${hostname}
+    interfaces:
+      - interface: eth0
+        dhcp: false
+        addresses:
+          - ${install_ip}${install_cidr}
+        routes:
+          - network: 0.0.0.0/0
+            gateway: ${install_gateway}
+            metric: 1024
+            mtu: 1500
 cluster:
-  controllerManager:
-    extraArgs:
-      bind-address: 0.0.0.0
-  scheduler:
-    extraArgs:
-      bind-address: 0.0.0.0
   proxy:
-    extraArgs:
-      metrics-bind-address: 0.0.0.0:10249
+    disabled: true
+  network:
+    cni:
+      name: none
+  

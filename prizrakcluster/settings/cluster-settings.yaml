@@ -7,6 +7,6 @@ data:
   domain_name: prizrak.me
   ingress_ip: 192.168.1.10
   dns_server_ip: 192.168.1.14
-  truenas_ip: 192.168.1.55
+  truenas_ip: 192.168.1.60
   media_share_path: /mnt/nvme1tb/media	
   timezone: America/New_York

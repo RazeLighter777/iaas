@@ -3,8 +3,6 @@ kind: Kustomization
 namespace: monitoring
 resources:
   - ./release.yaml
-  - ./grafana-ingress.yaml
-  - ./prometheus-ingress.yaml
 configMapGenerator:
   - name: flux-grafana-dashboards
     files:
