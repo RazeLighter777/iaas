@@ -11,7 +11,6 @@ spec:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   mountOptions:
-    - nfsvers=3
     - nolock
     - noatime
   csi:
