@@ -5,7 +5,8 @@ metadata:
   name: sillytavern
   namespace: flux-system
 spec:
-  path: "./prizrakcluster/apps/sillytavern"
+  path: "./prizrakcluster/apps/sillytavern/app"
+  targetNamespace: sillytavern
   interval: 5m
   prune: true
   healthChecks:
