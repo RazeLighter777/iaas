@@ -102,7 +102,3 @@ spec:
               resources:
                 requests:
                   storage: 25Gi
-  valuesFrom:
-  - kind: ConfigMap
-    name: flux-kube-state-metrics-config
-    valuesKey: kube-state-metrics-config.yaml

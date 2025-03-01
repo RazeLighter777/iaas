@@ -3,21 +3,3 @@ kind: Kustomization
 namespace: monitoring
 resources:
   - ./release.yaml
-configMapGenerator:
-  - name: flux-grafana-dashboards
-    files:
-      - dashboards/control-plane.json
-      - dashboards/cluster.json
-      - dashboards/logs.json
-    options:
-      labels:
-        grafana_dashboard: "1"
-        app.kubernetes.io/part-of: flux
-        app.kubernetes.io/component: monitoring
-        kustomize.toolkit.fluxcd.io/substitute: disabled
-  - name: flux-kube-state-metrics-config
-    namespace: monitoring
-    files:
-      - kube-state-metrics-config.yaml=flux-kube-state-metrics-config.yaml
-generatorOptions:
-  disableNameSuffixHash: true
