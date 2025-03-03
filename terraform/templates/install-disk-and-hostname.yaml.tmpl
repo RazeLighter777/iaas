@@ -1,7 +1,9 @@
 machine:
   install:
-    image: factory.talos.dev/installer/dc7b152cb3ea99b821fcb7340ce7168313ce393d663740b791c36f6e95fc8586:v1.9.2
+    image: factory.talos.dev/installer/96fa7f1f7b45c3234a4dbe767002b7dbac60458bc555398c13396ce3971a5072:v1.9.4
     disk: ${install_disk}
+    extraKernelArgs:
+      - mitigations=off
   network:
     hostname: ${hostname}
     interfaces:
