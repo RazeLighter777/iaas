@@ -34,7 +34,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: intel-device-plugin-operator
+    - name: intel-device-plugin
       namespace: flux-system
   commonMetadata:
     labels:
