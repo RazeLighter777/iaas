@@ -19,6 +19,9 @@ spec:
     appversion: 10.9.8
     controllers:
       main:
+        pod:
+          nodeSelector:
+            intel.feature.node.kubernetes.io/gpu: "true"
         type: statefulset
         containers:
           main:
@@ -26,6 +29,20 @@ spec:
               repository: docker.io/jellyfin/jellyfin
               # renovate: datasource=github-releases depName=jellyfin/jellyfin
               tag: 10.10.6
+            env:
+              DOTNET_SYSTEM_IO_DISABLEFILELOCKING: "true"
+              JELLYFIN_FFmpeg__probesize: 50000000
+              JELLYFIN_FFmpeg__analyzeduration: 50000000
+              JELLYFIN_PublishedServerUrl: https://jellyfin.${domain_name}
+              TZ: ${timezone}
+            resources:
+              requests:
+                cpu: 100m
+                memory: 8Gi
+              limits:
+                gpu.intel.com/i915: 1
+                memory: 16Gi
+
     service:
       main:
         controller: main
