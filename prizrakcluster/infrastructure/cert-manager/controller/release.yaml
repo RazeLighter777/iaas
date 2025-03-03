@@ -6,6 +6,9 @@ metadata:
   name: cert-manager
   namespace: cert-manager
 spec:
+  dependsOn:
+    - name: kube-prometheus-stack
+      namespace: monitoring
   interval: 30m
   chart:
     spec:
@@ -20,3 +23,5 @@ spec:
     installCRDs: true
     prometheus: 
       enabled: true
+      serviceMonitor:
+        enabled: true

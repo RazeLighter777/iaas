@@ -1,7 +1,7 @@
 locals {
   talos = {
     version = "v1.9.4"
-    url     = "https://factory.talos.dev/image/bde86d0de27f765ab7134cd76057f6e92fc72e86ff3ab8d621cfeca1dc1c4820/v1.9.4/nocloud-amd64.iso"
+    url     = "https://factory.talos.dev/image/96fa7f1f7b45c3234a4dbe767002b7dbac60458bc555398c13396ce3971a5072/v1.9.4/nocloud-amd64.iso"
   }
 
   network = {
@@ -20,22 +20,48 @@ locals {
   nodes = {
     controlplanes = {
       "192.168.1.8" = {
-        name         = "nuc"
+        name         = "node1"
         install_disk = "/dev/vda"
         hostname     = "cp0"
         vm = {
           cores    = 8
-          memory   = 32000
-          disk_size = 200
-          # GPU passthrough config for nuc node
-          pci_passthrough = true
-          pci_device      = "igpu"  # Intel eGPU mapping
+          memory   = 16000
+          disk_size = 128
+          # GPU passthrough config
+          pci_passthrough = false
+          pci_device      = null
+        }
+      },
+      "192.168.1.6" = {
+        name         = "node1"
+        install_disk = "/dev/vda"
+        hostname     = "cp1"
+        vm = {
+          cores    = 8
+          memory   = 16000
+          disk_size = 128
+          # GPU passthrough config
+          pci_passthrough = false
+          pci_device      = null
+        }
+      },
+      "192.168.1.7" = {
+        name         = "node1"
+        install_disk = "/dev/vda"
+        hostname     = "cp2"
+        vm = {
+          cores    = 8
+          memory   = 16000
+          disk_size = 128
+          # GPU passthrough config
+          pci_passthrough = false
+          pci_device      = null
         }
       }
     }
     workers = {
       "192.168.1.9" = {
-        name         = "node1"
+        name         = "nuc"
         install_disk = "/dev/vda"
         hostname     = "w1"
         vm = {
@@ -43,6 +69,8 @@ locals {
           memory   = 32000
           disk_size = 200
           # No GPU passthrough for this node
+          # pci_passthrough = true
+          # pci_device      = "igpu"  # Intel eGPU mapping
           pci_passthrough = false
           pci_device      = null
         }
@@ -58,7 +86,7 @@ resource "proxmox_virtual_environment_download_file" "talos_nocloud_image" {
   datastore_id = "local"
   node_name    = each.value.name
 
-  file_name = "talos-${local.talos.version}-nocloud-amd64.iso"
+  file_name = "talos-${local.talos.version}-nocloud-${each.value.hostname}.amd64.iso"
   url       = local.talos.url
   overwrite = false
 }
@@ -113,11 +141,17 @@ resource "proxmox_virtual_environment_vm" "talos_nodes" {
       mapping  = each.value.vm.pci_device
       rombar  = true
       pcie    = true
+      xvga   = true
     }
   }
   # add efi disk for UEFI boot
   efi_disk {
     type = "4m"
+  }
+
+  # vmware compatible display
+  vga {
+    type = "vmware"
   }
 
   # Intel GPU requires machine to use OVMF/UEFI
