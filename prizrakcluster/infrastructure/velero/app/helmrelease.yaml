@@ -76,6 +76,11 @@ spec:
         - name: default
           provider: aws
           bucket: ${s3_bucket}
+          config:
+            region: ${s3_region}
+            s3ForcePathStyle: true
+            s3Url: ${s3_url}
+            checksumAlgorithm: "" # Disable checksum verification for backblaze
     # Backup schedules to create.
     schedules:
       daily-backup:
