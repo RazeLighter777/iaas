@@ -5,6 +5,7 @@ metadata:
   name: sources
   namespace: flux-system
 spec:
+  wait: true
   dependsOn:
     - name: settings
   interval: 30s
