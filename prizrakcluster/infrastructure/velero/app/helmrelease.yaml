@@ -74,8 +74,8 @@ spec:
       # https://velero.io/docs/v1.5/api-types/backupstoragelocation/
       backupStorageLocation:
         - name: default
-          provider: gcp
-          bucket: raspbernetes-velero-backups
+          provider: default
+          bucket: ${s3_bucket}
     # Backup schedules to create.
     schedules:
       daily-backup:
