@@ -73,4 +73,6 @@ spec:
   valuesFrom:
   - kind: Secret
     name: b2-secrets
-    targetPath: configuration.credential.secretContents
+    targetPath: configuration.credential.secretContents.cloud
+    valuesKey: b2
+    optional: false
