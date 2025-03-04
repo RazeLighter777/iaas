@@ -21,7 +21,7 @@ spec:
       main:
         pod:
           annotations:
-            backup.velero.io/backup-volumes: jellyfin-db-volume
+            backup.velero.io/backup-volumes-excludes: video-volume,jellyfin-server-cache
           nodeSelector:
             intel.feature.node.kubernetes.io/gpu: "true"
         type: statefulset

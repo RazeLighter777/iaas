@@ -4,6 +4,8 @@ kind: PersistentVolume
 metadata:
   name: media
   namespace: media
+  labels:
+    velero.io/exclude-from-backup=true
 spec:
   capacity:
     storage: 10Gi # actually meaningless for NFS
