@@ -67,25 +67,24 @@ locals {
           cores    = 8
           memory   = 32000
           disk_size = 200
-          # No GPU passthrough for this node
-          # pci_passthrough = true
-          # pci_device      = "igpu"  # Intel eGPU mapping
-          pci_passthrough = false
-          pci_device      = null
+          pci_passthrough = true
+          pci_device      = "igpu"  # Intel eGPU mapping
         }
       }
     }
   }
+  unique_nodes = toset(distinct([for nodes in [local.nodes.controlplanes, local.nodes.workers] : values(nodes)[*].name]))
+
 }
 
 # Download Talos image for each node
 resource "proxmox_virtual_environment_download_file" "talos_nocloud_image" {
-  for_each     = merge(local.nodes.controlplanes, local.nodes.workers)
+  for_each     = local.unique_nodes
   content_type = "iso"
   datastore_id = "local"
-  node_name    = each.value.name
+  node_name    = each.key
 
-  file_name = "talos-${local.talos.version}-nocloud-${each.value.hostname}.amd64.iso"
+  file_name = "talos-${local.talos.version}-nocloud-${each.key}.amd64.iso"
   url       = local.talos.url
   overwrite = false
 }
@@ -120,7 +119,7 @@ resource "proxmox_virtual_environment_vm" "talos_nodes" {
 
   # Install CD
   cdrom {
-    file_id   = proxmox_virtual_environment_download_file.talos_nocloud_image[each.key].id
+    file_id   = proxmox_virtual_environment_download_file.talos_nocloud_image[each.value.name].id
     interface = "ide0"
   }
 
@@ -138,9 +137,9 @@ resource "proxmox_virtual_environment_vm" "talos_nodes" {
     content {
       device = "hostpci0"
       mapping  = each.value.vm.pci_device
-      rombar  = true
+      rombar  = false
       pcie    = true
-      xvga   = true
+      xvga   = false
     }
   }
   # add efi disk for UEFI boot
