@@ -74,7 +74,7 @@ spec:
       # https://velero.io/docs/v1.5/api-types/backupstoragelocation/
       backupStorageLocation:
         - name: default
-          provider: default
+          provider: aws
           bucket: ${s3_bucket}
     # Backup schedules to create.
     schedules:
