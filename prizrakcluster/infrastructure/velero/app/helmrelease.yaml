@@ -73,3 +73,4 @@ spec:
   valuesFrom:
   - kind: Secret
     name: b2-secrets
+    targetPath: configuration.credential.secretContents
