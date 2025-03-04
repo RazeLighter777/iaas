@@ -6,11 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   targetNamespace: &namespace external-dns
-  healthChecks:
-    - apiVersion: helm.toolkit.fluxcd.io/v2
-      kind: HelmRelease
-      name: *app
-      namespace: *namespace
+  wait: true
   path: "./cluster/infrastructure/external-dns/cloudflare"
   interval: 5m
   prune: true

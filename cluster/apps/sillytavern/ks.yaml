@@ -9,11 +9,7 @@ spec:
   targetNamespace: sillytavern
   interval: 5m
   prune: true
-  healthChecks:
-    - apiVersion: apps/v1
-      kind: Deployment
-      name: sillytavern
-      namespace: sillytavern
+  wait: true
   sourceRef:
     kind: GitRepository
     name: flux-system
