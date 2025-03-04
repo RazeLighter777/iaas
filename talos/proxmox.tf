@@ -137,9 +137,9 @@ resource "proxmox_virtual_environment_vm" "talos_nodes" {
     content {
       device = "hostpci0"
       mapping  = each.value.vm.pci_device
-      rombar  = false
+      rombar  = true
       pcie    = true
-      xvga   = false
+      xvga   = true
     }
   }
   # add efi disk for UEFI boot
@@ -149,7 +149,7 @@ resource "proxmox_virtual_environment_vm" "talos_nodes" {
 
   # vmware compatible display
   vga {
-    type = "vmware"
+    type = each.value.vm.pci_passthrough ? "none" : "vmware"
   }
 
   # Intel GPU requires machine to use OVMF/UEFI
