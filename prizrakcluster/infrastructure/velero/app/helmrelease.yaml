@@ -59,7 +59,7 @@ spec:
           name: plugins
     # Disable updateCRDs using the velero image
     # Upstream bitnami/kubectl doesn't support ARM64 images
-    upgradeCRDs: false
+    upgradeCRDs: true
     # Info about the secret to be used by the Velero deployment, which
     # should contain credentials for the cloud provider IAM account you've
     # set up for Velero.
