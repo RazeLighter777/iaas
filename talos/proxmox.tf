@@ -73,7 +73,7 @@ locals {
       }
     }
   }
-  unique_nodes = toset(distinct([for nodes in [local.nodes.controlplanes, local.nodes.workers] : values(nodes)[*].name]))
+  unique_nodes = toset(flatten(distinct([for nodes in [local.nodes.controlplanes, local.nodes.workers] : values(nodes)[*].name])))
 
 }
 
@@ -163,7 +163,6 @@ resource "proxmox_virtual_environment_vm" "talos_nodes" {
 
   initialization {
     dns {
-      domain  = local.network.domain
       servers = [local.network.default_dns]
     }
     ip_config {
