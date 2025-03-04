@@ -21,7 +21,7 @@ spec:
       name: sops-age
   postBuild:
     substituteFrom:
-      - kind: ConfigMap
+      - kind: Secret
         name: cluster-settings
   patches:
     - patch: |-
@@ -36,7 +36,7 @@ spec:
               name: sops-age
           postBuild:
             substituteFrom:
-            - kind: ConfigMap
+            - kind: Secret
               name: cluster-settings
       target:
         kind: Kustomization

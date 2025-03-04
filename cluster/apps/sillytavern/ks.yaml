@@ -20,5 +20,5 @@ spec:
     namespace: flux-system
   postBuild:
     substituteFrom:
-      - kind: ConfigMap
+      - kind: Secret
         name: cluster-settings

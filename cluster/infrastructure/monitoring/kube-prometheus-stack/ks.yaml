@@ -29,7 +29,7 @@ spec:
       name: sops-age
   postBuild:
     substituteFrom:
-      - kind: ConfigMap
+      - kind: Secret
         name: cluster-settings
 # yaml-language-server: $schema = "https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/refs/heads/main/kustomization-kustomize-v1.json"
 ---
@@ -66,5 +66,5 @@ spec:
       name: sops-age
   postBuild:
     substituteFrom:
-      - kind: ConfigMap
+      - kind: Secret
         name: cluster-settings
