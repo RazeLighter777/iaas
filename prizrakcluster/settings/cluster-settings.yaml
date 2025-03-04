@@ -11,4 +11,5 @@ data:
   media_share_path: /mnt/nvme1tb/media	
   timezone: America/New_York
   s3_url: https://s3.us-east-005.backblazeb2.com
+  s3_region: us-east-005
   s3_bucket: velero-2f8269b2-6168-45e3-9f9d-d8f8d11e8652
