@@ -97,6 +97,8 @@ spec:
         retention: 7d
         storageSpec:
           volumeClaimTemplate:
+            metadata:
+              name: prometheus
             spec:
               storageClassName: truenas-iscsi
               resources:
