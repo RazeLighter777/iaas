@@ -25,20 +25,15 @@ spec:
       extraEnvVars:
         TZ: ${timezone}
       # features: "EnableCSI"
-      provider: aws
       backupStorageLocation:
-        name: default
-        bucket: backup-velero
-        config:
-          region: us-east-005
-          s3ForcePathStyle: true
-          s3Url: ${s3_url}
-          publicUrl: ${s3_url}
-      volumeSnapshotLocation:
-        name: aws
-        config:
-          region: home
-      resticTimeout: 6h
+        - name: default
+          provider: aws
+          bucket: backup-velero
+          config:
+            region: us-east-005
+            s3ForcePathStyle: true
+            s3Url: ${s3_url}
+            publicUrl: ${s3_url}
     initContainers:
     # - name: velero-plugin-for-csi
     #   image: velero/velero-plugin-for-csi:v0.1.2
