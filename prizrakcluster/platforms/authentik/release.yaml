@@ -27,6 +27,7 @@ spec:
     remediation:
       retries: 3
   values:
+    kubernetesIntegration: true
     authentik:
       #secret_key: load from secret authentik-secret-key
       postgresql:
