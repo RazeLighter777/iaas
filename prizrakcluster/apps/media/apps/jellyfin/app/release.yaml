@@ -20,6 +20,8 @@ spec:
     controllers:
       main:
         pod:
+          annotations:
+            backup.velero.io/backup-volumes: jellyfin-db-volume
           nodeSelector:
             intel.feature.node.kubernetes.io/gpu: "true"
         type: statefulset
