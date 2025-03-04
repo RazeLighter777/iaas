@@ -81,6 +81,14 @@ spec:
             s3ForcePathStyle: true
             s3Url: ${s3_url}
             checksumAlgorithm: "" # Disable checksum verification for backblaze
+      volumeSnapshotLocation:
+        - name: default
+          provider: aws
+          config:
+            region: ${s3_region}
+            s3ForcePathStyle: true
+            s3Url: ${s3_url}
+            checksumAlgorithm: "" # Disable checksum verification for backblaze
     # Backup schedules to create.
     schedules:
       daily-backup:
