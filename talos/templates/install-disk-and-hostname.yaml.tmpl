@@ -4,6 +4,7 @@ machine:
     disk: ${install_disk}
     extraKernelArgs:
       - mitigations=off
+      - nomodeset
   network:
     hostname: ${hostname}
     interfaces:
