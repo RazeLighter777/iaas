@@ -58,6 +58,7 @@ spec:
         enabled: true
     # snapshotsEnabled: true
     snapshotsEnabled: false
+    backupsEnabled: true
     deployRestic: true
     restic:
       podVolumePath: /var/lib/kubelet/pods
@@ -77,6 +78,6 @@ spec:
   valuesFrom:
   - kind: Secret
     name: b2-secrets
-    targetPath: configuration.credential.secretContents.cloud
+    targetPath: credentials.secretContents
     valuesKey: b2
     optional: false
