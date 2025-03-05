@@ -6,6 +6,9 @@ metadata:
   name: velero
   namespace: velero
 spec:
+  dependsOn:
+    - name: snapshot-controller
+      namespace: kube-system
   interval: 5m
   chart:
     spec:
@@ -57,6 +60,12 @@ spec:
         volumeMounts:
         - mountPath: /target
           name: plugins
+      - name: velero-plugin-for-csi
+        image: velero/velero-plugin-for-csi:v0.7.1
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+          - mountPath: /target
+            name: plugins
     # Disable updateCRDs using the velero image
     # Upstream bitnami/kubectl doesn't support ARM64 images
     upgradeCRDs: true
@@ -81,6 +90,9 @@ spec:
             s3ForcePathStyle: true
             s3Url: ${s3_url}
             checksumAlgorithm: "" # Disable checksum verification for backblaze
+      features: enableCSI
+      fsBackupTimeout: 6h
+      defaultVolumesToFsBackup: false
       volumeSnapshotLocation:
         - name: default
           provider: aws
