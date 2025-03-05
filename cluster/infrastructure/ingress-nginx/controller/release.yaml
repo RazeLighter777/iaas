@@ -35,7 +35,6 @@ spec:
         annotations-risk-level: "critical"
         strict-validate-path-type: "false"
         allow-snippet-annotations: true
-        annotations-risk-level: Critical
         client-body-buffer-size: 100M
         client-body-timeout: 120
         client-header-timeout: 120
