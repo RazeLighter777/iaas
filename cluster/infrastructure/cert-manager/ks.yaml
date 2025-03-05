@@ -13,6 +13,10 @@ spec:
     kind: GitRepository
     name: flux-system
   wait: true
+  postBuild:
+    substituteFrom:
+      - kind: Secret
+        name: cluster-settings
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -32,3 +36,7 @@ spec:
     provider: sops
     secretRef:
       name: sops-age
+  postBuild:
+    substituteFrom:
+      - kind: Secret
+        name: cluster-settings
