@@ -28,7 +28,6 @@ spec:
     remediation:
       retries: 3
   values:
-    kubernetesIntegration: true
     authentik:
       #secret_key: load from secret authentik-secret-key
       postgresql:
@@ -39,6 +38,9 @@ spec:
       redis:
         host: redis-master
     server:
+      envFrom:
+        - secretRef:
+            name: authentik-bootstrap-secrets
       metrics:
         enabled: true
         serviceMonitor:
