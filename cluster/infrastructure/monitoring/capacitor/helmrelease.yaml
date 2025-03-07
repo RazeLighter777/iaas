@@ -59,3 +59,11 @@ spec:
       app:
         enabled: true
         className: nginx
+        hosts:
+          - host: capacitor.${domain_name}
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: main 
+                  port: http
