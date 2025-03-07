@@ -7,8 +7,6 @@ metadata:
 spec:
   wait: true
   targetNamespace: ingress-nginx
-  dependsOn:
-    - name: kube-prometheus-stack
   path: "./cluster/infrastructure/ingress-nginx/controller"
   interval: 5m
   prune: true
