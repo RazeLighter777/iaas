@@ -34,6 +34,7 @@ rules:
     - helmreleases
     - helmrepositories
     - helmcharts
+    - terraforms
   verbs:
     - get
     - watch
