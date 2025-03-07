@@ -37,7 +37,6 @@ spec:
         #for forward auth. otherwise ingress-nginx throws a fit
         annotations-risk-level: "critical"
         strict-validate-path-type: "false"
-        allow-snippet-annotations: true
         client-body-buffer-size: 100M
         client-body-timeout: 120
         client-header-timeout: 120
