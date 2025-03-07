@@ -4,4 +4,4 @@ metadata:
   namespace: flux-system
 resources:
   - ./terraform.yaml
-  - ../authentik-bootstrap-secrets.yaml
+  - ../authentik-bootstrap-secrets.sops.yaml
