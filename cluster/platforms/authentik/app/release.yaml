@@ -7,8 +7,6 @@ metadata:
   namespace: authentik
 spec:
   dependsOn:
-    - name: redis-authentik
-    - name: cloudnative-database-authentik
     - name: cloudnative-pg 
       namespace: cloudnative-pg
   chart:
