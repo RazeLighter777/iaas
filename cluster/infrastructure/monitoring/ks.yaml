@@ -3,7 +3,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: monitoring
+  name: kube-prometheus-stack
   namespace: flux-system
 spec:
   dependsOn:
@@ -11,7 +11,34 @@ spec:
       namespace: flux-system
   wait: true
   interval: 5m
-  path: "./cluster/infrastructure/monitoring"
+  path: "./cluster/infrastructure/monitoring/kube-prometheus-stack"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+  postBuild:
+    substituteFrom:
+      - kind: Secret
+        name: cluster-settings
+# yaml-language-server: $schema = "https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/refs/heads/main/kustomization-kustomize-v1.json"
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: loki-stack
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: democratic-csi
+      namespace: flux-system
+  wait: true
+  interval: 5m
+  path: "./cluster/infrastructure/monitoring/loki-stack"
   prune: true
   sourceRef:
     kind: GitRepository
