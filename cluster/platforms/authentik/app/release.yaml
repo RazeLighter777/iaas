@@ -36,6 +36,8 @@ spec:
         name: app #default database name for cloudnative-pg database
     redis:
       enabled: true
+      global:
+        storageClass: truenas-iscsi
     server:
       envFrom:
         - secretRef:
