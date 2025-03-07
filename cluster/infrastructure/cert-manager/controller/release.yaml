@@ -7,7 +7,7 @@ metadata:
   namespace: cert-manager
 spec:
   dependsOn:
-    - name: kube-prometheus-stack-controller
+    - name: kube-prometheus-stack
       namespace: monitoring
   interval: 30m
   chart:

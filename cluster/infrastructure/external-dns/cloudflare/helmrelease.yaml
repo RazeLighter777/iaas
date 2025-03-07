@@ -5,7 +5,7 @@ metadata:
   name: &app external-dns-cloudflare
 spec:
   dependsOn:
-    - name: kube-prometheus-stack-controller
+    - name: kube-prometheus-stack
       namespace: monitoring
   interval: 30m
   chart:
