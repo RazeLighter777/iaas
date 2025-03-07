@@ -28,4 +28,5 @@ spec:
   values:
     name: intel-gpu-plugin
     nodeFeatureRule: true
-    sharedDevNum: 99
+    sharedDevNum: 1
+    allocationPolicy: none
