@@ -4,7 +4,10 @@ machine:
     disk: ${install_disk}
     extraKernelArgs:
       - mitigations=off
-      - nomodeset
+      - i915.enable_guc=1
+      - apparmor=0 
+      - security=none
+      - talos.auditd.disabled=1 
   network:
     hostname: ${hostname}
     interfaces:
