@@ -6,6 +6,9 @@ metadata:
   name: tofu-controller
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: kube-prometheus-stack
+      namespace: monitoring
   interval: 30m
   chart:
     spec:
