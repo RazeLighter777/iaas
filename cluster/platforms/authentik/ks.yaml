@@ -32,7 +32,7 @@ spec:
   wait: true
   dependsOn:
     - name: authentik
-  targetNamespace: authentik
+  targetNamespace: flux-system
   path: "./cluster/platforms/authentik/terraform"
   interval: 5m
   prune: true
