@@ -3,7 +3,7 @@ variable "AUTHENTIK_BOOTSTRAP_TOKEN" {
   description = "Bootstrap token for authentik"
 }
 
-variable "domain_name" {
+variable "service_url" {
   type = string
-  description = "Domain name for network"
+  description = "API URL for authentik"
 }

@@ -14,5 +14,5 @@ spec:
     - kind: Secret
       name: authentik-bootstrap-secrets
   vars: 
-    - name: domain_name
-      value: ${domain_name}
+    - name: service_url
+      value: http://authentik-server.authentik.svc.cluster.local:80
