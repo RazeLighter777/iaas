@@ -65,5 +65,5 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  identifier: app
+                  identifier: *app
                   port: http
