@@ -39,9 +39,6 @@ spec:
       global:
         storageClass: truenas-iscsi
     server:
-      envFrom:
-        - secretRef:
-            name: authentik-bootstrap-secrets
       metrics:
         enabled: true
         serviceMonitor:
@@ -75,6 +72,20 @@ spec:
       valuesKey: secret_key
       targetPath: authentik.secret_key
       optional: false
+    - kind: Secret
+      name: authentik-bootstrap-secrets
+      valuesKey: AUTHENTIK_BOOTSTRAP_TOKEN
+      targetPath: authentik.bootstrap_token
+      optional: false
+    - kind: Secret
+      name: authentik-bootstrap-secrets
+      valuesKey: AUTHENTIK_BOOTSTRAP_PASSWORD
+      targetPath: authentik.bootstrap_password
+      optional: false
+    - kind: Secret
+      name: authentik-bootstrap-secrets
+      valuesKey: AUTHENTIK_BOOTSTRAP_EMAIL
+      targetPath: authentik.bootstrap_email
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
