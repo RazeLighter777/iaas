@@ -23,6 +23,15 @@ rules:
     - watch
     - list
 - apiGroups:
+    - infra.contrib.fluxcd.io
+  resources:
+    - terraforms
+  verbs:
+    - get
+    - watch
+    - list
+    - patch # to allow force reconciling by adding an annotation
+- apiGroups:
     - source.toolkit.fluxcd.io
     - kustomize.toolkit.fluxcd.io
     - helm.toolkit.fluxcd.io
@@ -34,7 +43,6 @@ rules:
     - helmreleases
     - helmrepositories
     - helmcharts
-    - terraforms
   verbs:
     - get
     - watch
