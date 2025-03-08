@@ -58,8 +58,9 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: capacitor
-  namespace: monitoring
+  namespace: flux-system
 spec:
+  targetNamespace: monitoring
   wait: true
   interval: 5m
   path: "./cluster/infrastructure/monitoring/capacitor"
