@@ -1,4 +1,5 @@
 provider "authentik" {
-  url   = "https://authentik.${var.domain_name}"
+  url   = var.service_url
+  insecure = true
   token = var.AUTHENTIK_BOOTSTRAP_TOKEN
 }
