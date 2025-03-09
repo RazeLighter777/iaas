@@ -16,7 +16,7 @@ resource "authentik_group" "sillytavern-users" {
 }
 
 resource "authentik_policy_binding" "sillytavern-users-binding" {
-  target = module.radarr.application_id
+  target = module.sillytavern.application_id
   group = authentik_group.sillytavern-users.id
   order = 0
 }
