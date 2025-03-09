@@ -7,7 +7,7 @@ module "sonarr" {
   group  = "media"
 
   policy_engine_mode      = "any"
-  authorization_flow_uuid = data.authentik_flow.default-provider-authorization-implicit-consent.id
+  authorization_flow_uuid = data.authentik_flow.default-authorization-flow.id
 
   meta_icon = "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/web-check.png"
 }
