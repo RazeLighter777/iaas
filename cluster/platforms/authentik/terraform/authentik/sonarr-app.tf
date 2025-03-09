@@ -4,7 +4,7 @@ module "sonarr" {
 
   name   = "Sonarr"
   domain = "sonarr.${var.domain_name}"
-  group  = authentik_group.infrastructure.name
+  group  = "media"
 
   policy_engine_mode      = "any"
   authorization_flow_uuid = data.authentik_flow.default-provider-authorization-implicit-consent.id
