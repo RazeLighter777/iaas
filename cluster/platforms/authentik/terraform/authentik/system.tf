@@ -8,8 +8,8 @@ resource "authentik_outpost" "proxyoutpost" {
   type               = "proxy"
   service_connection = authentik_service_connection_kubernetes.local.id
   protocol_providers = [
-    module.sonarr.proxy_provider_id
-    module.radarr.proxy_provider_id
+    module.sonarr.proxy_provider_id,
+    module.radarr.proxy_provider_id,
     module.sillytavern.proxy_provider_id
   ]
   config = jsonencode({
