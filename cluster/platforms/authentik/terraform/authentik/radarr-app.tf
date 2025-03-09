@@ -1,9 +1,9 @@
-module "sonarr" {
+module "radarr" {
   source = "./modules/forward-auth-application"
-  slug   = "sonarr"
+  slug   = "radarr"
 
   name   = "Sonarr"
-  domain_name = "sonarr.${var.domain_name}"
+  domain_name = "radarr.${var.domain_name}"
   group  = "media"
 
   policy_engine_mode      = "any"
@@ -16,8 +16,8 @@ resource "authentik_group" "radarr-users" {
   name = "radarr-users"
 }
 
-resource "authentik_policy_binding" "sonarr-users-binding" {
-  target = module.sonarr.application_id
+resource "authentik_policy_binding" "radarr-users-binding" {
+  target = module.radarr.application_id
   group = authentik_group.radarr-users.id
   order = 0
 }
