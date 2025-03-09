@@ -8,7 +8,7 @@ module "sillytavern" {
   policy_engine_mode      = "any"
   authorization_flow_uuid = data.authentik_flow.default-authorization-flow.id
 
-  meta_icon = "https://git.zknt.org/mirror/Radarr/raw/commit/21ed073f294e8ab4d245f64dd6ae62f1c940b9f4/Logo/800.png"
+  meta_icon = "https://upload.wikimedia.org/wikipedia/commons/6/6b/SillyTavern_logo_%28dark_background%29.png"
 }
 
 resource "authentik_group" "sillytavern-users" {
