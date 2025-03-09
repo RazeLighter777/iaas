@@ -17,7 +17,7 @@ resource "authentik_group" "sonarr-users" {
 }
 
 resource "authentik_policy_binding" "sonarr-users-binding" {
-  target = module.sonarr.application.id
+  target = module.sonarr.application_id
   group = authentik_group.sonarr-users.id
   order = 0
 }
