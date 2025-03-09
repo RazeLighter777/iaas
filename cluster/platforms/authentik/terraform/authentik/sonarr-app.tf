@@ -3,7 +3,7 @@ module "sonarr" {
   slug   = "sonarr"
 
   name   = "Sonarr"
-  domain = "sonarr.${var.domain_name}"
+  domain_name = "sonarr.${var.domain_name}"
   group  = "media"
 
   policy_engine_mode      = "any"
