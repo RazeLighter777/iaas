@@ -12,11 +12,12 @@ module "sonarr" {
   meta_icon = "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/web-check.png"
 }
 
-resource "authentik_group" "sonarr_users" {
+resource "authentik_group" "sonarr-users" {
   name = "sonarr-users"
 }
 
 resource "authentik_policy_binding" "sonarr-users-binding" {
   target = module.sonarr.application.id
-  policy = authentik_policy_group.sonarr-users.id
+  group = authentik_group.sonarr-users.id
+  order = 0
 }
