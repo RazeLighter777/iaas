@@ -2,7 +2,7 @@ module "sillytavern" {
   source = "./modules/forward-auth-application"
   slug   = "sillytavern"
   name   = "Sillytavern"
-  domain_name = "radarr.${var.domain_name}"
+  domain_name = "sillytavern.${var.domain_name}"
   group  = "AI Slop"
 
   policy_engine_mode      = "any"
@@ -12,7 +12,7 @@ module "sillytavern" {
 }
 
 resource "authentik_group" "sillytavern-users" {
-  name = "radarr-users"
+  name = "sillytavern-users"
 }
 
 resource "authentik_policy_binding" "sillytavern-users-binding" {
