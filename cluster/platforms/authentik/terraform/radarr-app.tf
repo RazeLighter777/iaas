@@ -9,15 +9,15 @@ module "sonarr" {
   policy_engine_mode      = "any"
   authorization_flow_uuid = data.authentik_flow.default-authorization-flow.id
 
-  meta_icon = "https://user-images.githubusercontent.com/31781818/33885790-bc32aec0-df1a-11e7-83df-3bf737de68c5.png"
+  meta_icon = "https://git.zknt.org/mirror/Radarr/raw/commit/21ed073f294e8ab4d245f64dd6ae62f1c940b9f4/Logo/800.png"
 }
 
-resource "authentik_group" "sonarr-users" {
-  name = "sonarr-users"
+resource "authentik_group" "radarr-users" {
+  name = "radarr-users"
 }
 
 resource "authentik_policy_binding" "sonarr-users-binding" {
   target = module.sonarr.application_id
-  group = authentik_group.sonarr-users.id
+  group = authentik_group.radarr-users.id
   order = 0
 }
