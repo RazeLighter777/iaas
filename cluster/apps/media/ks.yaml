@@ -6,8 +6,6 @@ metadata:
   namespace: flux-system
 spec:
   path: "./cluster/apps/media/apps"
-  dependsOn:
-    - name: media-shares-media
   interval: 5m
   prune: true
   sourceRef:
