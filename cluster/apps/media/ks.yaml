@@ -9,7 +9,7 @@ spec:
   healthChecks:
     - apiVersion: v1
       kind: PersistentVolumeClaim
-      name: media-pvc
+      name: media
       namespace: media
   interval: 5m
   prune: true
