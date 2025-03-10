@@ -3,4 +3,4 @@ kind: Namespace
 metadata:
   name: vpn
 labels:
-  pod-security.kubernetes.io/enforce: privileged
+  routed-gateway: true
