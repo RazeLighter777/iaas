@@ -4,3 +4,5 @@ resources:
 - ./ks.yaml
 - ./namespace.yaml
 - ./arrs-api-keys.sops.yaml
+- ./media-pv.yaml
+- ./media-pvc.yaml

@@ -3,3 +3,5 @@ kind: Kustomization
 resources:
 - namespace.yaml
 - ks.yaml
+- ./meda-pv.yaml
+- ./media-pvc.yaml
