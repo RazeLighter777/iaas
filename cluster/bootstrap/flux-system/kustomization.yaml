@@ -3,3 +3,12 @@ kind: Kustomization
 resources:
 - gotk-components.yaml
 - gotk-sync.yaml
+patches:
+  # target all controllers
+  - patch: | 
+      - op: add
+        path: /spec/template/spec/containers/0/args/-
+        value: --concurrent=20
+    target:
+      kind: Deployment
+      labelSelector: "app.kubernetes.io/part-of=flux"
