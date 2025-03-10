@@ -7,7 +7,9 @@ metadata:
 spec:
   path: "./cluster/apps/pod-gateway/app"
   targetNamespace: pod-gateway
-  interval: 5m
+  interval: 1h
+  retryInterval: 3m
+  timeout: 60s
   prune: true
   wait: true
   sourceRef:
