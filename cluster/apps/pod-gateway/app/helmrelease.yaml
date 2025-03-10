@@ -10,7 +10,7 @@ spec:
       version: 6.5.1
       sourceRef:
         kind: HelmRepository
-        name: angelnu
+        name: angelnu-charts
         namespace: flux-system
   interval: 10m0s
   timeout: 10m0s
