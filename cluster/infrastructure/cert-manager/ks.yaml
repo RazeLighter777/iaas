@@ -6,7 +6,9 @@ metadata:
   namespace: flux-system
 spec:
   targetNamespace: cert-manager
-  interval: 5m
+  interval: 1h
+  retryInterval: 2m
+  timeout: 5m
   path: "./cluster/infrastructure/cert-manager/controller"
   prune: true
   sourceRef:
@@ -26,7 +28,9 @@ metadata:
 spec:
   dependsOn:
     - name: cert-manager
-  interval: 5m
+  interval: 1h
+  retryInterval: 2m
+  timeout: 2m
   path: "./cluster/infrastructure/cert-manager/crds"
   prune: true
   sourceRef:

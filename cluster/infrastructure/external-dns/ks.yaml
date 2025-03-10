@@ -8,7 +8,9 @@ spec:
   targetNamespace: &namespace external-dns
   wait: true
   path: "./cluster/infrastructure/external-dns/cloudflare"
-  interval: 5m
+  interval: 1h
+  retryInterval: 2m
+  timeout: 2m
   prune: true
   sourceRef:
     kind: GitRepository

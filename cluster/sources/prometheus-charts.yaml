@@ -6,6 +6,6 @@ metadata:
   namespace: flux-system
 spec:
   type: oci
-  interval: 30m
+  interval: 24h
   url: oci://ghcr.io/prometheus-community/charts
   timeout: 2m

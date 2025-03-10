@@ -5,8 +5,11 @@ metadata:
   name: metallb 
   namespace: flux-system
 spec:
+  wait: true
   targetNamespace: metallb-system
   interval: 5m
+  retryInterval: 2m
+  timeout: 2m
   path: "./cluster/infrastructure/metallb/controller"
   prune: true
   sourceRef:
@@ -19,6 +22,9 @@ metadata:
   name: metallb-crds
   namespace: flux-system
 spec:
+  wait: true
+  timeout: 2m
+  retryInterval: 2m
   targetNamespace: metallb-system
   dependsOn:
     - name: metallb

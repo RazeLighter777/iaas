@@ -8,6 +8,8 @@ metadata:
 spec:
   wait: true
   interval: 5m
+  retryInterval: 2m
+  timeout: 2m
   path: "./cluster/infrastructure/tofu-controller/controller"
   prune: true
   sourceRef:

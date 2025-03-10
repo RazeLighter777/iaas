@@ -8,7 +8,9 @@ metadata:
 spec:
   targetNamespace: kube-system
   wait: true
-  interval: 5m
+  interval: 1h
+  retryInterval: 2m
+  timeout: 5m
   path: "./cluster/infrastructure/node-feature-discovery/app"
   prune: true
   sourceRef:

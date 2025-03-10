@@ -8,6 +8,8 @@ spec:
   wait: true
   path: "./cluster/infrastructure/democratic-csi/controller"
   interval: 5m
+  retryInterval: 2m
+  timeout: 5m
   prune: true
   sourceRef:
     kind: GitRepository
