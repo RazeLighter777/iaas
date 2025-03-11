@@ -5,3 +5,7 @@ variable "domain_name" {
 variable "AUTHENTIK_BOOTSTRAP_TOKEN" {
   type = string
 }
+
+variable "service_url" {
+  type = string
+}
