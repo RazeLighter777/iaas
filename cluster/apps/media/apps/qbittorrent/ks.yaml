@@ -2,16 +2,13 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: pod-gateway
+  name: qbittorrent
   namespace: flux-system
 spec:
-  path: "./cluster/apps/pod-gateway/app"
-  targetNamespace: pod-gateway
-  interval: 1h
-  retryInterval: 3m
-  timeout: 60s
+  targetNamespace: media
+  path: "./cluster/apps/media/apps/qbittorrent/app"
+  interval: 5m
   prune: true
-  wait: true
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -23,7 +20,4 @@ spec:
   decryption:
     provider: sops
     secretRef:
-      name: sops-age    
-    
-
-  
+      name: sops-age
