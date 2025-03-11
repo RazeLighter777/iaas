@@ -1,0 +1,56 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: ingress-nginx
+  namespace: ingress-nginx
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: ingress-nginx
+      version: "*"
+      sourceRef:
+        kind: HelmRepository
+        name: ingress-nginx
+        namespace: flux-system
+      interval: 12h
+  dependsOn:
+    - name: kube-prometheus-stack
+      namespace: monitoring
+  values:
+    controller:
+      metrics:
+        enabled: true
+        servicemonitor:
+          enabled: true
+      ingressClassResource:
+        default: "true"
+      service:
+        type: "LoadBalancer"
+        externalIPs:
+          - ${ingress_ip}
+      extraArgs:
+        default-ssl-certificate: "cert-manager/${domain_name}"
+      allowSnippetAnnotations: true
+      config:
+        #for forward auth. otherwise ingress-nginx throws a fit
+        annotations-risk-level: "critical"
+        strict-validate-path-type: "false"
+        client-body-buffer-size: 100M
+        client-body-timeout: 120
+        client-header-timeout: 120
+        enable-brotli: "true"
+        enable-ocsp: "true"
+        enable-real-ip: "true"
+        force-ssl-redirect: "true"
+        hide-headers: Server,X-Powered-By
+        hsts-max-age: "31449600"
+        keep-alive-requests: 10000
+        keep-alive: 120
+        proxy-body-size: 0
+        proxy-buffer-size: 16k
+        ssl-protocols: TLSv1.3 TLSv1.2
+        use-forwarded-headers: "true"
+    admissionWebhooks:
+      enabled: false

@@ -1,0 +1,106 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kube-prometheus-stack
+  namespace: monitoring
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: kube-prometheus-stack
+      version: 69.4.1
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-charts
+        namespace: flux-system
+      interval: 5m
+  install:
+    crds: CreateReplace
+  upgrade:
+    crds: CreateReplace
+  values:
+    prometheus-node-exporter:
+      tolerations:
+        - effect: NoSchedule
+          operator: Exists
+        - effect: NoExecute
+          operator: Exists
+    prometheusOperator:
+      createCustomResource: false
+    kubeControllerManager:
+      enabled: false
+    kubeScheduler:
+      enabled: false
+    kubeEtcd:
+      enabled: false
+    kubeProxy:
+      enabled: false
+    alertmanager:
+      image:
+        registry: quay.io
+        repository: prometheus/alertmanager
+        tag: v0.28.0@sha256:d5155cfac40a6d9250ffc97c19db2c5e190c7bc57c6b67125c94903358f8c7d8
+    grafana:
+      enabled: true
+      image:
+        repository: grafana/grafana
+        tag: 11.5.2@sha256:8b37a2f028f164ce7b9889e1765b9d6ee23fec80f871d156fbf436d6198d32b7
+      defaultDashboardsEnabled: false
+      adminPassword: flux
+      grafana.ini:
+        server:
+          root_url: https://grafana.${domain_name}
+      plugins:
+        - grafana-piechart-panel
+      dashboards:
+        default:
+          ingress-nginx:
+            gnetId: 9614
+            revision: 1
+            datasource: Prometheus
+          certificate-exporter:
+            gnetId: 13922
+            revision: 1
+            datasource: Prometheus
+          cert-manager:
+            gnetId: 11001
+            revision: 1
+            datasource: Prometheus
+          redis:
+            gnetId: 11835
+            revision: 1
+            datasource: Prometheus
+          postgresql:
+            gnetId: 9628
+            revision: 7
+            datasource: Prometheus
+      sidecar:
+        dashboards:
+          enabled: true
+          searchNamespace: ALL
+        datasources:
+          enabled: true
+          searchNamespace: ALL
+      serviceMonitor:
+        enabled: true
+    prometheus:
+      image:
+        registry: quay.io
+        repository: prometheus/prometheus
+        tag: v3.2.0@sha256:5888c188cf09e3f7eebc97369c3b2ce713e844cdbd88ccf36f5047c958aea120
+      prometheusSpec:
+        ruleSelectorNilUsesHelmValues: false
+        serviceMonitorSelectorNilUsesHelmValues: false
+        podMonitorSelectorNilUsesHelmValues: false
+        probeSelectorNilUsesHelmValues: false
+        retention: 7d
+        storageSpec:
+          volumeClaimTemplate:
+            metadata:
+              name: prometheus
+            spec:
+              storageClassName: truenas-iscsi
+              resources:
+                requests:
+                  storage: 25Gi

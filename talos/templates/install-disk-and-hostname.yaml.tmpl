@@ -1,0 +1,29 @@
+machine:
+  install:
+    image: factory.talos.dev/installer/96fa7f1f7b45c3234a4dbe767002b7dbac60458bc555398c13396ce3971a5072:v1.9.4
+    disk: ${install_disk}
+    extraKernelArgs:
+      - mitigations=off
+      - i915.enable_guc=1
+      - apparmor=0 
+      - security=none
+      - talos.auditd.disabled=1 
+  network:
+    hostname: ${hostname}
+    interfaces:
+      - interface: eth0
+        dhcp: false
+        addresses:
+          - ${install_ip}${install_cidr}
+        routes:
+          - network: 0.0.0.0/0
+            gateway: ${install_gateway}
+            metric: 1024
+            mtu: 1500
+cluster:
+  proxy:
+    disabled: true
+  network:
+    cni:
+      name: none
+  

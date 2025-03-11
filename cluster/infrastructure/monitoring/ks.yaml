@@ -1,0 +1,84 @@
+# yaml-language-server: $schema = "https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/refs/heads/main/kustomization-kustomize-v1.json"
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: kube-prometheus-stack
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: democratic-csi
+      namespace: flux-system
+  wait: true
+  interval: 5m
+  path: "./cluster/infrastructure/monitoring/kube-prometheus-stack"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+  postBuild:
+    substituteFrom:
+      - kind: Secret
+        name: cluster-settings
+# yaml-language-server: $schema = "https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/refs/heads/main/kustomization-kustomize-v1.json"
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: loki-stack
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: democratic-csi
+      namespace: flux-system
+  wait: true
+  interval: 1h
+  retryInterval: 2m
+  timeout: 5m
+  
+  path: "./cluster/infrastructure/monitoring/loki-stack"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+  postBuild:
+    substituteFrom:
+      - kind: Secret
+        name: cluster-settings
+# yaml-language-server: $schema = "https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/refs/heads/main/kustomization-kustomize-v1.json"
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: capacitor
+  namespace: flux-system
+spec:
+  targetNamespace: monitoring
+  wait: true
+  interval: 1h
+  path: "./cluster/infrastructure/monitoring/capacitor"
+  prune: true
+  retryInterval: 2m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+  postBuild:
+    substituteFrom:
+      - kind: Secret
+        name: cluster-settings
