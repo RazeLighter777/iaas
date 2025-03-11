@@ -43,6 +43,7 @@ spec:
             env:
               DOT: "off"
               DNS_ADDRESS: "127.0.0.2"
+              FIREWALL_INPUT_PORTS: 8080
               FIREWALL_OUTBOUND_SUBNETS: 10.96.0.0/12,10.244.0.0/16 # Allow access to k8s subnets
             envFrom:
               - secretRef:
