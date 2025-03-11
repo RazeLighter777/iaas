@@ -70,6 +70,13 @@ spec:
           main:
             main: 
               - path: /media
+                subPath: tv
+                readOnly: true
+              - path: /media
+                subPath: movies
+                readOnly: true
+              - path: /media
+                subPath: anime
                 readOnly: true
       jellyfin-db-volume:
         enabled: true
