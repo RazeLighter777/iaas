@@ -71,6 +71,7 @@ spec:
             env:
               UMASK: "022"
               QBT_WEBUI_PORT: &port 8080
+              QBT_DOWNLOADS_PATH: /media/downloads
             probes:
               liveness:
                 enabled: true
@@ -137,7 +138,7 @@ spec:
         advancedMounts:
           qbittorrent:
             app:
-              - path: /media
+              - path: /media/downloads
                 subPath: downloads
       coredns:
         type: configMap
