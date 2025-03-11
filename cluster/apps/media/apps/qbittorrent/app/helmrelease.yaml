@@ -169,17 +169,11 @@ spec:
           qbittorrent:
             app:
               - path: /config
-      empty-config:
-        type: emptyDir
-        advancedMounts:
-          qbittorrent:
-            port-forward:
-              - path: /config
       downloads:
         enabled: true
         existingClaim: media
         advancedMounts:
           qbittorrent:
             app:
-              - path: /media/
+              - path: /media
                 subPath: downloads
