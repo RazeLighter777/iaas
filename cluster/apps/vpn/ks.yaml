@@ -2,11 +2,35 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
+  name: vpn-share
+  namespace: flux-system
+spec:
+  path: "./cluster/apps/vpn/share"
+  interval: 5m
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  postBuild:
+    substituteFrom:
+      - kind: Secret
+        name: cluster-settings
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
   name: vpn
   namespace: flux-system
 spec:
   path: "./cluster/apps/vpn/apps"
   dependsOn:
+    - name: vpn-share
+      namespace: flux-system
     - name: pod-gateway
       namespace: flux-system
   targetNamespace: vpn
