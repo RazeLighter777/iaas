@@ -69,13 +69,13 @@ spec:
         advancedMounts:
           main:
             main: 
-              - path: /media
+              - path: /media/tv/
                 subPath: tv
                 readOnly: true
-              - path: /media
+              - path: /media/movies/
                 subPath: movies
                 readOnly: true
-              - path: /media
+              - path: /media/anime/
                 subPath: anime
                 readOnly: true
       jellyfin-db-volume:
