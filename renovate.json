@@ -4,9 +4,9 @@
     "config:recommended"
   ],
   "kubernetes": {
-    "fileMatch": ["prizrakcluster/.+\\.yaml$"]
+    "fileMatch": ["cluter/.+\\.yaml$"]
   },
   "flux": {
-    "fileMatch": ["prizrakcluster/.+\\.yaml$"]
+    "fileMatch": ["cluster/.+\\.yaml$"]
   }
 }
