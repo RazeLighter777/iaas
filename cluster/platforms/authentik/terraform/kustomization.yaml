@@ -5,3 +5,4 @@ metadata:
 resources:
   - ./terraform.yaml
   - ../authentik-bootstrap-secrets.sops.yaml
+  - ../../../infrastructure/monitoring/kube-prometheus-stack/controller/grafana-oauth-secrets.sops.yaml
