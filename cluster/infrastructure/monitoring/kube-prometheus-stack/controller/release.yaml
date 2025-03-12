@@ -51,7 +51,7 @@ spec:
         repository: prometheus/alertmanager
         tag: v0.28.1@sha256:27c475db5fb156cab31d5c18a4251ac7ed567746a2483ff264516437a39b15ba
     grafana:
-      assertNoLeakedSecrets: true # Grafana can't tell we're putting secrets in the valuesFrom field :(
+      assertNoLeakedSecrets: false # Grafana can't tell we're putting secrets in the valuesFrom field :(
       enabled: true
       image:
         repository: grafana/grafana
