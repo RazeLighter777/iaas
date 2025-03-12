@@ -14,11 +14,11 @@ data "authentik_property_mapping_provider_scope" "scope-openid" {
   name = "authentik default OAuth Mapping: OpenID 'openid'"
 }
 
-"variable" "grafana_client_id" {
+variable "grafana_client_id" {
   description = "The client ID for the Grafana OAuth2 provider"
 }
 
-"variable" "grafana_client_secret" {
+variable "grafana_client_secret" {
   description = "The client secret for the Grafana OAuth2 provider"
 }
 
