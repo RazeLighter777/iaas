@@ -11,6 +11,9 @@ configMapGenerator:
   - name: qbittorrent-coredns
     files:
       - ./config/Corefile
+  - name: qbittorrent-config
+    files:
+      - ./config/qBittorrent.conf
 generatorOptions:
   annotations:
     kustomize.toolkit.fluxcd.io/substitute: disabled

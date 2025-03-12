@@ -179,3 +179,12 @@ spec:
               - path: /etc/coredns/Corefile
                 subPath: Corefile
                 readOnly: true
+      qbittorrent-config:
+        type: configMap
+        name: qbittorrent-config
+        advancedMounts:
+          qbittorrent:
+            app:
+              - path: /config/qBittorrent/qBittorrent.conf
+                subPath: qBittorrent.conf
+                readOnly: true
