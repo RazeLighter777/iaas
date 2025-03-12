@@ -7,4 +7,4 @@ spec:
   loadBalancerIPs: true
   externalIPs: true
   interfaces:
-  - ^enx+
+  - eth0
