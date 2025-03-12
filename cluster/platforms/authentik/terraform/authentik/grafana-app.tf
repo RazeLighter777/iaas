@@ -29,7 +29,12 @@ resource "authentik_provider_oauth2" "grafana" {
 
   authorization_flow  = data.authentik_flow.default-provider-authorization-implicit-consent.id
 
-  redirect_uris = ["https://grafana.${var.domain_name}/login/generic_oauth"]
+  allowed_redirect_uris = [
+    {
+      matching_mode = "strict"
+      uri           = "https://grafana.${var.domain_name}/login/generic_oauth"
+    }
+  ]
 
   property_mappings = [
     data.authentik_property_mapping_provider_scope.scope-email.id,
