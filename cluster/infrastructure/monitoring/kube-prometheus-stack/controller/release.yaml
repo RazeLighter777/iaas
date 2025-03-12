@@ -19,6 +19,15 @@ spec:
     crds: CreateReplace
   upgrade:
     crds: CreateReplace
+  valuesFrom:
+    - kind: Secret
+      name: grafana-oauth-secrets
+      valuesKey: client_id
+      targetPath: grafana.grafana\.ini.auth\.generic_oauth.client_id
+    - kind: Secret
+      name: grafana-oauth-secrets
+      valuesKey: client_secret
+      targetPath: grafana.grafana\.ini.auth\.generic_oauth.client_secret
   values:
     prometheus-node-exporter:
       tolerations:
@@ -47,8 +56,19 @@ spec:
         repository: grafana/grafana
         tag: 11.5.2@sha256:8b37a2f028f164ce7b9889e1765b9d6ee23fec80f871d156fbf436d6198d32b7
       defaultDashboardsEnabled: false
-      adminPassword: flux
       grafana.ini:
+        auth:
+          signout_redirect_url: "https://authentik.${domain_name}/application/o/grafana/end-session/"
+          oauth_auto_login: true
+        auth.generic_oauth:
+          name: authentik
+          enabled: true
+          scopes: "openid profile email"
+          auth_url: "https://authentik.${domain_name}/application/o/authorize/"
+          token_url: "https://authentik.${domain_name}/application/o/token/"
+          api_url: "https://authentik.${domain_name}/application/o/userinfo/"
+          # Optionally map user groups to Grafana roles
+          role_attribute_path: contains(groups, 'Grafana Admins') && 'Admin' || contains(groups, 'Grafana Editors') && 'Editor' || 'Viewer'
         server:
           root_url: https://grafana.${domain_name}
       plugins:
