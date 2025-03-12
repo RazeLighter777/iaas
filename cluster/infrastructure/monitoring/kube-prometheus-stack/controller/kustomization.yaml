@@ -3,4 +3,4 @@ kind: Kustomization
 namespace: monitoring
 resources:
   - ./release.yaml
-  - ./grafana-oauth-secrets.yaml
+  - ./grafana-oauth-secrets.sops.yaml
