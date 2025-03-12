@@ -30,6 +30,7 @@ spec:
         type: "LoadBalancer"
         externalIPs:
           - ${ingress_ip}
+        loadBalancerClass: "io.cilium/l2-announcer"
       extraArgs:
         default-ssl-certificate: "cert-manager/${domain_name}"
       allowSnippetAnnotations: true
