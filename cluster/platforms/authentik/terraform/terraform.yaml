@@ -3,6 +3,7 @@ kind: Terraform
 metadata:
   name: authentik-terraform
 spec:
+  refreshBeforeApply: true
   interval: 1m
   approvePlan: auto
   path: ./cluster/platforms/authentik/terraform/authentik
