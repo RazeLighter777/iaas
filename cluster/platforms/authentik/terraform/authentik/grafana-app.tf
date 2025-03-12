@@ -32,7 +32,7 @@ resource "authentik_provider_oauth2" "grafana" {
   allowed_redirect_uris = [
     {
       matching_mode = "strict"
-      uri           = "https://grafana.${var.domain_name}/login/generic_oauth"
+      url           = "https://grafana.${var.domain_name}/login/generic_oauth"
     }
   ]
 
