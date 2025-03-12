@@ -6,3 +6,5 @@ metadata:
 spec:
   loadBalancerIPs: true
   externalIPs: true
+  interfaces:
+  - ^enx+
