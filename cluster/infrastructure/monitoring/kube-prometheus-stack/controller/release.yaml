@@ -56,7 +56,7 @@ spec:
       image:
         repository: grafana/grafana
         tag: 11.5.2@sha256:8b37a2f028f164ce7b9889e1765b9d6ee23fec80f871d156fbf436d6198d32b7
-      defaultDashboardsEnabled: false
+      defaultDashboardsEnabled: true
       grafana.ini:
         auth:
           signout_redirect_url: "https://authentik.${domain_name}/application/o/grafana/end-session/"
