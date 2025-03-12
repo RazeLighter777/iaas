@@ -5,3 +5,4 @@ metadata:
   name: l2policy
 spec:
   loadBalancerIPs: true
+  externalIPs: true
