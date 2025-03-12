@@ -36,7 +36,7 @@ spec:
         - effect: NoExecute
           operator: Exists
     prometheusOperator:
-      createCustomResource: false
+      createCustomResource: true
     kubeControllerManager:
       enabled: false
     kubeScheduler:
