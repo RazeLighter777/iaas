@@ -18,39 +18,39 @@ My overkill kubernetes homelab.
 
 ## 💡Core Technologies
 
-- **Proxmox**: Hypervisor for virtualized cluster nodes
-- **Talos Linux**: Modern OS for running Kubernetes: secure, immutable, and minimal
-- **Terraform/OpenTofu**: Deploys Talos virtual machines to Proxmox. Also manages authentik.
-- **Kubernetes**: Orchestrates containerized applications across a cluster of nodes.
-- **FluxCD**: Manages GitOps for continuous delivery.
-- **SOPS**: Encrypts secrets for secure storage and management.
-- **Kustomize**: Customizes Kubernetes resource configurations.
+- **[Proxmox](https://www.proxmox.com/)**: Hypervisor for virtualized cluster nodes
+- **[Talos Linux](https://www.talos.dev/)**: Modern OS for running Kubernetes: secure, immutable, and minimal
+- **[Terraform/OpenTofu](https://opentofu.org/)**: Deploys Talos virtual machines to Proxmox. Also manages authentik.
+- **[Kubernetes](https://kubernetes.io/)**: Orchestrates containerized applications across a cluster of nodes.
+- **[FluxCD](https://fluxcd.io/)**: Manages GitOps for continuous delivery.
+- **[SOPS](https://github.com/mozilla/sops)**: Encrypts secrets for secure storage and management.
+- **[Kustomize](https://kustomize.io/)**: Customizes Kubernetes resource configurations.
 
 ### 🛠️ Cluster Infrastructure
-- **Cert-Manager**: Manages TLS certificates for the cluster.
-- **MetalLB**: Provides load balancing for services.
-- **ExternalDNS**: Updates DNS records based on Kubernetes resources.
-- **Node Feature Discovery**: Detects hardware features available on nodes.
-- **Snapshot Controller**: Manages volume snapshots for persistent storage.
-- **Intel GPU Plugin**: Manages Intel GPU resources for workloads.
-- **Democratic CSI**: Provides CSI drivers for storage management.
-- **Ingress NGINX**: Manages ingress traffic to the cluster.
-- **LGTM Monitoring Stack**: Includes Prometheus and Grafana for monitoring and visualization.
-- **Tofu Controller**: Manages Tofu-based applications in flux
+- **[Cert-Manager](https://cert-manager.io/)**: Manages TLS certificates for the cluster.
+- **[MetalLB](https://metallb.universe.tf/)**: Provides load balancing for services.
+- **[ExternalDNS](https://github.com/kubernetes-sigs/external-dns)**: Updates DNS records based on Kubernetes resources.
+- **[Node Feature Discovery](https://github.com/kubernetes-sigs/node-feature-discovery)**: Detects hardware features available on nodes.
+- **[Snapshot Controller](https://github.com/kubernetes-csi/external-snapshotter)**: Manages volume snapshots for persistent storage.
+- **[Intel GPU Plugin](https://github.com/intel/intel-device-plugins-for-kubernetes)**: Manages Intel GPU resources for workloads.
+- **[Democratic CSI](https://github.com/democratic-csi/democratic-csi)**: Provides CSI drivers for storage management.
+- **[Ingress NGINX](https://kubernetes.github.io/ingress-nginx/)**: Manages ingress traffic to the cluster.
+- **[LGTM Monitoring Stack](https://github.com/grafana/loki)**: Includes Prometheus and Grafana for monitoring and visualization.
+- **[Tofu Controller](https://github.com/opentofu/controller)**: Manages Tofu-based applications in flux
 
 
 ## 📲 Applications Running in the Cluster
 
 ### 🗂️ Databases
-- **Cloudnative PG**: A PostgreSQL operator for managing PostgreSQL clusters.
+- **[Cloudnative PG](https://cloudnative-pg.io/)**: A PostgreSQL operator for managing PostgreSQL clusters.
 
 ### 📺 Media Apps
-- **Prowlarr**: A Torznab API proxy for Sonarr, Radarr, and Lidarr.
-- **Radarr**: A movie collection manager for Usenet and BitTorrent users.
-- **Sonarr**: A PVR for Usenet and BitTorrent users to manage TV series.
-- **Jellyfin**: A media server for streaming and organizing media.
-- **qBittorrent**: An open-source BitTorrent client.
+- **[Prowlarr](https://github.com/Prowlarr/Prowlarr)**: A Torznab API proxy for Sonarr, Radarr, and Lidarr.
+- **[Radarr](https://radarr.video/)**: A movie collection manager for Usenet and BitTorrent users.
+- **[Sonarr](https://sonarr.tv/)**: A PVR for Usenet and BitTorrent users to manage TV series.
+- **[Jellyfin](https://jellyfin.org/)**: A media server for streaming and organizing media.
+- **[qBittorrent](https://www.qbittorrent.org/)**: An open-source BitTorrent client.
 
 
 ### 🪪 Identity Management
-- **Authentik**: An identity provider for authentication and authorization.
+- **[Authentik](https://goauthentik.io/)**: An identity provider for authentication and authorization.

@@ -7,3 +7,5 @@ nameReference:
         kind: HelmRelease
       - path: spec/values/persistence/coredns/name
         kind: HelmRelease
+      - pathL spec/values/persistence/qbittorrent-config/name
+        kind: HelmRelease
