@@ -28,7 +28,7 @@ resource "authentik_provider_oauth2" "grafana" {
   client_secret = var.grafana_client_secret
 
   authorization_flow  = data.authentik_flow.default-provider-authorization-implicit-consent.id
-
+  invalidation_flow   = data.authentik_flow.default-provider-invalidation-flow.id
   allowed_redirect_uris = [
     {
       matching_mode = "strict"
