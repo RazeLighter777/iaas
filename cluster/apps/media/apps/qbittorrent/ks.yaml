@@ -8,6 +8,7 @@ spec:
   targetNamespace: media
   path: "./cluster/apps/media/apps/qbittorrent/app"
   interval: 5m
+  wait: true
   prune: true
   sourceRef:
     kind: GitRepository
