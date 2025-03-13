@@ -80,7 +80,7 @@ spec:
                   command:
                     - /bin/sh
                     - -c
-                    - cp /template/qBittorrent.conf /config/qBittorrent.conf
+                    - cp /template/qBittorrent.conf /config/qBittorrent/qBittorrent.conf
             probes:
               liveness:
                 enabled: true
