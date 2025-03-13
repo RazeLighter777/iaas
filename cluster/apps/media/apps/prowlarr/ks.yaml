@@ -8,6 +8,7 @@ spec:
   path: "./cluster/apps/media/apps/prowlarr/app"
   interval: 5m
   prune: true
+  wait: true
   sourceRef:
     kind: GitRepository
     name: flux-system

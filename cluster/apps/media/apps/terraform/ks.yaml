@@ -12,13 +12,13 @@ spec:
   wait: true
   dependsOn:
     - name: qbittorrent
-      namespace: media
+      namespace: flux-system
     - name: radarr
-      namespace: media
+      namespace: flux-system
     - name: prowlarr
-      namespace: media
+      namespace: flux-system
     - name: sonarr
-      namespace: media
+      namespace: flux-system
   sourceRef:
     kind: GitRepository
     name: flux-system
