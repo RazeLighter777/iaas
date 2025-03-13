@@ -19,3 +19,18 @@ variable "ports" {
   }
   description = "Mapping of services to their respective ports"
 }
+
+variable "SONARR__AUTH__APIKEY" {
+  type        = string
+  description = "Sonarr API Key"
+}
+
+variable "RADARR__AUTH__APIKEY" {
+  type        = string
+  description = "Radarr API Key"
+}
+
+variable "PROWLARR__AUTH__APIKEY" {
+  type        = string
+  description = "Prowlarr API Key"
+}
