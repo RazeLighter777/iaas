@@ -187,4 +187,4 @@ spec:
             app:
               - path: /config/qBittorrent/qBittorrent.conf
                 subPath: qBittorrent.conf
-                readOnly: true
+                readOnly: false
