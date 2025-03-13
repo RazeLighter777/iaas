@@ -159,10 +159,6 @@ spec:
       config:
         enabled: true
         existingClaim: qbittorrent
-        advancedMounts:
-          qbittorrent:
-            app:
-              - path: /config
       empty-config:
         type: emptyDir
         advancedMounts:
