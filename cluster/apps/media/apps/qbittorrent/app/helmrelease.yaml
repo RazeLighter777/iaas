@@ -79,7 +79,7 @@ spec:
                 exec:
                   command:
                     - /bin/sh
-                    - c
+                    - -c
                     - cp /template/qBittorrent.conf /config/qBittorrent.conf
             probes:
               liveness:
