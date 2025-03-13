@@ -2,7 +2,7 @@ apiVersion: infra.contrib.fluxcd.io/v1alpha2
 kind: Terraform
 metadata:
   name: servarr-terraform
-  namespace: media
+  namespace: flux-system
 spec:
   refreshBeforeApply: true
   interval: 1m
