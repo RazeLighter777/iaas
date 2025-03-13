@@ -74,6 +74,13 @@ spec:
               UMASK: "022"
               QBT_WEBUI_PORT: &port 8080
               QBT_DOWNLOADS_PATH: /media/downloads
+            lifecycle:
+              postStart:
+                exec:
+                  command:
+                    - /bin/sh
+                    - c
+                    - cp /template/qBittorrent.conf /config/qBittorrent.conf
             probes:
               liveness:
                 enabled: true
@@ -185,7 +192,6 @@ spec:
         advancedMounts:
           qbittorrent:
             app:
-              - path: /config/qBittorrent/qBittorrent.conf
+              - path: /template/qBittorrent.conf
                 subPath: qBittorrent.conf
-                readOnly: false
-        defaultMode: 0777
+                readOnly: true
