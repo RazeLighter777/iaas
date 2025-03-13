@@ -12,6 +12,7 @@ resource "authentik_outpost" "proxyoutpost" {
     module.radarr.proxy_provider_id,
     module.sillytavern.proxy_provider_id,
     module.qbittorrent.proxy_provider_id,
+    module.prowlarr.proxy_provider_id,
   ]
   config = jsonencode({
     authentik_host          = "https://authentik.${var.domain_name}",
