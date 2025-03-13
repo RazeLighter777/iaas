@@ -97,7 +97,7 @@ spec:
                   value: *dbhost
                 - name: PROWLARR__POSTGRES__PORT
                   value: "5432"
-                - name: PROWLARRr__POSTGRES__USER
+                - name: PROWLARR__POSTGRES__USER
                   value: *dbuser
                 - name: PROWLARR__POSTGRES__PASSWORD
                   valueFrom:
