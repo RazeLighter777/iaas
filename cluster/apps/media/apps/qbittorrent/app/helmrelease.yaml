@@ -188,3 +188,4 @@ spec:
               - path: /config/qBittorrent/qBittorrent.conf
                 subPath: qBittorrent.conf
                 readOnly: false
+        defaultMode: 0777
