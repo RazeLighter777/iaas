@@ -9,7 +9,7 @@ module "prowlarr" {
   policy_engine_mode      = "any"
   authorization_flow_uuid = data.authentik_flow.default-authorization-flow.id
 
-  meta_icon = "https://user-images.githubusercontent.com/31781818/33885790-bc32aec0-df1a-11e7-83df-3bf737de68c5.png"
+  meta_icon = "https://prowlarr.com/logo/128.png"
 }
 
 resource "authentik_group" "prowlarr-users" {
