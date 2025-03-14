@@ -3,4 +3,4 @@ kind: Kustomization
 namespace: flux-system
 resources:
 - ks.yaml
-- ../../ars-api-keys.sops.yaml
+- ../../arrs-api-keys.sops.yaml
