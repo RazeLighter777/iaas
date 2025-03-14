@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   path: "./cluster/apps/media/apps/terraform/controller"
-  targetNamespace: media
+  targetNamespace: flux-system
   interval: 5m
   prune: true
   wait: true
