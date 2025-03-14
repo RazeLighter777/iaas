@@ -4,4 +4,4 @@ terraform.tfstate
 terraform.tfstate.backup
 .env
 .pytest_cache/
-talos/.terraform.tfstate.lock.info
+terraform/talos/.terraform.tfstate.lock.info
