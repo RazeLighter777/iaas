@@ -1,27 +1,3 @@
-terraform {
-  required_version = ">= 0.12"
-    required_providers {
-      sonarr = {
-        source  = "devopsarr/sonarr"
-        version = "3.4.0"
-      }
-      prowlarr = {
-        source  = "devopsarr/prowlarr"
-        version = "3.0.2"
-      }
-      radarr = {
-        source  = "devopsarr/radarr"
-        version = "2.3.2"
-      }
-      external = {
-        source  = "hashicorp/external"
-        version = "~> 2"
-      }
-  }
-}
-
-
-
 provider "sonarr" {
   url     = "https://sonarr.${var.local_domain}"
   api_key = var.SONARR__AUTH__APIKEY
