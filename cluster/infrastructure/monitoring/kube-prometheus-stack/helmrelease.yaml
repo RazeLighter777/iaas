@@ -122,25 +122,17 @@ spec:
               path: /var/lib/grafana/dashboards/default
       dashboards:
         default:
-          ingress-nginx:
-            gnetId: 9614
-            revision: 1
-            datasource: Prometheus
-          certificate-exporter:
-            gnetId: 13922
-            revision: 1
-            datasource: Prometheus
           cert-manager:
             gnetId: 11001
             revision: 1
             datasource: Prometheus
-          redis:
-            gnetId: 11835
-            revision: 1
+          authentik:
+            gnetId: 14837
+            revision: 2
             datasource: Prometheus
-          postgresql:
-            gnetId: 9628
-            revision: 7
+          cloudnative-pg:
+            gnetId: 20417
+            revision: 3
             datasource: Prometheus
       sidecar:
         dashboards:
