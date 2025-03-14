@@ -63,7 +63,7 @@ spec:
       image:
         repository: grafana/grafana
         tag: 11.5.2@sha256:8b37a2f028f164ce7b9889e1765b9d6ee23fec80f871d156fbf436d6198d32b7
-      defaultDashboardsEnabled: false
+      defaultDashboardsEnabled: true
       ingress:
         enabled: true
         pathType: Prefix
@@ -85,6 +85,18 @@ spec:
           role_attribute_path: contains(groups, 'Grafana Admins') && 'Admin' || contains(groups, 'Grafana Editors') && 'Editor' || 'Viewer'
         server:
           root_url: https://grafana.${domain_name}
+          dashboardProviders:
+      dashboardproviders.yaml:
+        apiVersion: 1
+        providers:
+        - name: "default"
+          orgId: 1
+          folder: ""
+          type: file
+          disableDeletion: false
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards/default
       plugins:
         - grafana-piechart-panel
       dashboardProviders:
