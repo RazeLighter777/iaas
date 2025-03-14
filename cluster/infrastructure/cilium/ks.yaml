@@ -2,13 +2,15 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: qbittorrent
+  name: cilium-lb
   namespace: flux-system
 spec:
-  targetNamespace: media
-  path: "./cluster/apps/media/apps/qbittorrent/app"
-  interval: 5m
   wait: true
+  targetNamespace: kube-system
+  path: "./cluster/infrastructure/cilium/loadbalancer"
+  interval: 1h
+  retryInterval: 2m
+  timeout: 5m
   prune: true
   sourceRef:
     kind: GitRepository

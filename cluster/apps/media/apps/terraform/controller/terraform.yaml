@@ -1,0 +1,22 @@
+apiVersion: infra.contrib.fluxcd.io/v1alpha2
+kind: Terraform
+metadata:
+  name: servarr-terraform
+  namespace: flux-system
+spec:
+  refreshBeforeApply: true
+  interval: 1m
+  approvePlan: auto
+  path: "./cluster/apps/media/apps/terraform/controller/servarr"
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  varsFrom:
+    - kind: Secret
+      name: arrs-api-keys
+  vars: 
+    - name: cluster_media_domain
+      value: media.svc.cluster.local
+    - name: domain_name
+      value: ${domain_name}

@@ -1,0 +1,23 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: cilium-leases-access
+  namespace: kube-system
+rules:
+- apiGroups: ["coordination.k8s.io"]
+  resources: ["leases"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: cilium-leases-access-binding
+  namespace: kube-system
+subjects:
+- kind: ServiceAccount
+  name: cilium
+  namespace: kube-system
+roleRef:
+  kind: Role
+  name: cilium-leases-access
+  apiGroup: rbac.authorization.k8s.io

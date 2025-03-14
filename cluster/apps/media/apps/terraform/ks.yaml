@@ -2,14 +2,23 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: qbittorrent
+  name: servarr-terraform
   namespace: flux-system
 spec:
-  targetNamespace: media
-  path: "./cluster/apps/media/apps/qbittorrent/app"
+  path: "./cluster/apps/media/apps/terraform/controller"
+  targetNamespace: flux-system
   interval: 5m
-  wait: true
   prune: true
+  wait: true
+  dependsOn:
+    - name: qbittorrent
+      namespace: flux-system
+    - name: radarr
+      namespace: flux-system
+    - name: prowlarr
+      namespace: flux-system
+    - name: sonarr
+      namespace: flux-system
   sourceRef:
     kind: GitRepository
     name: flux-system

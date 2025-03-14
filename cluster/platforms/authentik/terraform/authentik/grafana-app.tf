@@ -45,6 +45,9 @@ resource "authentik_application" "grafana" {
   name              = "Grafana"
   slug              = "grafana"
   protocol_provider = authentik_provider_oauth2.grafana.id
+  group             = "monitoring"
+  meta_icon         = "https://grafana.com/media/docs/grafana-cloud/infrastructure/grafanalogo.svg"
+
 }
 
 resource "authentik_group" "grafana_admins" {
