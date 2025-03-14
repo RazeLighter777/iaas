@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -46,6 +47,12 @@ spec:
     kubeProxy:
       enabled: false
     alertmanager:
+      ingress:
+        enabled: true
+        pathType: Prefix
+        ingressClassName: nginx
+        hosts:
+          - name: alertmanager.${domain_name}
       image:
         registry: quay.io
         repository: prometheus/alertmanager
@@ -57,6 +64,12 @@ spec:
         repository: grafana/grafana
         tag: 11.5.2@sha256:8b37a2f028f164ce7b9889e1765b9d6ee23fec80f871d156fbf436d6198d32b7
       defaultDashboardsEnabled: false
+      ingress:
+        enabled: true
+        pathType: Prefix
+        ingressClassName: nginx
+        hosts:
+          - name: grafana.${domain_name}
       grafana.ini:
         auth:
           signout_redirect_url: "https://authentik.${domain_name}/application/o/grafana/end-session/"
@@ -74,6 +87,18 @@ spec:
           root_url: https://grafana.${domain_name}
       plugins:
         - grafana-piechart-panel
+      dashboardProviders:
+        dashboardproviders.yaml:
+          apiVersion: 1
+          providers:
+          - name: "default"
+            orgId: 1
+            folder: ""
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/default
       dashboards:
         default:
           ingress-nginx:
@@ -106,6 +131,12 @@ spec:
       serviceMonitor:
         enabled: true
     prometheus:
+      ingress:
+        enabled: true
+        pathType: Prefix
+        ingressClassName: nginx
+        hosts:
+          - name: prometheus.${domain_name}
       image:
         registry: quay.io
         repository: prometheus/prometheus
