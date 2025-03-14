@@ -43,7 +43,7 @@ spec:
             env:
               DOT: "off"
               DNS_ADDRESS: "127.0.0.2"
-              FIREWALL_INPUT_PORTS: 8080
+              FIREWALL_INPUT_PORTS: 8080,17871 # qBittorrent webui and exporter
               FIREWALL_OUTBOUND_SUBNETS: 10.96.0.0/12,10.244.0.0/16 # Allow access to k8s subnets
               VPN_PORT_FORWARDING: on
               PORT_FORWARD_ONLY: true
@@ -127,6 +127,14 @@ spec:
               capabilities:
                 drop:
                   - ALL
+          exporter:
+            image:
+              repository: ghcr.io/esanchezm/prometheus-qbittorrent-exporter
+              tag: v1.6.0@sha256:b987d19693a5b2fe7314b22009c6302e084ec801fcf96afaf14065b4cdafc842
+            env:
+              QBITTORRENT_HOST: localhost
+              QBITTORRENT_PORT: *port
+              EXPORTER_PORT: &metricsport 17871
 
     service:
       app:
@@ -134,6 +142,8 @@ spec:
         ports:
           http:
             port: *port
+          metrics:
+            port: *metricsport
 
     ingress:
       app:
@@ -154,7 +164,16 @@ spec:
                 service:
                   identifier: app
                   port: http
-
+    serviceMonitor:
+      app:
+        enabled: true
+        serviceName: qbittorrent
+        endpoints:
+          - port: metrics
+            scheme: http
+            path: /metrics
+            interval: 30s
+            scrapeTimeout: 10s
     persistence:
       config:
         enabled: true
