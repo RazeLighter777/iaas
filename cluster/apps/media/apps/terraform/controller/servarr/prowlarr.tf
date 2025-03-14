@@ -14,7 +14,7 @@ resource "prowlarr_application_sonarr" "sonarr" {
   sync_level            = "fullSync"
   base_url              = "http://sonarr.${var.cluster_media_domain}:${var.ports["sonarr"]}"
   prowlarr_url          = "http://prowlarr.${var.cluster_media_domain}:${var.ports["prowlarr"]}"
-  api_key               = vars.SONARR__AUTH__APIKEY
+  api_key               = var.SONARR__AUTH__APIKEY
   sync_categories       = [5000, 5010, 5030]
   anime_sync_categories = [5070]
 }
@@ -24,6 +24,6 @@ resource "prowlarr_application_radarr" "radarr" {
   sync_level      = "fullSync"
   base_url        = "http://radarr.${var.cluster_media_domain}:${var.ports["radarr"]}"
   prowlarr_url    = "http://prowlarr.${var.cluster_media_domain}:${var.ports["prowlarr"]}"
-  api_key         = vars.RADARR__AUTH__APIKEY
+  api_key         = var.RADARR__AUTH__APIKEY
   sync_categories = [2000, 2010, 2030]
 }
