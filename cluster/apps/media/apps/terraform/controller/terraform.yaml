@@ -7,7 +7,7 @@ spec:
   refreshBeforeApply: true
   interval: 1m
   approvePlan: auto
-  path: "./cluster/apps/media/apps/terraform/controller/servarr"
+  path: "./terraform/servarr"
   sourceRef:
     kind: GitRepository
     name: flux-system

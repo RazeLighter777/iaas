@@ -6,7 +6,7 @@ spec:
   refreshBeforeApply: true
   interval: 1m
   approvePlan: auto
-  path: ./cluster/platforms/authentik/terraform/authentik
+  path: ./terraform/authentik
   sourceRef:
     kind: GitRepository
     name: flux-system
