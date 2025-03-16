@@ -15,6 +15,7 @@ resource "authentik_outpost" "proxyoutpost" {
     module.prowlarr.proxy_provider_id,
     module.prometheus.proxy_provider_id,
     module.alertmanager.proxy_provider_id,
+    module.booktok.proxy_provider_id,
   ]
   config = jsonencode({
     authentik_host          = "https://authentik.${var.domain_name}",
