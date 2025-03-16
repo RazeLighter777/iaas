@@ -169,6 +169,16 @@ spec:
             port: *port
           metrics:
             port: *metrics-port
+    serviceMonitor:
+      app:
+        enabled: true
+        serviceName: sonarr
+        endpoints:
+          - port: metrics
+            scheme: http
+            path: /metrics
+            interval: 30s
+            scrapeTimeout: 10s
     persistence:
       config:
         enabled: true
