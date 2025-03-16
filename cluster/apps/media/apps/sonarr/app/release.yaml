@@ -148,7 +148,7 @@ spec:
               PORT: &metrics-port 9794
               ENABLE_ADDITIONAL_METRICS: true
               ENABLE_UNKNOWN_QUEUE_ITEMS: true
-              APIKEY: blank-will-be-loaded-from-config
+              # APIKEY: load from valuesFrom
             ports:
               - name: metrics
                 containerPort: *metrics-port
@@ -221,3 +221,8 @@ spec:
                 service:
                   identifier: app
                   port: *port
+  valuesFrom:
+    - kind: Secret
+      name: arrs-api-keys
+      valuesKey: SONARR__AUTH__APIKEY
+      targetPath: controllers.sonarr.containers.exporter.env.APIKEY
