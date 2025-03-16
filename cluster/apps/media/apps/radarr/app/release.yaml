@@ -172,7 +172,7 @@ spec:
     serviceMonitor:
       app:
         enabled: true
-        serviceName: sonarr
+        serviceName: radarr
         endpoints:
           - port: metrics
             scheme: http
