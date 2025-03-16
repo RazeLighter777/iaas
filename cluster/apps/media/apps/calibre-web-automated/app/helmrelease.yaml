@@ -1,0 +1,116 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app calibre-web-automated
+  namespace: media
+spec:
+  chart:
+    spec:
+      chart: app-template
+      version: 3.7.2
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  interval: 15m
+  values:
+    controllers:
+      *app :
+        type: statefulset
+        containers:
+          *app :
+            image:
+              repository: crocodilestick/calibre-web-automated
+              tag: V3.0.4@sha256:e602e73b6fd50c3ba389b38acb701205976a05b650898f615f93bd7e3537a827
+            env:
+              TZ: ${timezone}
+              PUID: 1000
+              PGID: 1000
+              CACHE_DIR: /cache
+              CALIBRE_PORT: &port 8083
+            probes:
+              liveness: &probes
+                enabled: false
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 5
+                  timeoutSeconds: 1
+                  failureThreshold: 45
+              readiness: *probes
+              startup:
+                enabled: false
+            securityContext:
+              allowPrivilegeEscalation: true
+              readOnlyRootFilesystem: false
+            resources:
+              requests:
+                cpu: 5m
+                memory: 350Mi
+              limits:
+                memory: 2Gi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: false
+        runAsUser: 0
+        runAsGroup: 1000
+        fsGroup: 0
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile: { type: RuntimeDefault }
+    service:
+      *app :
+        controller: *app
+        ports:
+          http:
+            port: *port
+            primary: true
+    ingress:
+      *app :
+        enabled: true
+        className: nginx
+        annotations:
+          nginx.ingress.kubernetes.io/auth-url: |-
+              http://ak-outpost-proxy-outpost.authentik.svc.cluster.local:9000/outpost.goauthentik.io/auth/nginx
+          nginx.ingress.kubernetes.io/auth-signin: |-
+              https://calibre-web.${SECRET_DOMAIN}/outpost.goauthentik.io/start?rd=$scheme://$http_host$escaped_request_uri
+          nginx.ingress.kubernetes.io/auth-response-headers: |-
+              Set-Cookie,X-authentik-username,X-authentik-groups,X-authentik-email,X-authentik-name,X-authentik-uid
+          nginx.ingress.kubernetes.io/auth-snippet: |
+              proxy_set_header X-Forwarded-Host $http_host;
+        hosts:
+          - host: &host "calibre-web.${domain_name}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  name: *app
+                  port: *port
+    persistence:
+      config:
+        accessMode: ReadWriteOnce
+        size: 10Gi
+        storageClass: truenas-iscsi
+        advancedMounts:
+          *app :
+            *app :
+              - path: /config
+      media:
+        existingClaim: media
+        advancedMounts:
+          *app :
+            *app :
+              - path: /calibre-library
+                subPath: books/calibre
+              - path: /cwa-book-ingest
+                subPath: books/cwa-book-ingest
+      cache:
+        type: emptyDir
+        advancedMounts:
+          *app :
+            *app :
+              - path: /cache
