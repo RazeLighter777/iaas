@@ -4,6 +4,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: calibre-web-downloader
+  namespace: media
 spec:
   chart:
     spec:
