@@ -129,12 +129,10 @@ spec:
                   - ALL
           exporter:
             image:
-              repository: ghcr.io/esanchezm/prometheus-qbittorrent-exporter
-              tag: v1.6.0@sha256:b987d19693a5b2fe7314b22009c6302e084ec801fcf96afaf14065b4cdafc842
+              repository: docker.io/caseyscarborough/qbittorrent-exporter
+              tag: v1.3.5@sha256:5e2dc3df1fc3d4cb2d1290d41b7189fc481821c5261ce16a018e8bbfa1354c42
             env:
-              QBITTORRENT_HOST: localhost
-              QBITTORRENT_PORT: *port
-              EXPORTER_PORT: &metricsport 17871
+              QBITTORRENT_BASE_URL: http://localhost:8080
 
     service:
       app:
@@ -143,7 +141,7 @@ spec:
           http:
             port: *port
           metrics:
-            port: *metricsport
+            port: 17871
 
     ingress:
       app:

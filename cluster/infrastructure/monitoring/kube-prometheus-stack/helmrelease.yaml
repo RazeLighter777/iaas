@@ -134,6 +134,18 @@ spec:
             gnetId: 20417
             revision: 3
             datasource: Prometheus
+          radarr:
+            gnetId: 12896
+            revision: 1
+            datasource: Prometheus
+          sonarr:
+            gnetId: 12530
+            revision: 2
+            datasource: Prometheus
+          qbittorrent:
+            gnetId: 15116
+            revision: 1
+            datasource: Prometheus
       sidecar:
         dashboards:
           enabled: true
