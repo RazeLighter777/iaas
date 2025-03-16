@@ -136,6 +136,22 @@ spec:
                 memory: 512Mi
               limits:
                 memory: 4Gi
+          exporter:
+            image:
+              repository: ghcr.io/onedr0p/exportarr
+              tag: v2.0.1@sha256:727e7bc8f2f0934a2117978c59f4476b954018b849a010ea6cfb380bd6539644 
+            args:
+              - *app
+            env:
+              URL: "http://localhost:8989"
+              #CONFIG: /config/config.xml
+              PORT: &metrics-port 9794
+              ENABLE_ADDITIONAL_METRICS: true
+              ENABLE_UNKNOWN_QUEUE_ITEMS: true
+              # APIKEY: load from valuesFrom
+            ports:
+              - name: metrics
+                containerPort: *metrics-port
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -144,12 +160,15 @@ spec:
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
         seccompProfile: { type: RuntimeDefault }
+     
     service:
       app:
         controller: radarr
         ports:
           http:
             port: *port
+          metrics:
+            port: *metrics-port
     persistence:
       config:
         enabled: true
@@ -194,3 +213,8 @@ spec:
                 service:
                   identifier: app
                   port: *port
+  valuesFrom:
+    - kind: Secret
+      name: arrs-api-keys
+      valuesKey: RADARR__AUTH__APIKEY
+      targetPath: controllers.radarr.containers.exporter.env.APIKEY
