@@ -75,7 +75,7 @@ spec:
             image:
               repository: ghcr.io/onedr0p/radarr-develop
               # renovate: datasource=github-releases depName=onedr0p/radarr-develop
-              tag: 5.19.2.9720@sha256:67524fcd31ae2fe64349ea9f9b8e921cf46308b5329e0eb746ef5636c9dab878
+              tag: 5.20.1.9773@sha256:8187c129a78fdfe15b1603db9175abd2be0e1ca2e99ea3733987c3ae941da165
             env:
                 - name: RADARR__APP__INSTANCENAME
                   value: ${domain_name} Radarr
