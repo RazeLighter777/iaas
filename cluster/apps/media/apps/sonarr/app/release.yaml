@@ -144,7 +144,7 @@ spec:
               - *app
             env:
               URL: "http://localhost:8989"
-              CONFIG: /config/config.xml
+              #CONFIG: /config/config.xml
               PORT: &metrics-port 9794
               ENABLE_ADDITIONAL_METRICS: true
               ENABLE_UNKNOWN_QUEUE_ITEMS: true
