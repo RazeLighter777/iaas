@@ -135,24 +135,22 @@ spec:
                 cpu: 100m
                 memory: 512Mi
               limits:
-                memory: 4Gi
-    sidecars:
-      exporter:
-        image: ghcr.io/onedr0p/exportarr:v2.0.1@sha256:727e7bc8f2f0934a2117978c59f4476b954018b849a010ea6cfb380bd6539644 
-        args:
-          - *app
-        env:
-          URL: http://localhost:8989
-          CONFIG: /config/config.xml
-          PORT: &metrics-port 9794
-          ENABLE_ADDITIONAL_METRICS: true
-          ENABLE_UNKNOWN_QUEUE_ITEMS: true
-        ports:
-          - name: metrics
-            containerPort: *metrics-port
-        volumeMounts:
-          - name: config
-            mountPath: /config
+                memory: 4Gi 
+          exporter:
+            image:
+              repository: ghcr.io/onedr0p/exportarr
+              tag: v2.0.1@sha256:727e7bc8f2f0934a2117978c59f4476b954018b849a010ea6cfb380bd6539644 
+            args:
+              - *app
+            env:
+              URL: http://localhost:8989
+              CONFIG: /config/config.xml
+              PORT: &metrics-port 9794
+              ENABLE_ADDITIONAL_METRICS: true
+              ENABLE_UNKNOWN_QUEUE_ITEMS: true
+            ports:
+              - name: metrics
+                containerPort: *metrics-port
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -167,6 +165,8 @@ spec:
         ports:
           http:
             port: *port
+          metrics:
+            port: *metrics-port
     serviceMonitor:
       app:
         enabled: true
