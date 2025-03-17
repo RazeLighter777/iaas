@@ -4,7 +4,7 @@ module "booktok" {
 
   name   = "Booktok"
   domain_name = "booktok.${var.domain_name}"
-  group  = "monitoring"
+  group  = "media"
 
   policy_engine_mode      = "any"
   authorization_flow_uuid = data.authentik_flow.default-authorization-flow.id
