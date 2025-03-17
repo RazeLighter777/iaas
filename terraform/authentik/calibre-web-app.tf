@@ -3,7 +3,7 @@ module "cwa" {
   slug   = "cwa"
 
   name   = "Calibre Web Automated"
-  domain_name = "calibre-web.${var.domain_name}"
+  domain_name = "cwa.${var.domain_name}"
   group  = "media"
 
   policy_engine_mode      = "any"
