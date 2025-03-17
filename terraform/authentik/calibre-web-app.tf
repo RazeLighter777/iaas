@@ -12,7 +12,7 @@ module "cwa" {
   meta_icon = "https://fluxcd.io/img/logos/flux-stacked-color.png"
 }
 
-resource "authentik_group" "calibre-web-users" {
+resource "authentik_group" "cwa-users" {
   name = "calibre-web-users"
 }
 
