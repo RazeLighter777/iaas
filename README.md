@@ -6,8 +6,8 @@ My overkill kubernetes homelab.
 
 ### 🗄️ **Dell EMC PowerEdge C6400** : Power hungry blade server chassis
 - 4 x C6420 : server blades
-- Intel® Xeon® Gold 6132 Processor
-- 64GB DDR4 Memory
+- 2x Intel® Xeon® Gold 6132 Processor
+- 256gb DDR4 Memory
 - 10 gigabit RJ45 NIC
 
 ### 🖥️ **Intel NUC9VXQNX**: Mini PC/Server
@@ -45,11 +45,7 @@ My overkill kubernetes homelab.
 - **[Cloudnative PG](https://cloudnative-pg.io/)**: A PostgreSQL operator for managing PostgreSQL clusters.
 
 ### 📺 Media Apps
-- **[Prowlarr](https://github.com/Prowlarr/Prowlarr)**: A Torznab API proxy for Sonarr, Radarr, and Lidarr.
-- **[Radarr](https://radarr.video/)**: A movie collection manager for Usenet and BitTorrent users.
-- **[Sonarr](https://sonarr.tv/)**: A PVR for Usenet and BitTorrent users to manage TV series.
 - **[Jellyfin](https://jellyfin.org/)**: A media server for streaming and organizing media.
-- **[qBittorrent](https://www.qbittorrent.org/)**: An open-source BitTorrent client.
 
 
 ### 🪪 Identity Management
