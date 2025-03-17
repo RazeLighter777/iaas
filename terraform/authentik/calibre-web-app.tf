@@ -3,7 +3,7 @@ module "cwa" {
   slug   = "cwa"
 
   name   = "Calibre Web Automated"
-  domain_name = "cwa.${var.domain_name}"
+  domain_name = "calibre-web.${var.domain_name}"
   group  = "media"
 
   policy_engine_mode      = "any"
@@ -12,8 +12,8 @@ module "cwa" {
   meta_icon = "https://fluxcd.io/img/logos/flux-stacked-color.png"
 }
 
-resource "authentik_group" "cwa-users" {
-  name = "cwa-users"
+resource "authentik_group" "calibre-web-users" {
+  name = "calibre-web-users"
 }
 
 resource "authentik_policy_binding" "cwa-users-binding" {
