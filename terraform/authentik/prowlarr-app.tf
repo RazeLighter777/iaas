@@ -21,3 +21,17 @@ resource "authentik_policy_binding" "prowlarr-users-binding" {
   group = authentik_group.prowlarr-users.id
   order = 0
 }
+
+resource "prowlarr_notification_discord" "media_discord" {
+  on_health_issue       = true
+  on_application_update = false
+
+  include_health_warnings = false
+  name                    = "Media Discord"
+
+  web_hook_url  = var.discord_media_webhook
+  username      = "Prowlarr"
+  avatar        = "https://static-00.iconduck.com/assets.00/prowlarr-icon-1024x1024-vyf0hy1t.png"
+  grab_fields   = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+  import_fields = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+}
