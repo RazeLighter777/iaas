@@ -12,7 +12,7 @@ module "bitmagnet" {
 }
 
 resource "authentik_group" "bitmagnet-users" {
-  name = "alertmanager-users"
+  name = "bitmagnet-users"
 }
 
 resource "authentik_policy_binding" "bitmagnet-users-binding" {
