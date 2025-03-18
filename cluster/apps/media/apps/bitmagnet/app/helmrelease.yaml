@@ -27,31 +27,6 @@ spec:
   values:
     controllers:
       bitmagnet:
-        annotations:
-          reloader.stakater.com/auto: "true"
-        initContainers:
-          init-db:
-            image:
-              repository: ghcr.io/tparker00/postgres-init
-              tag: 16.8@sha256:e36b10229bb317004bc9de7f9c3ca592da04c2c197084223480a148c7927398b
-              pullPolicy: IfNotPresent
-            env:
-              - name: INIT_POSTGRES_DBNAME
-                value: bitmagnet
-              - name: INIT_POSTGRES_HOST
-                value: &dbhost bitmagnet-cluster-rw
-              - name: INIT_POSTGRES_SUPER_PASS
-                valueFrom:
-                  secretKeyRef:
-                    name: bitmagnet-cluster-superuser
-                    key: password
-              - name: INIT_POSTGRES_USER
-                value: &dbuser bitmagnet
-              - name: INIT_POSTGRES_PASS
-                valueFrom:
-                  secretKeyRef:
-                    name: bitmagnet-cluster-app
-                    key: password
         containers:
           main:
             image:
@@ -63,16 +38,22 @@ spec:
             - --all
             env:
               - name: POSTGRES_HOST 
-                value: *dbhost
+                secretKeyRef:
+                  name: bitmagnet-cluster-app
+                  key: host
               - name: POSTGRES_PASSWORD
                 valueFrom:
                   secretKeyRef:
-                    name: cloudnative-database-media-cluster-app
+                    name: bitmagnet-cluster-app
                     key: password
               - name: POSTGRES_USER
-                value: *dbuser
+                secretKeyRef:
+                  name: bitmagnet-cluster-app
+                  key: user
               - name: POSTGRES_NAME
-                value: bitmagnet
+                secretKeyRef:
+                  name: bitmagnet-cluster-app
+                  key: dbname
             resources:
               requests:
                 cpu: 10m
