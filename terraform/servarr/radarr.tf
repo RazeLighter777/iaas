@@ -57,7 +57,7 @@ resource "radarr_notification_discord" "media_discord" {
   on_health_issue                  = true
   on_application_update            = false
 
-  include_health_warnings = false
+  include_health_warnings = false``
   name                    = "Media Discord"
 
   web_hook_url  = var.discord_media_webhook
