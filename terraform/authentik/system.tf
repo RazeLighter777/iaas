@@ -17,7 +17,9 @@ resource "authentik_outpost" "proxyoutpost" {
     module.alertmanager.proxy_provider_id,
     module.booktok.proxy_provider_id,
     module.cwa.proxy_provider_id,
+    module.bitmagnet.proxy_provider_id,
   ]
+
   config = jsonencode({
     authentik_host          = "https://authentik.${var.domain_name}",
     authentik_host_insecure = false,
