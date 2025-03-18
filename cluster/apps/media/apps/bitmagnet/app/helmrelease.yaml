@@ -1,0 +1,134 @@
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app bitmagnet
+  namespace: media
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.7.3
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      bitmagnet:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/tparker00/postgres-init
+              tag: 16.8@sha256:e36b10229bb317004bc9de7f9c3ca592da04c2c197084223480a148c7927398b
+              pullPolicy: IfNotPresent
+            env:
+              - name: INIT_POSTGRES_DBNAME
+                value: bitmagnet
+              - name: INIT_POSTGRES_HOST
+                value: &dbhost bitmagnet-cluster-rw
+              - name: INIT_POSTGRES_SUPER_PASS
+                valueFrom:
+                  secretKeyRef:
+                    name: bitmagnet-cluster-superuser
+                    key: password
+              - name: INIT_POSTGRES_USER
+                value: &dbuser bitmagnet
+              - name: INIT_POSTGRES_PASS
+                valueFrom:
+                  secretKeyRef:
+                    name: bitmagnet-cluster-app
+                    key: password
+        containers:
+          main:
+            image:
+              repository: ghcr.io/bitmagnet-io/bitmagnet
+              tag: v0.10.0
+            args:
+            - worker
+            - run
+            - --all
+            env:
+              - name: POSTGRES_HOST 
+                value: *dbhost
+              - name: POSTGRES_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: cloudnative-database-media-cluster-app
+                    key: password
+              - name: POSTGRES_USER
+                value: *dbuser
+              - name: POSTGRES_NAME
+                value: bitmagnet
+            resources:
+              requests:
+                cpu: 10m
+                memory: 256Mi
+          gluetun:
+            dependsOn: main
+            image:
+              repository: ghcr.io/qdm12/gluetun
+              tag: v3.40.0
+            env:
+              VPN_SERVICE_PROVIDER: private internet access
+              DOT: "off"
+              FIREWALL_INPUT_PORTS: 3333
+              FIREWALL_OUTBOUND_SUBNETS: 10.51.0.0/16,10.50.0.0/16,10.10.5.0/24,18.0.0.0/8"
+              DNS_KEEP_NAMESERVER: "on"
+            envFrom:
+              - secretRef:
+                  name: vpn-secret
+            securityContext:
+              runAsUser: 0
+              allowPrivilegeEscalation: true
+              capabilities:
+                add:
+                  - NET_ADMIN
+        pod:
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
+    service:
+      main:
+        controller: *app
+        primary: true
+        ports:
+          http:
+            port: 3333
+    serviceMonitor:
+      main:
+        enabled: true
+        serviceName: *app
+        endpoints:
+          - port: http
+            scheme: http
+            path: /metrics
+            interval: 1m
+            scrapeTimeout: 20s
+    ingress:
+      main:
+        enabled: true
+        className: nginx
+        annotations:
+        hosts:
+        - host: bitmagnet.${domain_name}
+          paths:
+          - path: /
+            service:
+              identifier: main
+              port: http

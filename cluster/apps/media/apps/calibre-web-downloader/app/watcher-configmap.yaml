@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: watcher-script
+data:
+  directory-watcher.sh: |
+    #!/bin/bash
+    set -e
+
+    WATCH_DIR="/cwa-book-ingest"
+    PROCESSOR_SCRIPT="/app/calibre-web-automated/scripts/ingest_processor.py"
+    POLL_INTERVAL=10  # Check every 10 seconds
+
+    echo "Starting directory watcher for ${WATCH_DIR} using polling (${POLL_INTERVAL}s interval)"
+
+    # Function to get directory checksum
+    get_dir_checksum() {
+        find "$1" -type f -exec stat --format="%n %s %Y" {} \; | sort | md5sum | cut -d ' ' -f 1
+    }
+
+    # Initialize with current state
+    LAST_CHECKSUM=$(get_dir_checksum "$WATCH_DIR")
+    echo "Initial directory state recorded at $(date)"
+
+    # Continuously poll for changes
+    while true; do
+        # Wait for the polling interval
+        sleep $POLL_INTERVAL
+        
+        # Get current checksum
+        CURRENT_CHECKSUM=$(get_dir_checksum "$WATCH_DIR")
+        
+        # Compare with last known state
+        if [ "$CURRENT_CHECKSUM" != "$LAST_CHECKSUM" ]; then
+            echo "Change detected in ${WATCH_DIR} at $(date)"
+            echo "Running ingest processor on ${WATCH_DIR}..."
+            
+            # Run the processor script
+            python3 "${PROCESSOR_SCRIPT}" "${WATCH_DIR}"
+            
+            echo "Processor completed at $(date)"
+            
+            # Update the last known state
+            LAST_CHECKSUM=$CURRENT_CHECKSUM
+        fi
+    done
