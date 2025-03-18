@@ -29,6 +29,10 @@ spec:
       name: grafana-oauth-secrets
       valuesKey: client_secret
       targetPath: grafana.grafana\.ini.auth\.generic_oauth.client_secret
+    - kind: Secret
+      name: discord-secret 
+      valuesKey: discord_webhook_url
+      targetPath: alertmanager.config.receivers.1.discord_configs.0.webhook_url
   values:
     prometheus-node-exporter:
       tolerations:
@@ -66,6 +70,60 @@ spec:
         registry: quay.io
         repository: prometheus/alertmanager
         tag: v0.28.1@sha256:27c475db5fb156cab31d5c18a4251ac7ed567746a2483ff264516437a39b15ba
+      config:
+        global:
+          resolve_timeout: 5m
+        inhibit_rules:
+          - equal:
+              - namespace
+              - alertname
+            source_match:
+              severity: critical
+            target_match_re:
+              severity: warning|info
+          - equal:
+              - namespace
+              - alertname
+            source_match:
+              severity: warning
+            target_match_re:
+              severity: info
+        receivers:
+          - name: "null"
+          - name: discord
+            discord_configs:
+              - title: |-
+                  [{{ .Status | toUpper }}:{{ if eq .Status "firing" }}{{ .Alerts.Firing | len }}{{ else }}{{ .Alerts.Resolved | len }}{{ end }}]
+                message: |-
+                  {{- range .Alerts }}
+                    **{{ .Labels.alertname }} {{ if ne .Labels.severity "" }}({{ .Labels.severity | title }}){{ end }} **
+                    {{- if ne .Annotations.description "" }}
+                      **Description:** {{ .Annotations.description }}
+                    {{- else if ne .Annotations.summary "" }}
+                      **Summary:** {{ .Annotations.summary }}
+                    {{- else if ne .Annotations.message "" }}
+                      **Message:** {{ .Annotations.message }}
+                    {{- else }}
+                      **Description:** N/A
+                    {{- end }}
+                  {{- end }}
+        route:
+          group_by:
+            - alertname
+          group_interval: 5m
+          group_wait: 30s
+          receiver: discord
+          repeat_interval: 12h
+          routes:
+            - match:
+                alertname: Watchdog
+              receiver: "null"
+            - match:
+                severity: critical
+              receiver: discord
+            - match:
+                alertname: InfoInhibitor
+              receiver: "null"
     grafana:
       assertNoLeakedSecrets: false # Grafana can't tell we're putting secrets in the valuesFrom field :(
       enabled: true

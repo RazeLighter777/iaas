@@ -4,3 +4,4 @@ namespace: monitoring
 resources:
   - ./helmrelease.yaml
   - ./grafana-oauth-secrets.sops.yaml
+  - ./discord-secret.sops.yaml
