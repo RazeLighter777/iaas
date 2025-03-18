@@ -2,11 +2,11 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: qbittorrent
+  name: bitmagnet
   namespace: flux-system
 spec:
   targetNamespace: media
-  path: "./cluster/apps/media/apps/qbittorrent/app"
+  path: "./cluster/apps/media/apps/bitmagnet/app"
   interval: 5m
   wait: true
   prune: true
