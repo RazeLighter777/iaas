@@ -15,6 +15,8 @@ spec:
   varsFrom:
     - kind: Secret
       name: arrs-api-keys
+    - kind: Secret
+      name: discord-media-webhook-secret
   vars: 
     - name: cluster_media_domain
       value: media.svc.cluster.local

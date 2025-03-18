@@ -50,3 +50,25 @@ resource "sonarr_root_folder" "series" {
 resource "sonarr_root_folder" "anime" {
   path = "/media/anime"
 }
+
+
+resource "sonarr_notification_discord" "media_discord" {
+  on_grab                            = false
+  on_download                        = true
+  on_upgrade                         = true
+  on_rename                          = false
+  on_series_delete                   = false
+  on_episode_file_delete             = false
+  on_episode_file_delete_for_upgrade = true
+  on_health_issue                    = true
+  on_application_update              = false
+
+  include_health_warnings = false
+  name                    = "Media Discord"
+
+  web_hook_url  = var.discord_media_webhook
+  username      = "Sonarr"
+  avatar        = "https://static-00.iconduck.com/assets.00/sonarr-icon-1024x1024-wkay604k.png"
+  grab_fields   = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+  import_fields = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+}
