@@ -44,3 +44,25 @@ resource "radarr_media_management" "media_settings_configs" {
 resource "radarr_root_folder" "root_folder" {
   path = "/media/movies"
 }
+
+resource "radarr_notification_discord" "media_discord" {
+  on_grab                          = false
+  on_download                      = true
+  on_upgrade                       = true
+  on_rename                        = false
+  on_movie_added                   = false
+  on_movie_delete                  = false
+  on_movie_file_delete             = false
+  on_movie_file_delete_for_upgrade = true
+  on_health_issue                  = true
+  on_application_update            = false
+
+  include_health_warnings = false
+  name                    = "Media Discord
+
+  web_hook_url  = var.discord_media_webhook
+  username      = "Radarr"
+  avatar        = "https://static-00.iconduck.com/assets.00/radarr-icon-922x1024-esiz37v4.png"
+  grab_fields   = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+  import_fields = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+}
