@@ -14,6 +14,7 @@ stringData:
     s3_url: ENC[AES256_GCM,data:aSZA2WBR+nD9uQD0ruzZeW9N95bPbDggafutsPukF68CXuBx2Bk=,iv:XbX5humOh4A6CSHiytkXGaxXb2MavlS1pgmMCO2NHgE=,tag:NRR5PF/OzBqqzitdUjet0Q==,type:str]
     s3_region: ENC[AES256_GCM,data:FNryARwYef4+EJQ=,iv:JKIIJs3VjfWVtTnt9YRfHwqBYrldbycWXnu7NWGZ2T8=,tag:eGk886lSxkrmta9GnYZ27A==,type:str]
     s3_bucket: ENC[AES256_GCM,data:iO7dXB9FiJHMeOfq1dvEYtZy1mUB9iXCuampCwk1Bq0L8d/yhGmTKRyWlw==,iv:Jt/xnw1bcoQbHVIDkr0Kv2OGFSj/0fXNwnojIIDIGwQ=,tag:KaHTOyNLhy85syV4PQDRww==,type:str]
+    discord_webhook_url: ENC[AES256_GCM,data:4gJJI3ZAPAOZTdXClugdUvYQoTqHVkukgM1HjgkCq2boLfvSYdWpE6iEAURnzTMz8Cu00J0NbvBFPgNJrzPUaO7LKjNh//fE844EjWrvG5DAHdLg26X29JN2vVp4xe3tmfqSfU1Hj2k1X4vcKJZfSHetypCXZMbgk8W3Dw==,iv:t8FdqFftpDhx10wo/St+YbgV61Y7sPIH7gb5OO8YvEs=,tag:G1kDe/wJfPpM0KQk0+XLfQ==,type:str]
 sops:
     kms: []
     gcp_kms: []
@@ -29,8 +30,8 @@ sops:
             WUtsNEhoTzY0QzJnbGZZK2RaQWdyL3MKbceIntmS5n9/IPWokrqgWYx2IvqurS5h
             1KO//duDKbNG/tUxewGtTXU+6IpXE50J5fsZMbih5lRDQQu/Zx6stw==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2025-03-04T20:31:56Z"
-    mac: ENC[AES256_GCM,data:cMS25rrZZLoIDW9ctGVDmgqY/TnZ9w90vuKOSNkV19du6R1HYfrRneSov4YS59V3iwa2S1G39uyNJYvy3cNAo7GcxQ8r4Lgwm/C+AbmU3vmWNTRwJ1nVudI9NkNyQ//ge68nq+/B44XmDWA90DiI/EyCdWACK5DdAW5ztthWNYE=,iv:9pGHgv5fn7bZnC9OCL23+3pCvlFQYi75CfKujO8Tzog=,tag:Bz1Mdw52LXg71qejP8hsJA==,type:str]
+    lastmodified: "2025-03-18T15:49:42Z"
+    mac: ENC[AES256_GCM,data:a3Y3mFbMn2d6EmyBGsCfGmQ5qZ5teSdYv6yyunvP2OI4alvCJ8D0nicEmscG8mwn/sYKN3uKyqJ3AxBWuCYSdnrwIZ5i5f3BqxfBdX/JgmXugXy/D9CRDOsKlJApBwg6fjab+vENUOYps3Xphj5oNzwz99xNO98nqVpa93el8Ng=,iv:SJl6wYkZRPSPeSOfy4z86xYtx9RDu8scp0cNmfwNJPI=,tag:hFVvDSaMj4vArBwDlReHkg==,type:str]
     pgp: []
     encrypted_regex: ^(data|stringData)$
     version: 3.9.4

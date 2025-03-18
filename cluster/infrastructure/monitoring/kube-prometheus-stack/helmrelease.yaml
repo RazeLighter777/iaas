@@ -29,10 +29,6 @@ spec:
       name: grafana-oauth-secrets
       valuesKey: client_secret
       targetPath: grafana.grafana\.ini.auth\.generic_oauth.client_secret
-    - kind: Secret
-      name: discord-media-webhook-secret 
-      valuesKey: discord_webhook_url
-      targetPath: alertmanager.config.receivers.1.discord_configs.0.webhook_url
   values:
     prometheus-node-exporter:
       tolerations:
@@ -92,7 +88,8 @@ spec:
           - name: "null"
           - name: discord
             discord_configs:
-              - title: |-
+              - webhook_url: ${discord_webhook_url}
+                title: |-
                   [{{ .Status | toUpper }}:{{ if eq .Status "firing" }}{{ .Alerts.Firing | len }}{{ else }}{{ .Alerts.Resolved | len }}{{ end }}]
                 message: |-
                   {{- range .Alerts }}
