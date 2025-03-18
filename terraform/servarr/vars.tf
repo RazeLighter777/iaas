@@ -34,3 +34,8 @@ variable "PROWLARR__AUTH__APIKEY" {
   type        = string
   description = "Prowlarr API Key"
 }
+
+variable "discord_media_webhook" {
+  type = string
+  description = "Discord Webhook for Media Notifications"
+}
