@@ -32,3 +32,17 @@ spec:
       instances: 1
       monitoring:
         enabled: true
+    backups:
+      endpointURL: ${s3_url}
+      provider: s3
+      s3:
+        region: ${s3_region}
+        bucket: ${cloudnative_s3_bucket}
+        path: "/v1-restore"
+        accessKey: ${cloudnative_s3_key_id}
+        secretKey: ${cloudnative_s3_key}
+      scheduledBackups:
+        - name: daily-backup # Daily at midnight
+          schedule: "0 0 0 * * *" # Daily at midnight
+          backupOwnerReference: self
+      retentionPolicy: "30d"
