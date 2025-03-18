@@ -1,0 +1,24 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: qbittorrent
+  namespace: flux-system
+spec:
+  targetNamespace: media
+  path: "./cluster/apps/media/apps/qbittorrent/app"
+  interval: 5m
+  wait: true
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  postBuild:
+    substituteFrom:
+      - kind: Secret
+        name: cluster-settings
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
