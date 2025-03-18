@@ -20,6 +20,8 @@ spec:
   values:
     promtail:
       enabled: true
+      serviceMonitor:
+        enabled: true
     loki:
       enabled: true
       isDefault: false
@@ -32,4 +34,10 @@ spec:
           max_look_back_period: 0s
         table_manager:
           retention_deletes_enabled: true
-          retention_period: 12h
+          retention_period: 72h
+        limits_config:
+          retention_period: 72h
+      persistence:
+        enabled: true
+        storageClassName: truenas-iscsi
+        size: 10Gi
