@@ -7,4 +7,4 @@ spec:
   instances: 3
   storage:
     size: 100Gi
-    storageClassName: truenas-iscsi
+    storageClass: truenas-iscsi
