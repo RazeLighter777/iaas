@@ -4,7 +4,7 @@ metadata:
   name: bitmagnet-cluster
   namespace: media
 spec:
-  instances: 3
+  instances: 1
   storage:
     size: 100Gi
     storageClass: truenas-iscsi
