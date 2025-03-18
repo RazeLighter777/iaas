@@ -13,6 +13,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
   name: bitmagnet-cluster
+  namespace: media
 spec:
   selector:
     matchLabels:
