@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 3.7.3
+      version: 3.7.2
       interval: 30m
       sourceRef:
         kind: HelmRepository
@@ -92,7 +92,7 @@ spec:
     persistence:
       config:
         enabled: true
-        storageClass: truenas-iscsid
+        storageClass: truenas-iscsi
         size: 100Mi
         accessMode: ReadWriteOnce
         globalMounts:
