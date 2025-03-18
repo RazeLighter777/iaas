@@ -30,7 +30,7 @@ spec:
       valuesKey: client_secret
       targetPath: grafana.grafana\.ini.auth\.generic_oauth.client_secret
     - kind: Secret
-      name: discord-secret 
+      name: discord-media-webhook-secret 
       valuesKey: discord_webhook_url
       targetPath: alertmanager.config.receivers.1.discord_configs.0.webhook_url
   values:
