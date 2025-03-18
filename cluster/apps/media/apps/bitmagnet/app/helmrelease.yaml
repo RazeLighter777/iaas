@@ -67,7 +67,7 @@ spec:
               VPN_SERVICE_PROVIDER: private internet access
               DOT: "off"
               FIREWALL_INPUT_PORTS: 3333
-              FIREWALL_OUTBOUND_SUBNETS: 10.51.0.0/16,10.50.0.0/16,10.10.5.0/24,18.0.0.0/8
+              FIREWALL_OUTBOUND_SUBNETS: 10.96.0.0/12,10.244.0.0/16 # Allow access to k8s subnets
               DNS_KEEP_NAMESERVER: "on"
             envFrom:
               - secretRef:
