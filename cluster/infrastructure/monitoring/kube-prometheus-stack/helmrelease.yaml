@@ -112,6 +112,10 @@ spec:
           receiver: discord
           repeat_interval: 12h
           routes:
+          # cloudnative-pg ha check
+            - match:
+                alertname: CNPGClusterHAWarning 
+              receiver: "null"
             - match:
                 alertname: Watchdog
               receiver: "null"
@@ -121,10 +125,7 @@ spec:
             - match:
                 alertname: InfoInhibitor
               receiver: "null"
-            # cloudnative-pg ha check
-            - match:
-                alertname: CNPGClusterHAWarning 
-              receiver: "null"
+            
     grafana:
       assertNoLeakedSecrets: false # Grafana can't tell we're putting secrets in the valuesFrom field :(
       enabled: true
