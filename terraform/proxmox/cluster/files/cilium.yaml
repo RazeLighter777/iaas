@@ -97,4 +97,4 @@ cluster:
                   - --set
                   - k8sClientRateLimit.qps=62
                   - --set
-                - k8sClientRateLimit.burst=124
+                  - k8sClientRateLimit.burst=124

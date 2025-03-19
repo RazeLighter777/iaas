@@ -5,3 +5,5 @@ terraform.tfstate.backup
 .env
 .pytest_cache/
 terraform/talos/.terraform.tfstate.lock.info
+.env
+.auto.tfvars

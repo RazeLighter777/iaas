@@ -83,23 +83,45 @@ variable "nodes" {
   }
 }
 
-locals {
-  talos = {
+variable "talos" {
+  description = "Talos OS configuration"
+  type = object({
+    version = string
+    url     = string
+  })
+  default = {
     version = "v1.9.4"
     url     = "https://factory.talos.dev/image/96fa7f1f7b45c3234a4dbe767002b7dbac60458bc555398c13396ce3971a5072/v1.9.4/nocloud-amd64.iso"
   }
+}
 
-  network = {
+variable "network" {
+  description = "Network configuration"
+  type = object({
+    default_gateway = string
+    default_dns     = string
+    subnet          = string
+  })
+  default = {
     default_gateway = "192.168.1.254"
     default_dns     = "192.168.1.254"
     subnet          = "/24"
   }
+}
 
-  cluster = {
+variable "cluster" {
+  description = "Kubernetes cluster configuration"
+  type = object({
+    name     = string
+    endpoint = string
+  })
+  default = {
     name     = "cluster"
     endpoint = "https://192.168.1.8:6443"
   }
+}
 
+locals {
   # Use the variable instead of hardcoded values
   unique_nodes = toset(flatten(distinct([for nodes in [var.nodes.controlplanes, var.nodes.workers] : values(nodes)[*].name])))
 
@@ -120,15 +142,15 @@ resource "proxmox_virtual_environment_download_file" "talos_nocloud_image" {
   datastore_id = "local"
   node_name    = each.key
 
-  file_name = "talos-${local.talos.version}-nocloud-${each.key}.amd64.iso"
-  url       = local.talos.url
+  file_name = "talos-${var.talos.version}-nocloud-${each.key}.amd64.iso"
+  url       = var.talos.url
   overwrite = false
 }
 
 # Create VMs for all nodes
 resource "proxmox_virtual_environment_vm" "talos_nodes" {
   for_each    = local.all_nodes
-  name        = "talos-${local.talos.version}-${each.value.name}"
+  name        = "talos-${var.talos.version}-${each.value.name}"
   description = "Managed by Terraform"
   tags        = ["terraform"]
   node_name   = each.value.name
@@ -199,12 +221,12 @@ resource "proxmox_virtual_environment_vm" "talos_nodes" {
 
   initialization {
     dns {
-      servers = [local.network.default_dns]
+      servers = [var.network.default_dns]
     }
     ip_config {
       ipv4 {
-        address = "${each.value.ip}${local.network.subnet}"
-        gateway = local.network.default_gateway
+        address = "${each.value.ip}${var.network.subnet}"
+        gateway = var.network.default_gateway
       }
     }
   }
@@ -214,21 +236,21 @@ resource "proxmox_virtual_environment_vm" "talos_nodes" {
 resource "talos_machine_secrets" "this" {}
 
 data "talos_machine_configuration" "controlplane" {
-  cluster_name     = local.cluster.name
-  cluster_endpoint = local.cluster.endpoint
+  cluster_name     = var.cluster.name
+  cluster_endpoint = var.cluster.endpoint
   machine_type     = "controlplane"
   machine_secrets  = talos_machine_secrets.this.machine_secrets
 }
 
 data "talos_machine_configuration" "worker" {
-  cluster_name     = local.cluster.name
-  cluster_endpoint = local.cluster.endpoint
+  cluster_name     = var.cluster.name
+  cluster_endpoint = var.cluster.endpoint
   machine_type     = "worker"
   machine_secrets  = talos_machine_secrets.this.machine_secrets
 }
 
 data "talos_client_configuration" "this" {
-  cluster_name         = local.cluster.name
+  cluster_name         = var.cluster.name
   client_configuration = talos_machine_secrets.this.client_configuration
   endpoints            = local.controlplane_ips
 }
@@ -251,9 +273,11 @@ resource "talos_machine_configuration_apply" "nodes" {
       hostname        = each.key
       install_disk    = each.value.install_disk
       install_ip      = each.value.ip
-      install_cidr    = local.network.subnet
-      install_gateway = local.network.default_gateway
-    })
+      install_cidr    = var.network.subnet
+      install_gateway = var.network.default_gateway
+    }),
+    file("${path.module}/files/cp-scheduling.yaml"),
+    file("${path.module}/files/cilium.yaml"),
   ]
 }
 
@@ -261,10 +285,35 @@ resource "talos_machine_bootstrap" "this" {
   depends_on           = [talos_machine_configuration_apply.nodes]
   client_configuration = talos_machine_secrets.this.client_configuration
   node                 = keys(var.nodes.controlplanes)[0]
+  endpoint =  local.controlplane_ips[0]
 }
 
 resource "talos_cluster_kubeconfig" "this" {
   depends_on           = [talos_machine_bootstrap.this]
   client_configuration = talos_machine_secrets.this.client_configuration
   node                 = keys(var.nodes.controlplanes)[0]
+  endpoint =  local.controlplane_ips[0]
+}
+
+
+output "kubeconfig" {
+  description = "Kubeconfig for the Talos cluster"
+  value       = talos_cluster_kubeconfig.this.kubeconfig_raw
+  sensitive   = true
+}
+
+output "controlplane_ips" {
+  description = "IPs of the control plane nodes"
+  value       = local.controlplane_ips
+}
+
+output "worker_ips" {
+  description = "IPs of the worker nodes"
+  value       = [for node in var.nodes.workers : node.ip]
+}
+
+output "talos_client_configuration" {
+  description = "Talos client configuration for talosctl"
+  value       = talos_machine_secrets.this.client_configuration
+  sensitive   = true
 }
