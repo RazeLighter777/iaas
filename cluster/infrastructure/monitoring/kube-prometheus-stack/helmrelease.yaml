@@ -92,7 +92,8 @@ spec:
           - name: "null"
           - name: discord
             discord_configs:
-              - title: |-
+              - webhook_url: "" #substituted from discord-webhooks secret
+                title: |-
                   [{{ .Status | toUpper }}:{{ if eq .Status "firing" }}{{ .Alerts.Firing | len }}{{ else }}{{ .Alerts.Resolved | len }}{{ end }}]
                 message: |-
                   {{- range .Alerts }}
