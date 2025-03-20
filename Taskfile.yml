@@ -37,3 +37,21 @@ tasks:
       - test-flux-local
       - test-kubeconform
       - test-terraform
+  deploy-infrastructure: 
+    dir: terraform
+    cmds:
+      - terraform -chdir=proxmox init
+      - terraform -chdir=proxmox apply -auto-approve
+    sources:
+      - terraform/proxmox/**/*.tf
+      - terraform/proxmox/cluster/*
+  deploy-fluxcd: 
+    dir: cluster/bootstrap
+    cmds:
+      - flux bootstrap git --url=ssh://git@github.com/razelighter777/iaas.git --path=cluster/bootstrap --private-key-file=$HOME/.ssh/id_ed25519
+    sources:
+      - cluster/bootstrap/**/*.yaml
+  deploy: 
+    deps:
+      - deploy-infrastructure
+      - deploy-fluxcd

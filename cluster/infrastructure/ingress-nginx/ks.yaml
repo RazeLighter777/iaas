@@ -20,7 +20,3 @@ spec:
     substituteFrom:
       - kind: Secret
         name: cluster-settings
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age

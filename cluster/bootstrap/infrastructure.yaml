@@ -15,10 +15,6 @@ spec:
     kind: GitRepository
     name: flux-system
   path: ./cluster/infrastructure
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
   prune: true
   postBuild:
     substituteFrom:

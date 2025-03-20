@@ -1,3 +1,8 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: vault-creds
+    namespace: flux-system
 data:
     address: ENC[AES256_GCM,data:SKkSM6HKt4BjUAGeUGVuF+VdCIY99Yw=,iv:wxFM92oHvgdxsDeeMvlHzRHxqGye5pFWlWj1O6MKsEo=,tag:qWC+EQgtOVxMTUCDvHMwDQ==,type:str]
     token: ENC[AES256_GCM,data:D/YO9Um9V37ISvDF3eOPD0MDUj/SepsSoktb8g==,iv:Roy2TbbGnBHKCatzwZbk0x2aYuQi2NyONamFJDz2Jyw=,tag:yLcbFQlfFle1pPg6zRTejA==,type:str]
@@ -16,8 +21,8 @@ sops:
             UUExeUNaMzJkdlYyejN6U1RxQm5KMDAKIOkQkMOMdp0dIW/UiOAQjYnbgyyuXcXO
             AIo2+SmiVWE1MOp0ZetH7Cu4FKx3m8a91cjMHmb01W9oh26Qxu8Z7w==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2025-03-19T19:49:13Z"
-    mac: ENC[AES256_GCM,data:QQQvcFhFhWmKkYpztUesJFBMecUp1JViYKMyTTDRlsr7topm/XCixAZqkYe7nbhChDR+SJuLrf91SvwDavthNiM76+qdVaKXLEQkt3OaTT7Ur7NSU3Q/HwoUMmEfaO7DLNT+FMWRY9nYT2A1s3jXD9qtk8L2Xl490vbG4TvUY/Y=,iv:6cpXdmRS6Bf4e1WhP0j4pF9qpQPILSuxs39xZlc+CkM=,tag:5MDYNkebHTY4lquIPQWi/g==,type:str]
+    lastmodified: "2025-03-20T17:53:43Z"
+    mac: ENC[AES256_GCM,data:iz4j3hYrptXOeZFq0V+N9eJk1YhRA3aJmTcAlW43NZzvqkSB4Q/tm2otWk2sBeTecFQNTR7IfGJ9K9ug9G5sjCHftHlj7DV+yck8/IQ64rQAsVu3mrqKQ01pBPx3N/pZEjvTUFQoR8dT1GA0yXatCqQwoM+dcmY269t9H6CrLss=,iv:cgZ+5RWvTWHl/QXMtJPMwn21pW0UI6Sbf4ISlOYWfQg=,tag:SIMAC4HMQ5Ic0GD5DElolw==,type:str]
     pgp: []
     encrypted_regex: ^(data|stringData)$
     version: 3.9.4

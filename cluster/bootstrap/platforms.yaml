@@ -16,10 +16,6 @@ spec:
     name: flux-system
   path: ./cluster/platforms
   prune: true
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
   postBuild:
     substituteFrom:
       - kind: Secret
