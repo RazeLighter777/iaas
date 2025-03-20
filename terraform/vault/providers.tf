@@ -22,8 +22,8 @@ data "sops_file" "vault_secrets" {
 
 provider "vault" {
   # Configuration option
-  address = data.sops_file.vault_secrets.data["data.address"]
-  token = data.sops_file.vault_secrets.data["data.token"]
+  address = data.sops_file.vault_secrets.data["stringData.address"]
+  token = data.sops_file.vault_secrets.data["stringData.token"]
 }
 
 provider "random" {

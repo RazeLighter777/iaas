@@ -55,3 +55,15 @@ tasks:
       - ./scripts/bootstrap.sh
     sources:
       - cluster/bootstrap/**/*.yaml
+  destroy-infrastructure: 
+    dir: terraform
+    cmds:
+      - terraform -chdir=proxmox init
+      - terraform -chdir=proxmox destroy -auto-approve
+    sources:
+      - terraform/proxmox/**/*.tf
+      - terraform/proxmox/cluster/*
+  destroy-vault: 
+    dir: terraform
+    cmds:
+      - terraform -chdir=vault init
