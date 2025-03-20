@@ -1,0 +1,39 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  GREETING: Hello, World!
+
+tasks:
+  default:
+    cmd: task --list
+    silent: true
+  # tests
+  test-flux-local:
+    cmds:
+      - flux-local test --enable-helm
+    sources:
+      - cluster/**/*.yaml
+  test-kubeconform:
+    cmds:
+      - ./scripts/kubeconform.sh
+    sources:
+      - cluster/**/*.yaml
+  test-terraform:
+    dir: terraform 
+    cmds:
+      - terraform -chdir=authentik init
+      - terraform -chdir=authentik validate
+      - terraform -chdir=proxmox init
+      - terraform -chdir=proxmox validate
+      - terraform -chdir=vault init
+      - terraform -chdir=vault validate
+    sources:
+      - terraform/**/*.tf
+      - terraform/**/*.tfvars
+  test:
+    deps:
+      - test-flux-local
+      - test-kubeconform
+      - test-terraform
