@@ -32,7 +32,7 @@ spec:
     - kind: Secret
       name: discord-webhooks
       valuesKey: discord_notifications_webhook
-      targetPath: alertmanager.config.receivers.1.discord_configs.0.webhook_url
+      targetPath: alertmanager.config.receivers[1].discord_configs[0].webhook_url
   values:
     prometheus-node-exporter:
       tolerations:
