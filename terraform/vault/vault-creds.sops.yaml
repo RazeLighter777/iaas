@@ -4,6 +4,7 @@ metadata:
     name: vault-creds
     namespace: flux-system
 stringData:
+    cluster_name: ENC[AES256_GCM,data:biPElwoNWi9ifg==,iv:+kpPhvoBCB4bgC2efy2G7iQ8QlCSAhJdZauSqoQU4ig=,tag:8YTAwkCtstbn/mWv2r6+vg==,type:str]
     address: ENC[AES256_GCM,data:kSSYthgVhHXfNamLZo6yQcg2J2V8Qyc=,iv:/PN8a+z+N2LhPjdzsbzwVZKuruuxCjPwhxhH9cYwD3M=,tag:gdVr4VX1OyoE9N+BR9sRGg==,type:str]
     token: ENC[AES256_GCM,data:PJji6Ab7c412WVZN+5orIoL3OlYXnr9aWnytNw==,iv:XSi3EiccioiWeP9rzo1ew41XkTuWvpzQlrcTgrj9H4M=,tag:Ia2hAHmyJpduu9O641yr6Q==,type:str]
 sops:
@@ -21,8 +22,8 @@ sops:
             UUExeUNaMzJkdlYyejN6U1RxQm5KMDAKIOkQkMOMdp0dIW/UiOAQjYnbgyyuXcXO
             AIo2+SmiVWE1MOp0ZetH7Cu4FKx3m8a91cjMHmb01W9oh26Qxu8Z7w==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2025-03-20T18:08:31Z"
-    mac: ENC[AES256_GCM,data:12Dd1n4ahDsTly47igKA231ifE6hAx+EX7wSYCs27MPhlSwWKUXEHgdZiXKDs3Pu2TnTgt6mtbEOqlju5Be4h+eCcTVu0pd0VBrpMgmLf+RoDCSjxP18ROjgaWDpWS+nH/h9Uov3DaifUHRUUDreG321pYyeG1bFdNlk+yL+3vU=,iv:IqQk55E6a1KK9cf2UGnl2+AotIsNOhmLSFUCpmOi6W4=,tag:0s30bFeJoDo3tmesa6v/RA==,type:str]
+    lastmodified: "2025-03-20T18:22:52Z"
+    mac: ENC[AES256_GCM,data:sR133Koc89HZ/PSiHdKpjbZ82wsH8Cn5fU+iKxmsntA5TVwyrEgNFNuLGCctBFXsUfKK7i2nHKSeyVh+Z5cfgeavXDt+ituHls4vpogeZRDreYtoQxdSdcgXELStiNfwXiE/PjqbS8LGtJve7B7m7gUgi2xqINJnf5/nXvV3uBc=,iv:HcUspgiUIm68XVRrxe63CgRP+GuLxcKckSUbwCIKkGk=,tag:zf+MDjFSvufHaLdFQKH61Q==,type:str]
     pgp: []
     encrypted_regex: ^(data|stringData)$
     version: 3.9.4
