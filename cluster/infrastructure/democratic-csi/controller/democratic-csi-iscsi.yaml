@@ -55,7 +55,6 @@ spec:
         iscsiDirHostPathType: ""
       hostPID: true
     driver:
-      existingConfigSecret: iscsi-driver-config
       config:
         instance_id:
         driver: freenas-api-iscsi
