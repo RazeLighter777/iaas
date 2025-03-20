@@ -3,9 +3,9 @@ kind: Secret
 metadata:
     name: vault-creds
     namespace: flux-system
-data:
-    address: ENC[AES256_GCM,data:SKkSM6HKt4BjUAGeUGVuF+VdCIY99Yw=,iv:wxFM92oHvgdxsDeeMvlHzRHxqGye5pFWlWj1O6MKsEo=,tag:qWC+EQgtOVxMTUCDvHMwDQ==,type:str]
-    token: ENC[AES256_GCM,data:D/YO9Um9V37ISvDF3eOPD0MDUj/SepsSoktb8g==,iv:Roy2TbbGnBHKCatzwZbk0x2aYuQi2NyONamFJDz2Jyw=,tag:yLcbFQlfFle1pPg6zRTejA==,type:str]
+stringData:
+    address: ENC[AES256_GCM,data:kSSYthgVhHXfNamLZo6yQcg2J2V8Qyc=,iv:/PN8a+z+N2LhPjdzsbzwVZKuruuxCjPwhxhH9cYwD3M=,tag:gdVr4VX1OyoE9N+BR9sRGg==,type:str]
+    token: ENC[AES256_GCM,data:PJji6Ab7c412WVZN+5orIoL3OlYXnr9aWnytNw==,iv:XSi3EiccioiWeP9rzo1ew41XkTuWvpzQlrcTgrj9H4M=,tag:Ia2hAHmyJpduu9O641yr6Q==,type:str]
 sops:
     kms: []
     gcp_kms: []
@@ -21,8 +21,8 @@ sops:
             UUExeUNaMzJkdlYyejN6U1RxQm5KMDAKIOkQkMOMdp0dIW/UiOAQjYnbgyyuXcXO
             AIo2+SmiVWE1MOp0ZetH7Cu4FKx3m8a91cjMHmb01W9oh26Qxu8Z7w==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2025-03-20T17:53:43Z"
-    mac: ENC[AES256_GCM,data:iz4j3hYrptXOeZFq0V+N9eJk1YhRA3aJmTcAlW43NZzvqkSB4Q/tm2otWk2sBeTecFQNTR7IfGJ9K9ug9G5sjCHftHlj7DV+yck8/IQ64rQAsVu3mrqKQ01pBPx3N/pZEjvTUFQoR8dT1GA0yXatCqQwoM+dcmY269t9H6CrLss=,iv:cgZ+5RWvTWHl/QXMtJPMwn21pW0UI6Sbf4ISlOYWfQg=,tag:SIMAC4HMQ5Ic0GD5DElolw==,type:str]
+    lastmodified: "2025-03-20T18:08:31Z"
+    mac: ENC[AES256_GCM,data:12Dd1n4ahDsTly47igKA231ifE6hAx+EX7wSYCs27MPhlSwWKUXEHgdZiXKDs3Pu2TnTgt6mtbEOqlju5Be4h+eCcTVu0pd0VBrpMgmLf+RoDCSjxP18ROjgaWDpWS+nH/h9Uov3DaifUHRUUDreG321pYyeG1bFdNlk+yL+3vU=,iv:IqQk55E6a1KK9cf2UGnl2+AotIsNOhmLSFUCpmOi6W4=,tag:0s30bFeJoDo3tmesa6v/RA==,type:str]
     pgp: []
     encrypted_regex: ^(data|stringData)$
     version: 3.9.4
