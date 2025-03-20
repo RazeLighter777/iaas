@@ -139,12 +139,12 @@ spec:
     - kind: Secret
       name: cloudnative-external-s3-secrets
       valuesKey: s3_key
-      targetPath: backups.s3.key
+      targetPath: backups.s3.secretKey
       optional: false
     - kind: Secret
       name: cloudnative-external-s3-secrets
       valuesKey: s3_key_id
-      targetPath: backups.s3.keyId
+      targetPath: backups.s3.accessKey
       optional: false
     - kind: Secret
       name: cloudnative-external-global-s3-secrets
@@ -156,4 +156,3 @@ spec:
       valuesKey: s3_region
       targetPath: backups.s3.region
       optional: false
-      
