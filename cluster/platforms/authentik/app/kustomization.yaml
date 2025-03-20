@@ -5,3 +5,5 @@ metadata:
 resources:
   - ./release.yaml
   - ./authentik-externalsecret.yaml
+  - ./cloudnative-external-global-s3-secrets.yaml
+  - ./cloudnative-external-s3-secrets.yaml

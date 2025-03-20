@@ -122,16 +122,38 @@ spec:
         enabled: true
     backups:
       enabled: true
-      endpointURL: ${s3_url}
       provider: s3
       s3:
-        region: ${s3_region}
-        bucket: ${cloudnative_s3_bucket}
         path: "/v1-restore"
-        accessKey: ${cloudnative_s3_key_id}
-        secretKey: ${cloudnative_s3_key}
       scheduledBackups:
         - name: daily-backup # Daily at midnight
           schedule: "0 0 0 * * *" # Daily at midnight
           backupOwnerReference: self
       retentionPolicy: "30d"
+  valuesFrom:
+    - kind: Secret
+      name: cloudnative-external-s3-secrets
+      valuesKey: s3_bucket
+      targetPath: backups.s3.bucket
+      optional: false
+    - kind: Secret
+      name: cloudnative-external-s3-secrets
+      valuesKey: s3_key
+      targetPath: backups.s3.key
+      optional: false
+    - kind: Secret
+      name: cloudnative-external-s3-secrets
+      valuesKey: s3_key_id
+      targetPath: backups.s3.keyId
+      optional: false
+    - kind: Secret
+      name: cloudnative-external-global-s3-secrets
+      valuesKey: s3_endpoint
+      targetPath: backups.endpointURL
+      optional: false
+    - kind: Secret
+      name: cloudnative-external-global-s3-secrets
+      valuesKey: s3_region
+      targetPath: backups.s3.region
+      optional: false
+      
