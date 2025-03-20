@@ -17,7 +17,7 @@ terraform {
 
 
 data "sops_file" "vault_secrets" {
-  source_file = "vault_secrets.sops.yaml"
+  source_file = "vault-creds.sops.yaml"
 }
 
 provider "vault" {

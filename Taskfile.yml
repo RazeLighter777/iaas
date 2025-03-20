@@ -2,12 +2,9 @@
 
 version: '3'
 
-vars:
-  GREETING: Hello, World!
-
 tasks:
   default:
-    cmd: task --list
+    cmd: task --list-all
     silent: true
   # tests
   test-flux-local:
@@ -37,6 +34,14 @@ tasks:
       - test-flux-local
       - test-kubeconform
       - test-terraform
+  deploy-vault: 
+    dir: terraform
+    cmds:
+      - terraform -chdir=vault init
+      - terraform -chdir=vault apply -auto-approve
+    sources:
+      - terraform/vault/**/*.tf
+      - terraform/vault/*.tfvars
   deploy-infrastructure: 
     dir: terraform
     cmds:
@@ -50,7 +55,3 @@ tasks:
       - ./scripts/bootstrap.sh
     sources:
       - cluster/bootstrap/**/*.yaml
-  deploy: 
-    deps:
-      - deploy-infrastructure
-      - deploy-fluxcd
