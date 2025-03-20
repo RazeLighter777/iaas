@@ -17,8 +17,8 @@ spec:
     - kind: Secret
       name: grafana-oauth
       varsKeys:
-        - client_id
-        - client_secret
+        - client_id:grafana_client_id
+        - client_secret:grafana_client_secret
   vars: 
     - name: service_url
       value: http://authentik-server.authentik.svc.cluster.local:80
