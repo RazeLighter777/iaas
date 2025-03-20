@@ -5,6 +5,7 @@ DOMAIN_NAME = "example.com"
 TIMEZONE = "America/New_York"
 INGRESS_IP = "192.168.1.x"
 TRUENAS_IP = "192.168.1.x"
+EMAIL_ADDRESS = "your-email@example.com"
 
 # TrueNAS
 TRUENAS_MEDIA_SHARE_PATH = "/mnt/path/to/media"
@@ -34,6 +35,4 @@ PRIVATE_INTERNET_ACCESS_PASSWORD = "your-password"
 # Discord webhooks
 DISCORD_NOTIFICATIONS_WEBHOOK = "https://discordapp.com/api/webhooks/your-webhook-id/your-webhook-token"
 DISCORD_MEDIA_WEBHOOK = "https://discordapp.com/api/webhooks/your-webhook-id/your-webhook-token"
-````
 
-I've replaced all sensitive information with generic placeholders while maintaining the structure of the original file. This makes it safe to commit to version control as an example template.

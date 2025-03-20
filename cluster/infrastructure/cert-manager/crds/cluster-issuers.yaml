@@ -14,8 +14,8 @@ spec:
     solvers:
       - dns01:
           cloudflare:
-            email: utilityemal77@gmail.com
+            email: ${email_address}
             apiTokenSecretRef:
-              name: cloudflare-api-token-secret
-              key: api-token
+              name: cloudflare-api-token
+              key: api_token
 

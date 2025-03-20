@@ -57,10 +57,50 @@ spec:
     driver:
       existingConfigSecret: iscsi-driver-config
       config:
-        # please see the most up-to-date example of the corresponding config here:
-        # https://github.com/democratic-csi/democratic-csi/tree/master/examples
-        # YOU MUST COPY THE DATA HERE INLINE!
+        instance_id:
         driver: freenas-api-iscsi
+        httpConnection:
+          protocol: https
+          host: ${truenas_ip}
+          port: 443
+          allowInsecure: true
+          apiVersion: 2
+          apiKey: ${truenas_api_key}
+        zfs:
+          datasetParentName: ${truenas_iscsi_share_path}/volumes
+          detachedSnapshotsDatasetParentName: ${truenas_iscsi_share_path}/snapshots
+          zvolCompression:
+          zvolDedup:
+          zvolEnableReservation: false
+          zvolBlocksize:
+        iscsi:
+          targetPortal: ${truenas_ip}:3260
+          targetPortals: []
+          # leave empty to omit usage of -I with iscsiadm
+          interface:
+          #nameTemplate: "{{ parameters.[csi.storage.k8s.io/pvc/namespace] }}-{{ parameters.[csi.storage.k8s.io/pvc/name] }}"
+          namePrefix: csi-
+          nameSuffix: "-talos"
+          # add as many as needed
+          targetGroups:
+            # get the correct ID from the "portal" section in the UI
+            - targetGroupPortalGroup: 1
+              # get the correct ID from the "initiators" section in the UI
+              targetGroupInitiatorGroup: 1
+              # None, CHAP, or CHAP Mutual
+              targetGroupAuthType: None
+              # get the correct ID from the "Authorized Access" section of the UI
+              # only required if using Chap
+              targetGroupAuthGroup:
+          extentInsecureTpc: true
+          extentXenCompat: false
+          extentDisablePhysicalBlocksize: true
+          # 512, 1024, 2048, or 4096,
+          extentBlocksize: 512
+          # "" (let FreeNAS decide, currently defaults to SSD), Unknown, SSD, 5400, 7200, 10000, 15000
+          extentRpm: "SSD"
+          # 0-100 (0 == ignore)
+          extentAvailThreshold: 0
     storageClasses:
     - name: truenas-iscsi
       defaultClass: false

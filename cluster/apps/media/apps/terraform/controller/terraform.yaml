@@ -14,9 +14,9 @@ spec:
     namespace: flux-system
   varsFrom:
     - kind: Secret
-      name: arrs-api-keys
+      name: arrs-apikeys
     - kind: Secret
-      name: discord-media-webhook-secret
+      name: discord-webhooks
   vars: 
     - name: cluster_media_domain
       value: media.svc.cluster.local

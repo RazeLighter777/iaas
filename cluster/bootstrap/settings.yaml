@@ -5,6 +5,8 @@ metadata:
   name: settings
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: sources
   wait: true
   interval: 1h
   retryInterval: 1m

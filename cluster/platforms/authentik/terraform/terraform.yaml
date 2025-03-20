@@ -13,7 +13,7 @@ spec:
     namespace: flux-system
   varsFrom:
     - kind: Secret
-      name: authentik-bootstrap-secrets
+      name: authentik-token
     - kind: Secret
       name: grafana-oauth-secrets
       varsKeys:

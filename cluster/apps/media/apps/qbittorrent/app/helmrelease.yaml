@@ -49,7 +49,7 @@ spec:
               PORT_FORWARD_ONLY: true
             envFrom:
               - secretRef:
-                  name: vpn-secret
+                  name: torrent-vpn-credentials 
             lifecycle:
               postStart:
                 exec:

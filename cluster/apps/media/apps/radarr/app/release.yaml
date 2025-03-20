@@ -225,6 +225,6 @@ spec:
                   port: *port
   valuesFrom:
     - kind: Secret
-      name: arrs-api-keys
+      name: radarr
       valuesKey: RADARR__AUTH__APIKEY
       targetPath: controllers.radarr.containers.exporter.env.APIKEY

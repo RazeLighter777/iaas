@@ -21,6 +21,6 @@ spec:
     volumeHandle: media
     volumeAttributes:
       server: ${truenas_ip}
-      share: ${media_share_path}
+      share: ${truenas_media_share_path}
       node_attach_driver: nfs
       provisioner_driver: node-manual

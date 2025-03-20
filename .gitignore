@@ -7,4 +7,4 @@ terraform.tfstate.backup
 terraform/talos/.terraform.tfstate.lock.info
 .env
 .auto.tfvars
-.task
+.task/

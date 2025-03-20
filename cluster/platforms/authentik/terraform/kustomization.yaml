@@ -4,5 +4,5 @@ metadata:
   namespace: flux-system
 resources:
   - ./terraform.yaml
-  - ../authentik-bootstrap-secrets.sops.yaml
-  - ../../../infrastructure/monitoring/kube-prometheus-stack/grafana-oauth-secrets.sops.yaml
+  - ./grafana-oauth-externalsecret.yaml
+  - ./authentik-token-externalsecret.yaml

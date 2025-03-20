@@ -112,7 +112,7 @@ spec:
                   value: ${timezone}    
             envFrom:
               - secretRef:
-                  name: arrs-api-keys
+                  name: sonarr
             probes:
               liveness: &probes
                 enabled: true
@@ -224,6 +224,6 @@ spec:
                   port: *port
   valuesFrom:
     - kind: Secret
-      name: arrs-api-keys
+      name: sonarr
       valuesKey: SONARR__AUTH__APIKEY
       targetPath: controllers.sonarr.containers.exporter.env.APIKEY

@@ -68,8 +68,8 @@ spec:
           readOnly: true
   valuesFrom:
     - kind: Secret
-      name: authentik-secret-key
-      valuesKey: secret_key
+      name: authentik-bootstrap-secrets
+      valuesKey: AUTHENTIK_SECRET_KEY
       targetPath: authentik.secret_key
       optional: false
     - kind: Secret

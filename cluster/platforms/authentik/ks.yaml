@@ -20,10 +20,6 @@ spec:
     substituteFrom:
       - kind: Secret
         name: cluster-settings
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -46,7 +42,3 @@ spec:
     substituteFrom:
       - kind: Secret
         name: cluster-settings
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
