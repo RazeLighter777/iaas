@@ -12,7 +12,7 @@ tasks:
   # tests
   test-flux-local:
     cmds:
-      - flux-local test --enable-helm
+      - flux-local test
     sources:
       - cluster/**/*.yaml
   test-kubeconform:
@@ -46,9 +46,8 @@ tasks:
       - terraform/proxmox/**/*.tf
       - terraform/proxmox/cluster/*
   deploy-fluxcd: 
-    dir: cluster/bootstrap
     cmds:
-      - flux bootstrap git --url=ssh://git@github.com/razelighter777/iaas.git --path=cluster/bootstrap --private-key-file=$HOME/.ssh/id_ed25519
+      - ./scripts/bootstrap.sh
     sources:
       - cluster/bootstrap/**/*.yaml
   deploy: 
