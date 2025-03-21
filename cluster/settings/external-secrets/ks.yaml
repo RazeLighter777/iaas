@@ -35,3 +35,4 @@ spec:
       - kind: Secret
         # created by deployment pipeline
         name: vault-creds
+      
