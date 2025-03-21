@@ -51,8 +51,8 @@ spec:
         initContainers:
           init-db:
             image:
-              repository: ghcr.io/onedr0p/postgres-init
-              tag: 17.4
+              repository: ghcr.io/home-operations/postgres-init
+              tag: sha256-a9f405688344a8a6f718e2c344438342ad21540986aeb5ab5fa781831eb2c597
             env:
               - name: INIT_POSTGRES_DBNAME
                 value: sonarr_main sonarr_log
@@ -73,9 +73,9 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/onedr0p/sonarr-develop
-              # renovate: datasource=github-releases depName=onedr0p/sonarr-develop
-              tag: 4.0.13.2934@sha256:d871b5816748ecca49e322b905b399d5aaf2ef36fa3ec45179f785f2c5861a41
+              repository: ghcr.io/home-operations/sonarr
+              # renovate: datasource=github-releases depName=home-operations/sonarr-develop
+              tag: 4.0.14.2938@sha256:0169c421055790ef8bd9b5c2807663bb487f56daf1f602a20612a0257c491462
             env:
                 - name: SONARR__APP__INSTANCENAME
                   value: ${domain_name} Sonarr
