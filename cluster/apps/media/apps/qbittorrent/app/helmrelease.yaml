@@ -34,9 +34,18 @@ spec:
               - -conf
               - /etc/coredns/Corefile
             restartPolicy: Always
+          config-init:
+            image:
+              repository: busybox
+              tag: 1.36.1
+            command:
+              - /bin/sh
+              - -c
+              - "cp /template/qBittorrent.conf /config/qBittorrent/qBittorrent.conf"
           gluetun:
             dependsOn:
               - coredns
+              - config-init
             image:
               repository: ghcr.io/qdm12/gluetun
               tag: v3.40.0
@@ -74,10 +83,11 @@ spec:
               UMASK: "022"
               QBT_WEBUI_PORT: &port 8080
               QBT_DOWNLOADS_PATH: /media/downloads
-            lifecycle:
-              postStart:
-                exec:
-                  command: ["/bin/sh", "-c", "cp /template/qBittorrent.conf /config/qBittorrent/qBittorrent.conf"]
+            # Remove the lifecycle postStart hook
+            # lifecycle:
+            #   postStart:
+            #     exec:
+            #       command: ["/bin/sh", "-c", "cp /template/qBittorrent.conf /config/qBittorrent/qBittorrent.conf"]
             probes:
               liveness:
                 enabled: true
@@ -178,6 +188,9 @@ spec:
             app:
               - path: /config
                 subPath: config
+            config-init:
+              - path: /config
+                subPath: config
       empty-config:
         type: emptyDir
         advancedMounts:
@@ -206,7 +219,6 @@ spec:
         name: qbittorrent-config
         advancedMounts:
           qbittorrent:
-            app:
-              - path: /template/qBittorrent.conf
-                subPath: qBittorrent.conf
+            config-init:
+              - path: /template
                 readOnly: true
