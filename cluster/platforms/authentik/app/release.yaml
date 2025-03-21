@@ -124,7 +124,7 @@ spec:
       enabled: true
       provider: s3
       s3:
-        path: "/v1-restore"
+        path: "/v2-restore"
       scheduledBackups:
         - name: daily-backup # Daily at midnight
           schedule: "0 0 0 * * *" # Daily at midnight
