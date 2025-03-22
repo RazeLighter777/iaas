@@ -65,9 +65,6 @@ spec:
                   secretKeyRef:
                     name: cloudnative-database-media-cluster-app
                     key: password
-            envFrom:
-              - secretRef:
-                  name: bazarr-secret
             probes:
               liveness: &probes
                 enabled: true
