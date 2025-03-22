@@ -18,7 +18,7 @@ spec:
       interval: 5m
   values:
     image: itzg/minecraft-server
-    imageTag: java17
+    imageTag: java21
     strategyType: Recreate
     persistence:
       storageClass: truenas-iscsi
