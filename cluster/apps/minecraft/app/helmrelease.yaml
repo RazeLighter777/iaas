@@ -36,6 +36,7 @@ spec:
     extraEnv:
       ENABLE_AUTOPAUSE: FALSE
       SPIGET_RESOURCES: "74354,28140,86449"
+      ONLINE_MODE: FALSE
     minecraftServer:
       eula: "TRUE"
       version: "LATEST"
