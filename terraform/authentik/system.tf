@@ -18,6 +18,7 @@ resource "authentik_outpost" "proxyoutpost" {
     module.booktok.proxy_provider_id,
     module.cwa.proxy_provider_id,
     module.bitmagnet.proxy_provider_id,
+    module.bazarr.proxy_provider_id,
   ]
 
   config = jsonencode({
