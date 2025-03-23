@@ -1,0 +1,35 @@
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: cluster-alert
+  namespace: flux-system
+spec:
+  summary: "Flux cluster alert"
+  eventMetadata:
+    domain: ${domain_name}
+  providerRef:
+    name: discord
+  eventSeverity: error
+  eventSources:
+    - kind: GitRepository
+      name: '*'
+    - kind: Kustomization
+      name: '*'
+    - kind: HelmRelease
+      name: '*'
+    - kind: HelmChart
+      name: '*'
+    - kind: Bucket
+      name: '*'
+    - kind: OCIRepository
+      name: '*'
+    - kind: ImageRepository
+      name: '*'
+    - kind: ImagePolicy
+      name: '*'
+    - kind: ImageUpdateAutomation
+      name: '*'
+    - kind: HelmRepository
+      name: '*'
+    - kind: Terraform
+      name: '*'
