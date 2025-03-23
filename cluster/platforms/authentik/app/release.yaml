@@ -115,6 +115,8 @@ spec:
       retries: 3
   values:
     cluster:
+      annotations:
+        cnpg.io/skipEmptyWalArchiveCheck: "true"
       storage:
         storageClass: truenas-iscsi
       instances: 1
