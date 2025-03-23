@@ -10,3 +10,4 @@ spec:
     requests:
       storage: 10Gi # actually meaningless for NFS
   volumeName: media-media
+  
