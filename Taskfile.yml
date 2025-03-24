@@ -20,11 +20,11 @@ tasks:
   test-terraform:
     dir: terraform 
     cmds:
-      - terraform -chdir=authentik init
+      - terraform -chdir=authentik init -upgrade
       - terraform -chdir=authentik validate
-      - terraform -chdir=proxmox init
+      - terraform -chdir=proxmox init -upgrade
       - terraform -chdir=proxmox validate
-      - terraform -chdir=vault init
+      - terraform -chdir=vault init -upgrade
       - terraform -chdir=vault validate
     sources:
       - terraform/**/*.tf
