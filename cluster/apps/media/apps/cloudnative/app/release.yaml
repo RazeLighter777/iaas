@@ -84,3 +84,18 @@ spec:
       valuesKey: s3_region
       targetPath: recovery.s3.region
       optional: false
+    - kind: Secret
+      name: cloudnative-external-s3-secrets
+      valuesKey: s3_bucket
+      targetPath: recovery.s3.bucket
+      optional: false
+    - kind: Secret
+      name: cloudnative-external-s3-secrets
+      valuesKey: s3_key
+      targetPath: recovery.s3.secretKey
+      optional: false
+    - kind: Secret
+      name: cloudnative-external-s3-secrets
+      valuesKey: s3_key_id
+      targetPath: recovery.s3.accessKey
+      optional: false

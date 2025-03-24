@@ -131,7 +131,10 @@ spec:
         - name: daily-backup # Daily at midnight
           schedule: "0 0 0 * * *" # Daily at midnight
           backupOwnerReference: self
-      retentionPolicy: "30d"
+      retentionPolicy: "7d"
+    recovery:
+      s3:
+        path: "/v2-restore"
   valuesFrom:
     - kind: Secret
       name: cloudnative-external-s3-secrets
@@ -157,4 +160,29 @@ spec:
       name: cloudnative-external-global-s3-secrets
       valuesKey: s3_region
       targetPath: backups.s3.region
+      optional: false
+    - kind: Secret
+      name: cloudnative-external-global-s3-secrets
+      valuesKey: s3_endpoint
+      targetPath: recovery.endpointURL
+      optional: false
+    - kind: Secret
+      name: cloudnative-external-global-s3-secrets
+      valuesKey: s3_region
+      targetPath: recovery.s3.region
+      optional: false
+    - kind: Secret
+      name: cloudnative-external-s3-secrets
+      valuesKey: s3_bucket
+      targetPath: recovery.s3.bucket
+      optional: false
+    - kind: Secret
+      name: cloudnative-external-s3-secrets
+      valuesKey: s3_key
+      targetPath: recovery.s3.secretKey
+      optional: false
+    - kind: Secret
+      name: cloudnative-external-s3-secrets
+      valuesKey: s3_key_id
+      targetPath: recovery.s3.accessKey
       optional: false
