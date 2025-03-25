@@ -6,6 +6,9 @@ name: Taskfile Tests
 on:
   push:
     branches: [ "staging" ]
+  pull_request:
+    branches: [ "main" ]
+
 permissions:
   statuses: write
 
