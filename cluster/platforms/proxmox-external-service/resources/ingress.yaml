@@ -13,6 +13,6 @@ spec:
         path: /
         backend:
           service:
-            name: external-ip
+            name: proxmox-external-service
             port:
               number: 8006
