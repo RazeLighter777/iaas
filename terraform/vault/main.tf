@@ -25,6 +25,7 @@ resource "vault_kv_secret_backend_v2" "example" {
 
 ### Globals
 
+
 variable "DOMAIN_NAME" {
   type = string
 }
@@ -100,6 +101,13 @@ variable "CLOUDFLARE_API_TOKEN" {
     type = string
 }
 
+variable "CLOUDFLARE_ARGO_TUNNEL_CREDS" {
+    type = string
+}
+
+variable "CLOUDFLARE_ARGO_TUNNEL_ID" {
+  
+}
 
 ### private internet access
 variable "PRIVATE_INTERNET_ACCESS_USERNAME" {
@@ -182,6 +190,8 @@ resource "vault_kv_secret_v2" "cloudflare" {
     name    = "cloudflare"
     data_json = jsonencode({
         "api_token" = var.CLOUDFLARE_API_TOKEN
+        "argo_tunnel_creds" = var.CLOUDFLARE_ARGO_TUNNEL_CREDS
+        "argo_tunnel_id" = var.CLOUDFLARE_ARGO_TUNNEL_ID
     })
 }
 
