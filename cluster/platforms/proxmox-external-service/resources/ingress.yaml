@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: proxmox-external-service
   namespace: proxmox-external-service
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
   ingressClassName: nginx
   rules:
