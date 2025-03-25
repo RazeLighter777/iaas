@@ -6,6 +6,8 @@ name: Taskfile Tests
 on:
   push:
     branches: [ "staging" ]
+permissions:
+  statuses: write
 
 jobs:
 
