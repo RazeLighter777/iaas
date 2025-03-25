@@ -11,6 +11,8 @@ on:
 
 permissions:
   statuses: write
+  checks: write
+  contents: write
 
 jobs:
 
