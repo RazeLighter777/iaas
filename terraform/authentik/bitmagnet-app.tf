@@ -4,11 +4,11 @@ module "bitmagnet" {
 
   name   = "Bitmagnet"
   domain_name = "bitmagnet.${var.domain_name}"
-  group  = "trackers"
+  group  = "networking"
 
   policy_engine_mode      = "any"
   authorization_flow_uuid = data.authentik_flow.default-authorization-flow.id
-  meta_icon = "https://static.thenounproject.com/png/607762-200.png"
+  meta_icon = "https://avatars.githubusercontent.com/u/146768397?v=4"
 }
 
 resource "authentik_group" "bitmagnet-users" {

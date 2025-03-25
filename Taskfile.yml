@@ -27,7 +27,7 @@ tasks:
       - terraform -chdir=vault init -upgrade
       - terraform -chdir=vault validate
     sources:
-      - terraform/**/*.tf
+      - terraform/**.tf
       - terraform/**/*.tfvars
   test:
     deps:
