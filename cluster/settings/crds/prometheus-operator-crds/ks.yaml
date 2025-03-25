@@ -5,7 +5,6 @@ metadata:
   name: prometheus-operator-crds
   namespace: flux-system
 spec:
-  wait: true
   path: "./cluster/settings/crds/prometheus-operator-crds/app"
   interval: 24h
   retryInterval: 2m
