@@ -1,16 +1,18 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
+buildMetadata:
+- originAnnotations
+configMapGenerator:
+- files:
+  - dashboards/control-plane.json
+  - dashboards/cluster.json
+  - dashboards/logs.json
+  - dashboards/bitmagnet.json
+  name: flux-grafana-dashboards
+  options:
+    labels:
+      app.kubernetes.io/component: monitoring
+      app.kubernetes.io/part-of: flux
+      grafana_dashboard: "1"
+      kustomize.toolkit.fluxcd.io/substitute: disabled
 kind: Kustomization
 namespace: monitoring
-configMapGenerator:
-  - name: flux-grafana-dashboards
-    files:
-      - dashboards/control-plane.json
-      - dashboards/cluster.json
-      - dashboards/logs.json
-      - dashboards/bitmagnet.json
-    options:
-      labels:
-        grafana_dashboard: "1"
-        app.kubernetes.io/part-of: flux
-        app.kubernetes.io/component: monitoring
-        kustomize.toolkit.fluxcd.io/substitute: disabled

@@ -6,3 +6,4 @@ spec:
   blocks:
     - cidr: "192.168.1.10/32"
     - cidr: "192.168.1.17/32" #minecraft
+    - cidr: "192.168.1.4/32" #wireguard
