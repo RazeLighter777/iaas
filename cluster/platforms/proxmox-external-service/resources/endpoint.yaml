@@ -13,5 +13,3 @@ ports:
 endpoints:
   - addresses:
       - ${proxmox_ip}
-    conditions:
-      ready: true
