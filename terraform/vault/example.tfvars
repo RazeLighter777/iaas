@@ -7,6 +7,9 @@ INGRESS_IP = "192.168.1.x"
 TRUENAS_IP = "192.168.1.x"
 EMAIL_ADDRESS = "your-email@example.com"
 
+# Proxmox
+PROXMOX_IP = "192.168.1.x"
+
 # TrueNAS
 TRUENAS_MEDIA_SHARE_PATH = "/mnt/path/to/media"
 TRUENAS_ISCSI_SHARE_PATH = "path/to/iscsi"

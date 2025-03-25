@@ -46,6 +46,12 @@ variable "EMAIL_ADDRESS" {
     type = string
 }
 
+### Proxmox 
+
+variable "PROXMOX_IP" {
+    type = string
+}
+
 ### TrueNAS
 
 variable "TRUENAS_MEDIA_SHARE_PATH" {
@@ -311,5 +317,26 @@ resource "vault_kv_secret_v2" "grafana_oauth" {
     })
 }
 
+resource "random_password" "proxmox_oauth_client_secret" {
+  length = 32
+  special = false
+  numeric = false
+  upper = false
+}
 
+resource "random_password" "proxmox_oauth_client_id" {
+  length = 32
+  special = false
+  numeric = false
+  upper = false
+}
 
+resource "vault_kv_secret_v2" "proxmox" {
+    mount    = vault_mount.kv.path
+    name    = "proxmox"
+    data_json = jsonencode({
+        "client_id" = random_password.proxmox_oauth_client_id.result
+        "client_secret" = random_password.proxmox_oauth_client_secret.result
+        "proxmox_ip" = var.PROXMOX_IP
+    })
+}

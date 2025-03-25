@@ -1,0 +1,14 @@
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  name: proxmox-external-service
+addressType: IPv4
+ports:
+  - name: proxmox-https
+    port: 8006
+    protocol: TCP
+endpoints:
+  - addresses:
+      - ${proxmox_ip}
+    conditions:
+      ready: true
