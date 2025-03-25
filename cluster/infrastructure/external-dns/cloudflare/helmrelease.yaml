@@ -3,6 +3,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: &app external-dns-cloudflare
+  namespace: external-dns
 spec:
   dependsOn:
     - name: kube-prometheus-stack
@@ -36,14 +37,15 @@ spec:
             name: &secret cloudflare-api-token
             key: api_token
     extraArgs:
+      - --cloudflare-proxied
       - --cloudflare-dns-records-per-page=1000
       - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
       - --crd-source-kind=DNSEndpoint
       - --events
       - --ignore-ingress-tls-spec
-      - --ingress-class=nginx
+      - --managed-record-types=CNAME
     policy: sync
-    sources: ["crd", "ingress"]
+    sources: ["crd"]
     txtPrefix: k8s.
     txtOwnerId: default
     domainFilters:
