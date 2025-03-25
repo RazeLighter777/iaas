@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./ks.yaml
+  - ./cloudflare-tunnel-id-externalsecret.yaml
