@@ -27,13 +27,13 @@ jobs:
       uses: actions/cache@v4
       with:
         path: |
-          ~/.task
+          .task
         key: ${{ runner.os }}-taskfile-${{ hashFiles('**/Taskfile.yml') }}
     - name: Cache flux-local (pytest)
       uses: actions/cache@v4
       with:
         path: |
-          ~/.pytest_cache
+          .pytest_cache
         key: ${{ runner.os }}-pytest-${{ hashFiles('**/requirements.txt') }}
     - name: Setup Task runner
       uses: arduino/setup-task@v2
