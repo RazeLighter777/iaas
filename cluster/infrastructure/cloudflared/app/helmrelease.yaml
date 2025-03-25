@@ -69,7 +69,6 @@ spec:
               capabilities:
                 drop:
                   - ALL
-
     persistence:
       config:
         type: configMap
@@ -77,6 +76,13 @@ spec:
         globalMounts:
           - path: /etc/cloudflared/config.yaml
             subPath: config.yaml
+            readOnly: true
+      credentials:
+        type: secret
+        name: cloudflared-secret
+        globalMounts:
+          - path: /etc/cloudflared/${TUNNEL_ID}.json
+            subPath: credentials.json
             readOnly: true
 
     service:
