@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: external-ip
+  namespace: proxmox-external-service
+spec:
+  ports:
+  - name: proxmox-https
+    port: 8006
+    protocol: TCP
+    targetPort: 8006
+  selector:
+    app: proxmox-external-service
+  type: ClusterIP
+
