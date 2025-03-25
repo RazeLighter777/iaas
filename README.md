@@ -1,5 +1,7 @@
 # 🤖 GitOps Homelab
 
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/RazeLighter777/iaas/taskfile-tests-workflow.yaml)
+
 My overkill kubernetes homelab. 
 
 ## 🧰 Hardware

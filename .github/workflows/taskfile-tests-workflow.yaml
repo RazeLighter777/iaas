@@ -1,0 +1,75 @@
+# This workflow will build a golang project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
+
+name: Taskfile Tests
+
+on:
+  push:
+    branches: [ "staging" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  statuses: write
+  checks: write
+  contents: write
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        ref: staging
+    - name: Setup Task runner
+      uses: arduino/setup-task@v2
+      with:
+        version: 3.x
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Setup Flux CLI
+      uses: fluxcd/flux2/action@main
+      with:
+        version: 'latest'
+    - name: Setup Python environment
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.13' 
+    - name: Setup Go environment
+      uses: actions/setup-go@v5
+      with:
+        go-version: '^1.13.1' # The Go version to download (if necessary) and use.
+        cache: false
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: 1.11.2
+    - name: Install flux-local
+      run: pip3 install flux-local
+    - name: Install kubeconform
+      run: go install github.com/yannh/kubeconform/cmd/kubeconform@latest
+    - name: Run Terraform tests
+      run: task test-terraform
+    - name: Run Flux local tests
+      run: task test-flux-local
+    - name: Run Kubeconform tests
+      run: task test-kubeconform
+    - name: github-status-action-v2
+      uses: guibranco/github-status-action-v2@v1.1.13
+      if: success()
+      with: 
+        authToken: ${{secrets.GITHUB_TOKEN}}
+        context: 'Test run'
+        description: 'Passed'
+        state: 'success'
+        sha: ${{github.event.pull_request.head.sha || github.sha}}
+    - name: Merge staging -> main
+      if: github.event_name != 'pull_request' && success()
+      uses: devmasx/merge-branch@master
+      with:
+        type: now
+        from_branch: staging
+        target_branch: main
+        message: "Pipeline Passed: Merge staging -> main"
+        github_token: ${{ secrets.GITHUB_TOKEN }}
