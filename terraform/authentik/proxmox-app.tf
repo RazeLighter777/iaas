@@ -16,7 +16,7 @@ resource "authentik_provider_oauth2" "proxmox" {
   allowed_redirect_uris = [
     {
       matching_mode = "strict"
-      url           = "https://proxmox.${var.domain_name}/"
+      url           = "https://proxmox.${var.domain_name}"
     }
   ]
 
