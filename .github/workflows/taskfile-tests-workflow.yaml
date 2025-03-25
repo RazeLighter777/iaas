@@ -5,9 +5,7 @@ name: Go
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches: [ "staging" ]
 
 jobs:
 
@@ -15,6 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
+      with:
+        ref: staging
     - uses: arduino/setup-task@v2
       with:
         version: 3.x
@@ -37,3 +37,22 @@ jobs:
     - run: task test-terraform
     - run: task test-flux-local
     - run: task test-kubeconform
+    - name: Merge staging -> main
+      if: ${{ success() }}
+      uses: devmasx/merge-branch@master
+      with:
+        type: now
+        from_branch: staging
+        target_branch: main
+        message: "Pipeline Passed: Merge staging -> main"
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Create status check
+      uses: mapbox/create-status-check@v1
+      if: ${{ success() }}
+      with:
+        authToken: ${{secrets.GITHUB_TOKEN}}
+        context: 'Test run'
+        description: 'Passed'
+        state: 'success'
+        sha: ${{github.event.pull_request.head.sha || github.sha}}
+
