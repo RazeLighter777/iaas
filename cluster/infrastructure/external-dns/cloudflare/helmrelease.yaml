@@ -42,6 +42,7 @@ spec:
       - --crd-source-kind=DNSEndpoint
       - --events
       - --ignore-ingress-tls-spec
+      - --managed-record-types=CNAME
     policy: sync
     sources: ["crd"]
     txtPrefix: k8s.
