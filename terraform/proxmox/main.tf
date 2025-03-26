@@ -53,6 +53,18 @@ module "k8s_cluster" {
           pci_device      = "igpu"
         }
       }
+      "w2" = {
+        name         = "node2"
+        install_disk = "/dev/vda"
+        ip           = "192.168.1.11"
+        vm = {
+          cores           = 28
+          memory          = 48000
+          disk_size       = 200
+          pci_passthrough = false 
+          pci_device      = null
+        }
+      }
     }
   }
 
