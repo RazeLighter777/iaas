@@ -6,6 +6,9 @@ metadata:
   namespace: flux-system
 spec:
   path: "./cluster/settings/crds/prometheus-operator-crds/app"
+  dependsOn:
+    - name: external-secrets-crs
+      namespace: flux-system
   interval: 24h
   retryInterval: 2m
   timeout: 5m
