@@ -20,7 +20,7 @@ spec:
         - client_id:grafana_client_id
         - client_secret:grafana_client_secret
     - kind: Secret
-      name: proxmox-oauth-terraform
+      name: proxmox-oauth
       varsKeys:
         - client_id:proxmox_client_id
         - client_secret:proxmox_client_secret
