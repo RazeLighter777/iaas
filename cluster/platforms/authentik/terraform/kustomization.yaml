@@ -5,6 +5,3 @@ metadata:
 namespace: flux-system
 resources:
 - ./terraform.yaml
-- ./grafana-oauth-externalsecret.yaml
-- ./authentik-token-externalsecret.yaml
-- ./proxmox-oauth-externalsecret.yaml
