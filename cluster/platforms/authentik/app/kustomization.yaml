@@ -2,8 +2,9 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 metadata:
   namespace: authentik
+namespace: authentik
 resources:
-  - ./release.yaml
-  - ./authentik-externalsecret.yaml
-  - ./cloudnative-external-global-s3-secrets.yaml
-  - ./cloudnative-external-s3-secrets.yaml
+- ./release.yaml
+- ./authentik-externalsecret.yaml
+- ./cloudnative-external-global-s3-secrets.yaml
+- ./cloudnative-external-s3-secrets.yaml
