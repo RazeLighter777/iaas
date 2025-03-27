@@ -9,31 +9,31 @@ module "k8s_cluster" {
         ip           = "192.168.1.8"
         vm = {
           cores           = 8
-          memory          = 16000
+          memory          = 8000
           disk_size       = 128
           pci_passthrough = false
           pci_device      = null
         }
       },
       "cp1" = {
-        name         = "node1"
+        name         = "node2"
         install_disk = "/dev/vda"
         ip           = "192.168.1.6"
         vm = {
           cores           = 8
-          memory          = 16000
+          memory          = 8000
           disk_size       = 128
           pci_passthrough = false
           pci_device      = null
         }
       },
       "cp2" = {
-        name         = "node1"
+        name         = "nuc"
         install_disk = "/dev/vda"
         ip           = "192.168.1.7"
         vm = {
           cores           = 8
-          memory          = 16000
+          memory          = 8000
           disk_size       = 128
           pci_passthrough = false
           pci_device      = null
@@ -62,6 +62,18 @@ module "k8s_cluster" {
           memory          = 48000
           disk_size       = 200
           pci_passthrough = false 
+          pci_device      = null
+        }
+      }
+      "w3" = {
+        name         = "node1"
+        install_disk = "/dev/vda"
+        ip           = "192.168.1.13"
+        vm = {
+          cores           = 28
+          memory          = 48000
+          disk_size       = 200
+          pci_passthrough = false
           pci_device      = null
         }
       }

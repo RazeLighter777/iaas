@@ -15,9 +15,6 @@ spec:
         name: ingress-nginx
         namespace: flux-system
       interval: 12h
-  dependsOn:
-    - name: kube-prometheus-stack
-      namespace: monitoring
   values:
     controller:
       metrics:
