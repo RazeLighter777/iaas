@@ -41,7 +41,7 @@ spec:
             command:
               - /bin/sh
               - -c
-              - "cp /template/qBittorrent.conf /config/qBittorrent/qBittorrent.conf"
+              - "mkdir -p /config/qBittorrent && cp /template/qBittorrent.conf /config/qBittorrent/qBittorrent.conf"
           gluetun:
             dependsOn:
               - coredns
