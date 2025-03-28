@@ -91,6 +91,20 @@ variable "CLOUDNATIVE_S3_KEY_ID" {
     type = string
 }
 
+### Velero s3 backup creds and bucket
+
+variable "VELERO_S3_BUCKET" {
+    type = string
+}
+
+variable "VELERO_S3_KEY" {
+    type = string
+}
+
+variable "VELERO_S3_KEY_ID" {
+    type = string
+}
+
 ### Authentik
 
 variable "AUTHENTIK_BOOTSTRAP_PASSWORD" {
@@ -230,6 +244,15 @@ resource "vault_kv_secret_v2" "private_internet_access" {
     })
 }
 
+resource "vault_kv_secret_v2" "velero" {
+    mount    = vault_mount.kv.path
+    name    = "velero"
+    data_json = jsonencode({
+        "s3_bucket" = var.VELERO_S3_BUCKET
+        "s3_key" = var.VELERO_S3_KEY
+        "s3_key_id" = var.VELERO_S3_KEY_ID
+    })
+}
 
 ### Randomly generated secrets
 

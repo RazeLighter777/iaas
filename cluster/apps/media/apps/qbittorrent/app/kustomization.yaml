@@ -1,22 +1,20 @@
----
-# yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-namespace: media
-resources:
-  - ./helmrelease.yaml
-  - ./gluetun-apikey-externalsecret.yaml
-  - ./torrent-vpn-credentials-externalsecret.yaml
-  - ./qb-pvc.yaml
 configMapGenerator:
-  - name: qbittorrent-coredns
-    files:
-      - ./config/Corefile
-  - name: qbittorrent-config
-    files:
-      - ./config/qBittorrent.conf
+- files:
+  - ./config/Corefile
+  name: qbittorrent-coredns
+- files:
+  - ./config/qBittorrent.conf
+  name: qbittorrent-config
+configurations:
+- kustomizeconfig.yaml
 generatorOptions:
   annotations:
     kustomize.toolkit.fluxcd.io/substitute: disabled
-configurations:
-  - kustomizeconfig.yaml
+kind: Kustomization
+namespace: media
+resources:
+- ./helmrelease.yaml
+- ./gluetun-apikey-externalsecret.yaml
+- ./torrent-vpn-credentials-externalsecret.yaml
+- ./qb-pvc.yaml

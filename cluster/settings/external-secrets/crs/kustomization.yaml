@@ -7,3 +7,5 @@ resources:
 - ./grafana-oauth-externalsecret.yaml
 - ./authentik-token-externalsecret.yaml
 - ./proxmox-oauth-externalsecret.yaml
+- ./s3-globals-externalsecret.yaml
+- ./velero-s3-externalsecret.yaml
