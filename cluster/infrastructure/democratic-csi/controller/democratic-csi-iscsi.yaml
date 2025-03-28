@@ -116,7 +116,7 @@ spec:
         # for block-based storage can be ext3, ext4, xfs
         # for nfs should be nfs
         fsType: ext4
-        detachedVolumesFromSnapshots: "false"
+        detachedVolumesFromSnapshots: "true"
       mountOptions: []
       secrets:
         controller-expand-secret: null
