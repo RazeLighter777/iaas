@@ -42,6 +42,12 @@ spec:
     keepHistory: false
   maxHistory: 3
   values:
+    volumeSnapshotClasses: 
+      - name: truenas-iscsi-snapshots
+        labels:
+          velero.io/csi-volume-snapshot-class: "true"
+        parameters:
+          detachedSnapshots: true
     csiDriver:
       name: "org.democratic-csi.iscsi"
     node:

@@ -7,6 +7,9 @@ metadata:
 spec:
   wait: true
   path: "./cluster/infrastructure/democratic-csi/controller"
+  dependsOn:
+    - name: snapshot-controller
+      namespace: flux-system
   interval: 5m
   retryInterval: 2m
   timeout: 5m
