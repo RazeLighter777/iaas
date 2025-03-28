@@ -1,0 +1,89 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: velero
+  namespace: velero
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: velero
+      version: 8.6.0
+      sourceRef:
+        kind: HelmRepository
+        name: vmware-tanzu-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    image:
+      repository: velero/velero
+      tag: v1.15.2@sha256:668467fdf39f3a610ed6f27431f38a6fbb6143a2ab302ad3e839b0074aaeba39
+    credentials:
+      existingSecret: s3-credentials
+    configuration:
+      features: EnableCSI
+      defaultVolumesToFsBackup: false
+      backupSyncPeriod: 60m
+      defaultRepoMaintainFrequency: 120m
+      backupStorageLocation:
+        - name: backblaze
+          provider: aws
+          credential:
+            name: s3-credentials
+            key: backblaze
+          bucket: ${s3_bucket}
+          config:
+            region: ${s3_region}
+            checksumAlgorithm: ""
+            s3ForcePathStyle: true
+            s3Url: ${s3_endpoint}
+            publicUrl: ${s3_endpoint}
+      volumeSnapshotLocation: 
+        - name: backblaze
+          provider: aws
+          config:
+            region: ${s3_region}
+    schedules:
+      daily-backup:
+        schedule: "0 6 * * *"
+        template:
+          ttl: "120h"
+          includedNamespaces:
+            - "*"
+          includedResources:
+            - pv
+            - pvc
+    initContainers:
+    - name: velero-plugin-for-aws
+      image: velero/velero-plugin-for-aws:v1.11.1
+      imagePullPolicy: IfNotPresent
+      volumeMounts:
+      - mountPath: /target
+        name: plugins
+    - name: velero-plugin-for-csi
+      image: velero/velero-plugin-for-csi:v0.7.1@sha256:f58d508bb90651c0d90edf51ebfc91aad603cdc78cb9c1ffb9bee47b09b90157
+      imagePullPolicy: IfNotPresent
+      volumeMounts:
+      - mountPath: /target
+        name: plugins
+    resources:
+      requests:
+        memory: 300Mi
+        cpu: 25m
+      limits:
+        memory: 500Mi
+    metrics:
+      enabled: true
+    snapshotsEnabled: false
+    deployNodeAgent: true
+    installCRDs: true
+    nodeAgent:
+      podVolumePath: /var/lib/kubelet/pods
+      privileged: true
+      resources:
+        requests:
+          memory: 200Mi
+          cpu: 15m
+        limits:
+          memory: 1000Mi
