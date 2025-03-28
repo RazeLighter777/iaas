@@ -32,7 +32,7 @@ spec:
           credential:
             name: s3-credentials
             key: backblaze
-          bucket: ${s3_bucket}
+          bucket: ${bucket}
           config:
             region: ${s3_region}
             checksumAlgorithm: ""
