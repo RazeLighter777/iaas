@@ -41,7 +41,7 @@ spec:
             command:
               - /bin/sh
               - -c
-              - "mkdir -p /config/qBittorrent && cp /template/qBittorrent.conf /config/qBittorrent/qBittorrent.conf"
+              - "mkdir -p /config/qBittorrent && cp /template/qBittorrent.conf /config/qBittorrent/qBittorrent.conf && chown -R 2000:2000 /config"
             securityContext:
               runAsUser: 2000
               runAsGroup: 2000
