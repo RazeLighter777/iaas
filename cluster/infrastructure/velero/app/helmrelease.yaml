@@ -28,6 +28,7 @@ spec:
       defaultRepoMaintainFrequency: 120m
       backupStorageLocation:
         - name: backblaze
+          default: true
           provider: aws
           credential:
             name: s3-credentials
