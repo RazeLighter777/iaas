@@ -19,7 +19,7 @@ spec:
   values:
     image:
       repository: itzg/minecraft-server
-      tag: java21-graalvm@sha256:3b3f07549d1efb1928bea1d6006603bb5e4c0f9a59520af9323c13ce41c9738a
+      tag: java21-graalvm@sha256:fcab6e28c4093bd076342074c2879749cd0a518badf834f4d452ad5e7ca89ba1
     strategyType: Recreate
     persistence:
       storageClass: truenas-iscsi
