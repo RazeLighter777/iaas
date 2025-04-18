@@ -5,6 +5,5 @@ resources:
 - ./cluster-settings-externalsecret.yaml
 - ./grafana-oauth-externalsecret.yaml
 - ./authentik-token-externalsecret.yaml
-- ./proxmox-oauth-externalsecret.yaml
 - ./s3-globals-externalsecret.yaml
 - ./longhorn-s3-externalsecret.yaml
