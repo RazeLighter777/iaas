@@ -141,6 +141,7 @@ resource "vault_kv_secret_v2" "s3" {
     name    = "s3"
     data_json = jsonencode({
         "s3_endpoint" = var.S3_ENDPOINT
+        "s3_endpoint_url" = "https://${var.S3_ENDPOINT}"
         "s3_region" = var.S3_REGION
     })
 }
@@ -192,7 +193,7 @@ resource "vault_kv_secret_v2" "cloudflare" {
 
 resource "vault_kv_secret_v2" "longhorn_s3" {
     mount    = vault_mount.kv.path
-    name    = "longhorn"
+    name    = "longhorn_s3"
     data_json = jsonencode({
         "s3_bucket" = var.LONGHORN_S3_BUCKET
         "s3_key" = var.LONGHORN_S3_KEY

@@ -6,11 +6,6 @@ metadata:
   name: longhorn
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: node-feature-discovery
-      namespace: flux-system
-    - name: cert-manager
-      namespace: flux-system
   interval: 5m
   path: ./cluster/infrastructure/longhorn/app
   prune: true
