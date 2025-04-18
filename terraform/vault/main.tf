@@ -131,7 +131,6 @@ resource "vault_kv_secret_v2" "cluster-settings" {
     data_json = jsonencode({
         "domain_name" = var.DOMAIN_NAME
         "timezone" = var.TIMEZONE
-        "truenas_ip" = var.TRUENAS_IP
         "ingress_ip" = var.INGRESS_IP
         "email_address" = var.EMAIL_ADDRESS
     })
@@ -191,7 +190,7 @@ resource "vault_kv_secret_v2" "cloudflare" {
     })
 }
 
-resource "vault_kv_secret_v2" "longhorn" {
+resource "vault_kv_secret_v2" "longhorn_s3" {
     mount    = vault_mount.kv.path
     name    = "longhorn"
     data_json = jsonencode({

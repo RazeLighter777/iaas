@@ -3,7 +3,6 @@ kind: Kustomization
 resources:
 - ./clustersecretstore.yaml
 - ./cluster-settings-externalsecret.yaml
-- ./truenas-externalsecret.yaml
 - ./grafana-oauth-externalsecret.yaml
 - ./authentik-token-externalsecret.yaml
 - ./proxmox-oauth-externalsecret.yaml

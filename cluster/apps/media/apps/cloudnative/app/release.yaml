@@ -30,9 +30,9 @@ spec:
       annotations:
         cnpg.io/skipEmptyWalArchiveCheck: "true"
       storage:
-        storageClass: longhorn-static
+        storageClass: longhorn-unreplicated
         size: 25Gi
-      instances: 1
+      instances: 3
       monitoring:
         enabled: true
     backups:
