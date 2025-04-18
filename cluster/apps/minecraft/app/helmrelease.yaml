@@ -22,7 +22,7 @@ spec:
       tag: java21-graalvm@sha256:abb934a1417068a9048de1bf1021187fcc68413b5427f1a1ecaa25269b767a96
     strategyType: Recreate
     persistence:
-      storageClass: truenas-iscsi
+      storageClass: longhorn-static
       dataDir:
         enabled: true
         Size: 10Gi

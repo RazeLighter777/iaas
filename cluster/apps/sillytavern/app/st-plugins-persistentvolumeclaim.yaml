@@ -6,7 +6,7 @@ metadata:
   name: st-plugins
   namespace: sillytavern
 spec:
-  storageClassName: truenas-iscsi
+  storageClassName: longhorn-static
   accessModes:
     - ReadWriteOnce
   resources:

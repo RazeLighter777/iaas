@@ -39,5 +39,5 @@ spec:
           retention_period: 72h
       persistence:
         enabled: true
-        storageClassName: truenas-iscsi
+        storageClassName: longhorn-static
         size: 10Gi

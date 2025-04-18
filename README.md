@@ -22,7 +22,7 @@ My overkill kubernetes homelab.
 - **[Node Feature Discovery](https://github.com/kubernetes-sigs/node-feature-discovery)**: Detects hardware features available on nodes.
 - **[Snapshot Controller](https://github.com/kubernetes-csi/external-snapshotter)**: Manages volume snapshots for persistent storage.
 - **[Intel GPU Plugin](https://github.com/intel/intel-device-plugins-for-kubernetes)**: Manages Intel GPU resources for workloads.
-- **[Democratic CSI](https://github.com/democratic-csi/democratic-csi)**: Provides CSI drivers for storage management.
+- **[Longhorn](https://longhorn.io/)**: Provides distributed block storage for Kubernetes.
 - **[Ingress NGINX](https://kubernetes.github.io/ingress-nginx/)**: Manages ingress traffic to the cluster.
 - **[Cloudflared](https://github.com/cloudflare/cloudflared)**: Manages ingress traffic to the cluster.
 - **[LGTM Monitoring Stack](https://github.com/grafana/loki)**: Includes Prometheus and Grafana for monitoring and visualization.

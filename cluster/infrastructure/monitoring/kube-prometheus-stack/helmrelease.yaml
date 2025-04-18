@@ -250,7 +250,7 @@ spec:
             metadata:
               name: prometheus
             spec:
-              storageClassName: truenas-iscsi
+              storageClassName: longhorn-static
               resources:
                 requests:
                   storage: 25Gi

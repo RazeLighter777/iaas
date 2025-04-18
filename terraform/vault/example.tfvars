@@ -4,16 +4,8 @@ CLUSTER_NAME = "your-cluster-name"
 DOMAIN_NAME = "example.com"
 TIMEZONE = "America/New_York"
 INGRESS_IP = "192.168.1.x"
-TRUENAS_IP = "192.168.1.x"
 EMAIL_ADDRESS = "your-email@example.com"
 
-# Proxmox
-PROXMOX_IP = "192.168.1.x"
-
-# TrueNAS
-TRUENAS_MEDIA_SHARE_PATH = "/mnt/path/to/media"
-TRUENAS_ISCSI_SHARE_PATH = "path/to/iscsi"
-TRUENAS_API_KEY = "your-truenas-api-key"
 
 # S3 backups
 S3_ENDPOINT = "https://s3.example.com"

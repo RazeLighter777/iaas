@@ -38,31 +38,7 @@ variable "INGRESS_IP" {
     type = string
 }
 
-variable "TRUENAS_IP" {
-    type = string
-}
-
 variable "EMAIL_ADDRESS" {
-    type = string
-}
-
-### Proxmox 
-
-variable "PROXMOX_IP" {
-    type = string
-}
-
-### TrueNAS
-
-variable "TRUENAS_MEDIA_SHARE_PATH" {
-    type = string
-}
-
-variable "TRUENAS_ISCSI_SHARE_PATH" {
-    type = string
-}
-
-variable "TRUENAS_API_KEY" {
     type = string
 }
 
@@ -91,17 +67,17 @@ variable "CLOUDNATIVE_S3_KEY_ID" {
     type = string
 }
 
-### Velero s3 backup creds and bucket
+### longhorn s3 backup creds and bucket
 
-variable "VELERO_S3_BUCKET" {
+variable "LONGHORN_S3_BUCKET" {
     type = string
 }
 
-variable "VELERO_S3_KEY" {
+variable "LONGHORN_S3_KEY" {
     type = string
 }
 
-variable "VELERO_S3_KEY_ID" {
+variable "LONGHORN_S3_KEY_ID" {
     type = string
 }
 
@@ -126,7 +102,7 @@ variable "CLOUDFLARE_ARGO_TUNNEL_CREDS" {
 }
 
 variable "CLOUDFLARE_ARGO_TUNNEL_ID" {
-  
+    type = string
 }
 
 ### private internet access
@@ -215,13 +191,13 @@ resource "vault_kv_secret_v2" "cloudflare" {
     })
 }
 
-resource "vault_kv_secret_v2" "truenas" {
+resource "vault_kv_secret_v2" "longhorn" {
     mount    = vault_mount.kv.path
-    name    = "truenas"
+    name    = "longhorn"
     data_json = jsonencode({
-        "api_key" = var.TRUENAS_API_KEY
-        "media_share_path" = var.TRUENAS_MEDIA_SHARE_PATH
-        "iscsi_share_path" = var.TRUENAS_ISCSI_SHARE_PATH
+        "s3_bucket" = var.LONGHORN_S3_BUCKET
+        "s3_key" = var.LONGHORN_S3_KEY
+        "s3_key_id" = var.LONGHORN_S3_KEY_ID
     })
 }
 
@@ -241,16 +217,6 @@ resource "vault_kv_secret_v2" "private_internet_access" {
         "OPENVPN_USER" = var.PRIVATE_INTERNET_ACCESS_USERNAME
         "OPENVPN_PASSWORD" = var.PRIVATE_INTERNET_ACCESS_PASSWORD
         "VPN_SERVICE_PROVIDER" = "private internet access"
-    })
-}
-
-resource "vault_kv_secret_v2" "velero" {
-    mount    = vault_mount.kv.path
-    name    = "velero"
-    data_json = jsonencode({
-        "s3_bucket" = var.VELERO_S3_BUCKET
-        "s3_key" = var.VELERO_S3_KEY
-        "s3_key_id" = var.VELERO_S3_KEY_ID
     })
 }
 
@@ -337,29 +303,5 @@ resource "vault_kv_secret_v2" "grafana_oauth" {
     data_json = jsonencode({
         "client_id" = random_password.grafana_oauth_client_id.result
         "client_secret" = random_password.grafana_oauth_client_secret.result
-    })
-}
-
-resource "random_password" "proxmox_oauth_client_secret" {
-  length = 32
-  special = false
-  numeric = false
-  upper = false
-}
-
-resource "random_password" "proxmox_oauth_client_id" {
-  length = 32
-  special = false
-  numeric = false
-  upper = false
-}
-
-resource "vault_kv_secret_v2" "proxmox" {
-    mount    = vault_mount.kv.path
-    name    = "proxmox"
-    data_json = jsonencode({
-        "client_id" = random_password.proxmox_oauth_client_id.result
-        "client_secret" = random_password.proxmox_oauth_client_secret.result
-        "proxmox_ip" = var.PROXMOX_IP
     })
 }

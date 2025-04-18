@@ -9,4 +9,4 @@ spec:
   instances: 1
   storage:
     size: 100Gi
-    storageClass: truenas-iscsi
+    storageClass: longhorn-static

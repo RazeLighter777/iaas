@@ -30,7 +30,7 @@ spec:
       annotations:
         cnpg.io/skipEmptyWalArchiveCheck: "true"
       storage:
-        storageClass: truenas-iscsi
+        storageClass: longhorn-static
         size: 25Gi
       instances: 1
       monitoring:

@@ -153,7 +153,7 @@ spec:
     persistence:
       config:
         enabled: true
-        storageClass: truenas-iscsi
+        storageClass: longhorn-static
         size: 100Mi
         accessMode: ReadWriteOnce
         globalMounts:
