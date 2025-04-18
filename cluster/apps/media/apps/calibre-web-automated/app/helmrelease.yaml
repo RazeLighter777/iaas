@@ -94,7 +94,7 @@ spec:
       config:
         accessMode: ReadWriteOnce
         size: 10Gi
-        storageClass: truenas-iscsi
+        storageClass: longhorn-static
         advancedMounts:
           *app :
             *app :

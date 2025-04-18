@@ -3,9 +3,7 @@ kind: Kustomization
 resources:
 - ./clustersecretstore.yaml
 - ./cluster-settings-externalsecret.yaml
-- ./truenas-externalsecret.yaml
 - ./grafana-oauth-externalsecret.yaml
 - ./authentik-token-externalsecret.yaml
-- ./proxmox-oauth-externalsecret.yaml
 - ./s3-globals-externalsecret.yaml
-- ./velero-s3-externalsecret.yaml
+- ./longhorn-s3-externalsecret.yaml

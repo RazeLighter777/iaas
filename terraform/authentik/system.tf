@@ -20,6 +20,7 @@ resource "authentik_outpost" "proxyoutpost" {
     module.bitmagnet.proxy_provider_id,
     module.bazarr.proxy_provider_id,
     module.wg.proxy_provider_id,
+    module.longhorn.proxy_provider_id,
   ]
 
   config = jsonencode({

@@ -8,7 +8,7 @@ metadata:
 spec:
   targetNamespace: monitoring
   dependsOn:
-    - name: democratic-csi
+    - name: longhorn
       namespace: flux-system
   wait: true
   interval: 5m
@@ -31,7 +31,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: democratic-csi
+    - name: longhorn
       namespace: flux-system
   wait: true
   interval: 1h

@@ -22,8 +22,6 @@ tasks:
     cmds:
       - terraform -chdir=authentik init -upgrade
       - terraform -chdir=authentik validate
-      - terraform -chdir=proxmox init -upgrade
-      - terraform -chdir=proxmox validate
       - terraform -chdir=vault init -upgrade
       - terraform -chdir=vault validate
     sources:
@@ -42,14 +40,6 @@ tasks:
     sources:
       - terraform/vault/**/*.tf
       - terraform/vault/*.tfvars
-  deploy-infrastructure: 
-    dir: terraform
-    cmds:
-      - terraform -chdir=proxmox init
-      - terraform -chdir=proxmox apply -auto-approve
-    sources:
-      - terraform/proxmox/**/*.tf
-      - terraform/proxmox/cluster/*
   deploy-fluxcd: 
     cmds:
       - ./scripts/bootstrap.sh

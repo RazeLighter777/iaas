@@ -6,7 +6,7 @@ metadata:
   labels:
     postgresql: bitmagnet-cluster
 spec:
-  instances: 1
+  instances: 3
   storage:
     size: 100Gi
-    storageClass: truenas-iscsi
+    storageClass: longhorn-unreplicated

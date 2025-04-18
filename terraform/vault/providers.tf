@@ -4,10 +4,6 @@ terraform {
       source = "hashicorp/vault"
       version = "4.7.0"
     }
-    sops = {
-      source  = "carlpett/sops"
-      version = "~> 1.0"
-    }
     random = {
       source = "hashicorp/random"
       version = "3.7.1"
@@ -16,14 +12,18 @@ terraform {
 }
 
 
-data "sops_file" "vault_secrets" {
-  source_file = "vault-creds.sops.yaml"
+variable "VAULT_ADDR" {
+  type = string
+}
+
+variable "VAULT_TOKEN" {
+  type = string
 }
 
 provider "vault" {
   # Configuration option
-  address = data.sops_file.vault_secrets.data["stringData.address"]
-  token = data.sops_file.vault_secrets.data["stringData.token"]
+  address = var.VAULT_ADDR
+  token = var.VAULT_TOKEN
 }
 
 provider "random" {

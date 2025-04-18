@@ -20,8 +20,6 @@ spec:
     controllers:
       main:
         pod:
-          annotations:
-            backup.velero.io/backup-volumes-excludes: video-volume,jellyfin-server-cache
           nodeSelector:
             intel.feature.node.kubernetes.io/gpu: "true"
         type: statefulset
@@ -82,7 +80,7 @@ spec:
         enabled: true
         size: 10Gi
         accessMode: ReadWriteOnce
-        storageClass: truenas-iscsi
+        storageClass: longhorn-static
         advancedMounts:
           main: 
             main:
