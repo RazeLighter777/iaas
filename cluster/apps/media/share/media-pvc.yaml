@@ -5,9 +5,8 @@ metadata:
   namespace: media
 spec:
   accessModes:
-    - ReadWriteOnce
-  storageClassName: longhorn-static
+    - ReadWriteMany
+  storageClassName: longhorn-unreplicated
   resources:
     requests:
       storage: 200Gi
-  volumeName: media-media
