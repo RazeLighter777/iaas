@@ -7,9 +7,8 @@ My overkill kubernetes homelab.
 
 ## 💡Core Technologies
 
-- **[Proxmox](https://www.proxmox.com/)**: Hypervisor for virtualized cluster nodes
 - **[Talos Linux](https://www.talos.dev/)**: Modern OS for running Kubernetes: secure, immutable, and minimal
-- **[Terraform/OpenTofu](https://opentofu.org/)**: Deploys Talos virtual machines to Proxmox. Also manages authentik.
+- **[Terraform/OpenTofu](https://opentofu.org/)**: Manages configuration for some services.
 - **[Kubernetes](https://kubernetes.io/)**: Orchestrates containerized applications across a cluster of nodes.
 - **[FluxCD](https://fluxcd.io/)**: Manages GitOps for continuous delivery.
 - **[External Secrets](https://github.com/external-secrets/external-secrets)**: Manages secrets from external sources.
