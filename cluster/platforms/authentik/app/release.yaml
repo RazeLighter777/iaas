@@ -119,7 +119,7 @@ spec:
         cnpg.io/skipEmptyWalArchiveCheck: "true"
       storage:
         storageClass: longhorn-unreplicated
-      instances: 1
+      instances: 3
       monitoring:
         enabled: true
     backups:
