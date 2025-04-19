@@ -62,12 +62,15 @@ spec:
             dependsOn: main
             image:
               repository: ghcr.io/qdm12/gluetun
-              tag: v3.40.0
+              tag: latest
             env:
               DOT: "off"
               FIREWALL_INPUT_PORTS: 3333
               FIREWALL_OUTBOUND_SUBNETS: 10.96.0.0/12,10.244.0.0/16 # Allow access to k8s subnets
               DNS_KEEP_NAMESERVER: "on"
+              SERVER_REGIONS: Netherlands
+              OPENVPN_PROTOCOL: tcp
+              
             envFrom:
               - secretRef:
                   name: bitmagnet-vpn-credentials
