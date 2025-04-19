@@ -65,6 +65,7 @@ spec:
               FIREWALL_OUTBOUND_SUBNETS: 10.96.0.0/12,10.244.0.0/16 # Allow access to k8s subnets
               VPN_PORT_FORWARDING: on
               PORT_FORWARD_ONLY: true
+              OPENVPN_VERBOSITY: 6
             envFrom:
               - secretRef:
                   name: torrent-vpn-credentials 
