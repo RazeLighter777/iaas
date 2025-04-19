@@ -33,8 +33,7 @@ spec:
       enabled: true
       pathType: Prefix
       ingressClassName: nginx
-      hosts:
-        - longhorn.${domain_name}
+      host: longhorn.${domain_name}
       annotations:
         nginx.ingress.kubernetes.io/auth-url: |-
             http://ak-outpost-proxy-outpost.authentik.svc.cluster.local:9000/outpost.goauthentik.io/auth/nginx
