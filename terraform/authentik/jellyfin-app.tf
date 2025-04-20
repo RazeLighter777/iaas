@@ -23,16 +23,22 @@ resource "authentik_provider_ldap" "jellyfin" {
   ]
 }
 
-data "authentik_property_mapping_ldap" "name" {
-  name = "authentik default LDAP Mapping: Name"
+resource "authentik_property_mapping_ldap" "name" {
+  name         = "custom-field"
+  object_field = "username"
+  expression   = "return ldap.get('sAMAccountName')"
 }
 
-data "authentik_property_mapping_ldap" "email" {
-  name = "authentik default LDAP Mapping: Email"
+resource "authentik_property_mapping_ldap" "email" {
+  name         = "custom-field"
+  object_field = "email"
+  expression   = "return ldap.get('mail')"
 }
 
-data "authentik_property_mapping_ldap" "uid" {
-  name = "authentik default LDAP Mapping: User ID"
+resource "authentik_property_mapping_ldap" "uid" {
+  name         = "custom-field"
+  object_field = "uid"
+  expression   = "return ldap.get('uid')"
 }
 
 resource "authentik_application" "jellyfin" {
