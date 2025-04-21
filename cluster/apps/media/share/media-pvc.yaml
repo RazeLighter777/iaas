@@ -6,7 +6,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
-  storageClassName: longhorn-fast-unreplicated-strictlocal
+  storageClassName: longhorn-fast-unreplicated
   resources:
     requests:
       storage: 200Gi
