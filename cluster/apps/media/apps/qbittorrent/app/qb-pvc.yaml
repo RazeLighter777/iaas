@@ -4,7 +4,7 @@ metadata:
   name: qbittorrent
   namespace: media
 spec:
-  storageClassName: longhorn-static
+  storageClassName: longhorn-fast
   accessModes:
     - ReadWriteOnce
   resources:

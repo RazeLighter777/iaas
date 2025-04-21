@@ -250,7 +250,7 @@ spec:
             metadata:
               name: prometheus
             spec:
-              storageClassName: longhorn-static
+              storageClassName: longhorn-fast
               resources:
                 requests:
                   storage: 25Gi

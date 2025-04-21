@@ -1,9 +1,10 @@
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
-  name: longhorn-unreplicated-strictlocal
+  name: longhorn-fast-unreplicated-strictlocal
 provisioner: driver.longhorn.io
 allowVolumeExpansion: true
+volumeBindingMode: WaitForFirstConsumer
 parameters:
   # For things like postgres that have their own replication
   numberOfReplicas: "1"
@@ -12,3 +13,11 @@ parameters:
   fsType: "ext4"
   # Strict local is required for the databases apps
   dataLocality: "strict-local"
+  v2DataEngine: "true"
+  diskSelector: "ssd"
+  recurringJobSelector: '[
+      {
+        "name":"db-replicated-storage",
+        "isGroup":true
+      }
+    ]'

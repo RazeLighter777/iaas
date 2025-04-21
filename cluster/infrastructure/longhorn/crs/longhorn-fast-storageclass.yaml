@@ -1,12 +1,21 @@
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
-  name: longhorn-unreplicated
+  name: longhorn-fast
 provisioner: driver.longhorn.io
 allowVolumeExpansion: true
+volumeBindingMode: WaitForFirstConsumer
 parameters:
   # For things like postgres that have their own replication
-  numberOfReplicas: "1"
+  numberOfReplicas: "2"
   staleReplicaTimeout: "2880" # 48 hours in minutes
   fromBackup: ""
   fsType: "ext4"
+  diskSelector: "ssd"
+  v2DataEngine: "true"
+  recurringJobSelector: '[
+      {
+        "name":"backups",
+        "isGroup":true
+      }
+    ]'

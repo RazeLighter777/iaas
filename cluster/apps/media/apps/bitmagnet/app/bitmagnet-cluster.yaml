@@ -9,4 +9,4 @@ spec:
   instances: 3
   storage:
     size: 100Gi
-    storageClass: longhorn-unreplicated
+    storageClass: longhorn-fast-unreplicated-strictlocal
