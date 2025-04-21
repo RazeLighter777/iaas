@@ -52,7 +52,6 @@ resource "authentik_outpost" "ldapoutpost" {
   type               = "ldap"
   service_connection = authentik_service_connection_kubernetes.local.id
   protocol_providers = [
-    authentik_provider_ldap.jellyfin.id
   ]
   config = jsonencode({
     authentik_host          = "https://authentik.${var.domain_name}",
