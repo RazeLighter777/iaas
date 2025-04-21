@@ -80,7 +80,7 @@ spec:
         enabled: true
         size: 10Gi
         accessMode: ReadWriteOnce
-        storageClass: longhorn-static
+        storageClass: longhorn-fast
         advancedMounts:
           main: 
             main:

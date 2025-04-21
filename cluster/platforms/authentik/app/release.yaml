@@ -37,7 +37,7 @@ spec:
     redis:
       enabled: true
       global:
-        storageClass: longhorn-unreplicated
+        storageClass: longhorn-fast-unreplicated-strictlocal
     server:
       metrics:
         enabled: true
@@ -118,7 +118,7 @@ spec:
       annotations:
         cnpg.io/skipEmptyWalArchiveCheck: "true"
       storage:
-        storageClass: longhorn-unreplicated
+        storageClass: longhorn-fast-unreplicated-strictlocal
       instances: 3
       monitoring:
         enabled: true

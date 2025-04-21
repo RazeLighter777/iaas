@@ -22,7 +22,7 @@ spec:
       tag: java21-graalvm@sha256:13d4b1722057cda9531eb39cd76e316080b954e67fc2a30a97e912d35375067b
     strategyType: Recreate
     persistence:
-      storageClass: longhorn-static
+      storageClass: longhorn-fast
       dataDir:
         enabled: true
         Size: 10Gi

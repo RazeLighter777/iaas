@@ -6,7 +6,7 @@ metadata:
   name: st-data
   namespace: sillytavern
 spec:
-  storageClassName: longhorn-static
+  storageClassName: longhorn-fast
   accessModes:
     - ReadWriteOnce
   resources:

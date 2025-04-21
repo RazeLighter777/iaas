@@ -94,7 +94,7 @@ spec:
       config:
         accessMode: ReadWriteOnce
         size: 10Gi
-        storageClass: longhorn-static
+        storageClass: longhorn-fast
         advancedMounts:
           *app :
             *app :

@@ -39,5 +39,5 @@ spec:
           retention_period: 72h
       persistence:
         enabled: true
-        storageClassName: longhorn-static
+        storageClassName: longhorn-fast
         size: 10Gi
