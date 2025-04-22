@@ -13,7 +13,6 @@ parameters:
   fsType: "ext4"
   # Strict local is required for the databases apps
   dataLocality: "strict-local"
-  v2DataEngine: "true"
   diskSelector: "ssd"
   recurringJobSelector: '[
       {

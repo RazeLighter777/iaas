@@ -2,6 +2,8 @@ kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
   name: longhorn-fast
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
 provisioner: driver.longhorn.io
 allowVolumeExpansion: true
 volumeBindingMode: WaitForFirstConsumer
@@ -12,7 +14,6 @@ parameters:
   fromBackup: ""
   fsType: "ext4"
   diskSelector: "ssd"
-  v2DataEngine: "true"
   recurringJobSelector: '[
       {
         "name":"backups",

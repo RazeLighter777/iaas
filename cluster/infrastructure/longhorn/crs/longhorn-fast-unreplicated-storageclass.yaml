@@ -12,7 +12,6 @@ parameters:
   fromBackup: ""
   fsType: "ext4"
   diskSelector: "ssd"
-  v2DataEngine: "true"
   recurringJobSelector: '[
       {
         "name":"backups-big",
