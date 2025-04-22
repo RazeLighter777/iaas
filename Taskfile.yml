@@ -14,6 +14,7 @@ tasks:
       - cluster/**/*.yaml
   test-kubeconform:
     cmds:
+      - chmod +x ./scripts/kubeconform.sh
       - ./scripts/kubeconform.sh
     sources:
       - cluster/**/*.yaml
@@ -42,6 +43,7 @@ tasks:
       - terraform/vault/*.tfvars
   deploy-fluxcd: 
     cmds:
+      - chmod +x ./scripts/bootstrap.sh
       - ./scripts/bootstrap.sh
     sources:
       - cluster/bootstrap/**/*.yaml
