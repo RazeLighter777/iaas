@@ -34,13 +34,13 @@ resource "authentik_group" "jellyfin-admins" {
 }
 
 resource "authentik_policy_binding"  "jellyfin-users-binding" {
-  target = authentik_application.jellyfin.id
+  target = authentik_application.jellyfin.uuid
   group = authentik_group.jellyfin-users.id
   order = 0
 }
 
 resource "authentik_policy_binding"  "jellyfin-admins-binding" {
-  target = authentik_application.jellyfin.id
+  target = authentik_application.jellyfin.uuid
   group = authentik_group.jellyfin-admins.id
   order = 0
 }

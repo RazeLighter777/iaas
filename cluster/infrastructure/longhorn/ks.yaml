@@ -10,7 +10,7 @@ spec:
   path: ./cluster/infrastructure/longhorn/app
   prune: true
   retryInterval: 2m
-  timeout: 5m
+  timeout: 15m
   sourceRef:
     kind: GitRepository
     name: flux-system
