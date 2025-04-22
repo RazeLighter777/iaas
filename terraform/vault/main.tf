@@ -66,6 +66,14 @@ variable "CLOUDNATIVE_S3_KEY" {
 variable "CLOUDNATIVE_S3_KEY_ID" {
     type = string
 }
+### NFS MOUNT 
+variable "NFS_SERVER_IP" {
+    type = string
+}
+
+variable "NFS_PATH" {
+    type = string
+}
 
 ### longhorn s3 backup creds and bucket
 
@@ -133,6 +141,8 @@ resource "vault_kv_secret_v2" "cluster-settings" {
         "timezone" = var.TIMEZONE
         "ingress_ip" = var.INGRESS_IP
         "email_address" = var.EMAIL_ADDRESS
+        "nfs_server_ip" = var.NFS_SERVER_IP
+        "nfs_path" = var.NFS_PATH
     })
 }
 
