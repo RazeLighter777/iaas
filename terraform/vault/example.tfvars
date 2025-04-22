@@ -51,3 +51,7 @@ PRIVATE_INTERNET_ACCESS_PASSWORD = "your-password"
 DISCORD_NOTIFICATIONS_WEBHOOK = "https://discordapp.com/api/webhooks/your-webhook-id/your-webhook-token"
 DISCORD_MEDIA_WEBHOOK = "https://discordapp.com/api/webhooks/your-webhook-id/your-webhook-token"
 
+# NFS mount
+
+NFS_SERVER_IP = "192.168.1.x"
+NFS_PATH = "/mnt/mainpool"
