@@ -105,9 +105,9 @@ spec:
           *app :
             *app :
               - path: /calibre-library
-                subPath: books/calibre
+                subPath: books
               - path: /cwa-book-ingest
-                subPath: books/cwa-book-ingest
+                subPath: book-intake
       cache:
         type: emptyDir
         advancedMounts:
