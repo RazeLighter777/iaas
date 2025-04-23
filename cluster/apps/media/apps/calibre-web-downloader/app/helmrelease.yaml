@@ -44,7 +44,7 @@ spec:
               - name: CLOUDFLARE_PROXY_URL
                 value: http://localhost:8000
               - name: INGEST_DIR
-                value: &ingest_dir /media/books/cwa-book-ingest
+                value: &ingest_dir /book-intake
               - name: BOOK_LANGUAGE
                 value: en
             resources:
@@ -104,5 +104,5 @@ spec:
           calibre-web-downloader:
             app:
               - path: *ingest_dir
-                subPath: books/cwa-book-ingest
+                subPath: book-intake
                 readOnly: false # calibre-web-downloader needs write access to the media folder
