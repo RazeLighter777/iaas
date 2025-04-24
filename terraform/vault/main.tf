@@ -1,5 +1,5 @@
 
-### Environment 
+### Environment
 
 variable "CLUSTER_NAME" {
   type = string
@@ -66,7 +66,7 @@ variable "CLOUDNATIVE_S3_KEY" {
 variable "CLOUDNATIVE_S3_KEY_ID" {
     type = string
 }
-### NFS MOUNT 
+### NFS MOUNT
 variable "NFS_SERVER_IP" {
     type = string
 }
@@ -313,5 +313,21 @@ resource "vault_kv_secret_v2" "grafana_oauth" {
     data_json = jsonencode({
         "client_id" = random_password.grafana_oauth_client_id.result
         "client_secret" = random_password.grafana_oauth_client_secret.result
+    })
+}
+
+resource "random_password" "immich_db_password" {
+  length = 32
+  special = true
+  numeric = true
+  upper = true
+}
+
+resource "vault_kv_secret_v2" "immich" {
+    mount    = vault_mount.kv.path
+    name    = "immich"
+    data_json = jsonencode({
+        "DB_PASSWORD" = random_password.immich_db_password.result
+        "DB_USERNAME" = "immich"
     })
 }
