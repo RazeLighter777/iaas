@@ -29,7 +29,8 @@ spec:
     cluster:
       imageName: ghcr.io/tensorchord/cloudnative-pgvecto.rs:16.8
       postgresql: 
-        shared_preload_libraries: "vectors.so"
+        shared_preload_libraries: 
+          - "vectors.so"
       annotations:
         cnpg.io/skipEmptyWalArchiveCheck: "true"
       storage:
