@@ -131,6 +131,7 @@ spec:
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
 
     service:
       app:
@@ -161,11 +162,11 @@ spec:
           - path: /config
       media:
         enabled: true
-        existingClaim: media
+        storageClass: longhorn-fast
+        size: 200Gi
+        accessMode: ReadWriteOnce
         advancedMounts:
           immich:
             app:
-              - path: /usr/src/app/upload
+              - path: *mediaLocation
                 subPath: immich
-                readOnly: false
-
