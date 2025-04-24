@@ -5,9 +5,6 @@ metadata:
   name: &app immich
   namespace: media
 spec:
-  dependsOn:
-    - name: cloudnative-database-media
-      namespace: media
   interval: 5m
   chart:
     spec:
@@ -56,11 +53,11 @@ spec:
               - name: INIT_POSTGRES_DBNAME
                 value: immich
               - name: INIT_POSTGRES_HOST
-                value: &dbhost cloudnative-database-media-cluster-rw
+                value: &dbhost immich-pg-cluster-rw
               - name: INIT_POSTGRES_SUPER_PASS
                 valueFrom:
                   secretKeyRef:
-                    name: cloudnative-database-media-cluster-superuser
+                    name: immich-pg-superuser
                     key: password
               - name: INIT_POSTGRES_USER
                 value: &dbuser immich
