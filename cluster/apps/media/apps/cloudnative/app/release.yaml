@@ -49,10 +49,6 @@ spec:
         - name: daily-backup # Daily at midnight
           schedule: "0 0 0 * * *" # Daily at midnight
           backupOwnerReference: self
-    recovery:
-      s3:
-        path: "/v2-restore"
-      
   valuesFrom:
     - kind: Secret
       name: cloudnative-external-s3-secrets
