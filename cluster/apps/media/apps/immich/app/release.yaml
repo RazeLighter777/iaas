@@ -59,7 +59,7 @@ spec:
                 value: &port "2283"
               # Database
               - name: DB_HOSTNAME
-                value: &dbhost immich-pg-cluster-rw
+                value: &dbhost immich-pg-rw
               - name: DB_PORT
                 value: "5432"
               - name: DB_DATABASE_NAME
