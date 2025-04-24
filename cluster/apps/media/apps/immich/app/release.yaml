@@ -93,6 +93,8 @@ spec:
                     key: client_secret
               - name: IMMICH_OAUTH_SCOPE
                 value: "openid email profile"
+              - name: REDIS_HOSTNAME
+                value: immich-redis
             probes:
               liveness: &probes
                 enabled: true
