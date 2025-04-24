@@ -21,7 +21,7 @@ spec:
         type: statefulset
         pod:
           securityContext:
-            fsGroup: 2000
+            fsGroup: 1000
             fsGroupChangePolicy: "OnRootMismatch"
             supplementalGroups:
               - 65542 # gladius:external-services
