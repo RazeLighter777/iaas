@@ -29,6 +29,7 @@ spec:
     cluster:
       imageName: ghcr.io/tensorchord/cloudnative-pgvecto.rs:16.2-v0.2.0
       postgresql: 
+        enableAlterSystem: true
         shared_preload_libraries: 
           - "vectors.so"
       annotations:
@@ -42,6 +43,8 @@ spec:
       bootstrap:
         postInitSQL:
           initdb:
+            - ALTER SYSTEM SET search_path TO "$user", public, vectors;
             - CREATE EXTENSION if not exists vectors;
+            - CREATE EXTENSION if not exists cube CASCADE;
             - CREATE EXTENSION if not exists earthdistance CASCADE;
 
