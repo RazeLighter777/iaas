@@ -27,7 +27,7 @@ spec:
       retries: 3
   values:
     cluster:
-      imageName: ghcr.io/tensorchord/cloudnative-pgvecto.rs:16.5-v0.3.0:16.8
+      imageName: ghcr.io/tensorchord/cloudnative-pgvecto.rs:14.12-v0.3.0
       postgresql: 
         shared_preload_libraries: 
           - "vectors.so"
