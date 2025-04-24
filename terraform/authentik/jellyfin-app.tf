@@ -1,12 +1,3 @@
-data "authentik_flow" "default-authentication-flow" {
-  slug = "default-authentication-flow"
-}
-
-data "authentik_flow" "default-invalidation-flow" {
-  slug = "default-provider-invalidation-flow"
-}
-
-
 resource "authentik_provider_ldap" "jellyfin" {
   name                    = "Jellyfin"
   base_dn                 = "dc=authentik,dc=${replace(var.domain_name, ".", ",dc=")}"
@@ -14,7 +5,6 @@ resource "authentik_provider_ldap" "jellyfin" {
   unbind_flow             = data.authentik_flow.default-invalidation-flow.id
   mfa_support             = false
 }
-
 
 resource "authentik_application" "jellyfin" {
   name              = "Jellyfin"

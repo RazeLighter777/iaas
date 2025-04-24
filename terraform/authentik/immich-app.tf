@@ -1,23 +1,3 @@
-data "authentik_flow" "default-authorization-flow" {
-  slug = "default-provider-authorization-implicit-consent"
-}
-
-data "authentik_flow" "default-provider-invalidation-flow" {
-  slug = "default-provider-invalidation"
-}
-
-data "authentik_property_mapping_provider_scope" "scope-email" {
-  name = "authentik default OAuth Mapping: OpenID 'email'"
-}
-
-data "authentik_property_mapping_provider_scope" "scope-profile" {
-  name = "authentik default OAuth Mapping: OpenID 'profile'"
-}
-
-data "authentik_property_mapping_provider_scope" "scope-openid" {
-  name = "authentik default OAuth Mapping: OpenID 'openid'"
-}
-
 variable "immich_client_id" {
   description = "The client ID for the Immich OAuth2 provider"
 }
