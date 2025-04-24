@@ -43,8 +43,8 @@ spec:
               - -c
               - "mkdir -p /config/qBittorrent && cp /template/qBittorrent.conf /config/qBittorrent/qBittorrent.conf"
             securityContext:
-              runAsUser: 2000
-              runAsGroup: 2000
+              runAsUser: 1000
+              runAsGroup: 1000
               runAsNonRoot: true
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -115,8 +115,8 @@ spec:
               limits:
                 memory: 8192Mi
             securityContext:
-              runAsUser: 2000
-              runAsGroup: 2000
+              runAsUser: 1000
+              runAsGroup: 1000
               runAsNonRoot: true
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -136,8 +136,8 @@ spec:
               CRON_SCHEDULE: "*/5 * * * *"
               LOG_TIMESTAMP: false
             securityContext:
-              runAsUser: 2000
-              runAsGroup: 2000
+              runAsUser: 1000
+              runAsGroup: 1000
               runAsNonRoot: true
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
