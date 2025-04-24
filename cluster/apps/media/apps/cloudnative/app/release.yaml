@@ -39,3 +39,9 @@ spec:
       instances: 3
       monitoring:
         enabled: true
+      bootstrap:
+        postInitSQL:
+          initdb:
+            - CREATE EXTENSION if not exists vectors;
+            - CREATE EXTENSION if not exists earthdistance CASCADE;
+
