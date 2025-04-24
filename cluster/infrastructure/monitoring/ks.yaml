@@ -114,3 +114,24 @@ spec:
     substituteFrom:
       - kind: Secret
         name: cluster-settings
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: uptime-kuma
+  namespace: flux-system
+spec:
+  targetNamespace: monitoring
+  interval: 1h
+  retryInterval: 2m
+  timeout: 5m
+  path: "./cluster/infrastructure/monitoring/uptime-kuma"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  wait: true
+  postBuild:
+    substituteFrom:
+      - kind: Secret
+        name: cluster-settings
