@@ -56,7 +56,7 @@ spec:
                 value: &mediaLocation /usr/src/app/upload
               # Ports
               - name: IMMICH_PORT
-                value: &port "2283"
+                value: &port 2283
               # Database
               - name: DB_HOSTNAME
                 value: &dbhost immich-pg-rw
