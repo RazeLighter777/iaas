@@ -102,7 +102,7 @@ spec:
                 spec:
                   httpGet:
                     path: /api/server/ping
-                    port: http
+                    port: *port
                   initialDelaySeconds: 30
                   periodSeconds: 10
                   timeoutSeconds: 5
@@ -114,7 +114,7 @@ spec:
                 spec:
                   httpGet:
                     path: /api/server/ping
-                    port: http
+                    port: *port
                   initialDelaySeconds: 30
                   periodSeconds: 5
                   timeoutSeconds: 5
@@ -167,3 +167,8 @@ spec:
         accessMode: ReadWriteOnce
         globalMounts:
           - path: *mediaLocation
+      dotimmich:
+        enabled: true
+        type: emptyDir
+        globalMounts:
+          - path: /usr/src/app/upload/encod
