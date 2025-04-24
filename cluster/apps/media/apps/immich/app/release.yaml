@@ -165,8 +165,5 @@ spec:
         storageClass: longhorn-fast
         size: 200Gi
         accessMode: ReadWriteOnce
-        advancedMounts:
-          immich:
-            app:
-              - path: *mediaLocation
-                subPath: immich
+        globalMounts:
+          - path: *mediaLocation
