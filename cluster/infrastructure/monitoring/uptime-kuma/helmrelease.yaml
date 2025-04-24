@@ -53,12 +53,10 @@ spec:
                   identifier: main
                   port: http
     persistence:
-      data-volume-1:
+      config:
         enabled: true
-        volumes:
-          - name: data-volume-1
-            path: /app/data
-            storageClass: longhorn-fast
-            accessMode: ReadWriteOnce
-            size: 30Gi
-            retain: true
+        storageClass: longhorn-fast
+        advancedMounts:
+          radarr:
+            app:
+              - path: /app/data
