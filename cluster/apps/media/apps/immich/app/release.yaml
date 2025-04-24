@@ -101,6 +101,23 @@ spec:
                     key: DB_PASSWORD
               - name: TZ
                 value: ${timezone}
+              # OAuth
+              - name: IMMICH_OAUTH_ENABLED
+                value: "true"
+              - name: IMMICH_OAUTH_ISSUER_URL
+                value: "https://authentik.${domain_name}/application/o/immich/"
+              - name: IMMICH_OAUTH_CLIENT_ID
+                valueFrom:
+                  secretKeyRef:
+                    name: immich-oauth
+                    key: client_id
+              - name: IMMICH_OAUTH_CLIENT_SECRET
+                valueFrom:
+                  secretKeyRef:
+                    name: immich-oauth
+                    key: client_secret
+              - name: IMMICH_OAUTH_SCOPE
+                value: "openid email profile"
             probes:
               liveness: &probes
                 enabled: true

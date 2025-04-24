@@ -323,11 +323,34 @@ resource "random_password" "immich_db_password" {
   upper = true
 }
 
+resource "random_password" "immich_oauth_client_id" {
+  length = 32
+  special = false
+  numeric = false
+  upper = false
+}
+
+resource "random_password" "immich_oauth_client_secret" {
+  length = 32
+  special = false
+  numeric = false
+  upper = false
+}
+
 resource "vault_kv_secret_v2" "immich" {
     mount    = vault_mount.kv.path
     name    = "immich"
     data_json = jsonencode({
         "DB_PASSWORD" = random_password.immich_db_password.result
         "DB_USERNAME" = "immich"
+    })
+}
+
+resource "vault_kv_secret_v2" "immich_oauth" {
+    mount    = vault_mount.kv.path
+    name    = "immich_oauth"
+    data_json = jsonencode({
+        "client_id" = random_password.immich_oauth_client_id.result
+        "client_secret" = random_password.immich_oauth_client_secret.result
     })
 }

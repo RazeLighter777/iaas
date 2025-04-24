@@ -7,3 +7,4 @@ resources:
 - ./authentik-token-externalsecret.yaml
 - ./s3-globals-externalsecret.yaml
 - ./longhorn-s3-externalsecret.yaml
+- ./immich-oauth-externalsecret.yaml

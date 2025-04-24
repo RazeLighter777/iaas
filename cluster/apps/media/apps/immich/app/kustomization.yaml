@@ -4,3 +4,4 @@ namespace: media
 resources:
 - release.yaml
 - immich-externalsecret.yaml
+- immich-oauth-externalsecret.yaml
