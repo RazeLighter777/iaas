@@ -73,7 +73,7 @@ spec:
           app:
             image:
               repository: ghcr.io/immich-app/immich-server
-              tag: v1.100.0
+              tag: v1.131.3
             env:
               - name: IMMICH_LOG_LEVEL
                 value: log
@@ -124,7 +124,7 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /api/server-info/ping
+                    path: /api/server/ping
                     port: http
                   initialDelaySeconds: 30
                   periodSeconds: 10
@@ -136,7 +136,7 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /api/server-info/ping
+                    path: /api/server/ping
                     port: http
                   initialDelaySeconds: 30
                   periodSeconds: 5
