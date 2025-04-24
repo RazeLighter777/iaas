@@ -1,0 +1,193 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/refs/heads/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app immich
+  namespace: media
+spec:
+  dependsOn:
+    - name: cloudnative-database-media
+      namespace: media
+  interval: 5m
+  chart:
+    spec:
+      version: 3.7.3
+      chart: app-template
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+      interval: 5m
+  install:
+    timeout: 10m
+    replace: true
+    crds: CreateReplace
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      remediateLastFailure: true
+      retries: 3
+      strategy: rollback
+    cleanupOnFail: true
+    crds: CreateReplace
+  test:
+    enable: true
+  rollback:
+    recreate: true
+    force: true
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  driftDetection:
+    mode: enabled
+  maxHistory: 3
+  values:
+    controllers:
+      immich:
+        strategy: Recreate
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 17.4.0@sha256:a9f405688344a8a6f718e2c344438342ad21540986aeb5ab5fa781831eb2c597
+            env:
+              - name: INIT_POSTGRES_DBNAME
+                value: immich
+              - name: INIT_POSTGRES_HOST
+                value: &dbhost cloudnative-database-media-cluster-rw
+              - name: INIT_POSTGRES_SUPER_PASS
+                valueFrom:
+                  secretKeyRef:
+                    name: cloudnative-database-media-cluster-superuser
+                    key: password
+              - name: INIT_POSTGRES_USER
+                value: &dbuser immich
+              - name: INIT_POSTGRES_PASS
+                valueFrom:
+                  secretKeyRef:
+                    name: immich-secret
+                    key: DB_PASSWORD
+        containers:
+          app:
+            image:
+              repository: ghcr.io/immich-app/immich-server
+              tag: v1.100.0
+            env:
+              - name: IMMICH_LOG_LEVEL
+                value: log
+              - name: IMMICH_MEDIA_LOCATION
+                value: &mediaLocation /usr/src/app/upload
+              # Ports
+              - name: IMMICH_PORT
+                value: &port "2283"
+              # Database
+              - name: DB_HOSTNAME
+                value: *dbhost
+              - name: DB_PORT
+                value: "5432"
+              - name: DB_DATABASE_NAME
+                value: "immich"
+              - name: DB_USERNAME
+                valueFrom:
+                  secretKeyRef:
+                    name: immich-secret
+                    key: DB_USERNAME
+              - name: DB_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: immich-secret
+                    key: DB_PASSWORD
+              - name: TZ
+                value: ${timezone}
+              # OAuth
+              - name: IMMICH_OAUTH_ENABLED
+                value: "true"
+              - name: IMMICH_OAUTH_ISSUER_URL
+                value: "https://authentik.${domain_name}/application/o/immich/"
+              - name: IMMICH_OAUTH_CLIENT_ID
+                valueFrom:
+                  secretKeyRef:
+                    name: immich-oauth
+                    key: client_id
+              - name: IMMICH_OAUTH_CLIENT_SECRET
+                valueFrom:
+                  secretKeyRef:
+                    name: immich-oauth
+                    key: client_secret
+              - name: IMMICH_OAUTH_SCOPE
+                value: "openid email profile"
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/server-info/ping
+                    port: *port
+                  initialDelaySeconds: 30
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/server-info/ping
+                    port: *port
+                  initialDelaySeconds: 30
+                  periodSeconds: 5
+                  timeoutSeconds: 5
+                  failureThreshold: 30
+            resources:
+              requests:
+                cpu: 100m
+                memory: 512Mi
+              limits:
+                memory: 4Gi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+
+    service:
+      app:
+        controller: immich
+        ports:
+          http:
+            port: *port
+
+    ingress:
+      app:
+        enabled: true
+        hosts:
+          - host: immich.${domain_name}
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: app
+                  port: http
+
+    persistence:
+      config:
+        enabled: true
+        storageClass: longhorn-fast
+        size: 1Gi
+        accessMode: ReadWriteOnce
+        globalMounts:
+          - path: /config
+      media:
+        enabled: true
+        existingClaim: media
+        advancedMounts:
+          immich:
+            app:
+              - path: /usr/src/app/upload
+                subPath: immich
+                readOnly: false
