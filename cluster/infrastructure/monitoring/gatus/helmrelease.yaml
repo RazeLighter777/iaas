@@ -96,8 +96,6 @@ spec:
       create: true
       name: *app
     persistence:
-      config:
-        existingClaim: gatus
       config-file:
         type: configMap
         name: gatus-configmap
