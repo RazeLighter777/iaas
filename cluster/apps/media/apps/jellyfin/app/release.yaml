@@ -23,6 +23,8 @@ spec:
           nodeSelector:
             intel.feature.node.kubernetes.io/gpu: "true"
         type: statefulset
+        annotations:
+          reloader.stakater.com/auto: "true"
         containers:
           main:
             image:

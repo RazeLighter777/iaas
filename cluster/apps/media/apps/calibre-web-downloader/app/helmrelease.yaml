@@ -26,6 +26,8 @@ spec:
           type: RuntimeDefault
     controllers:
       calibre-web-downloader:
+        annotations:
+          reloader.stakater.com/auto: "true"
         containers:
           app:
             image:
