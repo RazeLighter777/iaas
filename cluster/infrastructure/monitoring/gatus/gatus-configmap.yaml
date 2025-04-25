@@ -1,0 +1,167 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gatus-configmap
+data:
+  config.yaml: |-
+    ---
+    web:
+      port: 8080
+    storage:
+      type: memory
+    metrics: true
+    debug: false
+    ui:
+      title: Status | Gatus
+      header: Status
+    alerting:
+      discord:
+        webhook-url: ${DISCORD_STATUS_WEBHOOK}
+    connectivity:
+      checker:
+        target: 1.1.1.1:53
+        interval: 1m
+    endpoints:
+      - name: sonarr
+        group: media
+        url: https://sonarr.${domain_name}/ping
+        interval: 1m
+        conditions:
+          - "[STATUS] == 200"
+        alerts:
+          - type: discord
+            failure-threshold: 5
+            send-on-resolved: true
+            description: "Sonarr is down"
+      - name: radarr
+        group: media
+        url: https://radarr.${domain_name}/ping
+        interval: 1m
+        conditions:
+          - "[STATUS] == 200"
+        alerts:
+          - type: discord
+            failure-threshold: 5
+            send-on-resolved: true
+            description: "Radarr is down"
+      - name: bazarr
+        group: media
+        url: https://bazarr.${domain_name}/ping
+        interval: 1m
+        conditions:
+          - "[STATUS] == 200"
+        alerts:
+          - type: discord
+            failure-threshold: 5
+            send-on-resolved: true
+            description: "Bazarr is down"
+      - name: prowlarr
+        group: media
+        url: https://prowlarr.${domain_name}/ping
+        interval: 1m
+        conditions:
+          - "[STATUS] == 200"
+        alerts:
+          - type: discord
+            failure-threshold: 5
+            send-on-resolved: true
+            description: "Prowlarr is down"
+      - name: qbittorrent
+        group: media
+        url: https://qbittorrent.${domain_name}/api/v2/app/version
+        interval: 1m
+        conditions:
+          - "[STATUS] == 200"
+        alerts:
+          - type: discord
+            failure-threshold: 5
+            send-on-resolved: true
+            description: "qBittorrent is down"
+      - name: longhorn
+        group: storage
+        url: https://longhorn.${domain_name}/v1/healthz
+        interval: 1m
+        conditions:
+          - "[STATUS] == 200"
+        alerts:
+          - type: discord
+            failure-threshold: 5
+            send-on-resolved: true
+            description: "Longhorn is down"
+      - name: prometheus
+        group: monitoring
+        url: https://prometheus.${domain_name}/-/healthy
+        interval: 1m
+        conditions:
+          - "[STATUS] == 200"
+        alerts:
+          - type: discord
+            failure-threshold: 5
+            send-on-resolved: true
+            description: "Prometheus is down"
+      - name: alertmanager
+        group: monitoring
+        url: https://alertmanager.${domain_name}/-/healthy
+        interval: 1m
+        conditions:
+          - "[STATUS] == 200"
+        alerts:
+          - type: discord
+            failure-threshold: 5
+            send-on-resolved: true
+            description: "Alertmanager is down"
+      - name: gatus
+        group: monitoring
+        url: https://status.${domain_name}/health
+        interval: 1m
+        conditions:
+          - "[STATUS] == 200"
+        alerts:
+          - type: discord
+            failure-threshold: 5
+            send-on-resolved: true
+            description: "Gatus is down"
+      - name: capacitor
+        group: monitoring
+        url: https://capacitor.${domain_name}/health
+        interval: 1m
+        conditions:
+          - "[STATUS] == 200"
+        alerts:
+          - type: discord
+            failure-threshold: 5
+            send-on-resolved: true
+            description: "Capacitor is down"
+      - name: calibre-web
+        group: media
+        url: https://cwa.${domain_name}/health
+        interval: 1m
+        conditions:
+          - "[STATUS] == 200"
+        alerts:
+          - type: discord
+            failure-threshold: 5
+            send-on-resolved: true
+            description: "Calibre Web is down"
+      - name: bitmagnet
+        group: networking
+        url: https://bitmagnet.${domain_name}/status
+        interval: 1m
+        conditions:
+          - "[STATUS] == 200"
+        alerts:
+          - type: discord
+            failure-threshold: 5
+            send-on-resolved: true
+            description: "Bitmagnet is down"
+      - name: booktok
+        group: media
+        url: https://booktok.${domain_name}/cwa-check-monitoring
+        interval: 1m
+        conditions:
+          - "[STATUS] == 200"
+        alerts:
+          - type: discord
+            failure-threshold: 5
+            send-on-resolved: true
+            description: "Booktok is down"

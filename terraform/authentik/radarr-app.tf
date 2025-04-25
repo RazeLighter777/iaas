@@ -8,6 +8,7 @@ module "radarr" {
 
   policy_engine_mode      = "any"
   authorization_flow_uuid = data.authentik_flow.default-authorization-flow.id
+  skip_path_regex         = "/ping"
 
   meta_icon = "https://static-00.iconduck.com/assets.00/radarr-icon-922x1024-esiz37v4.png"
 }

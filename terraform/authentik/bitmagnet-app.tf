@@ -8,6 +8,7 @@ module "bitmagnet" {
 
   policy_engine_mode      = "any"
   authorization_flow_uuid = data.authentik_flow.default-authorization-flow.id
+  skip_path_regex         = "/status"
   meta_icon = "https://avatars.githubusercontent.com/u/146768397?v=4"
 }
 

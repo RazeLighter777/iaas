@@ -8,6 +8,7 @@ module "capacitor" {
 
   policy_engine_mode      = "any"
   authorization_flow_uuid = data.authentik_flow.default-authorization-flow.id
+  skip_path_regex         = "/health"
 
   meta_icon = "https://fluxcd.io/img/logos/flux-stacked-color.png"
 }

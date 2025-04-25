@@ -7,6 +7,8 @@ module "sillytavern" {
 
   policy_engine_mode      = "any"
   authorization_flow_uuid = data.authentik_flow.default-authorization-flow.id
+  # sillytavern has no health check :(
+  #skip_path_regex         = "/health"
 
   meta_icon = "https://upload.wikimedia.org/wikipedia/commons/6/6b/SillyTavern_logo_%28dark_background%29.png"
 }

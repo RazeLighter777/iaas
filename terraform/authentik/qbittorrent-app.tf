@@ -8,6 +8,7 @@ module "qbittorrent" {
 
   policy_engine_mode      = "any"
   authorization_flow_uuid = data.authentik_flow.default-authorization-flow.id
+  skip_path_regex         = "/api/v2/app/version"
 
   meta_icon = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/New_qBittorrent_Logo.svg/800px-New_qBittorrent_Logo.svg.png"
 }
