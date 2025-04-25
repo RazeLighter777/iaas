@@ -8,6 +8,7 @@ module "sonarr" {
 
   policy_engine_mode      = "any"
   authorization_flow_uuid = data.authentik_flow.default-authorization-flow.id
+  skip_path_regex         = "/ping"
 
   meta_icon = "https://user-images.githubusercontent.com/31781818/33885790-bc32aec0-df1a-11e7-83df-3bf737de68c5.png"
 }

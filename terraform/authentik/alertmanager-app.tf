@@ -9,6 +9,7 @@ module "alertmanager" {
   policy_engine_mode      = "any"
   authorization_flow_uuid = data.authentik_flow.default-authorization-flow.id
   meta_icon = "https://static.thenounproject.com/png/607762-200.png"
+  skip_path_regex = "/-/healthy"
 }
 
 resource "authentik_group" "alertmanager-users" {

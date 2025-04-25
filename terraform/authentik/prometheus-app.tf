@@ -8,6 +8,7 @@ module "prometheus" {
 
   policy_engine_mode      = "any"
   authorization_flow_uuid = data.authentik_flow.default-authorization-flow.id
+  skip_path_regex         = "/-/healthy"
 
   meta_icon = "https://www.svgrepo.com/show/354219/prometheus.svg"
 }

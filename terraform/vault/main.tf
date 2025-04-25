@@ -131,6 +131,10 @@ variable "DISCORD_NOTIFICATIONS_WEBHOOK" {
     type = string
 }
 
+variable "DISCORD_STATUS_WEBHOOK" {
+    type = string
+}
+
 ## Secrets
 
 resource "vault_kv_secret_v2" "cluster-settings" {
@@ -217,6 +221,7 @@ resource "vault_kv_secret_v2" "discord" {
     data_json = jsonencode({
         "discord_media_webhook" = var.DISCORD_MEDIA_WEBHOOK
         "discord_notifications_webhook" = var.DISCORD_NOTIFICATIONS_WEBHOOK
+        "discord_status_webhook" = var.DISCORD_STATUS_WEBHOOK
     })
 }
 

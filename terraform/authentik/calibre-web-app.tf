@@ -8,6 +8,7 @@ module "cwa" {
 
   policy_engine_mode      = "any"
   authorization_flow_uuid = data.authentik_flow.default-authorization-flow.id
+  skip_path_regex         = "/health"
 
   meta_icon = "https://upload.wikimedia.org/wikipedia/commons/c/cf/Calibre_logo_3.png"
 }

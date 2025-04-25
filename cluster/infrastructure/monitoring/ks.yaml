@@ -114,3 +114,27 @@ spec:
     substituteFrom:
       - kind: Secret
         name: cluster-settings
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: gatus
+  namespace: flux-system
+spec:
+  targetNamespace: flux-system
+  wait: true
+  interval: 1h
+  path: "./cluster/infrastructure/monitoring/gatus"
+  prune: true
+  retryInterval: 2m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  postBuild:
+    substituteFrom:
+      - kind: Secret
+        name: cluster-settings
+      - kind: Secret
+        name: gatus-discord-secret

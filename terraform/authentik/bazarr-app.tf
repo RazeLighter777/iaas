@@ -8,6 +8,7 @@ module "bazarr" {
 
   policy_engine_mode      = "any"
   authorization_flow_uuid = data.authentik_flow.default-authorization-flow.id
+  skip_path_regex         = "/ping"
   meta_icon = "https://static.thenounproject.com/png/607762-200.png"
 }
 
