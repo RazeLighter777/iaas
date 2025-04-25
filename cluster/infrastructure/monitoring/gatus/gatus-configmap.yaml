@@ -16,7 +16,7 @@ data:
       header: Status
     alerting:
       discord:
-        webhook-url: ${DISCORD_STATUS_WEBHOOK}
+        webhook-url: ${DISCORD_WEBHOOK_URL}
     connectivity:
       checker:
         target: 1.1.1.1:53
