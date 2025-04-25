@@ -8,3 +8,4 @@ resources:
 - ./s3-globals-externalsecret.yaml
 - ./longhorn-s3-externalsecret.yaml
 - ./immich-oauth-externalsecret.yaml
+- ./discord-webhooks-externalsecret.yaml
