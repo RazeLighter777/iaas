@@ -47,6 +47,8 @@ spec:
   values:
     controllers:
       sonarr:
+        annotations:
+          reloader.stakater.com/auto: "true"
         strategy: Recreate
         initContainers:
           init-db:
