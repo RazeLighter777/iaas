@@ -165,3 +165,36 @@ data:
             failure-threshold: 5
             send-on-resolved: true
             description: "Booktok is down"
+      - name: authentik
+        group: auth
+        url: https://authentik.${domain_name}/-/health/ready/
+        interval: 1m
+        conditions:
+          - "[STATUS] == 200"
+        alerts:
+          - type: discord
+            failure-threshold: 5
+            send-on-resolved: true
+            description: "Authentik is down"
+      - name: grafana
+        group: monitoring
+        url: https://grafana.${domain_name}/health
+        interval: 1m
+        conditions:
+          - "[STATUS] == 200"
+        alerts:
+          - type: discord
+            failure-threshold: 5
+            send-on-resolved: true
+            description: "Grafana is down"
+      - name: jellyfin 
+        group: media
+        url: https://jellyfin.${domain_name}/health
+        interval: 1m
+        conditions:
+          - "[STATUS] == 200"
+        alerts:
+          - type: discord
+            failure-threshold: 5
+            send-on-resolved: true
+            description: "Jellyfin is down"
