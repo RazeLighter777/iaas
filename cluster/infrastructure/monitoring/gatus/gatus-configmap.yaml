@@ -200,7 +200,7 @@ data:
             description: "Jellyfin is down"
       - name: immich
         group: media
-        url: https://immich.${domain_name}/api/server-info/ping
+        url: https://immich.${domain_name}/api/server/ping
         interval: 1m
         conditions:
           - "[STATUS] == 200"
