@@ -82,7 +82,7 @@ data:
         url: https://longhorn.${domain_name}/v1/healthz
         interval: 1m
         conditions:
-          - "[STATUS] == 200"
+          - "[STATUS] == 404"
         alerts:
           - type: discord
             failure-threshold: 5
