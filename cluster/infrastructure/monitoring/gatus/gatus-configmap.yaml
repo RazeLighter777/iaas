@@ -46,7 +46,7 @@ data:
             description: "Radarr is down"
       - name: bazarr
         group: media
-        url: https://bazarr.${domain_name}/ping
+        url: https://bazarr.${domain_name}/health
         interval: 1m
         conditions:
           - "[STATUS] == 200"
@@ -137,7 +137,7 @@ data:
         url: https://cwa.${domain_name}/health
         interval: 1m
         conditions:
-          - "[STATUS] == 200"
+          - "[STATUS] == 404"
         alerts:
           - type: discord
             failure-threshold: 5
@@ -159,7 +159,7 @@ data:
         url: https://booktok.${domain_name}/cwa-check-monitoring
         interval: 1m
         conditions:
-          - "[STATUS] == 200"
+          - "[STATUS] == 404"
         alerts:
           - type: discord
             failure-threshold: 5
