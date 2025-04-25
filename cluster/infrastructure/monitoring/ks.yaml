@@ -121,7 +121,7 @@ metadata:
   name: gatus
   namespace: flux-system
 spec:
-  targetNamespace: flux-system
+  targetNamespace: monitoring
   wait: true
   interval: 1h
   path: "./cluster/infrastructure/monitoring/gatus"
