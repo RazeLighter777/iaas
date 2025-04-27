@@ -28,6 +28,13 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    resources:
+      requests:
+        cpu: 250m
+        memory: 512Mi
+      limits:
+        memory: 4Gi
+        cpu: 1000m
     auth:
       enabled: false
       sentinel: false
