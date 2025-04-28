@@ -46,9 +46,6 @@ spec:
               UV_SYSTEM_PYTHON: "true"
               UV_NO_CACHE: "true"
               VENV_FOLDER: /venv
-            envFrom:
-              - secretRef:
-                  name: home-assistant-secret
 
             resources:
               requests:
@@ -156,7 +153,7 @@ spec:
                   identifier: main
                   port: http
       code:
-        className: "nginx-tailscale"
+        className: "nginx"
         hosts:
           - host: &host-code hass-vscode.${domain_name}
             paths:
