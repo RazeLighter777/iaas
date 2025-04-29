@@ -151,7 +151,7 @@ data:
           - "[STATUS] == 200"
         alerts:
           - type: discord
-            failure-threshold: 5
+            failure-threshold: 15
             send-on-resolved: true
             description: "Bitmagnet is down"
       - name: booktok
