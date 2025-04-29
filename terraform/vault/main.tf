@@ -38,6 +38,10 @@ variable "INGRESS_IP" {
     type = string
 }
 
+variable "HOMEASSISTANT_IP" {
+    type = string
+}
+
 variable "EMAIL_ADDRESS" {
     type = string
 }
@@ -144,6 +148,7 @@ resource "vault_kv_secret_v2" "cluster-settings" {
         "domain_name" = var.DOMAIN_NAME
         "timezone" = var.TIMEZONE
         "ingress_ip" = var.INGRESS_IP
+        "homeassistant_ip" = var.HOMEASSISTANT_IP
         "email_address" = var.EMAIL_ADDRESS
         "nfs_server_ip" = var.NFS_SERVER_IP
         "nfs_path" = var.NFS_PATH

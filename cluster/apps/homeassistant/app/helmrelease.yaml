@@ -41,7 +41,7 @@ spec:
               repository: ghcr.io/home-assistant/home-assistant
               tag: 2025.4.4
             env:
-              TZ: "America/New_York"
+              TZ: ${timezone}
               PYTHONPATH: "/config/deps"
               UV_SYSTEM_PYTHON: "true"
               UV_NO_CACHE: "true"
@@ -79,7 +79,7 @@ spec:
               - /config
             env:
               HASS_SERVER: http://localhost:8123
-              TZ: America/New_York
+              TZ: ${timezone}
             resources:
               requests:
                 cpu: 10m
@@ -91,7 +91,7 @@ spec:
         primary: true
         type: LoadBalancer
         controller: home-assistant
-        loadBalancerIP: 10.0.6.56
+        loadBalancerIP: ${homeassistant_ip}
         ports:
           http:
             port: 8123
