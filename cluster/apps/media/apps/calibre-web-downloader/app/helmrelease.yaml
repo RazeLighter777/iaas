@@ -32,7 +32,7 @@ spec:
           app:
             image:
               repository: ghcr.io/calibrain/calibre-web-automated-book-downloader
-              tag: sha-392a8b5@sha256:52420bab7252d0bf9f2b63b63d2996ba9b0418484bfce29b431ff31ad6d9b2c2  
+              tag: sha-392a8b5@sha256:c222fd8ec6ac0fcd76cfe1eca5165b136994e60b75e20977d9f007e4969d155f  
               pullPolicy: IfNotPresent
             env:
               - name: FLASK_PORT
