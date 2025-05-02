@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: frigate
+  labels:
+    # privileged namespace for device access
+    pod-security.kubernetes.io/enforce: privileged
