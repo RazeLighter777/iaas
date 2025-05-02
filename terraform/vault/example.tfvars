@@ -10,6 +10,8 @@ VAULT_TOKEN = "your-vault-token"
 DOMAIN_NAME = "example.com"
 TIMEZONE = "America/New_York"
 INGRESS_IP = "192.168.1.x"
+HOMEASSISTANT_IP = "192.168.1.x"
+WG_EASY_IP = "192.168.1.x"
 EMAIL_ADDRESS = "your-email@example.com"
 
 
