@@ -49,6 +49,8 @@ spec:
                 value: &ingest_dir /book-intake
               - name: BOOK_LANGUAGE
                 value: en
+              - name: AA_BASE_URL
+                value: https://annas-archive.li
             resources:
               requests:
                 cpu: 10m
