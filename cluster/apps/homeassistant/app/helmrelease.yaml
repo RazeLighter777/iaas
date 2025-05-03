@@ -54,13 +54,8 @@ spec:
                 memory: 512M
               limits:
                 memory: 2Gi
-            # commented due to limitations with official home-assistant image
-            # securityContext:
-            #   allowPrivilegeEscalation: false
-            #   readOnlyRootFilesystem: true
-            #   capabilities:
-            #     drop:
-            #       - ALL
+            securityContext:
+              privileged: true
 
           code-server:
             image:
@@ -107,7 +102,10 @@ spec:
       usb:
         enabled: true
         type: hostPath
-        hostPath: /dev/ttyACM0
+        hostPath: /dev/ttyUSB0
+        hostPathType: CharDevice
+        globalMounts:
+          - path: /dev/ttyUSB0
 
       config:
         storageClass: longhorn-fast
