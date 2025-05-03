@@ -29,12 +29,14 @@ spec:
     controllers:
       home-assistant:
         pod:
+          nodeSelector:
+            feature.node.kubernetes.io/usb-ff_10c4_ea60.present: "true" # required for zigbee
           securityContext:
             runAsUser: 1000
             runAsGroup: 1000
             fsGroup: 1000
             fsGroupChangePolicy: OnRootMismatch
-
+            privileged: true
         containers:
           app:
             image:
@@ -103,6 +105,11 @@ spec:
             port: 12321
 
     persistence:
+      usb:
+        enabled: true
+        type: hostPath
+        hostPath: /dev/ttyACM0
+
       config:
         storageClass: longhorn-fast
         accessMode: ReadWriteOnce
