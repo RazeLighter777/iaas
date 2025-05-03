@@ -32,9 +32,9 @@ spec:
           nodeSelector:
             feature.node.kubernetes.io/usb-ff_10c4_ea60.present: "true" # required for zigbee
           securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
-            fsGroup: 1000
+            runAsUser: 0
+            runAsGroup: 0
+            fsGroup: 0
             fsGroupChangePolicy: OnRootMismatch
         containers:
           app:
