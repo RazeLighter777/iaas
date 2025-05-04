@@ -60,6 +60,24 @@ variable "S3_REGION" {
     type = string
 }
 
+### Cameras
+
+
+variable "FRIGATE_CAMERA_USERNAME" {
+    type = string
+}
+
+variable "FRIGATE_CAMERA_PASSWORD" {
+    type = string
+}
+
+variable "FRIGATE_LIBRARY_CAMERA_IP" {
+    type = string
+}
+
+variable "FRIGATE_CAT_ROOM_CAMERA_IP" {
+    type = string
+}
 
 ### Cloudnative PG
 
@@ -374,9 +392,9 @@ resource "vault_kv_secret_v2" "frigate" {
     mount    = vault_mount.kv.path
     name    = "frigate"
     data_json = jsonencode({
-        "camera_username" = "admin"
-        "camera_password" = "password"
-        "library_camera_ip" = "192.168.100.47"
-        "cat_room_camera_ip" = "192.168.100.48"
+        "camera_username" = var.FRIGATE_CAMERA_USERNAME
+        "camera_password" = var.FRIGATE_CAMERA_PASSWORD
+        "library_camera_ip" = var.FRIGATE_LIBRARY_CAMERA_IP
+        "cat_room_camera_ip" = var.FRIGATE_CAT_ROOM_CAMERA_IP
     })
 }
