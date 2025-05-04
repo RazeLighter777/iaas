@@ -9,17 +9,17 @@ data:
 
     [[cameras]]
     name = "library"
-    username = ${FRIGATE_CAMERA_USERNAME}
-    password = ${FRIGATE_CAMERA_PASSWORD}
-    uid = ${FRIGATE_LIBRARY_CAMERA_UID}
-    address = ${FRIGATE_LIBRARY_CAMERA_IP}
+    username = "${FRIGATE_CAMERA_USERNAME}"
+    password = "${FRIGATE_CAMERA_PASSWORD}"
+    uid = "${FRIGATE_LIBRARY_CAMERA_UID}"
+    address = "${FRIGATE_LIBRARY_CAMERA_IP}"
 
     [[cameras]]
     name = "cat_room"
-    username = "admin"
-    password = "password"
-    uid = ${FRIGATE_CAT_ROOM_CAMERA_UID}
-    address = ${FRIGATE_CAT_ROOM_CAMERA_IP}
+    username = "${FRIGATE_CAMERA_USERNAME}"
+    password = "${FRIGATE_CAMERA_PASSWORD}"
+    uid = "${FRIGATE_CAT_ROOM_CAMERA_UID}"
+    address = "${FRIGATE_CAT_ROOM_CAMERA_IP}"
   config.yml: |
     mqtt:
       enabled: False
