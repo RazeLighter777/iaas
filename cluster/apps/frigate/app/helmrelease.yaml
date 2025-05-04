@@ -31,7 +31,7 @@ spec:
           main:
             image:
               repository: quantumentangledandy/neolink
-              tag: latest@sha256:4eebf499c20f8de740d8c32163f665e41fd0f342be3b1174828b3b8bd7def59d
+              tag: v0.6.2
             resources:
               requests:
                 memory: 1000Mi
