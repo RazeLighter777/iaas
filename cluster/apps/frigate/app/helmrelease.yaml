@@ -105,6 +105,12 @@ spec:
           go2rtc:
             enabled: true
             port: 1984
+          rtsp:
+            enabled: true
+            port: 8554
+          webrtc:
+            enabled: true
+            port: 8555
 
     ingress:
       main:
