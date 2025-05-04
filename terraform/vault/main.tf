@@ -369,3 +369,14 @@ resource "vault_kv_secret_v2" "immich_oauth" {
         "client_secret" = random_password.immich_oauth_client_secret.result
     })
 }
+
+resource "vault_kv_secret_v2" "frigate" {
+    mount    = vault_mount.kv.path
+    name    = "frigate"
+    data_json = jsonencode({
+        "camera_username" = "admin"
+        "camera_password" = "password"
+        "library_camera_ip" = "192.168.100.47"
+        "cat_room_camera_ip" = "192.168.100.48"
+    })
+}

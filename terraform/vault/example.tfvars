@@ -20,6 +20,13 @@ EMAIL_ADDRESS = "your-email@example.com"
 S3_ENDPOINT = "https://s3.example.com"
 S3_REGION = "us-east-1"
 
+# Cameras
+
+FRIGATE_CAMERA_USERNAME = "admin"
+FRIGATE_CAMERA_PASSWORD = "password"
+FRIGATE_LIBRARY_CAMERA_IP = "192.168.1.x"
+FRIGATE_CAT_ROOM_CAMERA_IP = "192.168.1.x"
+
 # Cloudnative PG
 
 CLOUDNATIVE_S3_BUCKET = "your-bucket-name"
