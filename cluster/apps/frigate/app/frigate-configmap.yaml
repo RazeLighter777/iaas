@@ -7,8 +7,6 @@ data:
   config.yml: |
     mqtt:
       enabled: False
-    auth:
-      reset_admin_password: true
     cameras:
       dummy_camera: # <--- this will be changed to your actual camera later
         enabled: False
