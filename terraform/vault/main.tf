@@ -79,6 +79,14 @@ variable "FRIGATE_CAT_ROOM_CAMERA_IP" {
     type = string
 }
 
+variable "FRIGATE_LIBRARY_CAMERA_UID" {
+    type = string
+}
+
+variable "FRIGATE_CAT_ROOM_CAMERA_UID" {
+    type = string
+}
+
 ### Cloudnative PG
 
 variable "CLOUDNATIVE_S3_BUCKET" {
@@ -396,5 +404,7 @@ resource "vault_kv_secret_v2" "frigate" {
         "camera_password" = var.FRIGATE_CAMERA_PASSWORD
         "library_camera_ip" = var.FRIGATE_LIBRARY_CAMERA_IP
         "cat_room_camera_ip" = var.FRIGATE_CAT_ROOM_CAMERA_IP
+        "library_camera_uid" = var.FRIGATE_LIBRARY_CAMERA_UID
+        "cat_room_camera_uid" = var.FRIGATE_CAT_ROOM_CAMERA_UID
     })
 }

@@ -4,6 +4,22 @@ metadata:
   name: frigate-configmap
   namespace: frigate
 data:
+  neolink.toml: |
+    bind = "0.0.0.0"
+
+    [[cameras]]
+    name = "library"
+    username = ${FRIGATE_CAMERA_USERNAME}
+    password = ${FRIGATE_CAMERA_PASSWORD}
+    uid = ${FRIGATE_LIBRARY_CAMERA_UID}
+    address = ${FRIGATE_LIBRARY_CAMERA_IP}
+
+    [[cameras]]
+    name = "cat_room"
+    username = "admin"
+    password = "password"
+    uid = ${FRIGATE_CAT_ROOM_CAMERA_UID}
+    address = ${FRIGATE_CAT_ROOM_CAMERA_IP}
   config.yml: |
     mqtt:
       enabled: False
@@ -11,47 +27,36 @@ data:
     go2rtc:
       streams:
         library:
-          - rtsp://${FRIGATE_CAMERA_USERNAME}:${FRIGATE_CAMERA_PASSWORD}@${FRIGATE_LIBRARY_CAMERA_IP}:554/h264Preview_01_main
+          - rtsp://127.0.0.1:8554/library/mainStream
         library_sub:
-          - rtsp://${FRIGATE_CAMERA_USERNAME}:${FRIGATE_CAMERA_PASSWORD}@${FRIGATE_LIBRARY_CAMERA_IP}:554/h264Preview_01_sub
+          - rtsp://127.0.0.1:8554/library/subStream
         cat_room:
-          - rtsp://${FRIGATE_CAMERA_USERNAME}:${FRIGATE_CAMERA_PASSWORD}@${FRIGATE_CAT_ROOM_CAMERA_IP}:554/h264Preview_01_main
+          - rtsp://127.0.0.1:8554/cat_room/mainStream
         cat_room_sub:
-          - rtsp://${FRIGATE_CAMERA_USERNAME}:${FRIGATE_CAMERA_PASSWORD}@${FRIGATE_CAT_ROOM_CAMERA_IP}:554/h264Preview_01_sub
+          - rtsp://127.0.0.1:8554/cat_room/subStream
 
     cameras:
       library:
         enabled: true
         ffmpeg:
           inputs:
-            - path: rtsp://127.0.0.1:8554/library_sub
+            - path: rtsp://127.0.0.1:8554/library/subStream
               roles:
                 - detect
-            - path: rtsp://127.0.0.1:8554/library
+            - path: rtsp://127.0.0.1:8554/library/mainStream
               roles:
                 - record
-        onvif:
-          host: ${FRIGATE_LIBRARY_CAMERA_IP}
-          port: 8000
-          user: ${FRIGATE_CAMERA_USERNAME}
-          password: ${FRIGATE_CAMERA_PASSWORD}
 
       cat_room:
         enabled: true
         ffmpeg:
           inputs:
-            - path: rtsp://127.0.0.1:8554/cat_room_sub
+            - path: rtsp://127.0.0.1:8554/cat_room/subStream
               roles:
                 - detect
-            - path: rtsp://127.0.0.1:8554/cat_room
+            - path: rtsp://127.0.0.1:8554/cat_room/mainStream
               roles:
                 - record
-        onvif:
-          host: ${FRIGATE_CAT_ROOM_CAMERA_IP}
-          port: 8000
-          user: ${FRIGATE_CAMERA_USERNAME}
-          password: ${FRIGATE_CAMERA_PASSWORD}
-
     record:
       enabled: true
       retain:
