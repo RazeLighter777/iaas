@@ -27,23 +27,23 @@ data:
     go2rtc:
       streams:
         library:
-          - rtsp://127.0.0.1:8554/library/mainStream
+          - rtsp://frigate-neolink:8554/library/mainStream
         library_sub:
-          - rtsp://127.0.0.1:8554/library/subStream
+          - rtsp://frigate-neolink:8554/library/subStream
         cat_room:
-          - rtsp://127.0.0.1:8554/cat_room/mainStream
+          - rtsp://frigate-neolink:8554/cat_room/mainStream
         cat_room_sub:
-          - rtsp://127.0.0.1:8554/cat_room/subStream
+          - rtsp://frigate-neolink:8554/cat_room/subStream
 
     cameras:
       library:
         enabled: true
         ffmpeg:
           inputs:
-            - path: rtsp://127.0.0.1:8554/library/subStream
+            - path: rtsp://frigate-neolink:8554/library/subStream
               roles:
                 - detect
-            - path: rtsp://127.0.0.1:8554/library/mainStream
+            - path: rtsp://frigate-neolink:8554/library/mainStream
               roles:
                 - record
 
@@ -51,10 +51,10 @@ data:
         enabled: true
         ffmpeg:
           inputs:
-            - path: rtsp://127.0.0.1:8554/cat_room/subStream
+            - path: rtsp://frigate-neolink:8554/cat_room/subStream
               roles:
                 - detect
-            - path: rtsp://127.0.0.1:8554/cat_room/mainStream
+            - path: rtsp://frigate-neolink:8554/cat_room/mainStream
               roles:
                 - record
     record:
