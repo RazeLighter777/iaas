@@ -142,8 +142,11 @@ spec:
         storageClass: longhorn-fast
         accessMode: ReadWriteOnce
         size: 10Gi
-        globalMounts:
-          - path: /config
+        advancedMounts:
+          main:
+            main:
+              - path: /config
+                subPath: config
       config-file:
         enabled: true
         type: configMap
