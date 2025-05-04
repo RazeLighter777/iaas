@@ -140,9 +140,6 @@ spec:
         type: configMap
         name: frigate-configmap
         globalMounts:
-          - path: /config/config.yml
-            subPath: config.yml
-            readOnly: true
           - path: /etc/neolink.toml
             subPath: neolink.toml
             readOnly: true
