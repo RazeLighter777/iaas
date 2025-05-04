@@ -148,21 +148,28 @@ spec:
         enabled: true
         type: configMap
         name: frigate-configmap
-        globalMounts:
-          - path: /etc/neolink.toml
-            subPath: neolink.toml
-            readOnly: true
+        advancedMounts:
+          neolink:
+            main:
+              - path: /etc/neolink.toml
+                subPath: neolink.toml
+                readOnly: true
       media:
         enabled: true
         storageClass: longhorn-fast
         accessMode: ReadWriteOnce
         size: 50Gi
-        globalMounts:
-          - path: /media
+        advancedMounts:
+          main:
+            main:
+              - path: /media
+                subPath: media
       cache:
         enabled: true
         type: emptyDir
         medium: Memory
         sizeLimit: 4Gi
-        globalMounts:
-          - path: /dev/shm
+        advancedMounts:
+          main:
+            main:
+              - path: /dev/shm
