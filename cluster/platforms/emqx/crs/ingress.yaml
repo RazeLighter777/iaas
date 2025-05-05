@@ -4,7 +4,7 @@ kind: Ingress
 metadata:
   name: emqx-dashboard
 spec:
-  ingressClassName: internal
+  ingressClassName: nginx
   rules:
     - host: mqtt.${domain_name}
       http:
