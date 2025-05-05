@@ -16,10 +16,9 @@ My overkill kubernetes homelab.
 
 ### 🛠️ Cluster Infrastructure
 - **[Cert-Manager](https://cert-manager.io/)**: Manages TLS certificates for the cluster.
-- **[MetalLB](https://metallb.universe.tf/)**: Provides load balancing for services.
+- **[Cilium](https://cilim.io/)**: Provides eBPF-based cloud native networking for kubernetes
 - **[ExternalDNS](https://github.com/kubernetes-sigs/external-dns)**: Updates DNS records based on Kubernetes resources.
 - **[Node Feature Discovery](https://github.com/kubernetes-sigs/node-feature-discovery)**: Detects hardware features available on nodes.
-- **[Snapshot Controller](https://github.com/kubernetes-csi/external-snapshotter)**: Manages volume snapshots for persistent storage.
 - **[Intel GPU Plugin](https://github.com/intel/intel-device-plugins-for-kubernetes)**: Manages Intel GPU resources for workloads.
 - **[Longhorn](https://longhorn.io/)**: Provides distributed block storage for Kubernetes.
 - **[Ingress NGINX](https://kubernetes.github.io/ingress-nginx/)**: Manages ingress traffic to the cluster.
@@ -36,6 +35,11 @@ My overkill kubernetes homelab.
 
 ### 🗂️ Databases
 - **[Cloudnative PG](https://cloudnative-pg.io/)**: A PostgreSQL operator for managing PostgreSQL clusters.
+- **[Redis](https://redis.io)**: Low latency key-value store.
+
+## 🏠 Smart Home 
+- **[Home Assistant](https://home-assistant.io/)** : Smart home automation platform
+- **[Frigate](https://frigate.video)**: Open source security camera NVR with object detection. 
 
 ### 📺 Media Apps
 - **[Jellyfin](https://jellyfin.org/)**: A media server for streaming and organizing media.
