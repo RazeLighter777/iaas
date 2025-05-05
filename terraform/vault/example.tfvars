@@ -12,6 +12,7 @@ TIMEZONE = "America/New_York"
 INGRESS_IP = "192.168.1.x"
 HOMEASSISTANT_IP = "192.168.1.x"
 WG_EASY_IP = "192.168.1.x"
+EMQX_IP = "192.168.1.x"
 EMAIL_ADDRESS = "your-email@example.com"
 
 
@@ -19,6 +20,11 @@ EMAIL_ADDRESS = "your-email@example.com"
 
 S3_ENDPOINT = "https://s3.example.com"
 S3_REGION = "us-east-1"
+
+# Emqx
+EMQX_USERNAME = "admin"
+EMQX_PASSWORD = "password"
+
 
 # Cameras
 

@@ -7,3 +7,4 @@ spec:
     - cidr: ${ingress_ip}/32
     - cidr: ${homeassistant_ip}/32
     - cidr: ${wg_easy_ip}/32
+    - cidr: ${emqx_ip}/32
