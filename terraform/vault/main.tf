@@ -46,6 +46,10 @@ variable "WG_EASY_IP" {
     type = string
 }
 
+variable "EMQX_IP" {
+    type = string
+}
+
 variable "EMAIL_ADDRESS" {
     type = string
 }
@@ -108,6 +112,20 @@ variable "NFS_SERVER_IP" {
 variable "NFS_PATH" {
     type = string
 }
+
+### Emqx
+
+variable "EMQX_USERNAME" {
+    type = string
+}
+
+variable "EMQX_PASSWORD" {
+    type = string
+}
+
+
+
+
 
 ### longhorn s3 backup creds and bucket
 
@@ -180,6 +198,7 @@ resource "vault_kv_secret_v2" "cluster-settings" {
         "ingress_ip" = var.INGRESS_IP
         "homeassistant_ip" = var.HOMEASSISTANT_IP
         "wg_easy_ip" = var.WG_EASY_IP
+        "emqx_ip" = var.EMQX_IP
         "email_address" = var.EMAIL_ADDRESS
         "nfs_server_ip" = var.NFS_SERVER_IP
         "nfs_path" = var.NFS_PATH
@@ -193,6 +212,16 @@ resource "vault_kv_secret_v2" "s3" {
         "s3_endpoint" = var.S3_ENDPOINT
         "s3_endpoint_url" = "https://${var.S3_ENDPOINT}"
         "s3_region" = var.S3_REGION
+    })
+}
+
+
+resource "vault_kv_secret_v2" "emqx" {
+    mount    = vault_mount.kv.path
+    name    = "emqx"
+    data_json = jsonencode({
+        "username" = var.EMQX_USERNAME
+        "password" = var.EMQX_PASSWORD
     })
 }
 
