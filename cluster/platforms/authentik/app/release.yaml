@@ -117,6 +117,6 @@ spec:
     cluster:
       storage:
         storageClass: longhorn-fast-unreplicated-strictlocal
-      instances: 3
+      instances: 1
       monitoring:
         enabled: true
