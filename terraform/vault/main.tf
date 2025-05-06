@@ -50,6 +50,10 @@ variable "EMQX_IP" {
     type = string
 }
 
+variable "MINECRAFT_IP" {
+    type = string
+}
+
 variable "EMAIL_ADDRESS" {
     type = string
 }
@@ -199,6 +203,7 @@ resource "vault_kv_secret_v2" "cluster-settings" {
         "homeassistant_ip" = var.HOMEASSISTANT_IP
         "wg_easy_ip" = var.WG_EASY_IP
         "emqx_ip" = var.EMQX_IP
+        "minecraft_ip" = var.MINECRAFT_IP
         "email_address" = var.EMAIL_ADDRESS
         "nfs_server_ip" = var.NFS_SERVER_IP
         "nfs_path" = var.NFS_PATH

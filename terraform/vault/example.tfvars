@@ -13,6 +13,7 @@ INGRESS_IP = "192.168.1.x"
 HOMEASSISTANT_IP = "192.168.1.x"
 WG_EASY_IP = "192.168.1.x"
 EMQX_IP = "192.168.1.x"
+MINECRAFT_IP = "192.168.1.x"
 EMAIL_ADDRESS = "your-email@example.com"
 
 
