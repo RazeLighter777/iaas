@@ -50,7 +50,7 @@ spec:
       maxTickTime: -1
       serviceType: LoadBalancer
       loadBalancerClass: "io.cilium/l2-announcer"
-      loadBalancerIP: 192.168.1.17
+      loadBalancerIP: ${minecraft_ip}
       gameMode: survival
       motd: "\u00A76\u00A7lpublic survival\u00A7r\u00A7l - \u00A7r\u00A7c\u00A7lSMP\u00A7r\n"
       icon: https://www.freeiconspng.com/uploads/minecraft-server-icon-23.png
