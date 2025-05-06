@@ -5,7 +5,7 @@ metadata:
   name: emqx-operator
   namespace: flux-system
 spec:
-  targetNamespace: external-secrets
+  targetNamespace: emqx
   path: "./cluster/platforms/emqx/app"
   interval: 30m
   prune: true
