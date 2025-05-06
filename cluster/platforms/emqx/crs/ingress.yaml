@@ -13,6 +13,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: emqx-dashboard
+                name: emqx-cluster-dashboard
                 port:
                   number: 18083
