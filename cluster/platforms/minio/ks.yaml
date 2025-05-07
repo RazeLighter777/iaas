@@ -20,7 +20,3 @@ spec:
         name: cluster-settings
       - kind: Secret
         name: minio-oauth
-        varsKeys:
-          - client_id:minio_client_id
-          - client_secret:minio_client_secret
-
