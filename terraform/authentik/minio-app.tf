@@ -21,15 +21,9 @@ resource "authentik_property_mapping_provider_scope" "scope-minio" {
   name       = "minio"
   scope_name = "minio"
   expression = <<EOF
-if ak_is_group_member(request.user, name="Minio admins"):
-  return {
-    "policy": ["consoleAdmin"]
+return {
+  "policy": "readwrite",
 }
-elif ak_is_group_member(request.user, name="Minio users"):
-  return {
-    "policy": ["readonly"]
-}
-return None
 EOF
 }
 
@@ -37,7 +31,7 @@ resource "authentik_provider_oauth2" "minio" {
   name          = "Minio"
   client_id     = var.minio_client_id
   client_secret = var.minio_client_secret
-
+  sub_mode = "user_username"
   authorization_flow  = data.authentik_flow.default-authorization-flow.id
   invalidation_flow   = data.authentik_flow.default-provider-invalidation-flow.id
   allowed_redirect_uris = [
