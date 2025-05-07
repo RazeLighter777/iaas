@@ -27,6 +27,10 @@ return {
 EOF
 }
 
+# signing certificate
+data "authentik_certificate_key_pair" "default" {
+  name = "authentik Self-signed Certificate"
+}
 resource "authentik_provider_oauth2" "minio" {
   name          = "Minio"
   client_id     = var.minio_client_id
@@ -34,6 +38,7 @@ resource "authentik_provider_oauth2" "minio" {
   sub_mode = "user_username"
   authorization_flow  = data.authentik_flow.default-authorization-flow.id
   invalidation_flow   = data.authentik_flow.default-provider-invalidation-flow.id
+  signing_key    = data.authentik_certificate_key_pair.default.id
   allowed_redirect_uris = [
     {
       matching_mode = "strict"
