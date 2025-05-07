@@ -1,0 +1,23 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  # made for minio
+  name: longhorn-fast-strictlocal-xfs
+provisioner: driver.longhorn.io
+allowVolumeExpansion: true
+volumeBindingMode: WaitForFirstConsumer
+parameters:
+  # minio needs HA
+  numberOfReplicas: "2"
+  staleReplicaTimeout: "2880" # 48 hours in minutes
+  fromBackup: ""
+  fsType: "xfs"
+  # Strict local is required for the databases apps
+  dataLocality: "strict-local"
+  diskSelector: "ssd"
+  recurringJobSelector: '[
+      {
+        "name":"backups",
+        "isGroup":true
+      }
+    ]'

@@ -391,6 +391,29 @@ resource "vault_kv_secret_v2" "grafana_oauth" {
     })
 }
 
+resource "random_password" "minio_oauth_client_id" {
+    length = 32
+    special = false
+    numeric = false
+    upper = false
+}
+
+resource "random_password" "minio_oauth_client_secret" {
+    length = 32
+    special = false
+    numeric = false
+    upper = false
+}
+
+resource "vault_kv_secret_v2" "minio_oauth" {
+    mount    = vault_mount.kv.path
+    name    = "minio_oauth"
+    data_json = jsonencode({
+        "client_id" = random_password.minio_oauth_client_id.result
+        "client_secret" = random_password.minio_oauth_client_secret.result
+    })
+}
+
 resource "random_password" "immich_db_password" {
   length = 32
   special = true
