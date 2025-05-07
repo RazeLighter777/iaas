@@ -10,7 +10,7 @@ module "cwa" {
   authorization_flow_uuid = data.authentik_flow.default-authorization-flow.id
   skip_path_regex         = "/health"
 
-  meta_icon = "https://upload.wikimedia.org/wikipedia/commons/c/cf/Calibre_logo_3.png"
+  meta_icon = "https://s3.prizrak.me/calibre.png"
 }
 
 resource "authentik_group" "cwa-users" {

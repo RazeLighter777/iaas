@@ -11,7 +11,7 @@ resource "authentik_application" "jellyfin" {
   slug              = "jellyfin"
   protocol_provider = authentik_provider_ldap.jellyfin.id
   group             = "media"
-  meta_icon         = "https://jellyfin.org/images/logo.svg"
+  meta_icon         = "https://s3.prizrak.me/jellyfin.svg"
   meta_launch_url   = "https://jellyfin.${var.domain_name}"
 }
 

@@ -10,7 +10,8 @@ module "frigate" {
   authorization_flow_uuid = data.authentik_flow.default-authorization-flow.id
   skip_path_regex         = "/api/version"
 
-  meta_icon = "https://frigate.video/images/logo.svg"
+  meta_icon = "https://s3.prizrak.me/frigate.svg"
+
 }
 
 resource "authentik_group" "frigate-users" {
