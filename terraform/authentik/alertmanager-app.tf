@@ -8,7 +8,7 @@ module "alertmanager" {
 
   policy_engine_mode      = "any"
   authorization_flow_uuid = data.authentik_flow.default-authorization-flow.id
-  meta_icon = "https://s3.prizrak.me/media/alertmanager.png"
+  meta_icon = "https://s3.${var.domain_name}/media/alertmanager.png"
   skip_path_regex = "/-/healthy"
 }
 

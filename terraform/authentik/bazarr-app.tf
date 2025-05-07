@@ -9,7 +9,7 @@ module "bazarr" {
   policy_engine_mode      = "any"
   authorization_flow_uuid = data.authentik_flow.default-authorization-flow.id
   skip_path_regex         = "/health"
-  meta_icon = "https://s3.prizrak.me/media/bazarr.png"
+  meta_icon = "https://s3.${var.domain_name}/media/bazarr.png"
 }
 
 resource "authentik_group" "bazarr-users" {

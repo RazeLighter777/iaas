@@ -10,7 +10,7 @@ module "sonarr" {
   authorization_flow_uuid = data.authentik_flow.default-authorization-flow.id
   skip_path_regex         = "/ping"
 
-  meta_icon = "https://s3.prizrak.me/media/sonarr.png"
+  meta_icon = "https://s3.${var.domain_name}/media/sonarr.png"
 }
 
 resource "authentik_group" "sonarr-users" {
