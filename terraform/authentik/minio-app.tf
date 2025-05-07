@@ -43,7 +43,7 @@ resource "authentik_provider_oauth2" "minio" {
   allowed_redirect_uris = [
     {
       matching_mode = "strict"
-      url           = "https://minio.${var.domain_name}/oauth2_callback"
+      url           = "https://minio.${var.domain_name}/oauth_callback"
     }
   ]
 
