@@ -10,7 +10,7 @@ module "qbittorrent" {
   authorization_flow_uuid = data.authentik_flow.default-authorization-flow.id
   skip_path_regex         = "/api/v2/app/version"
 
-  meta_icon = "https://s3.prizrak.me/qbittorrent.svg"
+  meta_icon = "https://s3.prizrak.me/media/qbittorrent.svg"
 }
 
 resource "authentik_group" "qbittorrent-users" {

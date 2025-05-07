@@ -10,7 +10,7 @@ module "longhorn" {
   authorization_flow_uuid = data.authentik_flow.default-authorization-flow.id
   skip_path_regex         = "/v1/healthz"
 
-  meta_icon = "https://s3.prizrak.me/longhorn.png"
+  meta_icon = "https://s3.prizrak.me/media/longhorn.png"
 }
 
 resource "authentik_group" "longhorn-users" {

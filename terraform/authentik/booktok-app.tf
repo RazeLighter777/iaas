@@ -10,7 +10,7 @@ module "booktok" {
   authorization_flow_uuid = data.authentik_flow.default-authorization-flow.id
   skip_path_regex         = "/cwa-check-monitoring"
 
-  meta_icon = "https://s3.prizrak.me/booktok.svg"
+  meta_icon = "https://s3.prizrak.me/media/booktok.svg"
 }
 
 resource "authentik_group" "booktok-users" {

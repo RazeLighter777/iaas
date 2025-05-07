@@ -10,7 +10,7 @@ module "capacitor" {
   authorization_flow_uuid = data.authentik_flow.default-authorization-flow.id
   skip_path_regex         = "/health"
 
-  meta_icon = "https://s3.prizrak.me/capacitor.png"
+  meta_icon = "https://s3.prizrak.me/media/capacitor.png"
 }
 
 resource "authentik_group" "capacitor-users" {

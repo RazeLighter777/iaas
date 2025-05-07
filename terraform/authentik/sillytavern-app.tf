@@ -10,7 +10,7 @@ module "sillytavern" {
   # sillytavern has no health check :(
   #skip_path_regex         = "/health"
 
-  meta_icon = "https://s3.prizrak.me/sillytavern.png"
+  meta_icon = "https://s3.prizrak.me/media/sillytavern.png"
 }
 
 resource "authentik_group" "sillytavern-users" {

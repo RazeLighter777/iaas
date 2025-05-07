@@ -9,7 +9,7 @@ module "bitmagnet" {
   policy_engine_mode      = "any"
   authorization_flow_uuid = data.authentik_flow.default-authorization-flow.id
   skip_path_regex         = "/status"
-  meta_icon = "https://s3.prizrak.me/bitmagnet.png"
+  meta_icon = "https://s3.prizrak.me/media/bitmagnet.png"
 }
 
 resource "authentik_group" "bitmagnet-users" {

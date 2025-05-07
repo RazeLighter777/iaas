@@ -10,7 +10,7 @@ module "radarr" {
   authorization_flow_uuid = data.authentik_flow.default-authorization-flow.id
   skip_path_regex         = "/ping"
 
-  meta_icon = "https://s3.prizrak.me/radarr.png"
+  meta_icon = "https://s3.prizrak.me/media/radarr.png"
 }
 
 resource "authentik_group" "radarr-users" {
