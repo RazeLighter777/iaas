@@ -49,6 +49,7 @@ spec:
               MINIO_IDENTITY_OPENID_CLIENT_SECRET: ${client_secret}
               MINIO_IDENTITY_OPENID_SCOPES: openid,profile,email,minio
               MINIO_IDENTITY_OPENID_REDIRECT_URI: https://minio.${domain_name}/oauth_callback
+              MINIO_IDENTITY_OPENID_CLAIM_NAME: policy
             args: ["server", "/data", "--console-address", ":9001"]
             probes:
               liveness: &probes
