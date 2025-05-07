@@ -44,7 +44,7 @@ spec:
               MINIO_API_CORS_ALLOW_ORIGIN: https://minio.${domain_name},https://s3.${domain_name}
               MINIO_AUTH_TYPE: public
               MINIO_UPDATE: "off"
-              MINIO_IDENTITY_OPENID_CONFIG_URL: https://authentik.${domain_name}/o/minio/.well-known/openid-configuration
+              MINIO_IDENTITY_OPENID_CONFIG_URL: https://authentik.${domain_name}/application/o/minio/.well-known/openid-configuration
               MINIO_IDENTITY_OPENID_CLIENT_ID: ${client_id}
               MINIO_IDENTITY_OPENID_CLIENT_SECRET: ${client_secret}
               MINIO_IDENTITY_OPENID_SCOPES: openid,profile,email,minio
