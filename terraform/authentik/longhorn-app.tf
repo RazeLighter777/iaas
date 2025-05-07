@@ -10,7 +10,7 @@ module "longhorn" {
   authorization_flow_uuid = data.authentik_flow.default-authorization-flow.id
   skip_path_regex         = "/v1/healthz"
 
-  meta_icon = "https://landscape.cncf.io/logos/acd3d31cbdf0aa2ef2d695fa4a3571e6d232a96214ec33fe0b2022b9719c244c.svg"
+  meta_icon = "https://s3.prizrak.me/longhorn.png"
 }
 
 resource "authentik_group" "longhorn-users" {
