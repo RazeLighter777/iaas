@@ -20,6 +20,11 @@ spec:
         - client_id:grafana_client_id
         - client_secret:grafana_client_secret
     - kind: Secret
+      name: minio-oauth
+      varsKeys:
+        - client_id:minio_client_id
+        - client_secret:minio_client_secret
+    - kind: Secret
       name: immich-oauth
       varsKeys:
         - client_id:immich_client_id

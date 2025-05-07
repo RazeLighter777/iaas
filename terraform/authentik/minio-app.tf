@@ -51,6 +51,7 @@ resource "authentik_provider_oauth2" "minio" {
     data.authentik_property_mapping_provider_scope.scope-email.id,
     data.authentik_property_mapping_provider_scope.scope-profile.id,
     data.authentik_property_mapping_provider_scope.scope-openid.id,
+    authentik_property_mapping_provider_scope.scope-minio.id
   ]
 }
 

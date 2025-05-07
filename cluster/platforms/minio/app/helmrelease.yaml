@@ -26,7 +26,7 @@ spec:
   values:
     controllers:
       main:
-        replicas: 3
+        replicas: 1
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
@@ -45,14 +45,10 @@ spec:
               MINIO_AUTH_TYPE: public
               MINIO_UPDATE: "off"
               MINIO_IDENTITY_OPENID_CONFIG_URL: https://authentik.${domain_name}/o/minio/.well-known/openid-configuration
-              MINIO_IDENTITY_OPENID_CONFIG_CLIENT_ID: ${minio_client_id}
-              MINIO_IDENTITY_OPENID_CONFIG_CLIENT_SECRET: ${minio_client_secret}
+              MINIO_IDENTITY_OPENID_CLIENT_ID: ${minio_client_id}
+              MINIO_IDENTITY_OPENID_CLIENT_SECRET: ${minio_client_secret}
               MINIO_IDENTITY_OPENID_SCOPES: openid,profile,email,minio
               MINIO_IDENTITY_OPENID_REDIRECT_URI: https://minio.${domain_name}/oauth_callback
-              MINIO_IDENTITY_OPENID_CLAIM_USERINFO: "on"
-            envFrom:
-              - secretRef:
-                  name: minio
             args: ["server", "/data", "--console-address", ":9001"]
             probes:
               liveness: &probes
@@ -113,7 +109,8 @@ spec:
       config:
         enabled: true
         size: 100Gi
-        storageClassName: longhorn-fast-strictlocal-xfs
+        storageClass: longhorn-fast-strictlocal-xfs
+        accessMode: ReadWriteOnce
         globalMounts:
           - path: /data
     resources:
