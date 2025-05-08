@@ -60,7 +60,7 @@ resource "authentik_application" "minio" {
   slug              = "minio"
   protocol_provider = authentik_provider_oauth2.minio.id
   group             = "storage"
-  meta_icon         = "https://tse4.mm.bing.net/th/id/OIP.Z5wXBF9IBzuWVKa2j5IFfwHaHa?cb=iwp1&rs=1&pid=ImgDetMain"
+  meta_icon         = "https://s3.${var.domain_name}/media/minio.png"
 }
 
 resource "authentik_policy_binding" "minio-admins-binding" {

@@ -10,7 +10,7 @@ module "prometheus" {
   authorization_flow_uuid = data.authentik_flow.default-authorization-flow.id
   skip_path_regex         = "/-/healthy"
 
-  meta_icon = "https://www.svgrepo.com/show/354219/prometheus.svg"
+  meta_icon = "https://s3.${var.domain_name}/media/prometheus.svg"
 }
 
 resource "authentik_group" "prometheus-users" {

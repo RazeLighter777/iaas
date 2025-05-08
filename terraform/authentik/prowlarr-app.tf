@@ -10,7 +10,7 @@ module "prowlarr" {
   authorization_flow_uuid = data.authentik_flow.default-authorization-flow.id
   skip_path_regex         = "/ping"
 
-  meta_icon = "https://prowlarr.com/logo/128.png"
+  meta_icon = "https://s3.${var.domain_name}/media/prowlarr.png"
 }
 
 resource "authentik_group" "prowlarr-users" {

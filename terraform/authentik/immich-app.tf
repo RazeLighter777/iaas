@@ -40,7 +40,7 @@ resource "authentik_application" "immich" {
   slug              = "immich"
   protocol_provider = authentik_provider_oauth2.immich.id
   group             = "media"
-  meta_icon         = "https://immich.app/img/immich-logo-inline-dark.png"
+  meta_icon         = "https://s3.${var.domain_name}/media/immich.png"
   meta_launch_url   = "https://immich.${var.domain_name}"
 }
 
