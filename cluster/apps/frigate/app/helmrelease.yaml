@@ -26,6 +26,8 @@ spec:
   values:
     controllers:
       neolink:
+        annotations:
+          configmap.reloader.stakater.com/reload: frigate-configmap
         enabled: true
         containers:
           main:
