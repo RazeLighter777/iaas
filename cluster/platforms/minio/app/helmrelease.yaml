@@ -48,6 +48,7 @@ spec:
               MINIO_IDENTITY_OPENID_CLIENT_SECRET: ${client_secret}
               MINIO_IDENTITY_OPENID_SCOPES: openid,profile,email,minio
               MINIO_IDENTITY_OPENID_REDIRECT_URI_DYNAMIC: on
+              MINIO_ROOT_USER: root
               MINIO_ROOT_PASSWORD: ${admin_password}
             args: ["server", "/data", "--console-address", ":9001"]
             probes:
