@@ -29,9 +29,8 @@ spec:
 
     logLevel: debug
     logFormat: text
-
     interval: 5s
-    sources: ["ingress", "service", "crd"]
+    sources: ["ingress", "service"]
     registry: txt
     txtOwnerId: default
     txtPrefix: k8s.

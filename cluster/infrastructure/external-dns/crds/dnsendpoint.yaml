@@ -4,6 +4,8 @@ kind: DNSEndpoint
 metadata:
   name: cloudflared-tunnel
   namespace: external-dns
+  labels:
+    ingress-name: cloudflared-tunnel
 spec:
   endpoints:
     - dnsName: "*.${domain_name}"
