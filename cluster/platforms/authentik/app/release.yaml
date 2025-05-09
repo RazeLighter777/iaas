@@ -34,6 +34,15 @@ spec:
         user: file:///postgres-creds/username
         password: file:///postgres-creds/password
         name: app #default database name for cloudnative-pg database
+    global:
+      volumes:
+        - name: customcss
+          configMap:
+            name: authentik-customcss
+      volumeMounts:
+        - name: customcss
+          mountPath: /web/dist/custom.css
+          subPath: custom.css
     redis:
       enabled: true
       global:
