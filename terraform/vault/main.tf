@@ -191,6 +191,21 @@ variable "DISCORD_STATUS_WEBHOOK" {
     type = string
 }
 
+## Mikrotik
+
+variable "MIKROTIK_BASEURL" {
+    type = string
+}
+
+variable "MIKROTIK_USERNAME" {
+    type = string
+}
+
+variable "MIKROTIK_PASSWORD" {
+    type = string
+}
+
+
 ## Secrets
 
 resource "vault_kv_secret_v2" "cluster-settings" {
@@ -474,3 +489,14 @@ resource "vault_kv_secret_v2" "frigate" {
         "cat_room_camera_uid" = var.FRIGATE_CAT_ROOM_CAMERA_UID
     })
 }
+
+resource "vault_kv_secret_v2" "mikrotik" {
+    mount    = vault_mount.kv.path
+    name    = "mikrotik"
+    data_json = jsonencode({
+        "baseurl" = var.MIKROTIK_BASEURL
+        "username" = var.MIKROTIK_USERNAME
+        "password" = var.MIKROTIK_PASSWORD
+    })
+} 
+

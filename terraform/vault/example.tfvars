@@ -42,6 +42,11 @@ CLOUDNATIVE_S3_BUCKET = "your-bucket-name"
 CLOUDNATIVE_S3_KEY = "your-s3-key"
 CLOUDNATIVE_S3_KEY_ID = "your-s3-key-id"
 
+# Mikrotik
+MIKROTIK_BASEURL = "https://mikrotik.example.com"
+MIKROTIK_USERNAME = "your-mikrotik-username"
+MIKROTIK_PASSWORD = "your-mikrotik-password"
+
 # Longhorn S3 backup
 
 LONGHORN_S3_BUCKET = "your-longhorn-bucket-name"
