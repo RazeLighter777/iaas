@@ -72,3 +72,16 @@ resource "sonarr_notification_discord" "media_discord" {
   grab_fields   = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
   import_fields = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 }
+
+resource "sonarr_notification_emby" "media_jellyfin" {
+  host                               = "jellyfin.${var.cluster_media_domain}"
+  name                               = "Jellyfin"
+  api_key                            = var.JELLYFIN__AUTH__APIKEY
+  on_grab                            = true
+  on_download                        = true
+  on_upgrade                         = true
+  on_rename                          = true
+  on_series_delete                   = true
+  on_episode_file_delete             = true
+  notify                             = true
+}

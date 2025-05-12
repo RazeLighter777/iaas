@@ -35,6 +35,11 @@ variable "PROWLARR__AUTH__APIKEY" {
   description = "Prowlarr API Key"
 }
 
+variable "JELLYFIN__AUTH__APIKEY" {
+  type        = string
+  description = "Jellyfin API Key"
+}
+
 variable "discord_media_webhook" {
   type = string
   description = "Discord Webhook for Media Notifications"

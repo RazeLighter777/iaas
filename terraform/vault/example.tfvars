@@ -78,3 +78,7 @@ DISCORD_MEDIA_WEBHOOK = "https://discordapp.com/api/webhooks/your-webhook-id/you
 
 NFS_SERVER_IP = "192.168.1.x"
 NFS_PATH = "/mnt/mainpool"
+
+# Jellyfin
+
+JELLYFIN_API_KEY = "your-jellyfin-api-key"
