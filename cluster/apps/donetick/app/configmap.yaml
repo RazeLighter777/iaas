@@ -14,7 +14,7 @@ data:
       token: ""
     database:
       type: "postgres"
-      migration: true
+      migration: false
       host: ${db_host}
       port: ${db_port}
       user: ${db_user}
