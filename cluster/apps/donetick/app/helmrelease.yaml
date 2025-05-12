@@ -87,7 +87,7 @@ spec:
       app:
         className: nginx
         hosts:
-          - host: "donetick.${SECRET_DOMAIN}"
+          - host: "donetick.${domain_name}"
             paths:
               - path: /
                 service:
