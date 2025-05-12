@@ -26,6 +26,7 @@ My overkill kubernetes homelab.
 - **[LGTM Monitoring Stack](https://github.com/grafana/loki)**: Includes Prometheus and Grafana for monitoring and visualization.
 - **[Tofu Controller](https://github.com/opentofu/controller)**: Manages Tofu-based applications in flux
 - **[HashiCorp Vault](https://www.vaultproject.io/)**: Manages secrets and encryption keys.
+- **[MinIO](https://min.io/)**: An open-source object storage system.
 
 ## 📲 Applications Running in the Cluster
 
@@ -36,10 +37,11 @@ My overkill kubernetes homelab.
 ### 🗂️ Databases
 - **[Cloudnative PG](https://cloudnative-pg.io/)**: A PostgreSQL operator for managing PostgreSQL clusters.
 - **[Redis](https://redis.io)**: Low latency key-value store.
-
+- **[EMQX](https://www.emqx.com/)**: An open-source MQTT broker.
 ## 🏠 Smart Home 
 - **[Home Assistant](https://home-assistant.io/)** : Smart home automation platform
 - **[Frigate](https://frigate.video)**: Open source security camera NVR with object detection. 
+- **[Neolink](https://github.com/QuantumEntangledAndy/neolink)**: Lets you connect reolink proprietary cameras to frigate.
 
 ### 📺 Media Apps
 - **[Jellyfin](https://jellyfin.org/)**: A media server for streaming and organizing media.
