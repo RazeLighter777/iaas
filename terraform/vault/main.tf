@@ -205,6 +205,11 @@ variable "MIKROTIK_PASSWORD" {
     type = string
 }
 
+# Jellyfin
+
+variable "JELLYFIN_API_KEY" {
+    type = string
+}
 
 ## Secrets
 
@@ -545,4 +550,15 @@ resource "vault_kv_secret_v2" "donetick_oauth" {
     client_secret = random_password.donetick_oauth_client_secret.result
   })
 } 
+
+
+
+
+resource "vault_kv_secret_v2" "jellyfin_arr" {
+    mount    = vault_mount.kv.path
+    name    = "jellyfin_arr"
+    data_json = jsonencode({
+        "api_key" = var.JELLYFIN_API_KEY
+    })
+}
 
