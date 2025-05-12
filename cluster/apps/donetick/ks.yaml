@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m0s
-  path: ./cluster/apps/donetick
+  path: ./cluster/apps/donetick/app
   prune: true
   wait: true
   retryInterval: 2m
