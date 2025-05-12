@@ -1,0 +1,19 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: donetick-cluster
+  namespace: media
+  labels:
+    postgresql: donetick-cluster
+spec:
+  instances: 3
+  storage:
+    size: 5Gi
+    storageClass: longhorn-fast-unreplicated-strictlocal
+  bootstrap:
+    initdb:
+      database: ${db_name}
+      owner: ${db_user}
+      secret:
+        name: donetick-db
+

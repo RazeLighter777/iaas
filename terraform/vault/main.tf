@@ -498,5 +498,51 @@ resource "vault_kv_secret_v2" "mikrotik" {
         "username" = var.MIKROTIK_USERNAME
         "password" = var.MIKROTIK_PASSWORD
     })
+}
+
+resource "random_password" "donetick_db_password" {
+  length  = 32
+  special = false
+}
+
+resource "random_password" "donetick_jwt_secret" {
+  length  = 32
+  special = false
+}
+
+resource "vault_kv_secret_v2" "donetick" {
+  mount               = vault_mount.kv.path
+  name                = "donetick"
+  data_json = jsonencode({
+    db_host     = "donetick-rw.donetick.svc.cluster.local"
+    db_port     = "5432"
+    db_user     = "donetick"
+    db_pass     = random_password.donetick_db_password.result
+    db_name     = "donetick"
+    jwt_secret  = random_password.donetick_jwt_secret.result
+  })
+}
+
+resource "random_password" "donetick_oauth_client_id" {
+  length = 32
+  special = false
+  numeric = false
+  upper = false
+}
+
+resource "random_password" "donetick_oauth_client_secret" {
+  length = 32
+  special = false
+  numeric = false
+  upper = false
+}
+
+resource "vault_kv_secret_v2" "donetick_oauth" {
+  mount               = vault_mount.kv.path
+  name                = "donetick-oauth"
+  data_json = jsonencode({
+    client_id     = random_password.donetick_oauth_client_id.result
+    client_secret = random_password.donetick_oauth_client_secret.result
+  })
 } 
 
