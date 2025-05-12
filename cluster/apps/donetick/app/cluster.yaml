@@ -1,3 +1,5 @@
+
+---
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
@@ -15,5 +17,5 @@ spec:
       database: ${db_name}
       owner: ${db_user}
       secret:
-        name: donetick-db
+        name: donetick-cnpg
 
