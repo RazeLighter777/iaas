@@ -27,7 +27,7 @@ if ak_is_group_member(request.user, name="Minio admins"):
 }
 elif ak_is_group_member(request.user, name="Minio users"):
   return {
-    "policy": readwrite",
+    "policy": "readwrite",
 }
 return None
 EOF
