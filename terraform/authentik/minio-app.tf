@@ -21,9 +21,15 @@ resource "authentik_property_mapping_provider_scope" "scope-minio" {
   name       = "minio"
   scope_name = "minio"
   expression = <<EOF
-return {
-  "policy": "readwrite",
+if ak_is_group_member(request.user, name="Minio admins"):
+  return {
+    "policy": "consoleAdmin",
 }
+elif ak_is_group_member(request.user, name="Minio users"):
+  return {
+    "policy": readwrite",
+}
+return None
 EOF
 }
 
