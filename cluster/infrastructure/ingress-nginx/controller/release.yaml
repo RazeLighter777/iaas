@@ -50,5 +50,19 @@ spec:
         proxy-buffer-size: 16k
         ssl-protocols: TLSv1.3 TLSv1.2
         use-forwarded-headers: "true"
-    admissionWebhooks:
+        http-snippet: |
+          proxy_cache_path /tmp/nginx_cache levels=1:2 keys_zone=static-cache:10m max_size=5g inactive=24h use_temp_path=off;
+      extraVolumes:   
+      - name: nginx-cache  
+        emptyDir:
+          medium: Memory
+          sizeLimit: 5Gi
+      extraVolumeMounts:
+      - name: nginx-cache
+        mountPath: /tmp/nginx_cache
+    admissionWebhooks:      
       enabled: false
+
+
+    
+
