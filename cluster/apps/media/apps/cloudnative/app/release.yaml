@@ -27,6 +27,8 @@ spec:
       retries: 3
   values:
     cluster:
+      affinity:
+        podAntiAffinityType: required
       annotations:
         cnpg.io/skipEmptyWalArchiveCheck: "true"
       storage:
