@@ -54,5 +54,6 @@ spec:
           nginx.ingress.kubernetes.io/auth-snippet: |
               proxy_set_header X-Forwarded-Host $http_host;
         hosts:
-          - loki.${domain_name}
-            
+          - host: loki.${domain_name}
+            paths:
+              - "/"
