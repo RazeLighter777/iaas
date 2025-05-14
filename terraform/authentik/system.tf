@@ -23,6 +23,7 @@ resource "authentik_outpost" "proxyoutpost" {
     module.longhorn.proxy_provider_id,
     module.gatus.proxy_provider_id,
     module.frigate.proxy_provider_id,
+    module.loki.proxy_provider_id,
   ]
 
   config = jsonencode({
