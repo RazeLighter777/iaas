@@ -32,6 +32,6 @@ spec:
       storage:
         storageClass: longhorn-fast-unreplicated-strictlocal
         size: 25Gi
-      instances: 3
+      instances: 1
       monitoring:
         enabled: true
