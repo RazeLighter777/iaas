@@ -37,6 +37,7 @@ spec:
           retention_period: 72h
         limits_config:
           retention_period: 72h
+          volume_enabled: true
       persistence:
         enabled: true
         storageClassName: longhorn-fast
