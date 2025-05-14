@@ -42,10 +42,24 @@ spec:
       replicaCount: 1
       persistence:
         enabled: false
+      resources:
+        requests:
+          cpu: 250m
+          memory: 512Mi
+        limits:
+          memory: 4Gi
+          cpu: 1000m
     replica:
       enabled: false
       persistence:
         enabled: false
+      resources:
+        requests:
+          cpu: 250m
+          memory: 512Mi
+        limits:
+          memory: 4Gi
+          cpu: 1000m
     sentinel:
       enabled: false
       masterSet: redis-master
