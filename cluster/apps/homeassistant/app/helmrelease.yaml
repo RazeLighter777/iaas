@@ -38,6 +38,8 @@ spec:
             fsGroupChangePolicy: OnRootMismatch
         containers:
           zigbee2mqtt:
+            securityContext:
+              privileged: true
             image:
               repository: ghcr.io/koenkk/zigbee2mqtt
               tag: 2.3.0
