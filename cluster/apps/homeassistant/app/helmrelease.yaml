@@ -27,6 +27,68 @@ spec:
       # required for mDNS and other host network features
       hostNetwork: true
     controllers:
+      zigbee2mqtt:
+        pod:
+          nodeSelector:
+            feature.node.kubernetes.io/usb-ff_10c4_ea60.present: "true" # required for zigbee
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+            fsGroup: 0
+            fsGroupChangePolicy: OnRootMismatch
+            capabilities:
+              drop:
+                - ALL
+            containers:
+              zigbee2mqtt:
+                image:
+                  repository: ghcr.io/koenkk/zigbee2mqtt
+                  tag: 2.3.0
+                resources:
+                  requests:
+                    cpu: 100m
+                    memory: 128Mi
+                  limits:
+                    memory: 1Gi
+                    cpu: 500m
+                env:
+                  Z2M_WATCHDOG: default
+                  ZIGBEE2MQTT_DATA: /data
+                  ZIGBEE2MQTT_CONFIG_ADVANCED_CHANNEL: 20
+                  ZIGBEE2MQTT_CONFIG_ADVANCED_LAST_SEEN: ISO_8601
+                  ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_API: false
+                  ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_AVAILABILITY_PAYLOAD: false
+                  ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_LEVEL: info
+                  ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_OUTPUT: '["console"]'
+                  ZIGBEE2MQTT_CONFIG_AVAILABILITY_ACTIVE_TIMEOUT: 60
+                  ZIGBEE2MQTT_CONFIG_AVAILABILITY_PASSIVE_TIMEOUT: 2000
+                  ZIGBEE2MQTT_CONFIG_DEVICE_OPTIONS_LEGACY: false
+                  ZIGBEE2MQTT_CONFIG_DEVICE_OPTIONS_RETAIN: true
+                  ZIGBEE2MQTT_CONFIG_EXPERIMENTAL_NEW_API: true
+                  ZIGBEE2MQTT_CONFIG_FRONTEND_PORT: &httpPort 8080
+                  ZIGBEE2MQTT_CONFIG_FRONTEND_URL: https://zigbee2mqtt.${domain_name}
+                  ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_DISCOVERY_TOPIC: homeassistant
+                  ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_EXPERIMENTAL_EVENT_ENTITIES: true
+                  ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_LEGACY_ENTITY_ATTRIBUTES: false
+                  ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_LEGACY_TRIGGERS: false
+                  ZIGBEE2MQTT_CONFIG_HOMEASSISTANT_STATUS_TOPIC: homeassistant/status
+                  ZIGBEE2MQTT_CONFIG_MQTT_BASE_TOPIC: zigbee2mqtt
+                  ZIGBEE2MQTT_CONFIG_MQTT_INCLUDE_DEVICE_INFORMATION: true
+                  ZIGBEE2MQTT_CONFIG_MQTT_KEEPALIVE: 60
+                  ZIGBEE2MQTT_CONFIG_MQTT_REJECT_UNAUTHORIZED: true
+                  ZIGBEE2MQTT_CONFIG_MQTT_SERVER: "mqtt://emqx-cluster-headless.emqx.svc.cluster.local:1883"
+                  ZIGBEE2MQTT_CONFIG_MQTT_VERSION: 5
+                  ZIGBEE2MQTT_CONFIG_MQTT_USER:
+                    valueFrom:
+                      secretKeyRef:
+                        name: zigbee2mqtt-secret
+                        key: EMQX_DASHBOARD__DEFAULT_USERNAME
+                  ZIGBEE2MQTT_CONFIG_MQTT_PASSWORD:
+                    valueFrom:
+                      secretKeyRef:
+                        name: zigbee2mqtt-secret
+                        key: EMQX_DASHBOARD__DEFAULT_PASSWORD
+                  ZIGBEE2MQTT_CONFIG_PERMIT_JOIN: true
       home-assistant:
         pod:
           nodeSelector:
@@ -97,6 +159,12 @@ spec:
         ports:
           http:
             port: 12321
+      zigbee2mqtt:
+        type: ClusterIP
+        controller: zigbee2mqtt
+        ports:
+          http:
+            port: 8080
 
     persistence:
       usb:
@@ -126,6 +194,14 @@ spec:
             app:
               - path: /venv
                 subPath: hass-venv
+      zigbee2mqtt:
+        storageClass: longhorn-fast
+        accessMode: ReadWriteOnce
+        size: "1Gi"
+        advancedMounts:
+          zigbee2mqtt:
+            zigbee2mqtt:
+              - path: /data
       tmpfs:
         type: emptyDir
         advancedMounts:
@@ -155,6 +231,16 @@ spec:
                 pathType: Prefix
                 service:
                   identifier: main
+                  port: http
+      zigbee2mqtt:
+        className: "nginx"
+        hosts:
+          - host: &host zigbee2mqtt.${domain_name}
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: zigbee2mqtt
                   port: http
       code:
         className: "nginx"
