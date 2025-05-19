@@ -184,9 +184,7 @@ spec:
     persistence:
       config:
         enabled: true
-        storageClass: longhorn-fast
-        size: 100Mi
-        accessMode: ReadWriteOnce
+        existingClaim: radarr-config
         globalMounts:
           - path: /config
       cache:
