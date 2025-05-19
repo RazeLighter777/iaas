@@ -28,6 +28,7 @@ spec:
   values:
     cluster:
       affinity:
+        enablePodAntiAffinity: true
         podAntiAffinityType: required
         topologyKey: kubernetes.io/hostname
       annotations:
