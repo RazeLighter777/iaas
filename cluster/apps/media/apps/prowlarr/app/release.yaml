@@ -155,9 +155,7 @@ spec:
     persistence:
       config:
         enabled: true
-        storageClass: longhorn-fast
-        size: 100Mi
-        accessMode: ReadWriteOnce
+        existingClaim: prowlarr-config
         globalMounts:
           - path: /config 
       tmp:
