@@ -210,6 +210,14 @@ spec:
             gnetId: 15116
             revision: 1
             datasource: Prometheus
+          smartctl-exporter:
+            gnetId: 20204
+            revision: 1
+            datasource: Prometheus
+          minio:
+            gnetId: 13502
+            revision: 26
+            datasource: Prometheus
       sidecar:
         dashboards:
           enabled: true
