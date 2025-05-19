@@ -29,6 +29,7 @@ spec:
     cluster:
       affinity:
         podAntiAffinityType: required
+        topologyKey: kubernetes.io/hostname
       annotations:
         cnpg.io/skipEmptyWalArchiveCheck: "true"
       storage:
