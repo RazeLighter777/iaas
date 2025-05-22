@@ -38,6 +38,8 @@ spec:
             env:
               - name: TZ
                 value: "America/New_York"
+              - name: OAUTH_MERGE_ACCOUNTS_BY_EMAIL 
+                value: "true"
               - name: OAUTH_PROVIDER_NAME
                 value: "authentik"
               - name: OPENID_PROVIDER_URL
