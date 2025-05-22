@@ -33,10 +33,7 @@ return None
 EOF
 }
 
-# signing certificate
-data "authentik_certificate_key_pair" "default" {
-  name = "authentik Self-signed Certificate"
-}
+
 resource "authentik_provider_oauth2" "minio" {
   name          = "Minio"
   client_id     = var.minio_client_id
