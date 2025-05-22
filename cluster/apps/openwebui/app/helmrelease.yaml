@@ -41,7 +41,7 @@ spec:
               - name: OAUTH_PROVIDER_NAME
                 value: "authentik"
               - name: OPENID_PROVIDER_URL
-                value: "https://authentik.${domain_name}/application/o/your-slug-here/.well-known/openid-configuration"
+                value: "https://authentik.${domain_name}/application/o/open-webui/.well-known/openid-configuration"
               - name: OPENID_REDIRECT_URI
                 value: "https://openwebui.${domain_name}/oauth/oidc/callback"
               - name: ENABLE_OAUTH_SIGNUP
