@@ -13,6 +13,8 @@ resource "authentik_provider_oauth2" "open_webui" {
 
   authorization_flow  = data.authentik_flow.default-authorization-flow.id
   invalidation_flow   = data.authentik_flow.default-provider-invalidation-flow.id
+  signing_key    = data.authentik_certificate_key_pair.default.id
+
   allowed_redirect_uris = [
     {
       matching_mode = "strict"
