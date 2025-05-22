@@ -1,0 +1,98 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: open-webui
+  namespace: openwebui
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.7.3
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      open-webui:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/open-webui/open-webui
+              tag: v0.6.10
+            env:
+              - name: TZ
+                value: "America/New_York"
+              - name: OAUTH_PROVIDER_NAME
+                value: "authentik"
+              - name: OPENID_PROVIDER_URL
+                value: "https://authentik.${domain_name}/application/o/your-slug-here/.well-known/openid-configuration"
+              - name: OPENID_REDIRECT_URI
+                value: "https://openwebui.${domain_name}/oauth/oidc/callback"
+              - name: ENABLE_OAUTH_SIGNUP
+                value: "true"
+              - name: OAUTH_CLIENT_ID
+                valueFrom:
+                  secretKeyRef:
+                    name: open-webui-oauth
+                    key: client_id
+              - name: OAUTH_CLIENT_SECRET
+                valueFrom:
+                  secretKeyRef:
+                    name: open-webui-oauth
+                    key: client_secret
+              - name: DEFAULT_USER_ROLE
+                value: "user"
+              - name: WEBUI_URL
+                value: "openwebui.${domain_name}"
+            resources:
+              requests:
+                cpu: 200m
+                memory: 1000Mi
+              limits:
+                memory: 1500Mi
+    service:
+      app:
+        nameOverride: open-webui
+        controller: open-webui
+        labels:
+          app: open-webui
+        ports:
+          http:
+            port: 8080
+    ingress:
+      open-webui:
+        className: nginx
+        hosts:
+          - host: "openwebui.${domain_name}"
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+    persistence:
+      config:
+        globalMounts:
+          - path: /app/backend/data
+        persistentVolumeClaim:
+          claimName: open-webui-pvc
+          spec:
+            accessModes: ["ReadWriteOnce"]
+            resources:
+              requests:
+                storage: 1Gi

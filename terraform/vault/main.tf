@@ -1,4 +1,3 @@
-
 ### Environment
 
 variable "CLUSTER_NAME" {
@@ -551,8 +550,28 @@ resource "vault_kv_secret_v2" "donetick_oauth" {
   })
 } 
 
+resource "random_password" "open_webui_oauth_client_id" {
+  length = 32
+  special = false
+  numeric = false
+  upper = false
+}
 
+resource "random_password" "open_webui_oauth_client_secret" {
+  length = 32
+  special = false
+  numeric = false
+  upper = false
+}
 
+resource "vault_kv_secret_v2" "open-webui-oauth" {
+  mount               = vault_mount.kv.path
+  name                = "open-webui-oauth"
+  data_json = jsonencode({
+    client_id     = random_password.open_webui_oauth_client_id.result
+    client_secret = random_password.open_webui_oauth_client_secret.result
+  })
+}
 
 resource "vault_kv_secret_v2" "jellyfin_arr" {
     mount    = vault_mount.kv.path
@@ -561,4 +580,3 @@ resource "vault_kv_secret_v2" "jellyfin_arr" {
         "api_key" = var.JELLYFIN_API_KEY
     })
 }
-

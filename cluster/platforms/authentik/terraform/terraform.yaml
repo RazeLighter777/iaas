@@ -34,6 +34,11 @@ spec:
       varsKeys:
         - client_id:donetick_client_id
         - client_secret:donetick_client_secret
+    - kind: Secret
+      name: open-webui-oauth
+      varsKeys:
+        - client_id:open_webui_client_id
+        - client_secret:open_webui_client_secret
   vars:
     - name: service_url
       value: http://authentik-server.authentik.svc.cluster.local:80
