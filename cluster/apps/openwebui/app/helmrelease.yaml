@@ -86,13 +86,10 @@ spec:
                   identifier: app
                   port: http
     persistence:
-      config:
+      data:
+        enabled: true
+        storageClass: longhorn-fast
+        size: 1Gi
+        accessMode: ReadWriteOnce
         globalMounts:
           - path: /app/backend/data
-        persistentVolumeClaim:
-          claimName: open-webui-pvc
-          spec:
-            accessModes: ["ReadWriteOnce"]
-            resources:
-              requests:
-                storage: 1Gi
