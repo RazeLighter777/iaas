@@ -61,7 +61,7 @@ spec:
               - name: DEFAULT_USER_ROLE
                 value: "user"
               - name: WEBUI_URL
-                value: "openwebui.${domain_name}"
+                value: "https://openwebui.${domain_name}"
             resources:
               requests:
                 cpu: 200m
@@ -81,7 +81,7 @@ spec:
       open-webui:
         className: nginx
         hosts:
-          - host: "openwebui.${domain_name}"
+          - host: openwebui.${domain_name}
             paths:
               - path: /
                 service:
