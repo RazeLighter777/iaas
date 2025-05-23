@@ -17,6 +17,7 @@ spec:
       interval: 12h
   values:
     controller:
+      replicaCount: 2
       metrics:
         enabled: true
         servicemonitor:
