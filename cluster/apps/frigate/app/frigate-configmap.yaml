@@ -13,6 +13,11 @@ data:
     password = "${FRIGATE_CAMERA_PASSWORD}"
     uid = "${FRIGATE_LIBRARY_CAMERA_UID}"
     address = "${FRIGATE_LIBRARY_CAMERA_IP}"
+    
+    [mqtt]
+    broker_addr = "emqx-headless.emqx.svc.cluster.local"
+    port = 1883
+    credentials = ["${EMQX_DASHBOARD__DEFAULT_USERNAME}","${EMQX_DASHBOARD__DEFAULT_PASSWORD}"]
 
     [[cameras]]
     name = "cat_room"
