@@ -25,3 +25,8 @@ data:
     password = "${FRIGATE_CAMERA_PASSWORD}"
     uid = "${FRIGATE_CAT_ROOM_CAMERA_UID}"
     address = "${FRIGATE_CAT_ROOM_CAMERA_IP}"
+    [cameras.mqtt]
+    enable_motion = true
+      [cameras.mqtt.discovery]
+      topic = "homeassistant"
+      features = ["motion"]
