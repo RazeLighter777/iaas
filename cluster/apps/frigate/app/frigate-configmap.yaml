@@ -29,4 +29,4 @@ data:
     enable_motion = true
       [cameras.mqtt.discovery]
       topic = "homeassistant"
-      features = ["motion"]
+      features = ["motion", "pt", "ir", "siren"]
