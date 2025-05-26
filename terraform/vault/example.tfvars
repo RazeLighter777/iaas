@@ -82,3 +82,4 @@ NFS_PATH = "/mnt/mainpool"
 # Jellyfin
 
 JELLYFIN_API_KEY = "your-jellyfin-api-key"
+
