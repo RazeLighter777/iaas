@@ -264,3 +264,36 @@ data:
             failure-threshold: 5
             send-on-resolved: true
             description: "Frigate is down"
+      - name: vaultwarden
+        group: security
+        url: https://vaultwarden.${domain_name}/api/version
+        interval: 1m
+        conditions:
+          - "[STATUS] == 200"
+        alerts:
+          - type: discord
+            failure-threshold: 5
+            send-on-resolved: true
+            description: "Vaultwarden is down"
+      - name: zigbee2mqtt
+        group: home
+        url: https://home-assistant-zigbee2mqtt.homeassistant.svc.cluster.local:8080/
+        interval: 1m
+        conditions:
+          - "[STATUS] == 200"
+        alerts:
+          - type: discord
+            failure-threshold: 5
+            send-on-resolved: true
+            description: "Zigbee2MQTT is down"
+      - name: emqx
+        group: home
+        url: https://mqtt.${domain_name}/status
+        interval: 1m
+        conditions:
+          - "[STATUS] == 200"
+        alerts:
+          - type: discord
+            failure-threshold: 5
+            send-on-resolved: true
+            description: "EMQX is down"
