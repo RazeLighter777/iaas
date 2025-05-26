@@ -277,7 +277,7 @@ data:
             description: "Vaultwarden is down"
       - name: zigbee2mqtt
         group: home
-        url: https://home-assistant-zigbee2mqtt.homeassistant.svc.cluster.local:8080/
+        url: http://home-assistant-zigbee2mqtt.homeassistant.svc.cluster.local:8080/
         interval: 1m
         conditions:
           - "[STATUS] == 200"
