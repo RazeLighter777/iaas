@@ -32,6 +32,8 @@ spec:
                   secretKeyRef:
                     name: vaultwarden-secret
                     key: admin_token
+              - name: SIGNUPS_ALLOWED
+                value: "false"
             probes:
               liveness:
                 enabled: true
