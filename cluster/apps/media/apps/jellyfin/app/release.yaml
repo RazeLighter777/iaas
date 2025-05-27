@@ -39,12 +39,11 @@ spec:
               TZ: ${timezone}
             resources:
               requests:
-                cpu: 100m
+                cpu: 2000m
                 memory: 8Gi
               limits:
                 gpu.intel.com/i915: 1
                 memory: 16Gi
-
     service:
       main:
         controller: main
