@@ -93,8 +93,7 @@ spec:
                   identifier: app
                   port: http
     serviceAccount:
-      create: true
-      name: *app
+      gatus: {}
     persistence:
       config-file:
         type: configMap
