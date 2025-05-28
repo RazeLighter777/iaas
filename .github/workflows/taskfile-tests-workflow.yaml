@@ -15,11 +15,14 @@ permissions:
   contents: write
 
 jobs:
-
   k8s-tests:
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'pull_request' || github.event_name == 'push' }}
     steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        ref: staging
     - name: Check for cluster changes
       uses: dorny/paths-filter@v3
       id: changes
@@ -27,11 +30,6 @@ jobs:
         filters: |
           cluster:
             - 'cluster/**'
-    - name: Checkout repository
-      if: steps.changes.outputs.cluster == 'true'
-      uses: actions/checkout@v4
-      with:
-        ref: staging
     - name: Setup Task runner
       if: steps.changes.outputs.cluster == 'true'
       uses: arduino/setup-task@v2
@@ -66,11 +64,14 @@ jobs:
     - name: Run Kubeconform tests
       if: steps.changes.outputs.cluster == 'true'
       run: task test-kubeconform
-
   terraform-authentik-tests:
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'pull_request' || github.event_name == 'push' }}
     steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        ref: staging
     - name: Check for terraform authentik changes
       uses: dorny/paths-filter@v3
       id: changes
@@ -78,11 +79,6 @@ jobs:
         filters: |
           authentik:
             - 'terraform/authentik/**'
-    - name: Checkout repository
-      if: steps.changes.outputs.authentik == 'true'
-      uses: actions/checkout@v4
-      with:
-        ref: staging
     - name: Setup Task runner
       if: steps.changes.outputs.authentik == 'true'
       uses: arduino/setup-task@v2
@@ -100,11 +96,14 @@ jobs:
         cd terraform
         terraform -chdir=authentik init -upgrade
         terraform -chdir=authentik validate
-
   terraform-servarr-tests:
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'pull_request' || github.event_name == 'push' }}
     steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        ref: staging
     - name: Check for terraform servarr changes
       uses: dorny/paths-filter@v3
       id: changes
@@ -112,11 +111,6 @@ jobs:
         filters: |
           servarr:
             - 'terraform/servarr/**'
-    - name: Checkout repository
-      if: steps.changes.outputs.servarr == 'true'
-      uses: actions/checkout@v4
-      with:
-        ref: staging
     - name: Setup Terraform
       if: steps.changes.outputs.servarr == 'true'
       uses: hashicorp/setup-terraform@v3
@@ -128,11 +122,14 @@ jobs:
         cd terraform
         terraform -chdir=servarr init -upgrade
         terraform -chdir=servarr validate
-
   terraform-vault-tests:
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'pull_request' || github.event_name == 'push' }}
     steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        ref: staging
     - name: Check for terraform vault changes
       uses: dorny/paths-filter@v3
       id: changes
@@ -140,11 +137,6 @@ jobs:
         filters: |
           vault:
             - 'terraform/vault/**'
-    - name: Checkout repository
-      if: steps.changes.outputs.vault == 'true'
-      uses: actions/checkout@v4
-      with:
-        ref: staging
     - name: Setup Terraform
       if: steps.changes.outputs.vault == 'true'
       uses: hashicorp/setup-terraform@v3
