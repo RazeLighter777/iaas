@@ -16,6 +16,8 @@ spec:
         name: bjw-s
         namespace: flux-system
       version: 3.7.3
+  upgrade:
+    force: true
   values:
     controllers:
       vaultwarden:
