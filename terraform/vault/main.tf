@@ -587,10 +587,9 @@ resource "vault_kv_secret_v2" "jellyfin_arr" {
 resource "vault_kv_secret_v2" "irc" {
     mount    = vault_mount.kv.path
     name    = "irc"
-    data_json = json
-    encode({
-            "username" = var.IRC_USERNAME
-        })
+    data_json = jsonencode({
+      username = var.IRC_USERNAME
+    })
 }
 resource "vault_kv_secret_v2" "vaultwarden" {
   mount    = vault_mount.kv.path
