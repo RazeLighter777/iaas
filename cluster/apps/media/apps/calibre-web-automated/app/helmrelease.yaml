@@ -101,10 +101,8 @@ spec:
                   name: *app
                   port: *port
     persistence:
-      config:
-        accessMode: ReadWriteOnce
-        size: 10Gi
-        storageClass: longhorn-fast
+      config:        
+        existingClaim: calibre-web-automated-config
         advancedMounts:
           *app :
             *app :

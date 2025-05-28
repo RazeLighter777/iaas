@@ -102,16 +102,13 @@ spec:
         enabled: true
         endpoints:
           - port: api
-            scheme: http
-            path: /minio/v2/metrics/cluster
+            scheme: http            
             interval: 1m
             scrapeTimeout: 10s
     persistence:
       config:
         enabled: true
-        size: 100Gi
-        storageClass: longhorn-fast-xfs
-        accessMode: ReadWriteOnce
+        existingClaim: minio-config
         globalMounts:
           - path: /data
     resources:
