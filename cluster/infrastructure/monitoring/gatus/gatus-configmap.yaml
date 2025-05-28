@@ -165,6 +165,17 @@ data:
             failure-threshold: 5
             send-on-resolved: true
             description: "Booktok is down"
+      - name: openbooks
+        group: media
+        url: http://openbooks.media.svc.cluster.local:8080/
+        interval: 1m
+        conditions:
+          - "[STATUS] == 200"
+        alerts:
+          - type: discord
+            failure-threshold: 5
+            send-on-resolved: true
+            description: "OpenBooks is down"
       - name: authentik
         group: auth
         url: https://authentik.${domain_name}/-/health/ready/
