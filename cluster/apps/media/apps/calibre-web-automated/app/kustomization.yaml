@@ -3,5 +3,4 @@ kind: Kustomization
 namespace: media
 resources:
 - ./helmrelease.yaml
-- calibre-web-automated-config-pvc.yaml
-- calibre-web-automated-config-pvc.yaml
+- ./calibre-web-automated-config-pvc.yaml
