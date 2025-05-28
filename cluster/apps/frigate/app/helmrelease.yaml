@@ -34,6 +34,10 @@ spec:
             image:
               repository: quantumentangledandy/neolink
               tag: v0.6.2
+            command:
+              - /usr/local/bin/neolink
+              - mqtt-rtsp
+              - --config=/etc/neolink.toml
             resources:
               requests:
                 memory: 1000Mi

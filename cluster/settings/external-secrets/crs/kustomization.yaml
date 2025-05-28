@@ -12,3 +12,4 @@ resources:
 - ./minio-oauth-externalsecret.yaml
 - ./donetick-oauth-externalsecret.yaml
 - ./donetick-db-externalsecret.yaml
+- ./open-webui-oauth-externalsecret.yaml

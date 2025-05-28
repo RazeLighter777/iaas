@@ -43,7 +43,7 @@ spec:
               - name: OAUTH_PROVIDER_NAME
                 value: "authentik"
               - name: OPENID_PROVIDER_URL
-                value: "https://authentik.${domain_name}/application/o/your-slug-here/.well-known/openid-configuration"
+                value: "https://authentik.${domain_name}/application/o/open-webui/.well-known/openid-configuration"
               - name: OPENID_REDIRECT_URI
                 value: "https://openwebui.${domain_name}/oauth/oidc/callback"
               - name: ENABLE_OAUTH_SIGNUP
@@ -61,7 +61,7 @@ spec:
               - name: DEFAULT_USER_ROLE
                 value: "user"
               - name: WEBUI_URL
-                value: "openwebui.${domain_name}"
+                value: "https://openwebui.${domain_name}"
             resources:
               requests:
                 cpu: 200m
@@ -81,20 +81,17 @@ spec:
       open-webui:
         className: nginx
         hosts:
-          - host: "openwebui.${domain_name}"
+          - host: openwebui.${domain_name}
             paths:
               - path: /
                 service:
                   identifier: app
                   port: http
     persistence:
-      config:
+      data:
+        enabled: true
+        storageClass: longhorn-fast
+        size: 1Gi
+        accessMode: ReadWriteOnce
         globalMounts:
           - path: /app/backend/data
-        persistentVolumeClaim:
-          claimName: open-webui-pvc
-          spec:
-            accessModes: ["ReadWriteOnce"]
-            resources:
-              requests:
-                storage: 1Gi

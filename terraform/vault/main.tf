@@ -133,8 +133,6 @@ variable "EMQX_PASSWORD" {
 
 
 
-
-
 ### longhorn s3 backup creds and bucket
 
 variable "LONGHORN_S3_BUCKET" {
@@ -593,4 +591,17 @@ resource "vault_kv_secret_v2" "irc" {
     encode({
             "username" = var.IRC_USERNAME
         })
+}
+resource "vault_kv_secret_v2" "vaultwarden" {
+  mount    = vault_mount.kv.path
+  name     = "vaultwarden"
+  data_json = jsonencode({
+    admin_token = random_password.vaultwarden_admin_token.result
+  })
+}
+
+resource "random_password" "vaultwarden_admin_token" {
+  length           = 32
+  special          = true
+  override_special = "!#$%&*()-_=+[]{}<>:?"
 }

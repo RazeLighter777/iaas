@@ -32,7 +32,7 @@ spec:
     - name: authentik
   targetNamespace: flux-system
   path: "./cluster/platforms/authentik/terraform"
-  interval: 5m
+  interval: 10m
   prune: true
   sourceRef:
     kind: GitRepository
