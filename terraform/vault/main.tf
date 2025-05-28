@@ -57,6 +57,11 @@ variable "EMAIL_ADDRESS" {
     type = string
 }
 
+### IRC 
+variable "IRC_USERNAME" {
+    type = string
+}
+
 ### S3 backups
 
 variable "S3_ENDPOINT" {
@@ -579,4 +584,13 @@ resource "vault_kv_secret_v2" "jellyfin_arr" {
     data_json = jsonencode({
         "api_key" = var.JELLYFIN_API_KEY
     })
+}
+
+resource "vault_kv_secret_v2" "irc" {
+    mount    = vault_mount.kv.path
+    name    = "irc"
+    data_json = json
+    encode({
+            "username" = var.IRC_USERNAME
+        })
 }
