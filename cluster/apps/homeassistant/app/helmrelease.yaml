@@ -147,26 +147,20 @@ spec:
           - path: /dev/ttyUSB0
 
       config:
-        storageClass: longhorn-fast
-        accessMode: ReadWriteOnce
-        size: "60Gi"
+        existingClaim: home-assistant-config
         advancedMounts:
           home-assistant:
             app:
               - path: /config
       hass-cache:
-        storageClass: longhorn-fast
-        accessMode: ReadWriteOnce
-        size: "1Gi"
+        existingClaim: home-assistant-hass-cache
         advancedMounts:
           home-assistant:
             app:
               - path: /venv
                 subPath: hass-venv
       zigbee2mqtt:
-        storageClass: longhorn-fast
-        accessMode: ReadWriteOnce
-        size: "1Gi"
+        existingClaim: home-assistant-zigbee2mqtt
         advancedMounts:
           zigbee2mqtt:
             zigbee2mqtt:
