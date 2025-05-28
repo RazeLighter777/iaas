@@ -6,6 +6,8 @@ metadata:
   name: qbittorrent
 spec:
   interval: 30m
+  updateStrategy:
+    type: RollingUpdate
   chart:
     spec:
       chart: app-template

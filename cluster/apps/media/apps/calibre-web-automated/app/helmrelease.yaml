@@ -6,6 +6,8 @@ metadata:
   name: &app calibre-web-automated
   namespace: media
 spec:
+  updateStrategy:
+    type: RollingUpdate
   chart:
     spec:
       chart: app-template
