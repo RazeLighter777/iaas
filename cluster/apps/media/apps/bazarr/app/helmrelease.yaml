@@ -123,12 +123,10 @@ spec:
                 service:
                   identifier: app
                   port: *port
-    persistence:
+    persistence:      
       config:
         enabled: true
-        storageClass: longhorn-fast
-        size: 100Mi
-        accessMode: ReadWriteOnce
+        existingClaim: bazarr-config
         globalMounts:
           - path: /config
       config-cache:

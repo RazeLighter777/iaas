@@ -3,3 +3,4 @@ kind: Kustomization
 namespace: wg-easy
 resources:
 - ./helmrelease.yaml
+- wg-easy-config-pvc.yaml

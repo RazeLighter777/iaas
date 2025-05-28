@@ -91,14 +91,10 @@ spec:
                 pathType: Prefix
                 service:
                   identifier: app
-                  port: http
-
     persistence:
       config:
         enabled: true
-        storageClass: longhorn-fast
-        size: 100Mi
-        accessMode: ReadWriteOnce
+        existingClaim: calibre-web-downloader-config
         globalMounts:
           - path: /config
       media:
