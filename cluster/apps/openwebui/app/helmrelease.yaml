@@ -90,7 +90,7 @@ spec:
       data:
         enabled: true
         storageClass: longhorn-fast
-        size: 1Gi
+        size: 50Gi
         accessMode: ReadWriteOnce
         globalMounts:
           - path: /app/backend/data
