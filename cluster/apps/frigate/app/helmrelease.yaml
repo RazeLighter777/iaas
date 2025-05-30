@@ -145,9 +145,7 @@ spec:
     persistence:
       config:
         enabled: true
-        storageClass: longhorn-fast
-        accessMode: ReadWriteOnce
-        size: 10Gi
+        existingClaim: frigate-config
         advancedMounts:
           main:
             main:
@@ -165,9 +163,7 @@ spec:
                 readOnly: true
       media:
         enabled: true
-        storageClass: longhorn-fast
-        accessMode: ReadWriteOnce
-        size: 50Gi
+        existingClaim: frigate-media
         advancedMounts:
           main:
             main:
