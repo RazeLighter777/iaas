@@ -130,5 +130,9 @@ spec:
       storage:
         storageClass: longhorn-fast-unreplicated-strictlocal
       instances: 3
+      affinity:
+        enablePodAntiAffinity: true
+        podAntiAffinityType: required
+        topologyKey: kubernetes.io/hostname
       monitoring:
         enabled: true
