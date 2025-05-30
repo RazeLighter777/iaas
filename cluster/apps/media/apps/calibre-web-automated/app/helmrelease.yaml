@@ -6,8 +6,6 @@ metadata:
   name: &app calibre-web-automated
   namespace: media
 spec:
-  updateStrategy:
-    type: RollingUpdate
   chart:
     spec:
       chart: app-template
@@ -103,10 +101,8 @@ spec:
                   name: *app
                   port: *port
     persistence:
-      config:
-        accessMode: ReadWriteOnce
-        size: 10Gi
-        storageClass: longhorn-fast
+      config:        
+        existingClaim: calibre-web-automated-config
         advancedMounts:
           *app :
             *app :
