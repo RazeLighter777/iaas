@@ -6,6 +6,8 @@ metadata:
 spec:
   instances: 1
   imageName: ghcr.io/tensorchord/cloudnative-pgvecto.rs:16.3-v0.2.1
+  monitoring:
+    enabled: true
   superuserSecret:
     name: immich-pg-superuser
   enableSuperuserAccess: true
