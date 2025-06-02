@@ -21,7 +21,7 @@ spec:
   backup:
     barmanObjectStore:
       destinationPath: ${s3_destination_path}
-      endpointUrl: ${s3_endpoint_url}
+      endpointURL: ${s3_endpoint_url}
       s3Credentials:
         accessKeyId:
           name: donetick-barman
