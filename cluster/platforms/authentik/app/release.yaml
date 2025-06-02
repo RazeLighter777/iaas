@@ -136,3 +136,18 @@ spec:
         topologyKey: kubernetes.io/hostname
       monitoring:
         enabled: true
+    backups:
+      enabled: true
+      provider: s3
+      destinationPath: ${s3_destination_path}
+      endpointURL: ${s3_endpoint_url}
+      s3:
+        accessKey: ${s3_key_id}
+        secretKey: ${s3_key}
+      retentionPolicy: "30d"
+      wal:
+        compression: snappy
+      scheduledBackups:
+        - name: daily-authentik-backup
+          schedule: "0 0 0 * * *"
+          backupOwnerReference: self
