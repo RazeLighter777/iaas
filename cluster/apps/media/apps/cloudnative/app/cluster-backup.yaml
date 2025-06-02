@@ -1,0 +1,11 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: nightly-media-cluster-backup
+  namespace: media
+spec:
+  immediate: true
+  schedule: "0 0 0 * * *"
+  backupOwnerReference: self
+  cluster:
+    name: cloudnative-database-media

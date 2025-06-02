@@ -10,3 +10,17 @@ spec:
   storage:
     size: 100Gi
     storageClass: longhorn-fast-unreplicated-strictlocal
+  backup:
+    barmanObjectStore:
+      destinationPath: ${s3_destination_path}
+      endpointURL: ${s3_endpoint_url}
+      s3Credentials:
+        accessKeyId:
+          name: bitmagnet-barman
+          key: s3_key_id
+        secretAccessKey:
+          name: bitmagnet-barman
+          key: s3_key
+      wal:
+        compression: snappy
+    retentionPolicy: "30d"

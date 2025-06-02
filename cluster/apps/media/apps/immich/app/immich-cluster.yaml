@@ -22,6 +22,20 @@ spec:
     storageClass: longhorn-fast-unreplicated-strictlocal
   monitoring:
     enablePodMonitor: false
+  backup:
+    barmanObjectStore:
+      destinationPath: ${s3_destination_path}
+      endpointURL: ${s3_endpoint_url}
+      s3Credentials:
+        accessKeyId:
+          name: immich-barman
+          key: s3_key_id
+        secretAccessKey:
+          name: immich-barman
+          key: s3_key
+      wal:
+        compression: snappy
+    retentionPolicy: "30d"
   bootstrap:
     initdb:
       database: immich

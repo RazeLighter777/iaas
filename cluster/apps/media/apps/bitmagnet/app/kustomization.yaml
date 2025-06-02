@@ -3,5 +3,7 @@ kind: Kustomization
 namespace: media
 resources:
 - bitmagnet-cluster.yaml
+- bitmagnet-cluster-backup.yaml
 - bitmagnet-vpn-credentials-externalsecret.yaml
+- bitmagnet-barman-externalsecret.yaml
 - helmrelease.yaml
