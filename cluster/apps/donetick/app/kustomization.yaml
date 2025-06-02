@@ -3,5 +3,6 @@ kind: Kustomization
 resources:
   - donetick-cnpg-secret.yaml
   - cluster.yaml
+  - cluster-backup.yaml
   - helmrelease.yaml
   - configmap.yaml
