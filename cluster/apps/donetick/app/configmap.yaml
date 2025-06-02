@@ -53,4 +53,8 @@ data:
       token_url: "https://authentik.${domain_name}/application/o/token/"
       user_info_url: "https://authentik.${domain_name}/application/o/userinfo/"
       redirect_url: "https://donetick.${domain_name}/auth/oauth2"
-      name: "authentik" 
+      name: "authentik"
+      scopes:
+        - "openid"
+        - "email"
+        - "profile"

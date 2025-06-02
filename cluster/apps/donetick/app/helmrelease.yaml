@@ -45,8 +45,6 @@ spec:
                 value: ${db_pass}
               - name: DT_DATABASE_NAME
                 value: ${db_name}
-              - name: DT_JWT_SECRET
-                value: ${jwt_secret}
             probes:
               liveness: &probes
                 enabled: true
