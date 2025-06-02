@@ -20,4 +20,6 @@ spec:
       - kind: Secret
         name: donetick-db
       - kind: Secret
-        name: donetick-oauth 
+        name: donetick-oauth
+      - kind: Secret
+        name: donetick-barman
