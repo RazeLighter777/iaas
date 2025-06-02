@@ -21,7 +21,7 @@ spec:
     size: 8Gi
     storageClass: longhorn-fast-unreplicated-strictlocal
   monitoring:
-    enablePodMonitor: false
+    enablePodMonitor: true
   backup:
     barmanObjectStore:
       destinationPath: ${s3_destination_path}

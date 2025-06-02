@@ -12,6 +12,8 @@ spec:
   storage:
     size: 5Gi
     storageClass: longhorn-fast-unreplicated-strictlocal
+  monitoring:
+    enablePodMonitor: true
   bootstrap:
     initdb:
       database: ${db_name}
