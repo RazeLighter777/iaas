@@ -8,4 +8,4 @@ spec:
   schedule: "0 0 0 * * *"
   backupOwnerReference: self
   cluster:
-    name: cloudnative-database-media
+    name: cloudnative-database-media-cluster
