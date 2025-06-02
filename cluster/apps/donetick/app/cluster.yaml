@@ -18,4 +18,17 @@ spec:
       owner: ${db_user}
       secret:
         name: donetick-cnpg
-
+  backup:
+    barmanobjectstore:
+      destinationPath: ${s3_destination_path}
+      endpointUrl: ${s3_endpoint_url}
+      s3Credentials:
+        accessKeyId:
+          name: donetick-barman
+          key: s3_key_id
+        secretAccessKey:
+          name: donetick-barman
+          key: s3_key
+      wal:
+        compression: snappy
+    retentionPolicy: "30d"
