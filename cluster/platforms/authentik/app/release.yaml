@@ -129,7 +129,7 @@ spec:
     cluster:
       storage:
         storageClass: longhorn-fast-unreplicated-strictlocal
-        size: 25Gi
+        size: 100Gi
       instances: 3
       affinity:
         enablePodAntiAffinity: true
