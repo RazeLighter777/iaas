@@ -8,7 +8,7 @@ metadata:
 spec:
   instances: 3
   storage:
-    size: 100Gi
+    size: 250Gi
     storageClass: longhorn-fast-unreplicated-strictlocal
   monitoring:
     enablePodMonitor: true
