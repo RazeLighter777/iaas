@@ -6,3 +6,4 @@ resources:
     - ./homeassistant-config-pvc.yaml
     - ./homeassistant-cache-pvc.yaml
     - ./zigbee2mqtt-config-pvc.yaml
+    - ./zwave-js-ui-pvc.yaml
