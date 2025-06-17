@@ -208,6 +208,11 @@ spec:
             zigbee2mqtt:
               - path: /data
       zwave-js-ui:
+        existingClaim: zwave-js-ui
+        advancedMounts:
+          zwavejsui:
+            zwavejsui:
+              - path: /usr/src/app/store
       tmpfs:
         type: emptyDir
         advancedMounts:
