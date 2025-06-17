@@ -185,8 +185,8 @@ spec:
         hostPath: /dev/ttyACM0
         hostPathType: CharDevice
         advancedMounts:
-          zwavejsui:
-            zwavejsui:
+          zwave-js-ui:
+            zwave-js-ui:
               - path: /dev/ttyACM0
       config:
         existingClaim: home-assistant-config
