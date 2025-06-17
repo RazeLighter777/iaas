@@ -210,8 +210,8 @@ spec:
       zwave-js-ui:
         existingClaim: zwave-js-ui
         advancedMounts:
-          zwavejsui:
-            zwavejsui:
+          zwave-js-ui:
+            zwave-js-ui:
               - path: /usr/src/app/store
       tmpfs:
         type: emptyDir
