@@ -98,6 +98,8 @@ spec:
       jellyfin-server-cache:
         enabled: true
         type: emptyDir
+        medium: Memory
+        sizeLimit: 32Gi
         advancedMounts:
             main:
               main: 
