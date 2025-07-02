@@ -36,6 +36,9 @@ spec:
       storage:
         storageClass: longhorn-fast-unreplicated-strictlocal
         size: 25Gi
+      walStorage:
+        size: 5Gi
+        storageClass: longhorn-fast-unreplicated-strictlocal
       instances: 3
       monitoring:
         enabled: true

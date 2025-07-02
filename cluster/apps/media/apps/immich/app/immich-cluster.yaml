@@ -20,6 +20,9 @@ spec:
   storage:
     size: 8Gi
     storageClass: longhorn-fast-unreplicated-strictlocal
+  walStorage:
+    size: 1Gi
+    storageClass: longhorn-fast-unreplicated-strictlocal
   monitoring:
     enablePodMonitor: true
   backup:
