@@ -3,3 +3,4 @@ kind: Kustomization
 namespace: minecraft
 resources:
 - helmrelease.yaml
+- max-helmrelease.yaml
