@@ -39,7 +39,7 @@ spec:
       walStorage:
         size: 20Gi
         storageClass: longhorn-fast-unreplicated-strictlocal
-      instances: 2
+      instances: 3
       monitoring:
         enabled: true
     backups:
