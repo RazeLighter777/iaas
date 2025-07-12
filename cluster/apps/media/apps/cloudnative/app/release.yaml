@@ -35,11 +35,11 @@ spec:
         cnpg.io/skipEmptyWalArchiveCheck: "true"
       storage:
         storageClass: longhorn-fast-unreplicated-strictlocal
-        size: 25Gi
+        size: 35Gi
       walStorage:
-        size: 5Gi
+        size: 20Gi
         storageClass: longhorn-fast-unreplicated-strictlocal
-      instances: 3
+      instances: 2
       monitoring:
         enabled: true
     backups:
