@@ -50,15 +50,15 @@ spec:
     ingress:
       main:
         enabled: true
-        pathType: Prefix
+        className: nginx
         hosts:
-          - host: &host omada.${domain_name}
+          - host: omada.${domain_name}
+            pathType: Prefix
             paths:
               - path: /
                 service:
                   name: main
-                  port: http
-        ingressClassName: nginx
+                  port: 8088
     service:
       main:
         controller: main
