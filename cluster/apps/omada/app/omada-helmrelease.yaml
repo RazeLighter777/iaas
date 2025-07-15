@@ -50,6 +50,7 @@ spec:
 
     service:
       main:
+        controller: main
         enabled: true
         ports:
           http:
@@ -125,11 +126,6 @@ spec:
             port: 27217
             protocol: TCP
             targetPort: 27217
-
-    ingress:
-      main:
-        enabled: false
-
     resources:
       requests:
         memory: 1200Mi
