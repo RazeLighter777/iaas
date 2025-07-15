@@ -47,7 +47,18 @@ spec:
               PORTAL_HTTPS_PORT: "8843"
               SHOW_SERVER_LOGS: "true"
               SHOW_MONGODB_LOGS: "true"
-
+    ingress:
+      main:
+        enabled: true
+        pathType: Prefix
+        hosts:
+          - host: &host omada.${domain_name}
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: http
+        ingressClassName: nginx
     service:
       main:
         controller: main
