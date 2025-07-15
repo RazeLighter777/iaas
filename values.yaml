@@ -1,0 +1,38 @@
+cgroup:
+  autoMount:
+    enabled: false
+  hostRoot: /sys/fs/cgroup
+ipam:
+  mode: kubernetes
+k8sClientRateLimit:
+  burst: 120
+  qps: 60
+k8sServiceHost: localhost
+k8sServicePort: 7445
+kubeProxyReplacement: true
+l2announcements:
+  enabled: true
+operator:
+  replicas: 1
+routingMode: native
+ipv4NativeRoutingCIDR: 10.0.0.0/16
+autoDirectNodeRoutes: true
+securityContext:
+  capabilities:
+    ciliumAgent:
+    - CHOWN
+    - KILL
+    - NET_ADMIN
+    - NET_RAW
+    - IPC_LOCK
+    - SYS_ADMIN
+    - SYS_RESOURCE
+    - DAC_OVERRIDE
+    - FOWNER
+    - SETGID
+    - SETUID
+    cleanCiliumState:
+    - NET_ADMIN
+    - SYS_ADMIN
+    - SYS_RESOURCE
+tunnelProtocol: vxlan

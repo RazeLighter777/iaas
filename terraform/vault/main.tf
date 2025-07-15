@@ -117,6 +117,11 @@ variable "NFS_SERVER_IP" {
     type = string
 }
 
+### OMADA CONTROLLER IP
+variable "OMADA_CONTROLLER_IP" {
+    type = string
+}
+
 variable "NFS_PATH" {
     type = string
 }
@@ -229,6 +234,7 @@ resource "vault_kv_secret_v2" "cluster-settings" {
         "email_address" = var.EMAIL_ADDRESS
         "nfs_server_ip" = var.NFS_SERVER_IP
         "nfs_path" = var.NFS_PATH
+        "omada_controller_ip" = var.OMADA_CONTROLLER_IP
     })
 }
 
