@@ -10,3 +10,4 @@ spec:
     - cidr: ${emqx_ip}/32
     - cidr: ${minecraft_ip}/32
     - cidr: 192.168.88.37/32
+    - cidr: ${omada_controller_ip}/32
