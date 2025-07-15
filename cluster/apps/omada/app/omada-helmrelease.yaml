@@ -62,8 +62,8 @@ spec:
       controller:
         controller: main
         type: LoadBalancer
-        annotations:
-          io.cilium/lb-ipam-ips: ${omada_controller_ip}/32
+        loadBalancerClass: "io.cilium/l2-announcer"
+        loadBalancerIP: "${omada_controller_ip}"
         externalTrafficPolicy: Local
         ports:
           mgmt-8088-tcp:
