@@ -63,7 +63,7 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  name: omada-controller-main
                   port: 8043
     service:
       main:
