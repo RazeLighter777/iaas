@@ -137,6 +137,18 @@ variable "EMQX_PASSWORD" {
 }
 
 
+## OPNsense API keys
+variable "OPNSENSE_API_KEY" {
+    type = string
+}
+
+variable "OPNSENSE_API_SECRET" {
+    type = string
+}
+
+variable "OPNSENSE_ROUTER_IP" {
+    type = string
+}
 
 ### longhorn s3 backup creds and bucket
 
@@ -255,6 +267,16 @@ resource "vault_kv_secret_v2" "emqx" {
     data_json = jsonencode({
         "username" = var.EMQX_USERNAME
         "password" = var.EMQX_PASSWORD
+    })
+}
+
+resource "vault_kv_secret_v2" "opnsense" {
+    mount    = vault_mount.kv.path
+    name    = "opnsense"
+    data_json = jsonencode({
+        "api_key" = var.OPNSENSE_API_KEY
+        "api_secret" = var.OPNSENSE_API_SECRET
+        "opnsense_router_ip" = var.OPNSENSE_ROUTER_IP
     })
 }
 
