@@ -25,7 +25,7 @@ spec:
       strategy: rollback
       retries: 3
   values:
-    fullnameOverride: external-dns-opnsense.
+    fullnameOverride: external-dns-opnsense
 
     logLevel: debug
     logFormat: text
