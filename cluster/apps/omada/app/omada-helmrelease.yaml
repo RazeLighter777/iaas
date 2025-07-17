@@ -122,6 +122,16 @@ spec:
             port: 29814
             protocol: TCP
             targetPort: 29814
+          eap-upgrade:
+            enabled: true
+            port: 29815
+            protocol: TCP
+            targetPort: 29815
+          eap-null:
+            enabled: true
+            port: 29816
+            protocol: TCP
+            targetPort: 29816
           init-check:
             enabled: true
             port: 27001
