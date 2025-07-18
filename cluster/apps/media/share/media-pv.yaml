@@ -11,15 +11,15 @@ spec:
   nfs:
     server: ${nfs_server_ip}
     path: ${nfs_path}
-    mountOptions:
-    - hard
-    - timeo=600
-    - retrans=3
-    - proto=tcp
-    - nfsvers=4.2
-    - rsize=131072
-    - wsize=131072  
-    - noacl
-    - nconnect=16
-    - noatime
-    - nodiratime
+  mountOptions:
+  - hard
+  - timeo=600
+  - retrans=3
+  - proto=tcp
+  - nfsvers=4.2
+  - rsize=131072
+  - wsize=131072  
+  - noacl
+  - nconnect=16
+  - noatime
+  - nodiratime
