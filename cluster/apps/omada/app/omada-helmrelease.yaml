@@ -47,6 +47,14 @@ spec:
               PORTAL_HTTPS_PORT: "8843"
               SHOW_SERVER_LOGS: "true"
               SHOW_MONGODB_LOGS: "true"
+              PORT_APP_DISCOVERY: "27001"
+              PORT_ADOPT_V1: "29812"
+              PORT_UPGRADE_V1: "29813"
+              PORT_MANAGER_V1: "29811"
+              PORT_MANAGER_V2: "29814"
+              PORT_DISCOVERY: "29810"
+              PORT_TRANSFER_V2: "29815"
+              PORT_RTTY: "29816"
     ingress:
       main:
         enabled: true
@@ -80,9 +88,6 @@ spec:
         controller: main
         type: LoadBalancer
         loadBalancerIP: "${omada_controller_ip}"
-        externalTrafficPolicy: Local
-        ipFamilies: [IPv4, IPv6]
-        ipFamilyPolicy: PreferDualStack
         ports:
           mgmt-8088-tcp:
             enabled: true
