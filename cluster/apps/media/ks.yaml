@@ -8,6 +8,9 @@ spec:
   path: "./cluster/apps/media/share"
   interval: 5m
   prune: true
+  # for pvc creation, force is needed to change immutable fields
+  # https://fluxcd.io/docs/components/kustomize/flux-kustomization/#force
+  force: true
   sourceRef:
     kind: GitRepository
     name: flux-system
