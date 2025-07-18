@@ -81,6 +81,8 @@ spec:
         type: LoadBalancer
         loadBalancerIP: "${omada_controller_ip}"
         externalTrafficPolicy: Local
+        ipFamilies: [IPv4, IPv6]
+        ipFamilyPolicy: PreferDualStack
         ports:
           mgmt-8088-tcp:
             enabled: true
