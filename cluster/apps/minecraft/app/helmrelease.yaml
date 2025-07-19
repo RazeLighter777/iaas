@@ -19,7 +19,7 @@ spec:
   values:
     image:
       repository: itzg/minecraft-server
-      tag: java21-graalvm@sha256:86be0dce683993a415c80a5a72390244f4d3fc8242bc6e711a3b404b23cba4aa
+      tag: java21-graalvm@sha256:52addb85112ff32750a8554ce4c0959e8d90f909a0b167eb47d20a277c76df10
     strategyType: Recreate
     persistence:
       storageClass: longhorn-fast
