@@ -536,6 +536,20 @@ resource "vault_kv_secret_v2" "donetick" {
   })
 }
 
+resource "random_password" "n8n_encryption_key" {
+  length = 32
+  special = false
+  numeric = false
+  upper = false
+}
+
+resource "vault_kv_secret_v2" "n8n" {
+  mount    = vault_mount.kv.path
+  name     = "n8n"
+  data_json = jsonencode({
+    "N8N_ENCRYPTION_KEY" = random_password.n8n_encryption_key.result
+    })
+}
 resource "random_password" "donetick_oauth_client_id" {
   length = 32
   special = false

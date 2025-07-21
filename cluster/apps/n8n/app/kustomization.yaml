@@ -1,0 +1,6 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ./n8n-externalsecret.yaml
+  - ./n8n-helmrelease.yaml
+  - ./n8n-pvc.yaml
