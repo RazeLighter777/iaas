@@ -36,3 +36,9 @@ spec:
           - op: add
             path: /spec/template/spec/containers/0/args/-
             value: --requeue-dependency=5s
+  sync:
+    kind: GitRepository
+    url: "ssh://git@github.com/razelighter777/iaas.git"
+    ref: "refs/heads/main"
+    path: "cluster/bootstrap"
+    pullSecret: "flux-system"
