@@ -29,7 +29,7 @@ metadata:
   name: authentik-terraform
   namespace: flux-system
 spec:
-  wait: true
+  wait: false
   dependsOn:
     - name: authentik
   targetNamespace: flux-system
