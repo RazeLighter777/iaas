@@ -210,19 +210,6 @@ variable "DISCORD_STATUS_WEBHOOK" {
     type = string
 }
 
-## Mikrotik
-
-variable "MIKROTIK_BASEURL" {
-    type = string
-}
-
-variable "MIKROTIK_USERNAME" {
-    type = string
-}
-
-variable "MIKROTIK_PASSWORD" {
-    type = string
-}
 
 # Jellyfin
 
@@ -525,15 +512,6 @@ resource "vault_kv_secret_v2" "frigate" {
     })
 }
 
-resource "vault_kv_secret_v2" "mikrotik" {
-    mount    = vault_mount.kv.path
-    name    = "mikrotik"
-    data_json = jsonencode({
-        "baseurl" = var.MIKROTIK_BASEURL
-        "username" = var.MIKROTIK_USERNAME
-        "password" = var.MIKROTIK_PASSWORD
-    })
-}
 
 resource "random_password" "donetick_db_password" {
   length  = 32
