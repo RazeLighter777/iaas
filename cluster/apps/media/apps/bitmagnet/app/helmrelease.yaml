@@ -58,10 +58,16 @@ spec:
                   key: dbname
               - name: TMDB_ENABLED
                 value: "false"
+              - name: PROCESSOR_CONCURRENCY
+                value: "3"
+              - name: DHT_CRAWLER_SCALING_FACTOR
+                value: "30"
+              - name: DHT_CRAWLER_SAVE_FILES_THRESHOLD
+                value: "1000"
             resources:
               requests:
-                cpu: 10m
-                memory: 256Mi
+                cpu: 100m
+                memory: 1000Mi
           gluetun:
             dependsOn: main
             image:
