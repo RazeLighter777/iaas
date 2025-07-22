@@ -107,7 +107,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS-K0}"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "Total number of scrapes by the OPNsense exporter",
       "fieldConfig": {
@@ -400,7 +400,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS-K0}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "opnsense_exporter_endpoint_errors_total{opnsense_instance=\"$opnsense_instance\"}",
@@ -430,7 +430,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS-K0}"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "Status points of services uptime\n\n1 - Available \n0 - Unavailable",
       "fieldConfig": {
