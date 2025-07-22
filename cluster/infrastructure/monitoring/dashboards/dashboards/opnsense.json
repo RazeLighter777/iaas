@@ -1,7 +1,7 @@
 {
   "__inputs": [
     {
-      "name": "DS_PROMETHEUS-K0",
+      "name": "DS_PROMETHEUS",
       "label": "prometheus-k0",
       "description": "The Prometheus which scrapes your opnsense-exporters",
       "type": "datasource",
@@ -165,7 +165,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS-K0}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -183,7 +183,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS-K0}"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "The current status of OPNsense (1 = up, 0 = down)",
       "fieldConfig": {
@@ -293,7 +293,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS-K0}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "opnsense_up{opnsense_instance=\"$opnsense_instance\"}",
@@ -310,7 +310,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS-K0}"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "The total errors by endpoint returned by the OPNsense API during data fetching\t",
       "fieldConfig": {
@@ -505,7 +505,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS-K0}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -537,7 +537,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS-K0}"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "RTT is the average (mean) of the round trip time in milliseconds by name",
       "fieldConfig": {
@@ -630,7 +630,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS-K0}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "opnsense_gateways_rtt_milliseconds{opnsense_instance=\"$opnsense_instance\"}",
@@ -647,7 +647,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS-K0}"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "RTTd is the standard deviation of the round trip time in milliseconds by name",
       "fieldConfig": {
@@ -740,7 +740,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS-K0}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "opnsense_gateways_rttd_milliseconds{opnsense_instance=\"$opnsense_instance\"}",
@@ -757,7 +757,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS-K0}"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "Gateway Loss Percentage by Gateway Name",
       "fieldConfig": {
@@ -874,7 +874,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS-K0}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "opnsense_gateways_loss_percentage{opnsense_instance=\"$opnsense_instance\"}",
@@ -891,7 +891,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS-K0}"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "Status points of the gateway uptime. \n\n1 - Available \n0 - Unavailable",
       "fieldConfig": {
@@ -975,7 +975,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS-K0}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "opnsense_gateways_status{opnsense_instance=\"$opnsense_instance\"}",
@@ -1006,7 +1006,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS-K0}"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "Total received data with applied range function by the Rate Interval selector",
       "fieldConfig": {
@@ -1099,7 +1099,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS-K0}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "rate(opnsense_interfaces_received_bytes_total{opnsense_instance=\"$opnsense_instance\"}[$rate_interval])",
@@ -1116,7 +1116,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS-K0}"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "Total transmitted data with applied range function by the Rate Interval selector",
       "fieldConfig": {
@@ -1209,7 +1209,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS-K0}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "rate(opnsense_interfaces_transmitted_bytes_total{opnsense_instance=\"$opnsense_instance\"}[$rate_interval])",
@@ -1226,7 +1226,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS-K0}"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "MTU of the interface by interface name and device",
       "fieldConfig": {
@@ -1277,7 +1277,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS-K0}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -1295,7 +1295,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS-K0}"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "Total received data by interface ",
       "fieldConfig": {
@@ -1383,7 +1383,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS-K0}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "opnsense_interfaces_received_bytes_total{opnsense_instance=\"$opnsense_instance\"}",
@@ -1400,7 +1400,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS-K0}"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "Total transmitted data by interface",
       "fieldConfig": {
@@ -1488,7 +1488,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS-K0}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "opnsense_interfaces_transmitted_bytes_total{opnsense_instance=\"$opnsense_instance\"}",
@@ -1505,7 +1505,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS-K0}"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "Total transmitted data by interface",
       "fieldConfig": {
@@ -1594,7 +1594,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS-K0}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "opnsense_interfaces_input_errors_total{opnsense_instance=\"$opnsense_instance\"}",
@@ -1606,7 +1606,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS-K0}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "opnsense_interfaces_input_errors_total{opnsense_instance=\"$opnsense_instance\"}",
@@ -1637,7 +1637,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS-K0}"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "",
       "fieldConfig": {
@@ -1708,7 +1708,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS-K0}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -1727,7 +1727,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS-K0}"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "Rate of Sent and Received ARP requests",
       "fieldConfig": {
@@ -1820,7 +1820,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS-K0}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "rate(opnsense_protocol_arp_sent_requests_total{opnsense_instance=\"$opnsense_instance\"}[$rate_interval])",
@@ -1832,7 +1832,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS-K0}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "rate(opnsense_protocol_arp_received_requests_total{opnsense_instance=\"$opnsense_instance\"}[$rate_interval])",
@@ -1850,7 +1850,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_PROMETHEUS-K0}"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "Total of Sent and Received ARP requests",
       "fieldConfig": {
@@ -1942,7 +1942,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS-K0}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "opnsense_protocol_arp_sent_requests_total{opnsense_instance=\"$opnsense_instance\"}",
@@ -1954,7 +1954,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_PROMETHEUS-K0}"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "opnsense_protocol_arp_received_requests_total{opnsense_instance=\"$opnsense_instance\"}",
@@ -1984,7 +1984,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_PROMETHEUS-K0}"
+          "uid": "${DS_PROMETHEUS}"
         },
         "definition": "label_values(opnsense_up,opnsense_instance)",
         "hide": 0,
