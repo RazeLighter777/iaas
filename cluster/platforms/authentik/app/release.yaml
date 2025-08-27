@@ -129,9 +129,9 @@ spec:
     cluster:
       storage:
         storageClass: longhorn-fast-unreplicated-strictlocal
-        size: 100Gi
+        size: 125Gi
       walStorage:
-        size: 1Gi
+        size: 10Gi
         storageClass: longhorn-fast-unreplicated-strictlocal
 
       instances: 3
