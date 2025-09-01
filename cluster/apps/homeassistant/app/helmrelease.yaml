@@ -42,7 +42,7 @@ spec:
               privileged: true
             image:
               repository: ghcr.io/zwave-js/zwave-js-ui
-              tag: 10.6.1
+              tag: 10.11.0
             resources:
               requests:
                 cpu: 100m
@@ -129,7 +129,7 @@ spec:
           app:
             image:
               repository: ghcr.io/home-assistant/home-assistant
-              tag: 2025.5.3
+              tag: 2025.8.0
             env:
               TZ: ${timezone}
               PYTHONPATH: "/config/deps"
