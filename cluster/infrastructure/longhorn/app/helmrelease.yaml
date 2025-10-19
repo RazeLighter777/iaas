@@ -22,13 +22,13 @@ spec:
   timeout: 15m
   values:
     # -- Setting that allows you to update the default backupstore.
-    defaultBackupStore:
+    defaultBackupStore: {}
       # -- Endpoint used to access the default backupstore.
-      backupTarget: ${backup_target}
+      #backupTarget: ${backup_target}
       # -- Name of the Kubernetes secret associated with the default backup target.
-      backupTargetCredentialSecret: longhorn-s3-secret
+      #backupTargetCredentialSecret: longhorn-s3-secret
       # -- Number of seconds that Longhorn waits before checking the default backupstore for new backups.
-      pollInterval: 0
+      #pollInterval: 0
     ingress:
       enabled: true
       pathType: Prefix
