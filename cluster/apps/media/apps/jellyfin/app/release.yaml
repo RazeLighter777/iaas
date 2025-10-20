@@ -16,7 +16,6 @@ spec:
         namespace: flux-system
   values:
     # renovate: datasource=github-releases depName=jellyfin/jellyfin
-    appversion: 10.9.8
     controllers:
       main:
         pod:
@@ -30,7 +29,7 @@ spec:
             image:
               repository: docker.io/jellyfin/jellyfin
               # renovate: datasource=github-releases depName=jellyfin/jellyfin
-              tag: 10.10.7
+              tag: 10.11.0
             env:
               DOTNET_SYSTEM_IO_DISABLEFILELOCKING: "true"
               JELLYFIN_FFmpeg__probesize: 50000000
