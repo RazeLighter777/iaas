@@ -78,14 +78,11 @@ spec:
       blog-source:
         enabled: true
         type: emptyDir
-        globalMounts:
-          - path: /git
-            subPath: git
         advancedMounts:
           main:
             main:
               - path: /src
-                subPath: git/current
+                subPath: current
                 readOnly: true
             git-sync:
               - path: /git
