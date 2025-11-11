@@ -82,12 +82,7 @@ spec:
           main:
             main:
               - path: /git
+                readOnly: false
             git-sync:
               - path: /git
-      hugo-resources:
-        enabled: true
-        type: emptyDir
-        advancedMounts:
-          main:
-            main:
-              - path: /git/current/blog/resources
+                readOnly: false
