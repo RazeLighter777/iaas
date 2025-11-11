@@ -88,11 +88,8 @@ spec:
                 memory: 512Mi
           nginx:
             image:
-              repository: docker.io/library/nginx
+              repository: docker.io/nginxinc/nginx-unprivileged
               tag: 1.27-alpine
-            securityContext:
-              runAsUser: 101
-              runAsGroup: 101
             resources:
               requests:
                 cpu: 50m
@@ -125,7 +122,7 @@ spec:
         ports:
           http:
             port: 80
-            targetPort: 80
+            targetPort: 8080
             appProtocol: http
     ingress:
       main:
