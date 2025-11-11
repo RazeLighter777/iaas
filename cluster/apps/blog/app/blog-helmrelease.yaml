@@ -20,6 +20,23 @@ spec:
         type: deployment
         annotations:
           reloader.stakater.com/auto: "true"
+        initContainers:
+          npm-install:
+            image:
+              repository: docker.io/library/node
+              tag: 20-alpine
+            command: ["/bin/sh"]
+            args:
+              - -c
+              - |
+                cd /git/current/blog
+                npm install
+            resources:
+              requests:
+                cpu: 100m
+                memory: 256Mi
+              limits:
+                memory: 512Mi
         containers:
           main:
             image:
@@ -80,9 +97,18 @@ spec:
         type: emptyDir
         advancedMounts:
           main:
+            npm-install:
+              - path: /git
             main:
               - path: /git
-                readOnly: false
             git-sync:
               - path: /git
-                readOnly: false
+      node-modules:
+        enabled: true
+        type: emptyDir
+        advancedMounts:
+          main:
+            npm-install:
+              - path: /git/current/blog/node_modules
+            main:
+              - path: /git/current/blog/node_modules
