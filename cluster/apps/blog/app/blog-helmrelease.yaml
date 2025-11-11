@@ -49,6 +49,8 @@ spec:
               - |
                 while true; do
                   cd /git/current/blog || { echo "Failed to cd, retrying..."; sleep 5; continue; }
+                  # Create symlink to stable node_modules location
+                  ln -sfn /node_modules node_modules
                   npm install || { echo "npm install failed, retrying..."; sleep 5; continue; }
                   cd /tmp
                   hugo server --bind 0.0.0.0 --baseURL https://blog.${domain_name} --appendPort=false --cacheDir /tmp/hugo_cache -s /git/current/blog
@@ -78,6 +80,7 @@ spec:
               GITSYNC_LINK: current
               GITSYNC_PERIOD: 60s
               GITSYNC_ONE_TIME: "false"
+              GITSYNC_MAX_FAILURES: "-1"
             resources:
               requests:
                 cpu: 50m
@@ -121,4 +124,4 @@ spec:
         advancedMounts:
           main:
             main:
-              - path: /git/current/blog/node_modules
+              - path: /node_modules
