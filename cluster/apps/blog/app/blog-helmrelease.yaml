@@ -30,7 +30,7 @@ spec:
               - -c
               - |
                 cd /git/current/blog
-                hugo server --bind 0.0.0.0 --baseURL https://blog.${domain_name} --appendPort=false
+                hugo server --bind 0.0.0.0 --baseURL https://blog.${domain_name} --appendPort=false --cacheDir /tmp/hugo_cache
             env:
               TZ: ${timezone}
             resources:
@@ -82,6 +82,12 @@ spec:
           main:
             main:
               - path: /git
-                readOnly: true
             git-sync:
               - path: /git
+      hugo-resources:
+        enabled: true
+        type: emptyDir
+        advancedMounts:
+          main:
+            main:
+              - path: /tmp/hugo_cache
