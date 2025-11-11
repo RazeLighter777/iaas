@@ -25,6 +25,19 @@ spec:
             fsGroup: 65533
             runAsUser: 65533
             runAsGroup: 65533
+        initContainers:
+          git-sync-init:
+            image:
+              repository: registry.k8s.io/git-sync/git-sync
+              tag: v4.3.0
+            securityContext:
+              runAsUser: 65533
+              runAsGroup: 65533
+            env:
+              GITSYNC_REPO: https://github.com/razelighter777/site.git
+              GITSYNC_ROOT: /git
+              GITSYNC_LINK: current
+              GITSYNC_ONE_TIME: "true"
         containers:
           main:
             image:
@@ -92,6 +105,8 @@ spec:
         advancedMounts:
           main:
             main:
+              - path: /git
+            git-sync-init:
               - path: /git
             git-sync:
               - path: /git
