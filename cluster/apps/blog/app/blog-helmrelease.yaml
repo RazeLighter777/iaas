@@ -71,7 +71,7 @@ spec:
                     
                     # Start Hugo in background
                     cd /tmp
-                    hugo server --bind 0.0.0.0 --baseURL https://blog.${domain_name} --appendPort=false --cacheDir /tmp/hugo_cache -s /git/current/blog &
+                    hugo server --bind 0.0.0.0 --baseURL https://blog.${domain_name} --disableLiveReload --appendPort=false --cacheDir /tmp/hugo_cache -s /git/current/blog &
                     HUGO_PID=$!
                     echo "Hugo started with PID $HUGO_PID"
                   fi
