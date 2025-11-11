@@ -90,4 +90,4 @@ spec:
         advancedMounts:
           main:
             main:
-              - path: /tmp/hugo_cache
+              - path: /git/current/blog/resources
