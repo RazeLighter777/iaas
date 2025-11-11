@@ -35,7 +35,7 @@ spec:
                 npm install --prefix /tmp/node_modules .
                 export NODE_PATH=/tmp/node_modules/node_modules
                 export PATH=$PATH:/tmp/node_modules/node_modules/.bin
-                hugo server \
+                npm exec --prefix /tmp/node_modules hugo server \
                   --bind 0.0.0.0 \
                   --baseURL https://blog.${domain_name} \
                   --appendPort=false \
