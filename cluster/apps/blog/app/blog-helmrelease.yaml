@@ -47,9 +47,13 @@ spec:
             args:
               - -c
               - |
-                cd /git/current/blog
-                npm install
-                hugo server --bind 0.0.0.0 --baseURL https://blog.${domain_name} --appendPort=false --cacheDir /tmp/hugo_cache
+                while true; do
+                  cd /git/current/blog
+                  npm install
+                  hugo server --bind 0.0.0.0 --baseURL https://blog.${domain_name} --appendPort=false --cacheDir /tmp/hugo_cache
+                  echo "Hugo exited, restarting in 5 seconds..."
+                  sleep 5
+                done
             env:
               TZ: ${timezone}
               HOME: /tmp
