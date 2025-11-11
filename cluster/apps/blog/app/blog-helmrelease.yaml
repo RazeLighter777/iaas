@@ -29,14 +29,19 @@ spec:
             args:
               - -c
               - |
-                mkdir -p /tmp/node_modules
+                set -eux
                 cd /git/current/blog
-                cp package.json /tmp/node_modules/
-                npm install --prefix /tmp/node_modules
-                hugo server --bind 0.0.0.0 --baseURL https://blog.${domain_name} --appendPort=false --cacheDir /tmp/hugo_cache
+                mkdir -p /tmp/node_modules
+                npm install --prefix /tmp/node_modules .
+                export NODE_PATH=/tmp/node_modules/node_modules
+                export PATH=$PATH:/tmp/node_modules/node_modules/.bin
+                hugo server \
+                  --bind 0.0.0.0 \
+                  --baseURL https://blog.${domain_name} \
+                  --appendPort=false \
+                  --cacheDir /tmp/hugo_cache
             env:
               TZ: ${timezone}
-              NODE_PATH: /tmp/node_modules
             resources:
               requests:
                 cpu: 100m
