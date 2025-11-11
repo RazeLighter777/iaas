@@ -48,10 +48,11 @@ spec:
               - -c
               - |
                 while true; do
-                  cd /git/current/blog
-                  npm install
-                  hugo server --bind 0.0.0.0 --baseURL https://blog.${domain_name} --appendPort=false --cacheDir /tmp/hugo_cache
-                  echo "Hugo exited, restarting in 5 seconds..."
+                  cd /git/current/blog || { echo "Failed to cd, retrying..."; sleep 5; continue; }
+                  npm install || { echo "npm install failed, retrying..."; sleep 5; continue; }
+                  cd /tmp
+                  hugo server --bind 0.0.0.0 --baseURL https://blog.${domain_name} --appendPort=false --cacheDir /tmp/hugo_cache -s /git/current/blog
+                  echo "Hugo stopped, restarting in 5 seconds..."
                   sleep 5
                 done
             env:
