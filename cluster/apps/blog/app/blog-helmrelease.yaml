@@ -85,10 +85,3 @@ spec:
               - path: /git
             git-sync:
               - path: /git
-      node-modules:
-        enabled: true
-        type: emptyDir
-        advancedMounts:
-          main:
-            main:
-              - path: /git/current/blog/node_modules
