@@ -40,6 +40,8 @@ spec:
                 hugo server --bind 0.0.0.0 --baseURL https://blog.${domain_name} --appendPort=false --cacheDir /tmp/hugo_cache
             env:
               TZ: ${timezone}
+              HOME: /tmp
+              npm_config_cache: /tmp/.npm
             resources:
               requests:
                 cpu: 100m
