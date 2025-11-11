@@ -30,7 +30,8 @@ spec:
               - -c
               - |
                 cd /git/current/blog
-                npm install
+                npm install --prefix /tmp/npm-packages
+                export NODE_PATH=/tmp/npm-packages/node_modules
                 hugo server --bind 0.0.0.0 --baseURL https://blog.${domain_name} --appendPort=false --cacheDir /tmp/hugo_cache
             env:
               TZ: ${timezone}
