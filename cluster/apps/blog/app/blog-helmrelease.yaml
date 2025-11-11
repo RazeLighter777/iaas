@@ -64,7 +64,7 @@ spec:
                     
                     # Compile Tailwind CSS
                     echo "Compiling Tailwind CSS..."
-                    npx @tailwindcss/cli -i ./assets/css/input.css -o ./assets/css/output.css || { echo "CSS compilation failed, retrying..."; sleep 5; continue; }
+                    npx @tailwindcss/cli -i ./assets/css/input.css -o ./assets/css/output.css --minify || { echo "CSS compilation failed, retrying..."; sleep 5; continue; }
                     
                     # Build Hugo to output directory
                     echo "Building Hugo site..."
