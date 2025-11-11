@@ -23,8 +23,8 @@ spec:
         containers:
           main:
             image:
-              repository: docker.io/klakegg/hugo
-              tag: latest
+              repository: docker.io/hugomods/hugo
+              tag: nightly
             command: ["/bin/sh"]
             args:
               - -c
