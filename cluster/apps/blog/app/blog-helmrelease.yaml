@@ -20,6 +20,7 @@ spec:
         type: deployment
         annotations:
           reloader.stakater.com/auto: "true"
+
         containers:
           main:
             image:
@@ -31,23 +32,28 @@ spec:
               - |
                 set -eux
                 cd /git/current/blog
-                mkdir -p /tmp/node_modules
-                npm install --prefix /tmp/node_modules .
-                export NODE_PATH=/tmp/node_modules/node_modules
-                export PATH=$PATH:/tmp/node_modules/node_modules/.bin
-                npm exec --prefix /tmp/node_modules hugo server \
+
+                # Link writable node_modules overlay into repo
+                rm -rf node_modules
+                ln -s /node_modules node_modules
+
+                # Install deps into writable /node_modules
+                npm ci --prefix /node_modules .
+
+                # Run hugo with Tailwind + PostCSS available
+                npm --prefix /node_modules exec hugo server \
                   --bind 0.0.0.0 \
                   --baseURL https://blog.${domain_name} \
                   --appendPort=false \
                   --cacheDir /tmp/hugo_cache
+
             env:
               TZ: ${timezone}
-            resources:
-              requests:
-                cpu: 100m
-                memory: 128Mi
-              limits:
-                memory: 512Mi
+
+            ports:
+              - name: http
+                containerPort: 1313
+
           git-sync:
             image:
               repository: registry.k8s.io/git-sync/git-sync
@@ -93,3 +99,17 @@ spec:
               - path: /git
             git-sync:
               - path: /git
+      hugo-cache:
+        enabled: true
+        type: emptyDir
+        advancedMounts:
+          main:
+            main:
+              - path: /tmp/hugo_cache
+      node-modules:
+        enabled: true
+        type: emptyDir
+        advancedMounts:
+          main:
+            main:
+              - path: /node_modules
