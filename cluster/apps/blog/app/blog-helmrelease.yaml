@@ -38,10 +38,10 @@ spec:
                 ln -s /node_modules node_modules
 
                 # Install deps into writable /node_modules
-                npm ci --prefix /node_modules .
+                npm install --prefix /node_modules .
 
                 # Run hugo with Tailwind + PostCSS available
-                npm --prefix /node_modules exec hugo server \
+                hugo server \
                   --bind 0.0.0.0 \
                   --baseURL https://blog.${domain_name} \
                   --appendPort=false \
