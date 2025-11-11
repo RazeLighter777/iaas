@@ -35,7 +35,6 @@ spec:
               - -c
               - |
                 cd /git/current/blog
-                rm -rf node_modules
                 npm install
                 hugo server --bind 0.0.0.0 --baseURL https://blog.${domain_name} --appendPort=false --cacheDir /tmp/hugo_cache
             env:
@@ -96,3 +95,10 @@ spec:
               - path: /git
             git-sync:
               - path: /git
+      node-modules:
+        enabled: true
+        type: emptyDir
+        advancedMounts:
+          main:
+            main:
+              - path: /git/current/blog/node_modules
