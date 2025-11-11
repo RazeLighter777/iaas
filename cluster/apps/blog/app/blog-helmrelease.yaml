@@ -51,14 +51,12 @@ spec:
                 HUGO_PID=""
                 
                 while true; do
-                  cd /git/current/blog || { echo "Failed to cd, retrying..."; sleep 5; continue; }
-                  
-                  # Get current git hash
-                  CURRENT_HASH=$(cat /git/current/.git/HEAD 2>/dev/null || echo "unknown")
+                  # Get current git hash from outside the blog directory
+                  CURRENT_HASH=$(readlink /git/current 2>/dev/null || echo "unknown")
                   
                   # If git sync updated, reinstall dependencies and restart Hugo
                   if [ "$CURRENT_HASH" != "$LAST_HASH" ]; then
-                    echo "Detected git update, reinstalling dependencies..."
+                    echo "Detected git update (hash: $CURRENT_HASH), reinstalling dependencies..."
                     
                     # Kill existing Hugo process if running
                     if [ -n "$HUGO_PID" ] && kill -0 $HUGO_PID 2>/dev/null; then
@@ -67,6 +65,7 @@ spec:
                       wait $HUGO_PID 2>/dev/null
                     fi
                     
+                    cd /git/current/blog || { echo "Failed to cd, retrying..."; sleep 5; continue; }
                     npm install || { echo "npm install failed, retrying..."; sleep 5; continue; }
                     LAST_HASH="$CURRENT_HASH"
                     
