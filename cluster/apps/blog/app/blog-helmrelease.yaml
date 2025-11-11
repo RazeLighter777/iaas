@@ -20,44 +20,38 @@ spec:
         type: deployment
         annotations:
           reloader.stakater.com/auto: "true"
-
+        pod:
+          securityContext:
+            fsGroup: 65533
+            runAsUser: 65533
+            runAsGroup: 65533
         containers:
           main:
             image:
               repository: docker.io/hugomods/hugo
-              tag: nightly
+              tag: nightly-non-root
             command: ["/bin/sh"]
             args:
               - -c
               - |
-                set -eux
                 cd /git/current/blog
-
-                # Link writable node_modules overlay into repo
-                rm -rf node_modules
-                ln -s /node_modules node_modules
-
-                # Install deps into writable /node_modules
-                npm install --prefix /node_modules .
-
-                # Run hugo with Tailwind + PostCSS available
-                hugo server \
-                  --bind 0.0.0.0 \
-                  --baseURL https://blog.${domain_name} \
-                  --appendPort=false \
-                  --cacheDir /tmp/hugo_cache
-
+                npm install
+                hugo server --bind 0.0.0.0 --baseURL https://blog.${domain_name} --appendPort=false --cacheDir /tmp/hugo_cache
             env:
               TZ: ${timezone}
-
-            ports:
-              - name: http
-                containerPort: 1313
-
+            resources:
+              requests:
+                cpu: 100m
+                memory: 128Mi
+              limits:
+                memory: 512Mi
           git-sync:
             image:
               repository: registry.k8s.io/git-sync/git-sync
               tag: v4.3.0
+            securityContext:
+              runAsUser: 65533
+              runAsGroup: 65533
             env:
               GITSYNC_REPO: https://github.com/razelighter777/site.git
               GITSYNC_ROOT: /git
@@ -99,17 +93,3 @@ spec:
               - path: /git
             git-sync:
               - path: /git
-      hugo-cache:
-        enabled: true
-        type: emptyDir
-        advancedMounts:
-          main:
-            main:
-              - path: /tmp/hugo_cache
-      node-modules:
-        enabled: true
-        type: emptyDir
-        advancedMounts:
-          main:
-            main:
-              - path: /node_modules
