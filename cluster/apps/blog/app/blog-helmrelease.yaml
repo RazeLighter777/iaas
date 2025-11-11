@@ -47,15 +47,37 @@ spec:
             args:
               - -c
               - |
+                LAST_HASH=""
+                HUGO_PID=""
+                
                 while true; do
                   cd /git/current/blog || { echo "Failed to cd, retrying..."; sleep 5; continue; }
-                  # Create symlink to stable node_modules location
-                  ln -sfn /node_modules node_modules
-                  npm install || { echo "npm install failed, retrying..."; sleep 5; continue; }
-                  cd /tmp
-                  hugo server --bind 0.0.0.0 --baseURL https://blog.${domain_name} --appendPort=false --cacheDir /tmp/hugo_cache -s /git/current/blog
-                  echo "Hugo stopped, restarting in 5 seconds..."
-                  sleep 5
+                  
+                  # Get current git hash
+                  CURRENT_HASH=$(cat /git/current/.git/HEAD 2>/dev/null || echo "unknown")
+                  
+                  # If git sync updated, reinstall dependencies and restart Hugo
+                  if [ "$CURRENT_HASH" != "$LAST_HASH" ]; then
+                    echo "Detected git update, reinstalling dependencies..."
+                    
+                    # Kill existing Hugo process if running
+                    if [ -n "$HUGO_PID" ] && kill -0 $HUGO_PID 2>/dev/null; then
+                      echo "Stopping Hugo..."
+                      kill $HUGO_PID
+                      wait $HUGO_PID 2>/dev/null
+                    fi
+                    
+                    npm install || { echo "npm install failed, retrying..."; sleep 5; continue; }
+                    LAST_HASH="$CURRENT_HASH"
+                    
+                    # Start Hugo in background
+                    cd /tmp
+                    hugo server --bind 0.0.0.0 --baseURL https://blog.${domain_name} --appendPort=false --cacheDir /tmp/hugo_cache -s /git/current/blog &
+                    HUGO_PID=$!
+                    echo "Hugo started with PID $HUGO_PID"
+                  fi
+                  
+                  sleep 10
                 done
             env:
               TZ: ${timezone}
@@ -118,10 +140,3 @@ spec:
               - path: /git
             git-sync:
               - path: /git
-      node-modules:
-        enabled: true
-        type: emptyDir
-        advancedMounts:
-          main:
-            main:
-              - path: /node_modules
