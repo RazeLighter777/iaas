@@ -48,32 +48,30 @@ spec:
               - -c
               - |
                 LAST_HASH=""
-                HUGO_PID=""
                 
                 while true; do
                   # Get current git hash from outside the blog directory
                   CURRENT_HASH=$(readlink /git/current 2>/dev/null || echo "unknown")
                   
-                  # If git sync updated, reinstall dependencies and restart Hugo
+                  # If git sync updated, rebuild everything
                   if [ "$CURRENT_HASH" != "$LAST_HASH" ]; then
-                    echo "Detected git update (hash: $CURRENT_HASH), reinstalling dependencies..."
-                    
-                    # Kill existing Hugo process if running
-                    if [ -n "$HUGO_PID" ] && kill -0 $HUGO_PID 2>/dev/null; then
-                      echo "Stopping Hugo..."
-                      kill $HUGO_PID
-                      wait $HUGO_PID 2>/dev/null
-                    fi
+                    echo "Detected git update (hash: $CURRENT_HASH), rebuilding site..."
                     
                     cd /git/current/blog || { echo "Failed to cd, retrying..."; sleep 5; continue; }
-                    npm install || { echo "npm install failed, retrying..."; sleep 5; continue; }
-                    LAST_HASH="$CURRENT_HASH"
                     
-                    # Start Hugo in background
-                    cd /tmp
-                    hugo server --bind 0.0.0.0 --baseURL https://blog.${domain_name} --disableLiveReload --appendPort=false --cacheDir /tmp/hugo_cache -s /git/current/blog &
-                    HUGO_PID=$!
-                    echo "Hugo started with PID $HUGO_PID"
+                    # Install npm dependencies
+                    npm install || { echo "npm install failed, retrying..."; sleep 5; continue; }
+                    
+                    # Compile Tailwind CSS
+                    echo "Compiling Tailwind CSS..."
+                    npx @tailwindcss/cli -i ./assets/css/input.css -o ./assets/css/output.css || { echo "CSS compilation failed, retrying..."; sleep 5; continue; }
+                    
+                    # Build Hugo to output directory
+                    echo "Building Hugo site..."
+                    hugo --destination /output --baseURL https://blog.${domain_name} --cacheDir /tmp/hugo_cache || { echo "Hugo build failed, retrying..."; sleep 5; continue; }
+                    
+                    LAST_HASH="$CURRENT_HASH"
+                    echo "Site built successfully"
                   fi
                   
                   sleep 10
@@ -88,6 +86,19 @@ spec:
                 memory: 128Mi
               limits:
                 memory: 512Mi
+          nginx:
+            image:
+              repository: docker.io/library/nginx
+              tag: 1.27-alpine
+            securityContext:
+              runAsUser: 101
+              runAsGroup: 101
+            resources:
+              requests:
+                cpu: 50m
+                memory: 32Mi
+              limits:
+                memory: 128Mi
           git-sync:
             image:
               repository: registry.k8s.io/git-sync/git-sync
@@ -113,12 +124,15 @@ spec:
         controller: main
         ports:
           http:
-            port: 1313
+            port: 80
+            targetPort: 80
+            appProtocol: http
     ingress:
       main:
         enabled: true
         annotations:
           nginx.ingress.kubernetes.io/service-upstream: "true"
+          # allow cors for cloudflare cdn
         hosts:
           - host: blog.${domain_name}
             paths:
@@ -139,3 +153,13 @@ spec:
               - path: /git
             git-sync:
               - path: /git
+      blog-output:
+        enabled: true
+        type: emptyDir
+        advancedMounts:
+          main:
+            main:
+              - path: /output
+            nginx:
+              - path: /usr/share/nginx/html
+                readOnly: true
