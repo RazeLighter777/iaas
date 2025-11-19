@@ -135,7 +135,7 @@ spec:
       enabled: true
       image:
         repository: grafana/grafana
-        tag: 12.0.1@sha256:06dc8d60e184705e5dc00e051a6d92342a44010d7d5e538d0a36339e85abb9b7
+        tag: 12.3.0@sha256:70d9599b186ce287be0d2c5ba9a78acb2e86c1a68c9c41449454d0fc3eeb84e8
       defaultDashboardsEnabled: true
       ingress:
         enabled: true
