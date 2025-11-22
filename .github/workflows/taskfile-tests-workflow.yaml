@@ -156,7 +156,7 @@ jobs:
     steps:
     - name: Set success status
       if: ${{ !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled') }}
-      uses: guibranco/github-status-action-v2@v1.1.13
+      uses: guibranco/github-status-action-v2@v1.1.14
       with: 
         authToken: ${{secrets.GITHUB_TOKEN}}
         context: 'Infrastructure Tests'
@@ -165,7 +165,7 @@ jobs:
         sha: ${{github.event.pull_request.head.sha || github.sha}}
     - name: Set failure status
       if: ${{ contains(needs.*.result, 'failure') }}
-      uses: guibranco/github-status-action-v2@v1.1.13
+      uses: guibranco/github-status-action-v2@v1.1.14
       with: 
         authToken: ${{secrets.GITHUB_TOKEN}}
         context: 'Infrastructure Tests'
