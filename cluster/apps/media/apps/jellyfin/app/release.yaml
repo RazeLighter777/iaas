@@ -29,7 +29,7 @@ spec:
             image:
               repository: docker.io/jellyfin/jellyfin
               # renovate: datasource=github-releases depName=jellyfin/jellyfin
-              tag: 10.11.3
+              tag: 10.11.5
             env:
               DOTNET_SYSTEM_IO_DISABLEFILELOCKING: "true"
               JELLYFIN_FFmpeg__probesize: 50000000
