@@ -201,18 +201,24 @@ spec:
       config:
         enabled: true
         existingClaim: immich-config
-        globalMounts:
-          - path: /config
+        advancedMounts:
+          immich:
+            app:
+              - path: /config
       media:
         enabled: true
         existingClaim: immich-media
-        globalMounts:
-          - path: *mediaLocation
+        advancedMounts:
+          immich:
+            app:
+              - path: *mediaLocation
       dotimmich:
         enabled: true
         type: emptyDir
-        globalMounts:
-          - path: /usr/src/app/upload/encode
+        advancedMounts:
+          immich:
+            app:
+              - path: /usr/src/app/upload/encode
       cache:
         enabled: true
         type: emptyDir
