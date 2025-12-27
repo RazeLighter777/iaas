@@ -226,3 +226,10 @@ spec:
           immich-machine-learning:
             app:
               - path: /cache
+      machine-learning-config:
+        enabled: true
+        existingClaim: immich-machine-learning-config
+        advancedMounts:
+          immich-machine-learning:
+            app:
+              - path: /.config
