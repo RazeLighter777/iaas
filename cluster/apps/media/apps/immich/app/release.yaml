@@ -43,6 +43,9 @@ spec:
   values:
     controllers:
       immich:
+        pod:
+          nodeSelector:
+            intel.feature.node.kubernetes.io/gpu: "true"
         annotations:
           reloader.stakater.com/auto: "true"
         strategy: Recreate
@@ -127,6 +130,7 @@ spec:
                 memory: 512Mi
               limits:
                 memory: 4Gi
+                gpu.intel.com/i915: 1
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
