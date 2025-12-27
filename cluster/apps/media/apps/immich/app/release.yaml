@@ -43,9 +43,6 @@ spec:
   values:
     controllers:
       immich:
-        pod:
-          nodeSelector:
-            intel.feature.node.kubernetes.io/gpu: "true"
         annotations:
           reloader.stakater.com/auto: "true"
         strategy: Recreate
@@ -53,7 +50,7 @@ spec:
           app:
             image:
               repository: ghcr.io/immich-app/immich-server
-              tag: v1.134.0
+              tag: v2.4.1
             env:
               - name: IMMICH_LOG_LEVEL
                 value: log
@@ -130,6 +127,41 @@ spec:
                 memory: 512Mi
               limits:
                 memory: 4Gi
+      immich-machine-learning:
+        pod:
+          nodeSelector:
+            intel.feature.node.kubernetes.io/gpu: "true"
+        annotations:
+          reloader.stakater.com/auto: "true"
+        strategy: Recreate
+        containers:
+          app:
+            image:
+              repository: ghcr.io/immich-app/immich-machine-learning
+              tag: v2.4.1
+            env:
+              - name: DB_HOSTNAME
+                value: *dbhost
+              - name: DB_DATABASE_NAME
+                value: "immich"
+              - name: DB_USERNAME
+                valueFrom:
+                  secretKeyRef:
+                    name: immich-secret
+                    key: DB_USERNAME
+              - name: DB_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: immich-secret
+                    key: DB_PASSWORD
+              - name: REDIS_HOSTNAME
+                value: redis-master
+            resources:
+              requests:
+                cpu: 100m
+                memory: 2Gi
+              limits:
+                memory: 8Gi
                 gpu.intel.com/i915: 1
     defaultPodOptions:
       securityContext:
@@ -145,6 +177,12 @@ spec:
         ports:
           http:
             port: *port
+      
+      immich-machine-learning:
+        controller: immich-machine-learning
+        ports:
+          http:
+            port: 3003
 
     ingress:
       app:
@@ -175,3 +213,10 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /usr/src/app/upload/encode
+      cache:
+        enabled: true
+        type: emptyDir
+        advancedMounts:
+          immich-machine-learning:
+            app:
+              - path: /cache
