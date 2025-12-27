@@ -148,7 +148,7 @@ spec:
           app:
             image:
               repository: ghcr.io/immich-app/immich-machine-learning
-              tag: v2.4.1
+              tag: v2.4.1-openvino
             env:
               - name: DB_HOSTNAME
                 value: *dbhost
