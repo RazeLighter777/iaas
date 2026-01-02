@@ -45,7 +45,7 @@ jobs:
       if: steps.changes.outputs.cluster == 'true'
       uses: actions/setup-python@v5
       with:
-        python-version: '3.13' 
+        python-version: '3.14' 
     - name: Setup Go environment
       if: steps.changes.outputs.cluster == 'true'
       uses: actions/setup-go@v5
