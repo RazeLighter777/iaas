@@ -98,7 +98,7 @@ spec:
         enabled: true
         type: emptyDir
         medium: Memory
-        sizeLimit: 32Gi
+        sizeLimit: 64Gi
         advancedMounts:
             main:
               main: 
