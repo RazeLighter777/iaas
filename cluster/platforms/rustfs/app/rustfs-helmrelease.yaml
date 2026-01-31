@@ -43,8 +43,7 @@ spec:
                 enabled: true
                 custom: true
                 spec:
-                  httpGet:
-                    path: /minio/health/live
+                  tcpSocket:
                     port: &s3port 9000
                   periodSeconds: 30
                   timeoutSeconds: 5
@@ -53,8 +52,7 @@ spec:
                 enabled: true
                 custom: true
                 spec:
-                  httpGet:
-                    path: /minio/health/ready
+                  tcpSocket:
                     port: *s3port
                   periodSeconds: 10
                   timeoutSeconds: 5
