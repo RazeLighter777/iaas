@@ -273,7 +273,7 @@ spec:
                 summary: "Flux resource `{{$labels.kind}}/{{$labels.name}}` is suspended"
                 description: "The resource was manually suspended. You should resume it"
             - alert: FailingReconcile
-              expr: gotk_reconcile_condition{status="False"} == 1 and  gotk_reconcile_condition{kind="Terraform"} != 1
+              expr: gotk_reconcile_condition{status="False"} == 1
               for: 10m
               labels:
                 service: flux

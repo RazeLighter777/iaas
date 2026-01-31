@@ -24,7 +24,6 @@ My overkill kubernetes homelab.
 - **[Ingress NGINX](https://kubernetes.github.io/ingress-nginx/)**: Manages ingress traffic to the cluster.
 - **[Cloudflared](https://github.com/cloudflare/cloudflared)**: Manages ingress traffic to the cluster.
 - **[LGTM Monitoring Stack](https://github.com/grafana/loki)**: Includes Prometheus and Grafana for monitoring and visualization.
-- **[Tofu Controller](https://github.com/opentofu/controller)**: Manages Tofu-based applications in flux
 - **[HashiCorp Vault](https://www.vaultproject.io/)**: Manages secrets and encryption keys.
 - **[MinIO](https://min.io/)**: An open-source object storage system.
 
