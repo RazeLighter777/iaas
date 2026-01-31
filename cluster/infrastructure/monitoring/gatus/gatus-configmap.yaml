@@ -143,17 +143,7 @@ data:
             failure-threshold: 5
             send-on-resolved: true
             description: "Calibre Web is down"
-      - name: bitmagnet
-        group: networking
-        url: https://bitmagnet.${domain_name}/status
-        interval: 1m
-        conditions:
-          - "[STATUS] == 200"
-        alerts:
-          - type: discord
-            failure-threshold: 15
-            send-on-resolved: true
-            description: "Bitmagnet is down"
+
       - name: booktok
         group: media
         url: https://booktok.${domain_name}/cwa-check-monitoring
@@ -242,17 +232,7 @@ data:
             failure-threshold: 5
             send-on-resolved: true
             description: "Loki is down"
-      - name: donetick
-        group: apps
-        url: https://donetick.${domain_name}/
-        interval: 1m
-        conditions:
-          - "[STATUS] == 200"
-        alerts:
-          - type: discord
-            failure-threshold: 5
-            send-on-resolved: true
-            description: "Donetick is down"
+
       - name: home-assistant
         group: home
         url: https://hass.${domain_name}/

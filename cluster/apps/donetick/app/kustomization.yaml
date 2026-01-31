@@ -1,9 +1,0 @@
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-resources:
-  - donetick-cnpg-secret.yaml
-  - donetick-barman-externalsecret.yaml
-  - cluster.yaml
-  - cluster-backup.yaml
-  - helmrelease.yaml
-  - configmap.yaml

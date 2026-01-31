@@ -30,11 +30,6 @@ spec:
         - client_id:immich_client_id
         - client_secret:immich_client_secret
     - kind: Secret
-      name: donetick-oauth
-      varsKeys:
-        - client_id:donetick_client_id
-        - client_secret:donetick_client_secret
-    - kind: Secret
       name: open-webui-oauth
       varsKeys:
         - client_id:open_webui_client_id
