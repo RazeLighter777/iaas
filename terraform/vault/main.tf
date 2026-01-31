@@ -549,3 +549,28 @@ resource "random_password" "vaultwarden_admin_token" {
   special          = true
   override_special = "!#$%&*()-_=+[]{}<>:?"
 }
+
+### RustFS
+
+resource "random_password" "rustfs_access_key" {
+  length  = 32
+  special = false
+  numeric = true
+  upper   = true
+}
+
+resource "random_password" "rustfs_secret_key" {
+  length  = 48
+  special = false
+  numeric = true
+  upper   = true
+}
+
+resource "vault_kv_secret_v2" "rustfs" {
+  mount    = vault_mount.kv.path
+  name     = "rustfs"
+  data_json = jsonencode({
+    RUSTFS_ACCESS_KEY = random_password.rustfs_access_key.result
+    RUSTFS_SECRET_KEY = random_password.rustfs_secret_key.result
+  })
+}

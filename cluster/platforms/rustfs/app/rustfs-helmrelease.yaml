@@ -1,0 +1,120 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: rustfs
+spec:
+  chart:
+    spec:
+      chart: app-template
+      version: 4.0.1
+      interval: 30m
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  interval: 1h
+  values:
+    controllers:
+      rustfs:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: rustfs/rustfs
+              tag: latest
+              pullPolicy: IfNotPresent
+            args:
+              - --access-key
+              - $(RUSTFS_ACCESS_KEY)
+              - --secret-key
+              - $(RUSTFS_SECRET_KEY)
+              - --console-enable
+              - /data
+            env:
+              RUSTFS_CONSOLE_ENABLE: "true"
+            envFrom:
+              - secretRef:
+                  name: rustfs
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /minio/health/live
+                    port: &s3port 9000
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 5
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /minio/health/ready
+                    port: *s3port
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 5
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 10
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 100m
+                memory: 256Mi
+              limits:
+                memory: 1Gi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    service:
+      s3:
+        controller: rustfs
+        ports:
+          http:
+            port: *s3port
+      console:
+        controller: rustfs
+        ports:
+          http:
+            port: &consoleport 9001
+    ingress:
+      s3:
+        enabled: true
+        className: nginx
+        hosts:
+          - host: "s3.${domain_name}"
+            paths:
+              - path: /
+                service:
+                  identifier: s3
+                  port: http
+      console:
+        enabled: true
+        className: nginx
+        hosts:
+          - host: "rustfs.${domain_name}"
+            paths:
+              - path: /
+                service:
+                  identifier: console
+                  port: http
+    persistence:
+      data:
+        existingClaim: rustfs-data
+        globalMounts:
+          - path: /data
