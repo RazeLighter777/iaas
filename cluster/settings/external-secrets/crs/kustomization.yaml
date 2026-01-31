@@ -9,5 +9,4 @@ resources:
 - ./longhorn-s3-externalsecret.yaml
 - ./immich-oauth-externalsecret.yaml
 - ./gatus-discord-externalsecret.yaml
-- ./minio-oauth-externalsecret.yaml
 - ./open-webui-oauth-externalsecret.yaml
