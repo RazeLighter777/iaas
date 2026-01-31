@@ -20,6 +20,7 @@ spec:
         namespace: flux-system
       interval: 30m
   values:
+    usePodSubdomainResolution: true
     awsPackage:
       install: false
     metrics:
