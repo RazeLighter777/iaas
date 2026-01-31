@@ -210,17 +210,6 @@ data:
             failure-threshold: 5
             send-on-resolved: true
             description: "Immich is down"
-      - name: minio
-        group: storage
-        url: https://minio.${domain_name}/minio/health/ready
-        interval: 1m
-        conditions:
-          - "[STATUS] == 200"
-        alerts:
-          - type: discord
-            failure-threshold: 5
-            send-on-resolved: true
-            description: "Minio is down"
       - name: loki
         group: monitoring
         url: https://loki.${domain_name}/ready
