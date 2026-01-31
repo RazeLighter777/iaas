@@ -13,10 +13,6 @@ module "ircbooksearch" {
   meta_icon = "https://s3.${var.domain_name}/media/calibre.png"
 }
 
-resource "authentik_group" "ircbooksearch-users" {
-  name = "calibre-web-users"
-}
-
 resource "authentik_policy_binding" "ircbooksearch-users-binding" {
   target = module.ircbooksearch.application_id
   group = authentik_group.ircbooksearch-users.id
