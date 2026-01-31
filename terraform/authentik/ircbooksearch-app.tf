@@ -15,6 +15,6 @@ module "ircbooksearch" {
 
 resource "authentik_policy_binding" "ircbooksearch-users-binding" {
   target = module.ircbooksearch.application_id
-  group = authentik_group.ircbooksearch-users.id
+  group = authentik_group.cwa-users.id
   order = 0
 }

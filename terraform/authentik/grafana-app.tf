@@ -32,7 +32,7 @@ resource "authentik_application" "grafana" {
   slug              = "grafana"
   protocol_provider = authentik_provider_oauth2.grafana.id
   group             = "monitoring"
-  meta_icon         = "https://s3.${var.domain_name}/media/grafana.svg"
+  meta_icon         = "https://s3.${var.domain_name}/media/grafana.png"
 
 }
 

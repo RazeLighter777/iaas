@@ -10,7 +10,7 @@ module "openbooks" {
   authorization_flow_uuid = data.authentik_flow.default-authorization-flow.id
   skip_path_regex         = "/cwa-check-monitoring"
 
-  meta_icon = "https://s3.${var.domain_name}/media/openbooks.svg"
+  meta_icon = "https://s3.${var.domain_name}/media/openbooks.png"
 }
 
 resource "authentik_group" "openbooks-users" {

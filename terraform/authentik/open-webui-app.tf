@@ -34,7 +34,7 @@ resource "authentik_application" "open_webui" {
   slug              = "open-webui"
   protocol_provider = authentik_provider_oauth2.open_webui.id
   group             = "AI Slop"
-  meta_icon         = "https://s3.${var.domain_name}/media/open-webui.svg"
+  meta_icon         = "https://s3.${var.domain_name}/media/open-webui.png"
 }
 
 resource "authentik_group" "open_webui_users" {
