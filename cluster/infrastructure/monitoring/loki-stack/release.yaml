@@ -8,39 +8,53 @@ spec:
     - name: kube-prometheus-stack
   chart:
     spec:
-      version: "2.x"
-      chart: loki-stack
+      version: "6.x"
+      chart: loki
       sourceRef:
         kind: HelmRepository
         name: grafana-charts
         namespace: flux-system
       interval: 60m
-  # https://github.com/grafana/helm-charts/blob/main/charts/loki-stack/values.yaml
   # https://github.com/grafana/loki/blob/main/production/helm/loki/values.yaml
   values:
-    promtail:
-      enabled: true
+    deploymentMode: SingleBinary
+    monitoring:
       serviceMonitor:
         enabled: true
-    loki:
-      enabled: true
-      isDefault: false
-      serviceMonitor:
-        enabled: true
-        additionalLabels:
+        labels:
           app.kubernetes.io/part-of: kube-prometheus-stack
-      config:
-        chunk_store_config:
-          max_look_back_period: 0s
-        table_manager:
-          retention_deletes_enabled: true
-          retention_period: 72h
-        limits_config:
-          retention_period: 72h
+    loki:
+      auth_enabled: true
+      limits_config:
+        retention_period: 72h
+      commonConfig:
+        replication_factor: 1
+      storage:
+        type: filesystem
+        filesystem:
+          chunks_directory: /var/loki/chunks
+          rules_directory: /var/loki/rules
+      schemaConfig:
+        configs:
+          - from: 2024-04-01
+            store: tsdb
+            object_store: filesystem
+            schema: v13
+            index:
+              prefix: index_
+              period: 24h
+    tableManager:
+      enabled: true
+      retention_deletes_enabled: true
+      retention_period: 72h
+    singleBinary:
+      replicas: 1
       persistence:
         enabled: true
-        storageClassName: longhorn-fast
-        size: 10Gi
+        size: 25Gi
+        storageClass: longhorn-fast
+    gateway:
+      enabled: true
       ingress:
         enabled: true
         ingressClassName: nginx
@@ -56,4 +70,5 @@ spec:
         hosts:
           - host: loki.${domain_name}
             paths:
-              - "/"
+              - path: /
+                pathType: Prefix
