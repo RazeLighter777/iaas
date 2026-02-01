@@ -53,6 +53,7 @@ spec:
         use-forwarded-headers: "true"
         real-ip-header: CF-Connecting-IP
         proxy-real-ip-cidr: |
+          10.244.0.0/16,
           103.21.244.0/22,
           103.22.200.0/22,
           173.245.48.0/20,
