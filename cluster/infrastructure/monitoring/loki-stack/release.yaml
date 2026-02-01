@@ -62,6 +62,9 @@ spec:
       enabled: true
       retention_deletes_enabled: true
       retention_period: 72h
+      extraEnvFrom:
+        - secretRef:
+            name: loki-s3
     singleBinary:
       replicas: 0
       persistence:
