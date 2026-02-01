@@ -133,6 +133,11 @@ spec:
     grafana:
       assertNoLeakedSecrets: false # Grafana can't tell we're putting secrets in the valuesFrom field :(
       enabled: true
+      additionalDataSources:
+        - name: Loki
+          type: loki
+          access: proxy
+          url: http://loki-stack-gateway.monitoring.svc.cluster.local
       image:
         repository: grafana/grafana
         tag: 12.3.1@sha256:2175aaa91c96733d86d31cf270d5310b278654b03f5718c59de12a865380a31f
