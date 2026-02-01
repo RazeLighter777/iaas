@@ -40,8 +40,8 @@ spec:
       storage:
         type: s3
         bucketNames:
-          chunks: loki
-          ruler: loki
+          chunks: loki-chunks
+          ruler: loki-ruler
         s3:
           endpoint: s3.${domain_name}
           region: ${S3_REGION}
