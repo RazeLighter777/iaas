@@ -5,7 +5,7 @@ metadata:
   name: rustfs
   namespace: flux-system
 spec:
-  path: "./cluster/platforms/rustfs/app"
+  path: "./cluster/infrastructure/rustfs/app"
   targetNamespace: rustfs
   interval: 5m
   prune: true

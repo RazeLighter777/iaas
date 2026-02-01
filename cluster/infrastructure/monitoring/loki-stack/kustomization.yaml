@@ -3,3 +3,4 @@ kind: Kustomization
 namespace: monitoring
 resources:
 - release.yaml
+- loki-s3-externalsecret.yaml

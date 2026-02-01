@@ -197,6 +197,16 @@ variable "PRIVATE_INTERNET_ACCESS_PASSWORD" {
     type = string
 }
 
+### Loki S3
+
+variable "LOKI_S3_ACCESS_KEY_ID" {
+    type = string
+}
+
+variable "LOKI_S3_SECRET_ACCESS_KEY" {
+    type = string
+}
+
 ### discord webhooks
 variable "DISCORD_MEDIA_WEBHOOK" {
     type = string
@@ -266,6 +276,7 @@ resource "vault_kv_secret_v2" "opnsense" {
         "opnsense_router_ip" = var.OPNSENSE_ROUTER_IP
     })
 }
+
 
 resource "vault_kv_secret_v2" "cloudnative_s3" {
     mount    = vault_mount.kv.path
@@ -428,6 +439,14 @@ resource "vault_kv_secret_v2" "grafana_oauth" {
     })
 }
 
+resource "vault_kv_secret_v2" "loki_s3" {
+    mount    = vault_mount.kv.path
+    name    = "loki_s3"
+    data_json = jsonencode({
+        "access_key_id" = var.LOKI_S3_ACCESS_KEY_ID
+        "secret_access_key" = var.LOKI_S3_SECRET_ACCESS_KEY
+    })
+}
 
 
 resource "random_password" "immich_db_password" {
