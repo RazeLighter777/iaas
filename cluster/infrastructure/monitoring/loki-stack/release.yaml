@@ -47,7 +47,7 @@ spec:
           region: ${S3_REGION}
           accessKeyId: ${AWS_ACCESS_KEY_ID}
           secretAccessKey: ${AWS_SECRET_ACCESS_KEY}
-          s3ForcePathStyle: false
+          s3ForcePathStyle: true
           insecure: false
       schemaConfig:
         configs:
