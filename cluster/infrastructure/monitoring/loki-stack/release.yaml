@@ -6,6 +6,7 @@ spec:
   interval: 5m
   dependsOn:
     - name: kube-prometheus-stack
+    - name: rustfs
   chart:
     spec:
       version: "6.x"
@@ -17,7 +18,13 @@ spec:
       interval: 60m
   # https://github.com/grafana/loki/blob/main/production/helm/loki/values.yaml
   values:
-    deploymentMode: SingleBinary
+    deploymentMode: SimpleScalable
+    global:
+      extraArgs:
+        - -config.expand-env=true
+      extraEnvFrom:
+        - secretRef:
+            name: loki-s3
     monitoring:
       serviceMonitor:
         enabled: true
@@ -30,15 +37,22 @@ spec:
       commonConfig:
         replication_factor: 1
       storage:
-        type: filesystem
-        filesystem:
-          chunks_directory: /var/loki/chunks
-          rules_directory: /var/loki/rules
+        type: s3
+        bucketNames:
+          chunks: loki
+          ruler: loki
+        s3:
+          endpoint: s3.${domain_name}
+          region: ${S3_REGION}
+          accessKeyId: ${AWS_ACCESS_KEY_ID}
+          secretAccessKey: ${AWS_SECRET_ACCESS_KEY}
+          s3ForcePathStyle: false
+          insecure: false
       schemaConfig:
         configs:
           - from: 2024-04-01
             store: tsdb
-            object_store: filesystem
+            object_store: s3
             schema: v13
             index:
               prefix: index_
@@ -48,11 +62,17 @@ spec:
       retention_deletes_enabled: true
       retention_period: 72h
     singleBinary:
-      replicas: 1
+      replicas: 0
       persistence:
         enabled: true
         size: 25Gi
         storageClass: longhorn-fast
+    read:
+      replicas: 1
+    write:
+      replicas: 1
+    backend:
+      replicas: 1
     gateway:
       enabled: true
       ingress:
