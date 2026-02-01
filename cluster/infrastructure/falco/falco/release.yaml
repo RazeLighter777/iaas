@@ -47,7 +47,7 @@ spec:
           hostport: "http://kube-prometheus-stack-alertmanager.monitoring.svc.cluster.local:9093"
           # Use API v2 endpoint
           endpoint: "/api/v2/alerts"
-          # Minimum priority for alerts (default to debug to capture all events)
-          minimumpriority: ""
+          # Minimum priority for alerts (debug = capture all events)
+          minimumpriority: "debug"
           # Add extra labels for better categorization
           extralabels: "source:falco,component:security"
