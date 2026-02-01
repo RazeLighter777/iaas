@@ -31,3 +31,23 @@ spec:
     # Use stdout for log output (to be collected by Alloy/Loki)
     stdout_output:
       enabled: true
+    
+    # Deploy Falcosidekick with Falco
+    falcosidekick:
+      enabled: true
+      # Use full FQDN to avoid proxy capture
+      fullfqdn: true
+      # Enable Falcosidekick WebUI
+      webui:
+        enabled: true
+      # Configure Alertmanager output
+      config:
+        alertmanager:
+          # Alertmanager service endpoint in monitoring namespace
+          hostport: "http://kube-prometheus-stack-alertmanager.monitoring.svc.cluster.local:9093"
+          # Use API v2 endpoint
+          endpoint: "/api/v2/alerts"
+          # Minimum priority for alerts (default to debug to capture all events)
+          minimumpriority: ""
+          # Add extra labels for better categorization
+          extralabels: "source:falco,component:security"
