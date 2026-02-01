@@ -7,6 +7,7 @@ spec:
   dependsOn:
     - name: kube-prometheus-stack
     - name: rustfs
+      namespace: rustfs
   chart:
     spec:
       version: "6.x"
