@@ -37,6 +37,7 @@ spec:
           loki.write "default" {
             endpoint {
               url = "http://loki-stack-gateway.monitoring.svc.cluster.local/loki/api/v1/push"
+              tenant_id = "default"
             }
           }
     ingress:
