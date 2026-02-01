@@ -51,7 +51,7 @@ spec:
         proxy-busy-buffers-size: 32k
         ssl-protocols: TLSv1.3 TLSv1.2
         use-forwarded-headers: "true"
-        real-ip-header: CF-Connecting-IP
+        real-ip-header: X-Forwarded-For
         proxy-real-ip-cidr: |
           10.244.0.0/16,
           103.21.244.0/22,
