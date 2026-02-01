@@ -21,8 +21,6 @@ spec:
       type: daemonset
     serviceMonitor:
       enabled: true
-      additionalLabels:
-        app.kubernetes.io/part-of: kube-prometheus-stack
     alloy:
       listenPort: 12345
       configMap:
