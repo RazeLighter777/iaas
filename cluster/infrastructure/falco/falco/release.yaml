@@ -130,5 +130,14 @@ spec:
             - - ghcr.io/cloudnative-pg/postgresql
               - /bin/dash
               - sh
+          - name: cloudnative-pgvecto-wal-archive
+            fields:
+            - container.image.repository
+            - proc.exepath
+            - proc.name
+            values:
+            - - ghcr.io/tensorchord/cloudnative-pgvecto.rs
+              - /bin/dash
+              - sh
           override:
             exceptions: append

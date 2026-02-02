@@ -57,13 +57,13 @@ spec:
         ingressClassName: nginx
         annotations:
           nginx.ingress.kubernetes.io/auth-url: |-
-              http://ak-outpost-proxy-outpost.authentik.svc.cluster.local:9000/outpost.goauthentik.io/auth/nginx
+            http://ak-outpost-proxy-outpost.authentik.svc.cluster.local:9000/outpost.goauthentik.io/auth/nginx
           nginx.ingress.kubernetes.io/auth-signin: |-
-              https://alertmanager.${domain_name}/outpost.goauthentik.io/start?rd=$scheme://$http_host$escaped_request_uri
+            https://alertmanager.${domain_name}/outpost.goauthentik.io/start?rd=$scheme://$http_host$escaped_request_uri
           nginx.ingress.kubernetes.io/auth-response-headers: |-
-              Set-Cookie,X-authentik-username,X-authentik-groups,X-authentik-email,X-authentik-name,X-authentik-uid
+            Set-Cookie,X-authentik-username,X-authentik-groups,X-authentik-email,X-authentik-name,X-authentik-uid
           nginx.ingress.kubernetes.io/auth-snippet: |
-              proxy_set_header X-Forwarded-Host $http_host;
+            proxy_set_header X-Forwarded-Host $http_host;
         hosts:
           - alertmanager.${domain_name}
       image:
@@ -97,16 +97,29 @@ spec:
                   [{{ .Status | toUpper }}:{{ if eq .Status "firing" }}{{ .Alerts.Firing | len }}{{ else }}{{ .Alerts.Resolved | len }}{{ end }}]
                 message: |-
                   {{- range .Alerts }}
-                    **{{ .Labels.alertname }} {{ if ne .Labels.severity "" }}({{ .Labels.severity | title }}){{ end }} **
-                    {{- if ne .Annotations.description "" }}
-                      **Description:** {{ .Annotations.description }}
-                    {{- else if ne .Annotations.summary "" }}
-                      **Summary:** {{ .Annotations.summary }}
-                    {{- else if ne .Annotations.message "" }}
-                      **Message:** {{ .Annotations.message }}
-                    {{- else }}
-                      **Description:** N/A
-                    {{- end }}
+                  **{{ .Labels.alertname }}**{{ if ne .Labels.severity "" }} ({{ .Labels.severity | title }}){{ end }}
+                  {{- if ne .Annotations.summary "" }}
+                  {{ .Annotations.summary }}
+                  {{- else if ne .Annotations.description "" }}
+                  {{ .Annotations.description }}
+                  {{- else if ne .Annotations.message "" }}
+                  {{ .Annotations.message }}
+                  {{- end }}
+                  {{- if or (ne .Annotations.runbook_url "") (ne .GeneratorURL "") }}
+                  {{- if ne .Annotations.runbook_url "" }}
+                  Runbook: {{ .Annotations.runbook_url }}
+                  {{- end }}
+                  {{- if ne .GeneratorURL "" }}
+                  Alert: {{ .GeneratorURL }}
+                  {{- end }}
+                  {{- end }}
+                  {{- if .Labels.namespace }}
+                  Namespace: {{ .Labels.namespace }}
+                  {{- end }}
+                  {{- if .Labels.pod }}
+                  Pod: {{ .Labels.pod }}
+                  {{- end }}
+                  ---
                   {{- end }}
         route:
           group_by:
@@ -116,9 +129,9 @@ spec:
           receiver: discord
           repeat_interval: 12h
           routes:
-          # cloudnative-pg ha check
+            # cloudnative-pg ha check
             - match:
-                alertname: CNPGClusterHAWarning 
+                alertname: CNPGClusterHAWarning
               receiver: "null"
             - match:
                 alertname: Watchdog
@@ -129,7 +142,7 @@ spec:
             - match:
                 alertname: InfoInhibitor
               receiver: "null"
-            
+
     grafana:
       assertNoLeakedSecrets: false # Grafana can't tell we're putting secrets in the valuesFrom field :(
       enabled: true
@@ -171,20 +184,6 @@ spec:
       dashboardproviders.yaml:
         apiVersion: 1
         providers:
-        - name: "default"
-          orgId: 1
-          folder: ""
-          type: file
-          disableDeletion: false
-          editable: true
-          options:
-            path: /var/lib/grafana/dashboards/default
-      plugins:
-        - grafana-piechart-panel
-      dashboardProviders:
-        dashboardproviders.yaml:
-          apiVersion: 1
-          providers:
           - name: "default"
             orgId: 1
             folder: ""
@@ -193,6 +192,20 @@ spec:
             editable: true
             options:
               path: /var/lib/grafana/dashboards/default
+      plugins:
+        - grafana-piechart-panel
+      dashboardProviders:
+        dashboardproviders.yaml:
+          apiVersion: 1
+          providers:
+            - name: "default"
+              orgId: 1
+              folder: ""
+              type: file
+              disableDeletion: false
+              editable: true
+              options:
+                path: /var/lib/grafana/dashboards/default
       dashboards:
         default:
           cert-manager:
@@ -239,13 +252,13 @@ spec:
         ingressClassName: nginx
         annotations:
           nginx.ingress.kubernetes.io/auth-url: |-
-              http://ak-outpost-proxy-outpost.authentik.svc.cluster.local:9000/outpost.goauthentik.io/auth/nginx
+            http://ak-outpost-proxy-outpost.authentik.svc.cluster.local:9000/outpost.goauthentik.io/auth/nginx
           nginx.ingress.kubernetes.io/auth-signin: |-
-              https://prometheus.${domain_name}/outpost.goauthentik.io/start?rd=$scheme://$http_host$escaped_request_uri
+            https://prometheus.${domain_name}/outpost.goauthentik.io/start?rd=$scheme://$http_host$escaped_request_uri
           nginx.ingress.kubernetes.io/auth-response-headers: |-
-              Set-Cookie,X-authentik-username,X-authentik-groups,X-authentik-email,X-authentik-name,X-authentik-uid
+            Set-Cookie,X-authentik-username,X-authentik-groups,X-authentik-email,X-authentik-name,X-authentik-uid
           nginx.ingress.kubernetes.io/auth-snippet: |
-              proxy_set_header X-Forwarded-Host $http_host;
+            proxy_set_header X-Forwarded-Host $http_host;
         hosts:
           - prometheus.${domain_name}
       image:
@@ -270,35 +283,35 @@ spec:
     additionalPrometheusRulesMap:
       flux-alerts:
         groups:
-        - name: flux
-          rules:
-            - alert: SuspendedResource
-              expr: gotk_suspend_status == 1
-              for: 10m
-              labels:
-                service: flux
-                severity: warning
-              annotations:
-                summary: "Flux resource `{{$labels.kind}}/{{$labels.name}}` is suspended"
-                description: "The resource was manually suspended. You should resume it"
-            - alert: FailingReconcile
-              expr: gotk_reconcile_condition{status="False"} == 1
-              for: 10m
-              labels:
-                service: flux
-                severity: critical
-              annotations:
-                summary: "Flux resource `{{$labels.kind}}/{{$labels.name}}` is failing"
-                description: "Reconciliation could not succeed. This requires investigation"
-            - alert: FailingHelmReleaseReconcile
-              expr: gotk_resource_info{customresource_kind="HelmRelease", ready="False"} == 1
-              for: 10m
-              labels:
-                service: flux
-                severity: critical
-              annotations:
-                summary: "Flux resource `{{$labels.customresource_kind}}/{{$labels.chart_name}}` is failing"
-                description: "Reconciliation in namespace `{{$labels.exported_namespace}}` could not succeed. This requires investigation"
+          - name: flux
+            rules:
+              - alert: SuspendedResource
+                expr: gotk_suspend_status == 1
+                for: 10m
+                labels:
+                  service: flux
+                  severity: warning
+                annotations:
+                  summary: "Flux resource `{{$labels.kind}}/{{$labels.name}}` is suspended"
+                  description: "The resource was manually suspended. You should resume it"
+              - alert: FailingReconcile
+                expr: gotk_reconcile_condition{status="False"} == 1
+                for: 10m
+                labels:
+                  service: flux
+                  severity: critical
+                annotations:
+                  summary: "Flux resource `{{$labels.kind}}/{{$labels.name}}` is failing"
+                  description: "Reconciliation could not succeed. This requires investigation"
+              - alert: FailingHelmReleaseReconcile
+                expr: gotk_resource_info{customresource_kind="HelmRelease", ready="False"} == 1
+                for: 10m
+                labels:
+                  service: flux
+                  severity: critical
+                annotations:
+                  summary: "Flux resource `{{$labels.customresource_kind}}/{{$labels.chart_name}}` is failing"
+                  description: "Reconciliation in namespace `{{$labels.exported_namespace}}` could not succeed. This requires investigation"
     # https://github.com/fluxcd/flux2-monitoring-example/blob/main/monitoring/controllers/kube-prometheus-stack/kube-state-metrics-config.yaml
     kube-state-metrics:
       # collectors: [ ]
@@ -326,7 +339,7 @@ spec:
               - imagerepositories
               - imagepolicies
               - imageupdateautomations
-            verbs: [ "list", "watch" ]
+            verbs: ["list", "watch"]
       customResourceState:
         enabled: true
         config:
@@ -344,13 +357,13 @@ spec:
                       type: Info
                       info:
                         labelsFromPath:
-                          name: [ metadata, name ]
+                          name: [metadata, name]
                     labelsFromPath:
-                      exported_namespace: [ metadata, namespace ]
-                      ready: [ status, conditions, "[type=Ready]", status ]
-                      suspended: [ spec, suspend ]
-                      revision: [ status, lastAppliedRevision ]
-                      source_name: [ spec, sourceRef, name ]
+                      exported_namespace: [metadata, namespace]
+                      ready: [status, conditions, "[type=Ready]", status]
+                      suspended: [spec, suspend]
+                      revision: [status, lastAppliedRevision]
+                      source_name: [spec, sourceRef, name]
               - groupVersionKind:
                   group: helm.toolkit.fluxcd.io
                   version: v2
@@ -363,16 +376,16 @@ spec:
                       type: Info
                       info:
                         labelsFromPath:
-                          name: [ metadata, name ]
+                          name: [metadata, name]
                     labelsFromPath:
-                      exported_namespace: [ metadata, namespace ]
-                      ready: [ status, conditions, "[type=Ready]", status ]
-                      suspended: [ spec, suspend ]
-                      revision: [ status, history, "0", chartVersion ]
-                      chart_name: [ status, history, "0", chartName ]
-                      chart_app_version: [ status, history, "0", appVersion ]
-                      chart_ref_name: [ spec, chartRef, name ]
-                      chart_source_name: [ spec, chart, spec, sourceRef, name ]
+                      exported_namespace: [metadata, namespace]
+                      ready: [status, conditions, "[type=Ready]", status]
+                      suspended: [spec, suspend]
+                      revision: [status, history, "0", chartVersion]
+                      chart_name: [status, history, "0", chartName]
+                      chart_app_version: [status, history, "0", appVersion]
+                      chart_ref_name: [spec, chartRef, name]
+                      chart_source_name: [spec, chart, spec, sourceRef, name]
               - groupVersionKind:
                   group: source.toolkit.fluxcd.io
                   version: v1
@@ -385,13 +398,13 @@ spec:
                       type: Info
                       info:
                         labelsFromPath:
-                          name: [ metadata, name ]
+                          name: [metadata, name]
                     labelsFromPath:
-                      exported_namespace: [ metadata, namespace ]
-                      ready: [ status, conditions, "[type=Ready]", status ]
-                      suspended: [ spec, suspend ]
-                      revision: [ status, artifact, revision ]
-                      url: [ spec, url ]
+                      exported_namespace: [metadata, namespace]
+                      ready: [status, conditions, "[type=Ready]", status]
+                      suspended: [spec, suspend]
+                      revision: [status, artifact, revision]
+                      url: [spec, url]
               - groupVersionKind:
                   group: source.toolkit.fluxcd.io
                   version: v1beta2
@@ -404,14 +417,14 @@ spec:
                       type: Info
                       info:
                         labelsFromPath:
-                          name: [ metadata, name ]
+                          name: [metadata, name]
                     labelsFromPath:
-                      exported_namespace: [ metadata, namespace ]
-                      ready: [ status, conditions, "[type=Ready]", status ]
-                      suspended: [ spec, suspend ]
-                      revision: [ status, artifact, revision ]
-                      endpoint: [ spec, endpoint ]
-                      bucket_name: [ spec, bucketName ]
+                      exported_namespace: [metadata, namespace]
+                      ready: [status, conditions, "[type=Ready]", status]
+                      suspended: [spec, suspend]
+                      revision: [status, artifact, revision]
+                      endpoint: [spec, endpoint]
+                      bucket_name: [spec, bucketName]
               - groupVersionKind:
                   group: source.toolkit.fluxcd.io
                   version: v1
@@ -424,13 +437,13 @@ spec:
                       type: Info
                       info:
                         labelsFromPath:
-                          name: [ metadata, name ]
+                          name: [metadata, name]
                     labelsFromPath:
-                      exported_namespace: [ metadata, namespace ]
-                      ready: [ status, conditions, "[type=Ready]", status ]
-                      suspended: [ spec, suspend ]
-                      revision: [ status, artifact, revision ]
-                      url: [ spec, url ]
+                      exported_namespace: [metadata, namespace]
+                      ready: [status, conditions, "[type=Ready]", status]
+                      suspended: [spec, suspend]
+                      revision: [status, artifact, revision]
+                      url: [spec, url]
               - groupVersionKind:
                   group: source.toolkit.fluxcd.io
                   version: v1
@@ -443,14 +456,14 @@ spec:
                       type: Info
                       info:
                         labelsFromPath:
-                          name: [ metadata, name ]
+                          name: [metadata, name]
                     labelsFromPath:
-                      exported_namespace: [ metadata, namespace ]
-                      ready: [ status, conditions, "[type=Ready]", status ]
-                      suspended: [ spec, suspend ]
-                      revision: [ status, artifact, revision ]
-                      chart_name: [ spec, chart ]
-                      chart_version: [ spec, version ]
+                      exported_namespace: [metadata, namespace]
+                      ready: [status, conditions, "[type=Ready]", status]
+                      suspended: [spec, suspend]
+                      revision: [status, artifact, revision]
+                      chart_name: [spec, chart]
+                      chart_version: [spec, version]
               - groupVersionKind:
                   group: source.toolkit.fluxcd.io
                   version: v1beta2
@@ -463,13 +476,13 @@ spec:
                       type: Info
                       info:
                         labelsFromPath:
-                          name: [ metadata, name ]
+                          name: [metadata, name]
                     labelsFromPath:
-                      exported_namespace: [ metadata, namespace ]
-                      ready: [ status, conditions, "[type=Ready]", status ]
-                      suspended: [ spec, suspend ]
-                      revision: [ status, artifact, revision ]
-                      url: [ spec, url ]
+                      exported_namespace: [metadata, namespace]
+                      ready: [status, conditions, "[type=Ready]", status]
+                      suspended: [spec, suspend]
+                      revision: [status, artifact, revision]
+                      url: [spec, url]
               - groupVersionKind:
                   group: notification.toolkit.fluxcd.io
                   version: v1beta3
@@ -482,10 +495,10 @@ spec:
                       type: Info
                       info:
                         labelsFromPath:
-                          name: [ metadata, name ]
+                          name: [metadata, name]
                     labelsFromPath:
-                      exported_namespace: [ metadata, namespace ]
-                      suspended: [ spec, suspend ]
+                      exported_namespace: [metadata, namespace]
+                      suspended: [spec, suspend]
               - groupVersionKind:
                   group: notification.toolkit.fluxcd.io
                   version: v1beta3
@@ -498,10 +511,10 @@ spec:
                       type: Info
                       info:
                         labelsFromPath:
-                          name: [ metadata, name ]
+                          name: [metadata, name]
                     labelsFromPath:
-                      exported_namespace: [ metadata, namespace ]
-                      suspended: [ spec, suspend ]
+                      exported_namespace: [metadata, namespace]
+                      suspended: [spec, suspend]
               - groupVersionKind:
                   group: notification.toolkit.fluxcd.io
                   version: v1
@@ -514,9 +527,9 @@ spec:
                       type: Info
                       info:
                         labelsFromPath:
-                          name: [ metadata, name ]
+                          name: [metadata, name]
                     labelsFromPath:
-                      exported_namespace: [ metadata, namespace ]
-                      ready: [ status, conditions, "[type=Ready]", status ]
-                      suspended: [ spec, suspend ]
-                      webhook_path: [ status, webhookPath ]
+                      exported_namespace: [metadata, namespace]
+                      ready: [status, conditions, "[type=Ready]", status]
+                      suspended: [spec, suspend]
+                      webhook_path: [status, webhookPath]
