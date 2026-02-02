@@ -59,14 +59,7 @@ spec:
         type: statefulset
     ingress:
       app:
-        className: nginx
-        hosts:
-          - host: vaultwarden.${domain_name}
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
+        enabled: false
     service:
       app:
         controller: vaultwarden
