@@ -8,3 +8,4 @@ resources:
 - ./authentik-externalsecret.yaml
 - ./cluster-backup.yaml
 - ./customcss-configmap.yaml
+- ./httproute.yaml

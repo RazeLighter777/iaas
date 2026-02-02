@@ -92,25 +92,9 @@ spec:
             port: &consoleport 9001
     ingress:
       s3:
-        enabled: true
-        className: nginx
-        hosts:
-          - host: "s3.${domain_name}"
-            paths:
-              - path: /
-                service:
-                  identifier: s3
-                  port: http
+        enabled: false
       console:
-        enabled: true
-        className: nginx
-        hosts:
-          - host: "rustfs.${domain_name}"
-            paths:
-              - path: /
-                service:
-                  identifier: console
-                  port: http
+        enabled: false
     persistence:
       data:
         existingClaim: rustfs-data

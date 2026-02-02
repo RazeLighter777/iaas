@@ -4,3 +4,4 @@ namespace: monitoring
 resources:
 - ./helmrelease.yaml
 - ./rbac.yaml
+- ./httproute.yaml

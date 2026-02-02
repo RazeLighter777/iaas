@@ -64,11 +64,7 @@ spec:
           mountPath: /postgres-creds
           readOnly: true
       ingress:
-        enabled: true
-        pathType: Prefix
-        hosts:
-          - authentik.${domain_name}
-        ingressClassName: nginx
+        enabled: false
     worker:
       replicas: 3
       volumes:
