@@ -68,3 +68,30 @@ spec:
           minimumpriority: "debug"
           # Add extra labels for better categorization
           extralabels: "source:falco,component:security"
+    
+    # Custom rule exceptions for false positives
+    customRules:
+      cni-exceptions.yaml: |-
+        # Exception for CNI binaries (e.g., cilium-cni) executed by containerd
+        # This addresses the false positive: "Executing binary not part of base image"
+        # for CNI plugin binaries in /opt/cni/bin/
+        - rule: Launch Extraneous Binary in Container
+          exceptions:
+          - name: proc_pnames
+            values:
+            - [cilium-cni, containerd]
+          override:
+            exceptions: append
+      
+      k8s-api-exceptions.yaml: |-
+        # Exception for k8s-sidecar container that legitimately needs to connect
+        # to the Kubernetes API Server to watch for ConfigMaps and Secrets
+        # This addresses the false positive: "Contact K8S API Server From Container"
+        # for the kiwigrid/k8s-sidecar container used in Grafana and other apps
+        - rule: Contact K8S API Server From Container
+          exceptions:
+          - name: container_images
+            values:
+            - quay.io/kiwigrid/k8s-sidecar
+          override:
+            exceptions: append
