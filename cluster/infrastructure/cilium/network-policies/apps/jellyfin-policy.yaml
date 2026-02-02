@@ -47,26 +47,30 @@ spec:
             dns:
               - matchPattern: "*"
     # HTTPS to external metadata providers (TMDB, TVDB, etc.)
-    # Jellyfin needs to fetch movie/TV show metadata
+    # Jellyfin needs to fetch movie/TV show metadata and cover art
     - toFQDNs:
         - matchPattern: "*.themoviedb.org"
         - matchPattern: "*.thetvdb.com"
         - matchPattern: "*.imdb.com"
-        - matchPattern: "api.themoviedb.org"
-        - matchPattern: "image.tmdb.org"
+        - matchName: "api.themoviedb.org"
+        - matchName: "image.tmdb.org"
         - matchName: "api.tvmaze.com"
         - matchPattern: "*.fanart.tv"
         - matchPattern: "*.musicbrainz.org"
+        - matchPattern: "*.omdbapi.com"
+        - matchPattern: "assets.fanart.tv"
       toPorts:
         - ports:
             - port: "443"
               protocol: TCP
-    # Allow access to general HTTPS for plugin updates and other metadata sources
-    - toEntities:
-        - world
+    # Allow access to CDNs and plugin repositories
+    # Jellyfin plugins may come from GitHub and other sources
+    - toFQDNs:
+        - matchPattern: "*.github.com"
+        - matchName: "github.com"
+        - matchPattern: "*.githubusercontent.com"
+        - matchPattern: "repo.jellyfin.org"
       toPorts:
         - ports:
             - port: "443"
-              protocol: TCP
-            - port: "80"
               protocol: TCP

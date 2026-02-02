@@ -77,6 +77,8 @@ spec:
         - 10.96.0.0/12    # Kubernetes service CIDR
         - 10.244.0.0/16   # Kubernetes pod CIDR
     # Allow torrent traffic through VPN to external peers/trackers
-    # This needs to be broad as torrent peers use random ports
+    # Note: gluetun handles routing ALL traffic through VPN via iptables
+    # Cilium policy allows outbound, but gluetun ensures it goes through VPN tunnel
+    # Torrent protocol requires access to random high ports for peer connections
     - toEntities:
         - world
