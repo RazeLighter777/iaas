@@ -68,3 +68,17 @@ spec:
           minimumpriority: "debug"
           # Add extra labels for better categorization
           extralabels: "source:falco,component:security"
+    
+    # Custom rule exceptions for false positives
+    customRules:
+      cni-exceptions.yaml: |-
+        # Exception for CNI binaries (e.g., cilium-cni) executed by containerd
+        # This addresses the false positive: "Executing binary not part of base image"
+        # for CNI plugin binaries in /opt/cni/bin/
+        - rule: Launch Extraneous Binary in Container
+          exceptions:
+          - name: proc_pnames
+            values:
+            - [cilium-cni, containerd]
+          override:
+            exceptions: append
