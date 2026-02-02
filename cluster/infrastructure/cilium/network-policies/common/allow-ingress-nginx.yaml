@@ -1,0 +1,14 @@
+---
+# Common ingress policy to allow traffic from ingress-nginx controller
+# This allows the nginx ingress controller to reach pods with ingress resources
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-ingress-from-nginx
+spec:
+  endpointSelector: {}  # Applies to all pods in the namespace where deployed
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: ingress-nginx
+            app.kubernetes.io/name: ingress-nginx
