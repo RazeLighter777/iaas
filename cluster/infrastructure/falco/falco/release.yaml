@@ -81,12 +81,12 @@ spec:
             fields:
             - proc.pname
             values:
-            - cilium-cni
+            - - cilium-cni
           - name: containerd
             fields: 
             - proc.pname
             values:
-            - containerd
+            - - containerd
           override:
             exceptions: append
       
@@ -101,6 +101,6 @@ spec:
             fields:
             - container.image
             values:
-            - quay.io/kiwigrid/k8s-sidecar
+            - - quay.io/kiwigrid/k8s-sidecar
           override:
             exceptions: append
