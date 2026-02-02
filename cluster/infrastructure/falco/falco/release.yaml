@@ -28,6 +28,11 @@ spec:
       kubernetes:
         enabled: true
 
+    # Ensure k8s-metacollector RBAC (ClusterRole/Binding) is created
+    k8s-metacollector:
+      serviceAccount:
+        create: true
+
     # Use stdout for log output (to be collected by Alloy/Loki)
     stdout_output:
       enabled: true
@@ -103,6 +108,11 @@ spec:
             values:
             - - docker.io/kiwigrid/k8s-sidecar
             - - quay.io/kiwigrid/k8s-sidecar
+          - name: authentik-worker
+            fields:
+            - container.image.repository
+            values:
+            - - ghcr.io/goauthentik/server
           override:
             exceptions: append
 
