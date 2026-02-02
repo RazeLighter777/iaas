@@ -17,7 +17,6 @@ resource "authentik_outpost" "proxyoutpost" {
     module.alertmanager.proxy_provider_id,
     module.booktok.proxy_provider_id,
     module.cwa.proxy_provider_id,
-    module.bazarr.proxy_provider_id,
     module.wg.proxy_provider_id,
     module.longhorn.proxy_provider_id,
     module.gatus.proxy_provider_id,
