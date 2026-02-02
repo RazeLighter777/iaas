@@ -101,6 +101,24 @@ spec:
             fields:
             - container.image.repository
             values:
+            - - docker.io/kiwigrid/k8s-sidecar
             - - quay.io/kiwigrid/k8s-sidecar
+          override:
+            exceptions: append
+
+      cloudnative-pg-exceptions.yaml: |-
+        # Exception for CloudNativePG WAL archiver invoking a shell command
+        # This addresses the false positive: "Run shell untrusted"
+        - rule: Run shell untrusted
+          exceptions:
+          - name: cloudnative-pg-wal-archive
+            fields:
+            - container.image.repository
+            - proc.exepath
+            - proc.name
+            values:
+            - - ghcr.io/cloudnative-pg/postgresql
+              - /bin/dash
+              - sh
           override:
             exceptions: append
