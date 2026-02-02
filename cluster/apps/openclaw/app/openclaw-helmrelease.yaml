@@ -139,13 +139,7 @@ spec:
             port: *port
     ingress:
       app:
-        enabled: true
-        className: nginx
-        annotations:
-        hosts:
-          - host: "clawdbot.${domain_name}"
-            paths:
-              - path: /
+        enabled: false
     persistence:
       config:
         existingClaim: "openclaw-config"

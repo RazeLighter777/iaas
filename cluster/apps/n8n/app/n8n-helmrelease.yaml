@@ -75,10 +75,4 @@ spec:
               - path: /home/node/.n8n
     ingress:
       app:
-        enabled: true
-        className: nginx
-        annotations:
-        hosts:
-          - host: *hostName
-            paths:
-              - path: /
+        enabled: false

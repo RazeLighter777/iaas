@@ -4,3 +4,4 @@ resources:
   - ./n8n-externalsecret.yaml
   - ./n8n-helmrelease.yaml
   - ./n8n-pvc.yaml
+  - ./httproute.yaml

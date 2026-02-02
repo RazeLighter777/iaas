@@ -5,3 +5,4 @@ resources:
   - omada-logs-pvc.yaml
   - omada-work-pvc.yaml
   - omada-helmrelease.yaml
+  - httproute.yaml
