@@ -21,8 +21,8 @@ My overkill kubernetes homelab.
 - **[Node Feature Discovery](https://github.com/kubernetes-sigs/node-feature-discovery)**: Detects hardware features available on nodes.
 - **[Intel GPU Plugin](https://github.com/intel/intel-device-plugins-for-kubernetes)**: Manages Intel GPU resources for workloads.
 - **[Longhorn](https://longhorn.io/)**: Provides distributed block storage for Kubernetes.
-- **[Ingress NGINX](https://kubernetes.github.io/ingress-nginx/)**: Manages ingress traffic to the cluster.
-- **[Cloudflared](https://github.com/cloudflare/cloudflared)**: Manages ingress traffic to the cluster.
+- **[Traefik](https://traefik.io/)**: Ingress controller with Gateway API support for managing HTTP/HTTPS traffic to the cluster.
+- **[Cloudflared](https://github.com/cloudflare/cloudflared)**: Cloudflare tunnel for secure external access.
 - **[LGTM Monitoring Stack](https://github.com/grafana/loki)**: Includes Prometheus and Grafana for monitoring and visualization.
 - **[HashiCorp Vault](https://www.vaultproject.io/)**: Manages secrets and encryption keys.
 - **[MinIO](https://min.io/)**: An open-source object storage system.
