@@ -47,9 +47,6 @@ spec:
         port: 443
         exposedPort: 443
         protocol: TCP
-        tls:
-          enabled: true
-          certResolver: default
     
     # TLS configuration
     tlsStore:
