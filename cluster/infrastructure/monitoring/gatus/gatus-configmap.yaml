@@ -44,17 +44,6 @@ data:
             failure-threshold: 5
             send-on-resolved: true
             description: "Radarr is down"
-      - name: bazarr
-        group: media
-        url: https://bazarr.${domain_name}/health
-        interval: 1m
-        conditions:
-          - "[STATUS] == 200"
-        alerts:
-          - type: discord
-            failure-threshold: 5
-            send-on-resolved: true
-            description: "Bazarr is down"
       - name: prowlarr
         group: media
         url: https://prowlarr.${domain_name}/ping
