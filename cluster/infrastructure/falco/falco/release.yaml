@@ -77,10 +77,14 @@ spec:
         # for CNI plugin binaries in /opt/cni/bin/
         - rule: Drop and execute new binary in container
           exceptions:
-          - name: proc_pnames
+          - name: cilium-cni
             fields: [proc.pname]
             values:
-            - [cilium-cni, containerd]
+            - [cilium-cni]
+          - name: containerd
+            fields: [proc.pname]
+            values:
+            - [containerd]
           override:
             exceptions: append
       
@@ -91,7 +95,7 @@ spec:
         # for the kiwigrid/k8s-sidecar container used in Grafana and other apps
         - rule: Contact K8S API Server From Container
           exceptions:
-          - name: container_images
+          - name: k8s-sidecar
             fields: [container.image]
             values:
             - quay.io/kiwigrid/k8s-sidecar
