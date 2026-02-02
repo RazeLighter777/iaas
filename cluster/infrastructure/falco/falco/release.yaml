@@ -78,13 +78,15 @@ spec:
         - rule: Drop and execute new binary in container
           exceptions:
           - name: cilium-cni
-            fields: [proc.pname]
+            fields:
+            - proc.pname
             values:
-            - [cilium-cni]
+            - cilium-cni
           - name: containerd
-            fields: [proc.pname]
+            fields: 
+            - proc.pname
             values:
-            - [containerd]
+            - containerd
           override:
             exceptions: append
       
@@ -96,7 +98,8 @@ spec:
         - rule: Contact K8S API Server From Container
           exceptions:
           - name: k8s-sidecar
-            fields: [container.image]
+            fields:
+            - container.image
             values:
             - quay.io/kiwigrid/k8s-sidecar
           override:
