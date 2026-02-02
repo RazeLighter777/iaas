@@ -51,24 +51,7 @@ spec:
             port: 8096
     ingress:
       main:
-        enabled: true
-        annotations:
-          nginx.ingress.kubernetes.io/proxy-buffering: "on"
-          nginx.ingress.kubernetes.io/service-upstream: "true"
-          nginx.ingress.kubernetes.io/configuration-snippet: |
-            proxy_cache static-cache;
-            proxy_cache_valid 404 10m;
-            proxy_cache_use_stale error timeout updating http_404 http_500 http_502 http_503 http_504;
-            proxy_cache_bypass $http_x_purge;
-            add_header X-Cache-Status $upstream_cache_status;
-        hosts:
-          - host: jellyfin.${domain_name}
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  identifier: main 
-                  port: http
+        enabled: false
     persistence:
       video-volume:
         enabled: true

@@ -126,18 +126,7 @@ spec:
             appProtocol: http
     ingress:
       main:
-        enabled: true
-        annotations:
-          nginx.ingress.kubernetes.io/service-upstream: "true"
-          # allow cors for cloudflare cdn
-        hosts:
-          - host: blog.${domain_name}
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  identifier: main 
-                  port: http
+        enabled: false
     persistence:
       blog-source:
         enabled: true
