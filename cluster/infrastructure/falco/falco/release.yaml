@@ -75,7 +75,7 @@ spec:
         # Exception for CNI binaries (e.g., cilium-cni) executed by containerd
         # This addresses the false positive: "Executing binary not part of base image"
         # for CNI plugin binaries in /opt/cni/bin/
-        - rule: Launch Extraneous Binary in Container
+        - rule: Drop and execute new binary in container
           exceptions:
           - name: proc_pnames
             values:
