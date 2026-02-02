@@ -26,8 +26,8 @@ spec:
               - method: "GET"
               - method: "POST"
               - method: "PUT"
-              - method: "DELETE"
-              - method: "PATCH"
+              - method: "HEAD"
+              - method: "OPTIONS"
     # Allow monitoring/metrics scraping
     - fromEndpoints:
         - matchLabels:
