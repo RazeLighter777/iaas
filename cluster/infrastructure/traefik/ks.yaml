@@ -20,3 +20,29 @@ spec:
     substituteFrom:
       - kind: Secret
         name: cluster-settings
+---
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: traefik-crs
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: traefik
+  wait: true
+  targetNamespace: traefik
+  path: "./cluster/infrastructure/traefik/crs"
+  interval: 1h
+  retryInterval: 2m
+  timeout: 5m
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  postBuild:
+    substituteFrom:
+      - kind: Secret
+        name: cluster-settings
+
