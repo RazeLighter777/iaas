@@ -22,8 +22,7 @@ spec:
     
     # Enable experimental providers including Gateway API
     experimental:
-      plugins:
-        enabled: false
+      plugins: {}
     
     providers:
       kubernetesGateway:
@@ -77,7 +76,6 @@ spec:
     # Enable metrics
     metrics:
       prometheus:
-        enabled: true
         addRoutersLabels: true
         serviceMonitor:
           enabled: true
@@ -104,9 +102,9 @@ spec:
       capabilities:
         drop: [ALL]
       readOnlyRootFilesystem: true
+    
+    podSecurityContext:
       runAsGroup: 65532
       runAsNonRoot: true
       runAsUser: 65532
-    
-    podSecurityContext:
       fsGroup: 65532
