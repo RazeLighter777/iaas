@@ -1,0 +1,72 @@
+---
+# Network policy for Jellyfin media server
+# Jellyfin serves media content and requires access to shared media storage
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: jellyfin-policy
+  namespace: media
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/instance: jellyfin
+  # Ingress: Allow nginx ingress controller to reach jellyfin
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: ingress-nginx
+            app.kubernetes.io/name: ingress-nginx
+            app.kubernetes.io/component: controller
+      toPorts:
+        - ports:
+            - port: "8096"
+              protocol: TCP
+          rules:
+            http:
+              - method: "GET"
+              - method: "POST"
+              - method: "HEAD"
+              - method: "OPTIONS"
+              - method: "DELETE"
+    # Allow monitoring/metrics scraping
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: monitoring
+  # Egress: DNS and external metadata services
+  egress:
+    # DNS resolution via CoreDNS
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+          rules:
+            dns:
+              - matchPattern: "*"
+    # HTTPS to external metadata providers (TMDB, TVDB, etc.)
+    # Jellyfin needs to fetch movie/TV show metadata
+    - toFQDNs:
+        - matchPattern: "*.themoviedb.org"
+        - matchPattern: "*.thetvdb.com"
+        - matchPattern: "*.imdb.com"
+        - matchPattern: "api.themoviedb.org"
+        - matchPattern: "image.tmdb.org"
+        - matchName: "api.tvmaze.com"
+        - matchPattern: "*.fanart.tv"
+        - matchPattern: "*.musicbrainz.org"
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
+    # Allow access to general HTTPS for plugin updates and other metadata sources
+    - toEntities:
+        - world
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
+            - port: "80"
+              protocol: TCP

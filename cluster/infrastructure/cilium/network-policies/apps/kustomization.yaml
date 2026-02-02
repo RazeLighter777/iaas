@@ -5,3 +5,5 @@ resources:
   - blog-policy.yaml
   - vaultwarden-policy.yaml
   - wg-easy-policy.yaml
+  - qbittorrent-policy.yaml
+  - jellyfin-policy.yaml
