@@ -4,3 +4,4 @@ resources:
 - release.yaml
 - prowlarr-externalsecret.yaml
 - prowlarr-config-pvc.yaml
+- httproute.yaml

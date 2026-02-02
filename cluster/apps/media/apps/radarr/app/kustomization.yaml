@@ -4,3 +4,4 @@ resources:
 - release.yaml
 - radarr-externalsecret.yaml
 - radarr-config-pvc.yaml
+- httproute.yaml

@@ -9,7 +9,7 @@ module "openclaw" {
   authorization_flow_uuid = data.authentik_flow.default-authorization-flow.id
   skip_path_regex         = "/health"
 
-  meta_icon = "https://s3.${var.domain_name}/media/openclaw.png"
+  #meta_icon = "https://s3.${var.domain_name}/media/openclaw.png"
 }
 
 resource "authentik_group" "openclaw-users" {

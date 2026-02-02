@@ -1,0 +1,112 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: traefik
+  namespace: traefik
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: traefik
+      version: "*"
+      sourceRef:
+        kind: HelmRepository
+        name: traefik
+        namespace: flux-system
+      interval: 12h
+  values:
+    # Enable Gateway API support
+    gateway:
+      enabled: true
+    
+    # Enable experimental providers including Gateway API
+    experimental:
+      plugins:
+        enabled: false
+    
+    providers:
+      kubernetesGateway:
+        enabled: true
+      kubernetesIngress:
+        enabled: false
+    
+    # Configure service
+    service:
+      type: LoadBalancer
+      externalIPs:
+        - 192.168.88.7
+      loadBalancerClass: "io.cilium/l2-announcer"
+    
+    # Configure ports
+    ports:
+      web:
+        port: 80
+        exposedPort: 80
+        protocol: TCP
+      websecure:
+        port: 443
+        exposedPort: 443
+        protocol: TCP
+        tls:
+          enabled: true
+          certResolver: default
+    
+    # TLS configuration
+    tlsStore:
+      default:
+        defaultCertificate:
+          secretName: prizrak.me
+    
+    # Additional arguments
+    additionalArguments:
+      - "--certificatesresolvers.default.acme.tlschallenge=true"
+      - "--certificatesresolvers.default.acme.storage=/data/acme.json"
+    
+    # Enable access logs
+    logs:
+      general:
+        level: INFO
+      access:
+        enabled: true
+    
+    # Replicas for high availability
+    deployment:
+      replicas: 2
+    
+    # Enable metrics
+    metrics:
+      prometheus:
+        enabled: true
+        addRoutersLabels: true
+        serviceMonitor:
+          enabled: true
+    
+    # Resources
+    resources:
+      requests:
+        cpu: 100m
+        memory: 50Mi
+      limits:
+        cpu: 300m
+        memory: 150Mi
+    
+    # Persistence for certificates
+    persistence:
+      enabled: true
+      accessMode: ReadWriteOnce
+      size: 128Mi
+      storageClass: longhorn-fast
+      path: /data
+    
+    # Security context
+    securityContext:
+      capabilities:
+        drop: [ALL]
+      readOnlyRootFilesystem: true
+      runAsGroup: 65532
+      runAsNonRoot: true
+      runAsUser: 65532
+    
+    podSecurityContext:
+      fsGroup: 65532

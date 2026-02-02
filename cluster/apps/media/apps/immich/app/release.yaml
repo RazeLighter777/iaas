@@ -189,16 +189,7 @@ spec:
 
     ingress:
       app:
-        enabled: true
-        className: nginx
-        hosts:
-          - host: immich.${domain_name}
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  identifier: app
-                  port: http
+        enabled: false
 
     persistence:
       config:

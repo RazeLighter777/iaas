@@ -12,3 +12,4 @@ resources:
 - immich-barman-externalsecret.yaml
 - redis-release.yaml
 - immich-machine-learning-config-pvc.yaml
+- httproute.yaml

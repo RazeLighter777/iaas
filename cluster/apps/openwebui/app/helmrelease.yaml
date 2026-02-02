@@ -78,14 +78,7 @@ spec:
             port: 8080
     ingress:
       open-webui:
-        className: nginx
-        hosts:
-          - host: openwebui.${domain_name}
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
+        enabled: false
     persistence:
       data:
         enabled: true
