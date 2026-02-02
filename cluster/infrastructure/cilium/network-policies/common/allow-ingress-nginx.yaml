@@ -12,3 +12,4 @@ spec:
         - matchLabels:
             k8s:io.kubernetes.pod.namespace: ingress-nginx
             app.kubernetes.io/name: ingress-nginx
+            app.kubernetes.io/component: controller

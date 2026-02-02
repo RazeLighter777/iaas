@@ -9,13 +9,14 @@ metadata:
 spec:
   endpointSelector:
     matchLabels:
-      app.kubernetes.io/name: blog
+      app.kubernetes.io/instance: blog
   # Ingress: Allow nginx ingress controller to reach the blog service
   ingress:
     - fromEndpoints:
         - matchLabels:
             k8s:io.kubernetes.pod.namespace: ingress-nginx
             app.kubernetes.io/name: ingress-nginx
+            app.kubernetes.io/component: controller
       toPorts:
         - ports:
             - port: "8080"

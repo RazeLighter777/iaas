@@ -9,7 +9,7 @@ metadata:
 spec:
   endpointSelector:
     matchLabels:
-      app.kubernetes.io/name: wg-easy
+      app.kubernetes.io/instance: wg-easy
   # Ingress: Allow nginx for UI, and external clients for VPN
   ingress:
     # Allow nginx ingress controller to reach the web UI
@@ -17,6 +17,7 @@ spec:
         - matchLabels:
             k8s:io.kubernetes.pod.namespace: ingress-nginx
             app.kubernetes.io/name: ingress-nginx
+            app.kubernetes.io/component: controller
       toPorts:
         - ports:
             - port: "51822"
