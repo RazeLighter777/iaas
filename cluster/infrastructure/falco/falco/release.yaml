@@ -78,6 +78,7 @@ spec:
         - rule: Drop and execute new binary in container
           exceptions:
           - name: proc_pnames
+            fields: [proc.pname]
             values:
             - [cilium-cni, containerd]
           override:
@@ -91,6 +92,7 @@ spec:
         - rule: Contact K8S API Server From Container
           exceptions:
           - name: container_images
+            fields: [container.image]
             values:
             - quay.io/kiwigrid/k8s-sidecar
           override:
