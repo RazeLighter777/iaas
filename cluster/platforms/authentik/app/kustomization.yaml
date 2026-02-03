@@ -4,8 +4,8 @@ metadata:
   namespace: authentik
 namespace: authentik
 resources:
-- ./release.yaml
-- ./authentik-externalsecret.yaml
-- ./cluster-backup.yaml
-- ./customcss-configmap.yaml
- - ./httproute.yaml
+  - ./release.yaml
+  - ./authentik-externalsecret.yaml
+  - ./cluster-backup.yaml
+  - ./customcss-configmap.yaml
+  - ./httproute.yaml

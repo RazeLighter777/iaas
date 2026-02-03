@@ -69,7 +69,7 @@ spec:
           pathType: Prefix
           ingressClassName: nginx
           annotations:
-          - alertmanager.${domain_name}
+            - alertmanager.${domain_name}
       image:
         registry: quay.io
         repository: prometheus/alertmanager
