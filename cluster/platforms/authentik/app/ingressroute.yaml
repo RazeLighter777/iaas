@@ -5,15 +5,12 @@ metadata:
   namespace: authentik
 spec:
   entryPoints:
-  - web
+    - web
   routes:
-  - kind: Rule
-    match: Host(`authentik.${domain_name}`) && PathPrefix(`/`)
-    services:
-    - kind: Service
-      name: authentik-server
-      namespace: authentik
-      port: 80
-  parentRefs:
-  - name: traefik-gateway
-    namespace: traefik
+    - kind: Rule
+      match: Host(`authentik.${domain_name}`) && PathPrefix(`/`)
+      services:
+        - kind: Service
+          name: authentik-server
+          namespace: authentik
+          port: 80

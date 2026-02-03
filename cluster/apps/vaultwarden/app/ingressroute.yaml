@@ -5,15 +5,12 @@ metadata:
   namespace: vaultwarden
 spec:
   entryPoints:
-  - web
+    - web
   routes:
-  - kind: Rule
-    match: Host(`vaultwarden.${domain_name}`) && PathPrefix(`/`)
-    services:
-    - kind: Service
-      name: vaultwarden
-      namespace: vaultwarden
-      port: 80
-  parentRefs:
-  - name: traefik-gateway
-    namespace: traefik
+    - kind: Rule
+      match: Host(`vaultwarden.${domain_name}`) && PathPrefix(`/`)
+      services:
+        - kind: Service
+          name: vaultwarden
+          namespace: vaultwarden
+          port: 80

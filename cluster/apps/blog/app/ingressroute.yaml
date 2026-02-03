@@ -15,6 +15,3 @@ spec:
           namespace: blog
           port: 80
           #unauthenticated access, public blog
-  parentRefs:
-    - name: traefik-gateway
-      namespace: traefik

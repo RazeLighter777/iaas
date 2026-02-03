@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
     - ./zigbeeemqx-externalsecret.yaml
     - ./helmrelease.yaml
+    - ./ingressroute.yaml
     - ./homeassistant-config-pvc.yaml
     - ./homeassistant-cache-pvc.yaml
     - ./zigbee2mqtt-config-pvc.yaml

@@ -5,15 +5,12 @@ metadata:
   namespace: media
 spec:
   entryPoints:
-  - web
+    - web
   routes:
-  - kind: Rule
-    match: Host(`immich.${domain_name}`) && PathPrefix(`/`)
-    services:
-    - kind: Service
-      name: immich-app
-      namespace: media
-      port: 2283
-  parentRefs:
-  - name: traefik-gateway
-    namespace: traefik
+    - kind: Rule
+      match: Host(`immich.${domain_name}`) && PathPrefix(`/`)
+      services:
+        - kind: Service
+          name: immich-app
+          namespace: media
+          port: 2283

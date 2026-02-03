@@ -5,15 +5,12 @@ metadata:
   namespace: openwebui
 spec:
   entryPoints:
-  - web
+    - web
   routes:
-  - kind: Rule
-    match: Host(`openwebui.${domain_name}`) && PathPrefix(`/`)
-    services:
-    - kind: Service
-      name: open-webui
-      namespace: openwebui
-      port: 8080
-  parentRefs:
-  - name: traefik-gateway
-    namespace: traefik
+    - kind: Rule
+      match: Host(`openwebui.${domain_name}`) && PathPrefix(`/`)
+      services:
+        - kind: Service
+          name: open-webui
+          namespace: openwebui
+          port: 8080

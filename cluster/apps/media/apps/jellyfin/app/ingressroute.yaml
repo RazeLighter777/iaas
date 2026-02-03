@@ -15,6 +15,3 @@ spec:
           namespace: media
           port: 8096
       # No authentik middleware for jellyfin, it has its own auth system
-  parentRefs:
-    - name: traefik-gateway
-      namespace: traefik

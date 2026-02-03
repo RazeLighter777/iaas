@@ -5,18 +5,15 @@ metadata:
   namespace: monitoring
 spec:
   entryPoints:
-  - web
+    - web
   routes:
-  - kind: Rule
-    match: Host(`status.${domain_name}`) && PathPrefix(`/`)
-    services:
-    - kind: Service
-      name: gatus
-      namespace: monitoring
-      port: 8080
-    middlewares:
-    - name: ak-outpost-proxy-outpost
-      namespace: authentik
-  parentRefs:
-  - name: traefik-gateway
-    namespace: traefik
+    - kind: Rule
+      match: Host(`status.${domain_name}`) && PathPrefix(`/`)
+      services:
+        - kind: Service
+          name: gatus
+          namespace: monitoring
+          port: 8080
+      middlewares:
+        - name: ak-outpost-proxy-outpost
+          namespace: authentik
