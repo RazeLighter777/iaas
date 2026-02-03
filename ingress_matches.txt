@@ -47,7 +47,7 @@ cluster/infrastructure/ingress-nginx/namespace.yaml:  name: ingress-nginx
 cluster/infrastructure/ingress-nginx/ks.yaml:  name: ingress-nginx
 cluster/infrastructure/ingress-nginx/ks.yaml:  targetNamespace: ingress-nginx
 cluster/infrastructure/ingress-nginx/ks.yaml:  path: "./cluster/infrastructure/ingress-nginx/controller"
-cluster/platforms/emqx/crs/kustomization.yaml:  - ingress.yaml
+cluster/platforms/emqx/crs/kustomization.yaml:  - ingressroute.yaml
 cluster/infrastructure/cloudflared/app/config/config.yaml:ingress:
 cluster/infrastructure/cloudflared/app/config/config.yaml:  - service: &svc https://ingress-nginx-controller.ingress-nginx.svc.cluster.local
 cluster/infrastructure/ingress-nginx/controller/release.yaml:  name: ingress-nginx
