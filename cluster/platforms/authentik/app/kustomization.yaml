@@ -9,3 +9,4 @@ resources:
   - ./cluster-backup.yaml
   - ./customcss-configmap.yaml
   - ./ingressroute.yaml
+  - ./outpost-ingressroute.yaml
