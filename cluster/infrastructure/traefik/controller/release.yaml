@@ -27,11 +27,14 @@ spec:
           port: 443
           protocol: HTTPS
           certificateRefs:
-            - name: prizrak.me
+            - name: ${domain_name}
 
     # Enable experimental providers including Gateway API
     experimental:
-      plugins: {}
+      plugins:
+        coraza:
+          moduleName: "github.com/jcchavezs/coraza-http-wasm-traefik"
+          version: "v0.3.0"
 
     providers:
       kubernetesGateway:
@@ -64,7 +67,7 @@ spec:
     tlsStore:
       default:
         defaultCertificate:
-          secretName: prizrak.me
+          secretName: ${domain_name}
 
     # Additional arguments
     additionalArguments: []
