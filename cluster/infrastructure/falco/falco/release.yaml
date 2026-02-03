@@ -99,6 +99,15 @@ spec:
             - container.image.repository
             values:
             - - ghcr.io/goauthentik/server
+          - name: traefik
+            fields:
+            - container.image.repository
+            - proc.name
+            - proc.exepath
+            values:
+            - - docker.io/library/traefik
+              - traefik
+              - /usr/local/bin/traefik
           override:
             exceptions: append
 
