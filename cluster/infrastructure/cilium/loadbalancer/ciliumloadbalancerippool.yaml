@@ -11,3 +11,4 @@ spec:
     - cidr: ${minecraft_ip}/32
     - cidr: 192.168.88.37/32
     - cidr: ${omada_controller_ip}/32
+    - cidr: ${graphite_exporter_ip}/32
