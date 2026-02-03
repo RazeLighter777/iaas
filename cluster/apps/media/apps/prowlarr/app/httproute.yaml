@@ -23,5 +23,5 @@ spec:
             name: authentik-forward-auth
             namespace: traefik
       backendRefs:
-        - name: prowlarr-app
+        - name: prowlarr
           port: 8989

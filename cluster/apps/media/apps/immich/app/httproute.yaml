@@ -17,4 +17,4 @@ spec:
             value: /
       backendRefs:
         - name: immich-app
-          port: 3003
+          port: 2283

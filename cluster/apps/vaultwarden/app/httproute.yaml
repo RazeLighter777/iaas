@@ -16,5 +16,5 @@ spec:
             type: PathPrefix
             value: /
       backendRefs:
-        - name: vaultwarden-app
+        - name: vaultwarden
           port: 80

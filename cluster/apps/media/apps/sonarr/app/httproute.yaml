@@ -23,5 +23,5 @@ spec:
             name: authentik-forward-auth
             namespace: traefik
       backendRefs:
-        - name: sonarr-app
+        - name: sonarr
           port: 8989

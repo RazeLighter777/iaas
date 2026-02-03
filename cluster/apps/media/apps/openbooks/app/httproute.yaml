@@ -23,5 +23,5 @@ spec:
             name: authentik-forward-auth
             namespace: traefik
       backendRefs:
-        - name: openbooks-main
+        - name: openbooks
           port: 8080
