@@ -213,7 +213,7 @@ metadata:
   name: &app graphite-exporter
   namespace: &namespace flux-system
 spec:
-  targetNamespace: *namespace
+  targetNamespace: monitoring
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
