@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
 - gateway.yaml
 - middleware.yaml
+- referencegrant.yaml
