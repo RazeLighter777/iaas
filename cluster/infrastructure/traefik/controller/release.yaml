@@ -93,14 +93,6 @@ spec:
         cpu: 300m
         memory: 150Mi
 
-    # Persistence for certificates
-    persistence:
-      enabled: true
-      accessMode: ReadWriteOnce
-      size: 128Mi
-      storageClass: longhorn-fast
-      path: /data
-
     # Security context
     securityContext:
       capabilities:
