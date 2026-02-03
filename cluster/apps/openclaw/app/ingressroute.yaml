@@ -14,7 +14,7 @@ spec:
           namespace: authentik
       services:
         - kind: Service
-          name: clawdbot-gateway
+          name: clawdbot
           namespace: openclaw
           port: 18789
   tls: {}
