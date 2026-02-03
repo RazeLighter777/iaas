@@ -56,13 +56,4 @@ spec:
             port: 9000
     ingress:
       app:
-        enabled: true
-        className: nginx
-        hosts:
-          - host: capacitor.${domain_name}
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  identifier: app
-                  port: http
+        enabled: false

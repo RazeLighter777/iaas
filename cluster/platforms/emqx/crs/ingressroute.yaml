@@ -8,7 +8,7 @@ spec:
     - websecure
   routes:
     - kind: Rule
-      match: Host(`emqx.${domain_name}`) && PathPrefix(`/`)
+      match: Host(`emqx.${domain_name}`, `mqtt.${domain_name}`) && PathPrefix(`/`)
       services:
         - kind: Service
           name: emqx-cluster-dashboard
