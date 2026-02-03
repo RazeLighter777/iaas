@@ -82,30 +82,36 @@ spec:
                 title: |-
                   [{{ .Status | toUpper }}:{{ if eq .Status "firing" }}{{ .Alerts.Firing | len }}{{ else }}{{ .Alerts.Resolved | len }}{{ end }}]
                 message: |-
-                  {{- range .Alerts }}
-                  **{{ .Labels.alertname }}**{{ if ne .Labels.severity "" }} ({{ .Labels.severity | title }}){{ end }}
-                  {{- if ne .Annotations.summary "" }}
-                  {{ .Annotations.summary }}
-                  {{- else if ne .Annotations.description "" }}
-                  {{ .Annotations.description }}
-                  {{- else if ne .Annotations.message "" }}
-                  {{ .Annotations.message }}
+                  {{- $max := 5 -}}
+                  {{- range $i, $a := .Alerts }}
+                  {{- if lt $i $max }}
+                  **{{ $a.Labels.alertname }}**{{ if ne $a.Labels.severity "" }} ({{ $a.Labels.severity | title }}){{ end }}
+                  {{- if ne $a.Annotations.summary "" }}
+                  {{ $a.Annotations.summary }}
+                  {{- else if ne $a.Annotations.description "" }}
+                  {{ $a.Annotations.description }}
+                  {{- else if ne $a.Annotations.message "" }}
+                  {{ $a.Annotations.message }}
                   {{- end }}
-                  {{- if or (ne .Annotations.runbook_url "") (ne .GeneratorURL "") }}
-                  {{- if ne .Annotations.runbook_url "" }}
-                  Runbook: {{ .Annotations.runbook_url }}
+                  {{- if or (ne $a.Annotations.runbook_url "") (ne $a.GeneratorURL "") }}
+                  {{- if ne $a.Annotations.runbook_url "" }}
+                  Runbook: {{ $a.Annotations.runbook_url }}
                   {{- end }}
-                  {{- if ne .GeneratorURL "" }}
-                  Alert: {{ .GeneratorURL }}
+                  {{- if ne $a.GeneratorURL "" }}
+                  Alert: {{ $a.GeneratorURL }}
                   {{- end }}
                   {{- end }}
-                  {{- if .Labels.namespace }}
-                  Namespace: {{ .Labels.namespace }}
+                  {{- if $a.Labels.namespace }}
+                  Namespace: {{ $a.Labels.namespace }}
                   {{- end }}
-                  {{- if .Labels.pod }}
-                  Pod: {{ .Labels.pod }}
+                  {{- if $a.Labels.pod }}
+                  Pod: {{ $a.Labels.pod }}
                   {{- end }}
                   ---
+                  {{- end }}
+                  {{- end }}
+                  {{- if gt (len .Alerts) $max }}
+                  …and more alerts not shown.
                   {{- end }}
         route:
           group_by:
