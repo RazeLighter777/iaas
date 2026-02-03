@@ -4,4 +4,3 @@ resources:
 - gateway.yaml
 - middleware.yaml
 - certificate.yaml
-- referencegrant.yaml
