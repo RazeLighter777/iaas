@@ -45,6 +45,8 @@ spec:
       # Enable Falcosidekick WebUI
       webui:
         enabled: true
+        # we can disable auth here because we have authentik in front of it
+        disableauth: true
         # Configure ingress with Authentik authentication
       # Configure Alertmanager output
       config:
