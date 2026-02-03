@@ -19,6 +19,15 @@ spec:
     # Enable Gateway API support
     gateway:
       enabled: true
+      listeners:
+        web:
+          port: 80
+          protocol: HTTP
+        websecure:
+          port: 443
+          protocol: HTTPS
+          certificateRefs:
+            - name: prizrak.me
     
     # Enable experimental providers including Gateway API
     experimental:
@@ -55,9 +64,7 @@ spec:
           secretName: prizrak.me
     
     # Additional arguments
-    additionalArguments:
-      - "--certificatesresolvers.default.acme.tlschallenge=true"
-      - "--certificatesresolvers.default.acme.storage=/data/acme.json"
+    additionalArguments: []
     
     # Enable access logs
     logs:
