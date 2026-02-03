@@ -28,24 +28,24 @@ spec:
           protocol: HTTPS
           certificateRefs:
             - name: prizrak.me
-    
+
     # Enable experimental providers including Gateway API
     experimental:
       plugins: {}
-    
+
     providers:
       kubernetesGateway:
         enabled: true
       kubernetesIngress:
         enabled: false
-    
+
     # Configure service
     service:
       type: LoadBalancer
       externalIPs:
         - 192.168.88.7
       loadBalancerClass: "io.cilium/l2-announcer"
-    
+
     # Configure ports
     ports:
       web:
@@ -56,34 +56,34 @@ spec:
         port: 443
         exposedPort: 443
         protocol: TCP
-    
+
     # TLS configuration
     tlsStore:
       default:
         defaultCertificate:
           secretName: prizrak.me
-    
+
     # Additional arguments
     additionalArguments: []
-    
+
     # Enable access logs
     logs:
       general:
         level: INFO
       access:
         enabled: true
-    
+
     # Replicas for high availability
     deployment:
       replicas: 2
-    
+
     # Enable metrics
     metrics:
       prometheus:
         addRoutersLabels: true
         serviceMonitor:
           enabled: true
-    
+
     # Resources
     resources:
       requests:
@@ -92,7 +92,7 @@ spec:
       limits:
         cpu: 300m
         memory: 150Mi
-    
+
     # Persistence for certificates
     persistence:
       enabled: true
@@ -100,13 +100,13 @@ spec:
       size: 128Mi
       storageClass: longhorn-fast
       path: /data
-    
+
     # Security context
     securityContext:
       capabilities:
         drop: [ALL]
       readOnlyRootFilesystem: true
-    
+
     podSecurityContext:
       runAsGroup: 65532
       runAsNonRoot: true
