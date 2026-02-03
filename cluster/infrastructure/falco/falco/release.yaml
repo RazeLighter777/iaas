@@ -136,3 +136,19 @@ spec:
               - sh
           override:
             exceptions: append
+      cilium-socket-exceptions.yaml: |-
+        # Exception for Cilium socket operations
+        # This addresses the false positive: "Suspicious Socket Activity"
+        - rule: Packet socket created in container
+          exceptions:
+          - name: cilium-agent
+            fields:
+            - proc.exepath
+            - proc.name
+            - evt.type
+            values:
+            - - /usr/bin/cilium-agent
+              - cilium-agent
+              - socket
+          override:
+            exceptions: append
