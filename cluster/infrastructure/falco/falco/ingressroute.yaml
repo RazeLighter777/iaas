@@ -5,7 +5,7 @@ metadata:
   namespace: falco
 spec:
   entryPoints:
-    - web
+    - websecure
   routes:
     - kind: Rule
       match: Host(`falco-ui.${domain_name}`) && PathPrefix(`/`)
@@ -17,3 +17,4 @@ spec:
       middlewares:
         - name: ak-outpost-proxy-outpost
           namespace: authentik
+  tls: {}

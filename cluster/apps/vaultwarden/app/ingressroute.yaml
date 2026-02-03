@@ -5,7 +5,7 @@ metadata:
   namespace: vaultwarden
 spec:
   entryPoints:
-    - web
+    - websecure
   routes:
     - kind: Rule
       match: Host(`vaultwarden.${domain_name}`) && PathPrefix(`/`)
@@ -14,3 +14,4 @@ spec:
           name: vaultwarden
           namespace: vaultwarden
           port: 80
+  tls: {}

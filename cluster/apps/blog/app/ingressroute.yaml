@@ -5,7 +5,7 @@ metadata:
   namespace: media
 spec:
   entryPoints:
-    - web
+    - websecure
   routes:
     - kind: Rule
       match: Host(`blog.${domain_name}`) && PathPrefix(`/`)
@@ -15,3 +15,4 @@ spec:
           namespace: blog
           port: 80
           #unauthenticated access, public blog
+  tls: {}

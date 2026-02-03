@@ -5,7 +5,7 @@ metadata:
   namespace: media
 spec:
   entryPoints:
-    - web
+    - websecure
   routes:
     - kind: Rule
       match: Host(`jellyfin.${domain_name}`) && PathPrefix(`/`)
@@ -15,3 +15,4 @@ spec:
           namespace: media
           port: 8096
       # No authentik middleware for jellyfin, it has its own auth system
+  tls: {}

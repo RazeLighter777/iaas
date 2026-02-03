@@ -5,7 +5,7 @@ metadata:
   namespace: media
 spec:
   entryPoints:
-    - web
+    - websecure
   routes:
     - kind: Rule
       match: Host(`immich.${domain_name}`) && PathPrefix(`/`)
@@ -14,3 +14,4 @@ spec:
           name: immich-app
           namespace: media
           port: 2283
+  tls: {}

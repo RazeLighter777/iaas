@@ -6,7 +6,7 @@ metadata:
   namespace: sillytavern
 spec:
   entryPoints:
-    - web
+    - websecure
   routes:
     - kind: Rule
       match: Host(`sillytavern.${domain_name}`) && PathPrefix(`/`)
@@ -17,3 +17,4 @@ spec:
           name: sillytavern
           namespace: sillytavern
           port: 8000
+  tls: {}
