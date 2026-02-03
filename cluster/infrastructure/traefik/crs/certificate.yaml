@@ -1,0 +1,14 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: prizrak.me
+  namespace: traefik
+spec:
+  secretName: prizrak.me
+  issuerRef:
+    name: letsencrypt-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io
+  dnsNames:
+    - "*.prizrak.me"
