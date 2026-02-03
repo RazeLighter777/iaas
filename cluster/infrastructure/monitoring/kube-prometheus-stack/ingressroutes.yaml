@@ -1,0 +1,59 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: grafana
+  namespace: monitoring
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`grafana.${domain_name}`) && PathPrefix(`/`)
+      services:
+        - kind: Service
+          name: kube-prometheus-stack-grafana
+          namespace: monitoring
+          port: 80
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: prometheus
+  namespace: monitoring
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`prometheus.${domain_name}`) && PathPrefix(`/`)
+      middlewares:
+        - name: ak-outpost-proxy-outpost
+          namespace: authentik
+      services:
+        - kind: Service
+          name: kube-prometheus-stack-prometheus
+          namespace: monitoring
+          port: 9090
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: alertmanager
+  namespace: monitoring
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`alertmanager.${domain_name}`) && PathPrefix(`/`)
+      middlewares:
+        - name: ak-outpost-proxy-outpost
+          namespace: authentik
+      services:
+        - kind: Service
+          name: kube-prometheus-stack-alertmanager
+          namespace: monitoring
+          port: 9093

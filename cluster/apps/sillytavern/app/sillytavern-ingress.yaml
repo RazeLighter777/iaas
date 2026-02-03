@@ -1,26 +1,19 @@
 ---
-apiVersion: gateway.networking.k8s.io/v1
-kind: HTTPRoute
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
 metadata:
   name: sillytavern
   namespace: sillytavern
 spec:
-  parentRefs:
-    - name: traefik-gateway
-      namespace: traefik
-  hostnames:
-    - sillytavern.${domain_name}
-  rules:
-    - matches:
-        - path:
-            type: PathPrefix
-            value: /
-      filters:
-        - type: ExtensionRef
-          extensionRef:
-            group: traefik.io
-            kind: Middleware
-            name: ak-outpost-proxy-outpost
-      backendRefs:
-        - name: sillytavern
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`sillytavern.${domain_name}`) && PathPrefix(`/`)
+      middlewares:
+        - name: ak-outpost-proxy-outpost
+      services:
+        - kind: Service
+          name: sillytavern
+          namespace: sillytavern
           port: 8000
