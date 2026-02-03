@@ -64,7 +64,7 @@ spec:
           mountPath: /postgres-creds
           readOnly: true
       ingress:
-        enabled: true
+        enabled: false
         pathType: Prefix
         hosts:
           - authentik.${domain_name}

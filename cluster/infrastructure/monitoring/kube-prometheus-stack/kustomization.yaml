@@ -5,3 +5,4 @@ resources:
 - ./helmrelease.yaml
 - ./grafana-oauth-externalsecret.yaml
 - ./discord-webhooks-externalsecret.yaml
+ - ./httproutes.yaml

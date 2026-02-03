@@ -43,11 +43,11 @@ spec:
       # Use full FQDN to avoid proxy capture
       fullfqdn: true
       # Enable Falcosidekick WebUI
-      webui:
+        webui:
         enabled: true
         # Configure ingress with Authentik authentication
         ingress:
-          enabled: true
+          enabled: false
           ingressClassName: nginx
           annotations:
             nginx.ingress.kubernetes.io/auth-url: |-

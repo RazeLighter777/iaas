@@ -3,4 +3,4 @@ originRequest:
   originServerName: ${domain_name}
 
 ingress:
-  - service: &svc https://ingress-nginx-controller.ingress-nginx.svc.cluster.local
+  - service: &svc https://traefik.traefik.svc.cluster.local

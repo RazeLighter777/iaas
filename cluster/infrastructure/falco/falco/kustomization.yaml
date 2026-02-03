@@ -3,3 +3,4 @@ kind: Kustomization
 namespace: falco
 resources:
 - release.yaml
+ - ./httproute.yaml

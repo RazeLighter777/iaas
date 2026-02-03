@@ -30,7 +30,7 @@ spec:
       # -- Number of seconds that Longhorn waits before checking the default backupstore for new backups.
       #pollInterval: 0
     ingress:
-      enabled: true
+      enabled: false
       pathType: Prefix
       ingressClassName: nginx
       host: longhorn.${domain_name}
