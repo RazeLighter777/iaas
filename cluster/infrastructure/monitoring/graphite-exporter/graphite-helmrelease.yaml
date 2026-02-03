@@ -88,6 +88,8 @@ spec:
         type: LoadBalancer
         annotations:
           io.cilium/lb-ipam-ips: ${graphite_exporter_ip}
+        loadBalancerClass: "io.cilium/l2-announcer"
+        loadBalancerIP: ${graphite_exporter_ip}
         ports:
           metrics:
             enabled: true
