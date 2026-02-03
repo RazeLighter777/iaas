@@ -2,14 +2,14 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: media
 resources:
-- immich-media-pvc.yaml
-- immich-config-pvc.yaml
-- immich-cluster.yaml
-- immich-cluster-backup.yaml
-- release.yaml
-- immich-externalsecret.yaml
-- immich-oauth-externalsecret.yaml
-- immich-barman-externalsecret.yaml
-- redis-release.yaml
-- immich-machine-learning-config-pvc.yaml
-- httproute.yaml
+  - immich-media-pvc.yaml
+  - immich-config-pvc.yaml
+  - immich-cluster.yaml
+  - immich-cluster-backup.yaml
+  - release.yaml
+  - immich-externalsecret.yaml
+  - immich-oauth-externalsecret.yaml
+  - immich-barman-externalsecret.yaml
+  - redis-release.yaml
+  - immich-machine-learning-config-pvc.yaml
+  - ingressroute.yaml

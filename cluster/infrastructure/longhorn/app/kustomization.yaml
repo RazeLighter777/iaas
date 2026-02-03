@@ -3,4 +3,4 @@ kind: Kustomization
 resources:
   - ./helmrelease.yaml
   - ./longhorn-prometheusrule.yaml
-  - ./httproute.yaml
+  - ./ingressroute.yaml

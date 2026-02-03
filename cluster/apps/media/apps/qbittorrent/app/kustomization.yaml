@@ -1,21 +1,21 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 configMapGenerator:
-- files:
-  - ./config/Corefile
-  name: qbittorrent-coredns
-- files:
-  - ./config/qBittorrent.conf
-  name: qbittorrent-config
+  - files:
+      - ./config/Corefile
+    name: qbittorrent-coredns
+  - files:
+      - ./config/qBittorrent.conf
+    name: qbittorrent-config
 configurations:
-- kustomizeconfig.yaml
+  - kustomizeconfig.yaml
 generatorOptions:
   annotations:
     kustomize.toolkit.fluxcd.io/substitute: disabled
 kind: Kustomization
 namespace: media
 resources:
-- ./helmrelease.yaml
-- ./gluetun-apikey-externalsecret.yaml
-- ./torrent-vpn-credentials-externalsecret.yaml
-- ./qb-pvc.yaml
-- ./httproute.yaml
+  - ./helmrelease.yaml
+  - ./gluetun-apikey-externalsecret.yaml
+  - ./torrent-vpn-credentials-externalsecret.yaml
+  - ./qb-pvc.yaml
+  - ./ingressroute.yaml

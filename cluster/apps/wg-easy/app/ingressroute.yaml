@@ -1,0 +1,22 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: wg-easy
+  namespace: wg-easy
+spec:
+  entryPoints:
+  - web
+  routes:
+  - kind: Rule
+    match: Host(`wg.${domain_name}`) && PathPrefix(`/`)
+    services:
+    - kind: Service
+      name: wg-easy-ui
+      namespace: wg-easy
+      port: 51822
+    middlewares:
+    - name: ak-outpost-proxy-outpost
+      namespace: authentik
+  parentRefs:
+  - name: traefik-gateway
+    namespace: traefik
