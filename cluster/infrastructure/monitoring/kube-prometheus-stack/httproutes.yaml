@@ -41,8 +41,8 @@ spec:
           extensionRef:
             group: traefik.io
             kind: Middleware
-            name: authentik-forward-auth
-            namespace: traefik
+            name: ak-outpost-proxy-outpost
+            namespace: authentik
       backendRefs:
         - name: kube-prometheus-stack-prometheus
           port: 9090
@@ -69,8 +69,8 @@ spec:
           extensionRef:
             group: traefik.io
             kind: Middleware
-            name: authentik-forward-auth
-            namespace: traefik
+            name: ak-outpost-proxy-outpost
+            namespace: authentik
       backendRefs:
         - name: kube-prometheus-stack-alertmanager
           port: 9093

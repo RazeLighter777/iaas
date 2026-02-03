@@ -20,8 +20,8 @@ spec:
           extensionRef:
             group: traefik.io
             kind: Middleware
-            name: authentik-forward-auth
-            namespace: traefik
+            name: ak-outpost-proxy-outpost
+            namespace: authentik
       backendRefs:
         - name: sillytavern
           port: 8000

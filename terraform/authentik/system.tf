@@ -1,8 +1,8 @@
+
 resource "authentik_service_connection_kubernetes" "local" {
-  name  = "local"
+  name  = "Local Kubernetes Cluster"
   local = true
 }
-
 resource "authentik_outpost" "proxyoutpost" {
   name               = "proxy-outpost"
   type               = "proxy"
@@ -46,8 +46,15 @@ resource "authentik_outpost" "proxyoutpost" {
     },
     kubernetes_ingress_secret_name = "proxy-outpost-tls",
     kubernetes_ingress_class_name     = "nginx",
+    kubernetes_httproute_parent_refs = [
+      {
+        name      = "traefik-gateway"
+        namespace = "traefik"
+      }
+    ],
+    kubernetes_httproute_annotations = {},
     kubernetes_service_type        = "ClusterIP",
-    kubernetes_disabled_components = [],
+    kubernetes_disabled_components = ["ingress"],
     kubernetes_image_pull_secrets  = []
   })
 }
