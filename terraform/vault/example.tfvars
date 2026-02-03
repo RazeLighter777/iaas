@@ -83,3 +83,5 @@ NFS_PATH = "/mnt/mainpool"
 
 JELLYFIN_API_KEY = "your-jellyfin-api-key"
 
+# Graphite exporter IP
+GRAPHITE_EXPORTER_IP=192.168.1.x

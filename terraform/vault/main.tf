@@ -227,6 +227,11 @@ variable "JELLYFIN_API_KEY" {
     type = string
 }
 
+# Graphite
+variable "GRAPHITE_EXPORTER_IP" {
+    type = string
+}
+
 ## Secrets
 
 resource "vault_kv_secret_v2" "cluster-settings" {
@@ -592,4 +597,12 @@ resource "vault_kv_secret_v2" "rustfs" {
     RUSTFS_ACCESS_KEY = random_password.rustfs_access_key.result
     RUSTFS_SECRET_KEY = random_password.rustfs_secret_key.result
   })
+}
+
+resource "vault_kv_secret_v2" "graphite_exporter" {
+    mount    = vault_mount.kv.path
+    name    = "graphite_exporter"
+    data_json = jsonencode({
+        "graphite_exporter_ip" = var.GRAPHITE_EXPORTER_IP
+    })
 }
