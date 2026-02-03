@@ -38,6 +38,9 @@ spec:
         enabled: true
       kubernetesIngress:
         enabled: false
+      kubernetesCRD:
+        enabled: true
+        allowCrossNamespace: true
 
     # Configure service
     service:

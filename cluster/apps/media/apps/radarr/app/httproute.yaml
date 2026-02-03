@@ -21,7 +21,6 @@ spec:
             group: traefik.io
             kind: Middleware
             name: ak-outpost-proxy-outpost
-            namespace: traefik
       backendRefs:
         - name: radarr
           port: 8989
