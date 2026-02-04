@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   wait: true
-  targetNamespace: kube-system
+  targetNamespace: istio-system
   path: "./cluster/infrastructure/istio/controller"
   interval: 1h
   retryInterval: 2m
@@ -28,7 +28,7 @@ metadata:
   namespace: flux-system
 spec:
   wait: true
-  targetNamespace: kube-system
+  targetNamespace: istio-system
   path: "./cluster/infrastructure/istio/crs"
   interval: 1h
   retryInterval: 2m
