@@ -8,6 +8,7 @@ ingress:
       noTLSVerify: true
       originServerName: ""
     service: "https://192.168.88.7"
+  - service: http_status:404
 
 warp-routing:
   enabled: false
