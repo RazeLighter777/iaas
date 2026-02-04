@@ -2,7 +2,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: istio-base
-  namespace: kube-system
+  namespace: istio-system
 spec:
   timeout: 30m
   interval: 6h
