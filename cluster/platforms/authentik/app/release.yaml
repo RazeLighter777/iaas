@@ -36,6 +36,9 @@ spec:
         user: file:///postgres-creds/username
         password: file:///postgres-creds/password
         name: app #default database name for cloudnative-pg database
+      env:
+        - name: AUTHENTIK_WEB__THREADS
+          value: 16
     global:
       volumes:
         - name: customcss
