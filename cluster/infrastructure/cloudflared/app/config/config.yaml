@@ -3,5 +3,8 @@ originRequest:
   originServerName: ${domain_name}
 
 ingress:
-  - service: &svc https://istio-ingressgateway.istio-system.svc.cluster.local
+  - hostname: "${domain_name}"
+    service: &svc https://istio-ingressgateway.istio-system.svc.cluster.local
+  - hostname: "*.${domain_name}"
+    service: *svc
   - service: http_status:404
