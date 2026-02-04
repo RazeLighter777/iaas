@@ -5,4 +5,5 @@ kind: Kustomization
 resources:
   - ./graphite-exporter-configmap.yaml
   - ./graphite-helmrelease.yaml
+  - ./graphite-prometheusrule.yaml
   - ./graphite-servicemonitor.yaml

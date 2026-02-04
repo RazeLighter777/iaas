@@ -1,0 +1,36 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    prometheus: truenas
+    role: alert-rules
+  name: prometheus-truenas-rules
+  namespace: monitoring
+spec:
+  groups:
+    - name: truenas.rules
+      rules:
+        - alert: TrueNASZfsPoolNotOnline
+          annotations:
+            description: TrueNAS ZFS pool {{$labels.pool}} is in state {{$labels.state}}.
+            summary: TrueNAS ZFS pool is not online.
+          expr: truenas_zfs_pool{state!="online"} == 1
+          for: 5m
+          labels:
+            severity: critical
+        - alert: TrueNASDiskTemperatureWarning
+          annotations:
+            description: TrueNAS disk {{$labels.serial}} temperature is {{$value}}°C.
+            summary: TrueNAS disk temperature is above 50°C.
+          expr: truenas_disk_temperature > 50
+          for: 10m
+          labels:
+            severity: warning
+        - alert: TrueNASDiskTemperatureCritical
+          annotations:
+            description: TrueNAS disk {{$labels.serial}} temperature is {{$value}}°C.
+            summary: TrueNAS disk temperature is above 60°C.
+          expr: truenas_disk_temperature > 60
+          for: 5m
+          labels:
+            severity: critical
