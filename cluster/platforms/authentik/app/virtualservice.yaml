@@ -14,8 +14,3 @@ spec:
         host: authentik-server.authentik.svc.cluster.local
         port:
           number: 80
-    match:
-    - authority:
-        exact: authentik.${domain_name}
-      uri:
-        prefix: /
