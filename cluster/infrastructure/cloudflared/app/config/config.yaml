@@ -4,3 +4,4 @@ originRequest:
 
 ingress:
   - service: &svc https://istio-ingressgateway.istio-system.svc.cluster.local
+  - service: http_status:404
