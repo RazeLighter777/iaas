@@ -1,0 +1,21 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: sonarr
+  namespace: media
+spec:
+  hosts:
+  - sonarr.${domain_name}
+  gateways:
+  - istio-ingress/istio-ingressgateway
+  http:
+  - route:
+    - destination:
+        host: sonarr.media.svc.cluster.local
+        port:
+          number: 8989
+    match:
+    - authority:
+        exact: sonarr.${domain_name}
+      uri:
+        prefix: /

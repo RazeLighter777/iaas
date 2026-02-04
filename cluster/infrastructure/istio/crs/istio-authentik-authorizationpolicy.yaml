@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=
 apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
@@ -24,3 +25,5 @@ spec:
               - "vaultwarden.${domain_name}"
               - "grafana.${domain_name}"
               - "immich.${domain_name}"
+              - "authentik.${domain_name}"
+              - "frigate.${domain_name}"

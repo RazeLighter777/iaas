@@ -1,0 +1,21 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: capacitor
+  namespace: monitoring
+spec:
+  hosts:
+  - capacitor.${domain_name}
+  gateways:
+  - istio-ingress/istio-ingressgateway
+  http:
+  - route:
+    - destination:
+        host: capacitor.monitoring.svc.cluster.local
+        port:
+          number: 9000
+    match:
+    - authority:
+        exact: capacitor.${domain_name}
+      uri:
+        prefix: /

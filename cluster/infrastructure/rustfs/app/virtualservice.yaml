@@ -1,0 +1,43 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: rustfs-s3
+  namespace: rustfs
+spec:
+  hosts:
+  - s3.${domain_name}
+  gateways:
+  - istio-ingress/istio-ingressgateway
+  http:
+  - route:
+    - destination:
+        host: rustfs-s3.rustfs.svc.cluster.local
+        port:
+          number: 9000
+    match:
+    - authority:
+        exact: s3.${domain_name}
+      uri:
+        prefix: /
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: rustfs-console
+  namespace: rustfs
+spec:
+  hosts:
+  - rustfs.${domain_name}
+  gateways:
+  - istio-ingress/istio-ingressgateway
+  http:
+  - route:
+    - destination:
+        host: rustfs-console.rustfs.svc.cluster.local
+        port:
+          number: 9001
+    match:
+    - authority:
+        exact: rustfs.${domain_name}
+      uri:
+        prefix: /

@@ -6,4 +6,4 @@ resources:
   - ./frigate-config-pvc.yaml
   - ./helmrelease.yaml
   - ./frigate-configmap.yaml
-  - ./ingressroute.yaml
+  - ./virtualservice.yaml

@@ -1,0 +1,21 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: falco-ui
+  namespace: falco
+spec:
+  hosts:
+  - falco-ui.${domain_name}
+  gateways:
+  - istio-ingress/istio-ingressgateway
+  http:
+  - route:
+    - destination:
+        host: falco-falcosidekick-ui.falco.svc.cluster.local
+        port:
+          number: 2802
+    match:
+    - authority:
+        exact: falco-ui.${domain_name}
+      uri:
+        prefix: /

@@ -1,0 +1,21 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: wg-easy
+  namespace: wg-easy
+spec:
+  hosts:
+  - wg.${domain_name}
+  gateways:
+  - istio-ingress/istio-ingressgateway
+  http:
+  - route:
+    - destination:
+        host: wg-easy-ui.wg-easy.svc.cluster.local
+        port:
+          number: 51822
+    match:
+    - authority:
+        exact: wg.${domain_name}
+      uri:
+        prefix: /

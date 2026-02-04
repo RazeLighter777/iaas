@@ -1,0 +1,21 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: authentik
+  namespace: authentik
+spec:
+  hosts:
+  - authentik.${domain_name}
+  gateways:
+  - istio-ingress/istio-ingressgateway
+  http:
+  - route:
+    - destination:
+        host: authentik-server.authentik.svc.cluster.local
+        port:
+          number: 80
+    match:
+    - authority:
+        exact: authentik.${domain_name}
+      uri:
+        prefix: /

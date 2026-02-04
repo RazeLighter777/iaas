@@ -18,4 +18,4 @@ resources:
   - ./gluetun-apikey-externalsecret.yaml
   - ./torrent-vpn-credentials-externalsecret.yaml
   - ./qb-pvc.yaml
-  - ./ingressroute.yaml
+  - ./virtualservice.yaml

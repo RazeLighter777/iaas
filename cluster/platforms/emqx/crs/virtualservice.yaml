@@ -1,0 +1,21 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: emqx-cluster-dashboard
+  namespace: emqx
+spec:
+  hosts:
+  - mqtt.${domain_name}
+  gateways:
+  - istio-ingress/istio-ingressgateway
+  http:
+  - route:
+    - destination:
+        host: emqx-cluster-dashboard.emqx.svc.cluster.local
+        port:
+          number: 18083
+    match:
+    - authority:
+        exact: mqtt.${domain_name}
+      uri:
+        prefix: /

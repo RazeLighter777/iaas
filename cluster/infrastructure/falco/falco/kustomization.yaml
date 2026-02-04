@@ -3,4 +3,4 @@ kind: Kustomization
 namespace: falco
 resources:
   - release.yaml
-  - ./ingressroute.yaml
+  - ./virtualservice.yaml

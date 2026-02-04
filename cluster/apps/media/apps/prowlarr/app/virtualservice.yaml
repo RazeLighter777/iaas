@@ -1,0 +1,21 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: prowlarr
+  namespace: media
+spec:
+  hosts:
+  - prowlarr.${domain_name}
+  gateways:
+  - istio-ingress/istio-ingressgateway
+  http:
+  - route:
+    - destination:
+        host: prowlarr.media.svc.cluster.local
+        port:
+          number: 8989
+    match:
+    - authority:
+        exact: prowlarr.${domain_name}
+      uri:
+        prefix: /

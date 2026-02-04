@@ -4,4 +4,4 @@ namespace: wg-easy
 resources:
   - ./helmrelease.yaml
   - wg-easy-config-pvc.yaml
-  - ./ingressroute.yaml
+  - ./virtualservice.yaml

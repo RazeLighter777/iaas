@@ -1,0 +1,21 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: openwebui
+  namespace: openwebui
+spec:
+  hosts:
+  - openwebui.${domain_name}
+  gateways:
+  - istio-ingress/istio-ingressgateway
+  http:
+  - route:
+    - destination:
+        host: open-webui.openwebui.svc.cluster.local
+        port:
+          number: 8080
+    match:
+    - authority:
+        exact: openwebui.${domain_name}
+      uri:
+        prefix: /

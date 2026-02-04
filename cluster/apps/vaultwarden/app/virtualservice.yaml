@@ -1,0 +1,21 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: vaultwarden
+  namespace: vaultwarden
+spec:
+  hosts:
+  - vaultwarden.${domain_name}
+  gateways:
+  - istio-ingress/istio-ingressgateway
+  http:
+  - route:
+    - destination:
+        host: vaultwarden.vaultwarden.svc.cluster.local
+        port:
+          number: 80
+    match:
+    - authority:
+        exact: vaultwarden.${domain_name}
+      uri:
+        prefix: /

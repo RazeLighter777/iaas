@@ -5,4 +5,4 @@ kind: Kustomization
 resources:
   - ./gatus-configmap.yaml
   - ./helmrelease.yaml
-  - ./ingressroute.yaml
+  - ./virtualservice.yaml

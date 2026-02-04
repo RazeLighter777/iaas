@@ -4,4 +4,4 @@ resources:
   - ./rustfs-helmrelease.yaml
   - ./rustfs-externalsecret.yaml
   - ./rustfs-pvc.yaml
-  - ./ingressroute.yaml
+  - ./virtualservice.yaml

@@ -1,0 +1,65 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: home-assistant
+  namespace: homeassistant
+spec:
+  hosts:
+  - hass.${domain_name}
+  gateways:
+  - istio-ingress/istio-ingressgateway
+  http:
+  - route:
+    - destination:
+        host: home-assistant-main.homeassistant.svc.cluster.local
+        port:
+          number: 8123
+    match:
+    - authority:
+        exact: hass.${domain_name}
+      uri:
+        prefix: /
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: zwavejsui
+  namespace: homeassistant
+spec:
+  hosts:
+  - zwavejsui.${domain_name}
+  gateways:
+  - istio-ingress/istio-ingressgateway
+  http:
+  - route:
+    - destination:
+        host: home-assistant-zwavejsui.homeassistant.svc.cluster.local
+        port:
+          number: 8091
+    match:
+    - authority:
+        exact: zwavejsui.${domain_name}
+      uri:
+        prefix: /
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: zigbee2mqtt
+  namespace: homeassistant
+spec:
+  hosts:
+  - zigbee2mqtt.${domain_name}
+  gateways:
+  - istio-ingress/istio-ingressgateway
+  http:
+  - route:
+    - destination:
+        host: home-assistant-zigbee2mqtt.homeassistant.svc.cluster.local
+        port:
+          number: 8080
+    match:
+    - authority:
+        exact: zigbee2mqtt.${domain_name}
+      uri:
+        prefix: /

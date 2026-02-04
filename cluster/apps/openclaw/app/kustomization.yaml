@@ -5,4 +5,4 @@ resources:
   - ./openclaw-externalsecret.yaml
   - ./openclaw-config-pvc.yaml
   - ./openclaw-documents-pvc.yaml
-  - ./ingressroute.yaml
+  - ./virtualservice.yaml

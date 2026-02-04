@@ -4,4 +4,4 @@ namespace: openwebui
 resources:
   - ./helmrelease.yaml
   - ./open-webui-externalsecret.yaml
-  - ./ingressroute.yaml
+  - ./virtualservice.yaml

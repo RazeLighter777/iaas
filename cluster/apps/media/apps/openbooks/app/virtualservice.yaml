@@ -1,0 +1,21 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: openbooks
+  namespace: media
+spec:
+  hosts:
+  - openbooks.${domain_name}
+  gateways:
+  - istio-ingress/istio-ingressgateway
+  http:
+  - route:
+    - destination:
+        host: openbooks.media.svc.cluster.local
+        port:
+          number: 8080
+    match:
+    - authority:
+        exact: openbooks.${domain_name}
+      uri:
+        prefix: /

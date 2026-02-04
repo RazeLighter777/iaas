@@ -1,0 +1,21 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: gatus
+  namespace: monitoring
+spec:
+  hosts:
+  - status.${domain_name}
+  gateways:
+  - istio-ingress/istio-ingressgateway
+  http:
+  - route:
+    - destination:
+        host: gatus.monitoring.svc.cluster.local
+        port:
+          number: 8080
+    match:
+    - authority:
+        exact: status.${domain_name}
+      uri:
+        prefix: /
