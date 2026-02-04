@@ -1,6 +1,6 @@
 
 resource "authentik_service_connection_kubernetes" "local" {
-  name  = "Local Kubernetes Cluster"
+  name  = "Local Kubernetes Cluster (terraform)"
   local = true
 }
 resource "authentik_outpost" "proxyoutpost" {
@@ -26,7 +26,8 @@ resource "authentik_outpost" "proxyoutpost" {
     module.zigbee2mqtt.proxy_provider_id,
     module.zwavejsui.proxy_provider_id,
     module.ircbooksearch.proxy_provider_id,
-    module.openclaw.proxy_provider_id
+    module.openclaw.proxy_provider_id,
+    module.mqtt.proxy_provider_id
   ]
 
   config = jsonencode({
