@@ -1,9 +1,13 @@
 ---
-originRequest: {}
-
 ingress:
-  - hostname: "${domain_name}"
-    service: &svc https://istio-ingressgateway.istio-system.svc.cluster.local:443
-  - hostname: "*.${domain_name}"
-    service: *svc
-  - service: http_status:404
+  - hostname: "*.prizrak.me"
+    originRequest:
+      http2Origin: true
+      httpHostHeader: ""
+      matchSNItoHost: true
+      noTLSVerify: true
+      originServerName: ""
+    service: "https://192.168.88.7"
+
+warp-routing:
+  enabled: false
