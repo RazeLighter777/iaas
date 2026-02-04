@@ -7,7 +7,7 @@ spec:
   hosts:
   - vaultwarden.${domain_name}
   gateways:
-  - istio-ingress/istio-ingressgateway
+  - istio-system/istio-ingressgateway
   http:
   - route:
     - destination:

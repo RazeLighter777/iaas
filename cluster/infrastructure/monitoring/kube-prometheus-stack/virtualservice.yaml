@@ -8,7 +8,7 @@ spec:
   hosts:
     - grafana.${domain_name}
   gateways:
-    - istio-ingress/istio-ingressgateway
+    - istio-system/istio-ingressgateway
   http:
     - route:
         - destination:
@@ -30,7 +30,7 @@ spec:
   hosts:
     - prometheus.${domain_name}
   gateways:
-    - istio-ingress/istio-ingressgateway
+    - istio-system/istio-ingressgateway
   http:
     - route:
         - destination:
@@ -52,7 +52,7 @@ spec:
   hosts:
     - alertmanager.${domain_name}
   gateways:
-    - istio-ingress/istio-ingressgateway
+    - istio-system/istio-ingressgateway
   http:
     - route:
         - destination:
