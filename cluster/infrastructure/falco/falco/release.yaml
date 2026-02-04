@@ -99,6 +99,13 @@ spec:
             - container.image.repository
             values:
             - - ghcr.io/goauthentik/server
+          - name: external-dns
+            fields:
+            - container.image.repository
+            - proc.cmdline
+            values:
+            - - registry.k8s.io/external-dns/external-dns
+              - external-dns --log-level=info --log-format=text --interval=1m --source=crd --policy=sync --registry=txt --txt-owner-id=default --txt-prefix=k8s. --domain-filter=prizrak.me --provider=cloudflare --cloudflare-proxied --cloudflare-dns-records-per-page=1000 --crd-source-apiversion=externaldns.k8s.io/v1alpha1 --crd-source-kind=DNSEndpoint --events --ignore-ingress-tls-spec --managed-record-types=CNAME
           override:
             exceptions: append
 
@@ -125,6 +132,17 @@ spec:
             - - ghcr.io/tensorchord/cloudnative-pgvecto.rs
               - /bin/dash
               - sh
+          - name: frigate-healthcheck
+            fields:
+            - container.image.repository
+            - proc.exepath
+            - proc.name
+            - proc.cmdline
+            values:
+            - - ghcr.io/blakeblackshear/frigate
+              - /bin/bash
+              - bash
+              - bash ./data/check
           override:
             exceptions: append
       cilium-socket-exceptions.yaml: |-
