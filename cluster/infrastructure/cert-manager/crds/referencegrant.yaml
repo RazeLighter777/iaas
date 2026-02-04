@@ -9,6 +9,9 @@ spec:
     - group: gateway.networking.k8s.io
       kind: Gateway
       namespace: traefik
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      namespace: istio-ingress
   to:
     - group: ""
       kind: Secret

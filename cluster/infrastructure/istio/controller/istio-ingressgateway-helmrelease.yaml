@@ -1,0 +1,43 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: istio-ingressgateway
+  namespace: istio-ingress
+spec:
+  interval: 5m0s
+  dependsOn:
+    - name: istiod
+      namespace: istio-system
+  chart:
+    spec:
+      chart: gateway
+      reconcileStrategy: ChartVersion
+      sourceRef:
+        kind: HelmRepository
+        name: istio
+        namespace: flux-system
+      version: "1.29.0-rc1"
+  values:
+    labels:
+      istio: ingressgateway
+    service:
+      type: LoadBalancer
+      externalIPs:
+        - 192.168.88.7
+      loadBalancerClass: "io.cilium/l2-announcer"
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 1000m
+        memory: 1024Mi
+    autoscaling:
+      enabled: true
+      minReplicas: 2
+      maxReplicas: 5
+    podAnnotations:
+      prometheus.io/scrape: "true"
+      prometheus.io/port: "15090"
+      prometheus.io/path: "/stats/prometheus"

@@ -1,0 +1,26 @@
+---
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: ingress-authentik
+  namespace: istio-ingress
+spec:
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  action: CUSTOM
+  provider:
+    name: authentik
+  rules:
+    - to:
+        - operation:
+            hosts:
+              - "*.${domain_name}"
+            notHosts:
+              - "jellyfin.${domain_name}"
+              - "s3.${domain_name}"
+              - "rustfs.${domain_name}"
+              - "blog.${domain_name}"
+              - "vaultwarden.${domain_name}"
+              - "grafana.${domain_name}"
+              - "immich.${domain_name}"
