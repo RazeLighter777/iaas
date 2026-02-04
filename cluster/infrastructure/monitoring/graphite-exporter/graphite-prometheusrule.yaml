@@ -10,11 +10,43 @@ spec:
   groups:
     - name: truenas.rules
       rules:
-        - alert: TrueNASZfsPoolNotOnline
+        - alert: TrueNASZfsPoolDegraded
           annotations:
-            description: TrueNAS ZFS pool {{$labels.pool}} is in state {{$labels.state}}.
-            summary: TrueNAS ZFS pool is not online.
-          expr: truenas_zfs_pool{state!="online"} == 1
+            description: TrueNAS ZFS pool {{$labels.pool}} is in state degraded.
+            summary: TrueNAS ZFS pool is degraded.
+          expr: truenas_zfs_pool{state="degraded"} == 1
+          for: 5m
+          labels:
+            severity: warning
+        - alert: TrueNASZfsPoolOffline
+          annotations:
+            description: TrueNAS ZFS pool {{$labels.pool}} is in state offline.
+            summary: TrueNAS ZFS pool is offline.
+          expr: truenas_zfs_pool{state="offline"} == 1
+          for: 5m
+          labels:
+            severity: critical
+        - alert: TrueNASZfsPoolFaulted
+          annotations:
+            description: TrueNAS ZFS pool {{$labels.pool}} is in state faulted.
+            summary: TrueNAS ZFS pool is faulted.
+          expr: truenas_zfs_pool{state="faulted"} == 1
+          for: 5m
+          labels:
+            severity: critical
+        - alert: TrueNASZfsPoolRemoved
+          annotations:
+            description: TrueNAS ZFS pool {{$labels.pool}} is in state removed.
+            summary: TrueNAS ZFS pool is removed.
+          expr: truenas_zfs_pool{state="removed"} == 1
+          for: 5m
+          labels:
+            severity: critical
+        - alert: TrueNASZfsPoolUnavailable
+          annotations:
+            description: TrueNAS ZFS pool {{$labels.pool}} is in state unavail.
+            summary: TrueNAS ZFS pool is unavailable.
+          expr: truenas_zfs_pool{state="unavail"} == 1
           for: 5m
           labels:
             severity: critical
