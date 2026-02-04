@@ -21,16 +21,16 @@ spec:
         - alert: TrueNASDiskTemperatureWarning
           annotations:
             description: TrueNAS disk {{$labels.serial}} temperature is {{$value}}°C.
-            summary: TrueNAS disk temperature is above 50°C.
-          expr: truenas_disk_temperature > 50
+            summary: TrueNAS disk temperature is above 60°C.
+          expr: truenas_disk_temperature > 60
           for: 10m
           labels:
             severity: warning
         - alert: TrueNASDiskTemperatureCritical
           annotations:
             description: TrueNAS disk {{$labels.serial}} temperature is {{$value}}°C.
-            summary: TrueNAS disk temperature is above 60°C.
-          expr: truenas_disk_temperature > 60
+            summary: TrueNAS disk temperature is above 70°C.
+          expr: truenas_disk_temperature > 70
           for: 5m
           labels:
             severity: critical
