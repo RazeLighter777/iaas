@@ -1,6 +1,5 @@
 ---
-originRequest:
-  originServerName: ${domain_name}
+originRequest: {}
 
 ingress:
   - hostname: "${domain_name}"
