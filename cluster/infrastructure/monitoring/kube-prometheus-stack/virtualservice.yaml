@@ -1,0 +1,66 @@
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: grafana
+  namespace: monitoring
+spec:
+  hosts:
+    - grafana.${domain_name}
+  gateways:
+    - istio-ingress/istio-ingressgateway
+  http:
+    - route:
+        - destination:
+            host: kube-prometheus-stack-grafana.monitoring.svc.cluster.local
+            port:
+              number: 80
+      match:
+        - authority:
+            exact: grafana.${domain_name}
+          uri:
+            prefix: /
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: prometheus
+  namespace: monitoring
+spec:
+  hosts:
+    - prometheus.${domain_name}
+  gateways:
+    - istio-ingress/istio-ingressgateway
+  http:
+    - route:
+        - destination:
+            host: kube-prometheus-stack-prometheus.monitoring.svc.cluster.local
+            port:
+              number: 9090
+      match:
+        - authority:
+            exact: prometheus.${domain_name}
+          uri:
+            prefix: /
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: alertmanager
+  namespace: monitoring
+spec:
+  hosts:
+    - alertmanager.${domain_name}
+  gateways:
+    - istio-ingress/istio-ingressgateway
+  http:
+    - route:
+        - destination:
+            host: kube-prometheus-stack-alertmanager.monitoring.svc.cluster.local
+            port:
+              number: 9093
+      match:
+        - authority:
+            exact: alertmanager.${domain_name}
+          uri:
+            prefix: /

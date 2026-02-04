@@ -2,13 +2,10 @@
 apiVersion: gateway.networking.k8s.io/v1beta1
 kind: ReferenceGrant
 metadata:
-  name: allow-traefik-gateway-cert
+  name: allow-istio-gateway-cert
   namespace: cert-manager
 spec:
   from:
-    - group: gateway.networking.k8s.io
-      kind: Gateway
-      namespace: traefik
     - group: gateway.networking.k8s.io
       kind: Gateway
       namespace: istio-ingress

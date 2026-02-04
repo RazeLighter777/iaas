@@ -1,20 +1,23 @@
 ---
-apiVersion: traefik.io/v1alpha1
-kind: IngressRoute
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
 metadata:
   name: sillytavern
   namespace: sillytavern
 spec:
-  entryPoints:
-    - websecure
-  routes:
-    - kind: Rule
-      match: Host(`sillytavern.${domain_name}`) && PathPrefix(`/`)
-      middlewares:
-        - name: ak-outpost-proxy-outpost
-      services:
-        - kind: Service
-          name: sillytavern
-          namespace: sillytavern
-          port: 8000
-  tls: {}
+  hosts:
+    - sillytavern.${domain_name}
+  gateways:
+    - istio-ingress/istio-ingressgateway
+  http:
+    - route:
+        - destination:
+            host: sillytavern.sillytavern.svc.cluster.local
+            port:
+              number: 8000
+      match:
+        - authority:
+            exact: sillytavern.${domain_name}
+          uri:
+            prefix: /

@@ -23,8 +23,9 @@ spec:
       istio: ingressgateway
     service:
       type: LoadBalancer
+      loadBalancerIP: ${ingress_ip}
       externalIPs:
-        - 192.168.88.7
+        - ${ingress_ip}
       loadBalancerClass: "io.cilium/l2-announcer"
     resources:
       requests:
