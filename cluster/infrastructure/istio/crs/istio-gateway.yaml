@@ -1,36 +1,27 @@
 ---
-apiVersion: gateway.networking.k8s.io/v1
-kind: GatewayClass
-metadata:
-  name: istio
-spec:
-  controllerName: istio.io/gateway-controller
----
-apiVersion: gateway.networking.k8s.io/v1
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
-  name: istio-gateway
+  name: istio-ingressgateway
   namespace: istio-ingress
 spec:
-  gatewayClassName: istio
-  listeners:
-    - name: http
-      protocol: HTTP
-      port: 80
-      hostname: "*.${domain_name}"
-      allowedRoutes:
-        namespaces:
-          from: All
-    - name: https
-      protocol: HTTPS
-      port: 443
-      hostname: "*.${domain_name}"
-      allowedRoutes:
-        namespaces:
-          from: All
+  selector:
+    istio: ingressgateway # use istio ingress gateway deployment
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - "*.${domain_name}"
       tls:
-        mode: Terminate
-        certificateRefs:
-          - kind: Secret
-            name: ${domain_name}
-            namespace: cert-manager
+        httpsRedirect: true
+    - port:
+        number: 443
+        name: https
+        protocol: HTTPS
+      tls:
+        mode: SIMPLE
+        credentialName: ${domain_name} # secret must exist in istio-ingress
+      hosts:
+        - "*.${domain_name}"
