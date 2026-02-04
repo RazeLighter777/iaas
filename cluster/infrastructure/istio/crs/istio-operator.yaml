@@ -1,0 +1,39 @@
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  name: ingress
+spec:
+  meshConfig:
+    extensionProviders:
+      - name: "authentik"
+        envoyExtAuthzHttp:
+          # Replace with <service-name>.<namespace>.svc.cluster.local
+          service: "ak-outpost-proxy-outpost.authentik.svc.cluster.local"
+          port: "9000"
+          pathPrefix: "/outpost.goauthentik.io/auth/envoy"
+          headersToDownstreamOnAllow:
+            - cookie
+          headersToUpstreamOnAllow:
+            - set-cookie
+            - x-authentik-*
+            # Add authorization headers to the allow list if you need proxy providers which
+            # send a custom HTTP-Basic Authentication header based on values from authentik
+            # - authorization
+          includeRequestHeadersInCheck:
+            - cookie
+
+  profile: empty # Do not install CRDs or the control plane
+  components:
+    ingressGateways:
+      - name: istio-ingressgateway
+        namespace: istio-ingress
+        enabled: true
+        label:
+          # Set a unique label for the gateway. This is required to ensure Gateways
+          # can select this workload
+          istio: ingressgateway
+  values:
+    gateways:
+      istio-ingressgateway:
+        # Enable gateway injection
+        injectionTemplate: gateway
