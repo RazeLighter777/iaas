@@ -27,3 +27,4 @@ spec:
               - "immich.${domain_name}"
               - "authentik.${domain_name}"
               - "frigate.${domain_name}"
+              - "hass.${domain_name}"
