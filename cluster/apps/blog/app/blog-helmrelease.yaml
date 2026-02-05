@@ -89,7 +89,7 @@ spec:
           nginx:
             image:
               repository: docker.io/nginxinc/nginx-unprivileged
-              tag: 1.27-alpine
+              tag: 1.29-alpine
             resources:
               requests:
                 cpu: 50m
