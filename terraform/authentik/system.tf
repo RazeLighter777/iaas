@@ -27,8 +27,7 @@ resource "authentik_outpost" "proxyoutpost" {
     module.zwavejsui.proxy_provider_id,
     module.ircbooksearch.proxy_provider_id,
     module.openclaw.proxy_provider_id,
-    module.mqtt.proxy_provider_id,
-    module.capacitor.proxy_provider_id
+    module.mqtt.proxy_provider_id
   ]
 
   config = jsonencode({

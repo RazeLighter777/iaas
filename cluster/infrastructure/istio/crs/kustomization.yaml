@@ -4,3 +4,5 @@ resources:
   - ./istio-gateway.yaml
   - ./istio-ingress-certificate.yaml
   - ./istio-authentik-authorizationpolicy.yaml
+  - ./istiod-servicemonitor.yaml
+  - ./istio-ingressgateway-podmonitor.yaml
