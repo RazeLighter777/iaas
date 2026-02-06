@@ -27,7 +27,7 @@ spec:
           app:
             image:
               repository: ghcr.io/openclaw/openclaw
-              tag: 2026.2.3-amd64
+              tag: main@sha256:f19246090e9440628f906b672bb3686aee46cac7973e66d97b34075cc54029ff
               pullPolicy: IfNotPresent
             command:
               - /bin/sh
