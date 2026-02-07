@@ -6,3 +6,4 @@ resources:
   - omada-work-pvc.yaml
   - omada-helmrelease.yaml
   - virtualservice.yaml
+  - destinationrule.yaml

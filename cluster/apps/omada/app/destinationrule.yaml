@@ -1,0 +1,14 @@
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: omada-controller
+  namespace: omada
+spec:
+  host: omada-controller-main.omada.svc.cluster.local
+  trafficPolicy:
+    portLevelSettings:
+    - port:
+        number: 8043
+      tls:
+        mode: SIMPLE
+        sni: omada.${domain_name}
