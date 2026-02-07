@@ -55,24 +55,6 @@ spec:
               PORT_DISCOVERY: "29810"
               PORT_TRANSFER_V2: "29815"
               PORT_RTTY: "29816"
-    ingress:
-      main:
-        enabled: true
-        className: nginx
-        annotations:
-          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-          nginx.ingress.kubernetes.io/proxy-ssl-verify: "off"
-          nginx.ingress.kubernetes.io/use-regex: "true"
-          nginx.ingress.kubernetes.io/upstream-vhost: "omada.${domain_name}:8043"
-          nginx.ingress.kubernetes.io/proxy-redirect-from: "~https://(.+):8043/(.+)/login$"
-          nginx.ingress.kubernetes.io/proxy-redirect-to: "https://$1/$2/login"
-        hosts:
-          - host: omada.${domain_name}
-            paths:
-              - path: /
-                service:
-                  name: omada-controller-main
-                  port: 8043
     service:
       main:
         controller: main

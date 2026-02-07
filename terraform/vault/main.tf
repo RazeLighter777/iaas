@@ -150,6 +150,10 @@ variable "OPNSENSE_ROUTER_IP" {
     type = string
 }
 
+variable "OPNSENSE_WIREGUARD_PRIVATE_KEY" {
+    type = string
+}
+
 ### longhorn s3 backup creds and bucket
 
 variable "LONGHORN_S3_BUCKET" {
@@ -279,6 +283,7 @@ resource "vault_kv_secret_v2" "opnsense" {
         "api_key" = var.OPNSENSE_API_KEY
         "api_secret" = var.OPNSENSE_API_SECRET
         "opnsense_router_ip" = var.OPNSENSE_ROUTER_IP
+        "wireguard_private_key" = var.OPNSENSE_WIREGUARD_PRIVATE_KEY
     })
 }
 

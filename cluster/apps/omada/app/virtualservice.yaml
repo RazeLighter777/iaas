@@ -1,0 +1,21 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: omada-controller
+  namespace: omada
+spec:
+  hosts:
+  - omada.${domain_name}
+  gateways:
+  - istio-system/istio-ingressgateway
+  http:
+  - route:
+    - destination:
+        host: omada-controller-main.omada.svc.cluster.local
+        port:
+          number: 8043
+    match:
+    - authority:
+        exact: omada.${domain_name}
+      uri:
+        prefix: /
