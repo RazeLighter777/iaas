@@ -12,3 +12,4 @@ spec:
       tls:
         mode: SIMPLE
         sni: omada.${domain_name}
+        insecureSkipVerify: true
