@@ -30,9 +30,19 @@ spec:
             port: "9000"
             pathPrefix: "/outpost.goauthentik.io/auth/envoy"
             headersToDownstreamOnAllow:
-              - cookie
-            headersToUpstreamOnAllow:
               - set-cookie
-              - x-authentik-*
+            headersToUpstreamOnAllow:
+              - X-Authentik-Email
+              - X-Authentik-Entitlements
+              - X-Authentik-Groups
+              - X-Authentik-Meta-App
+              - X-Authentik-Meta-Jwks
+              - X-Authentik-Meta-Outpost
+              - X-Authentik-Meta-Provider
+              - X-Authentik-Meta-Version
+              - X-Authentik-Name
+              - X-Authentik-Uid
+              - X-Authentik-Username
             includeRequestHeadersInCheck:
               - cookie
+              - Origin
