@@ -39,6 +39,10 @@ spec:
       env:
         - name: AUTHENTIK_WEB__THREADS
           value: 16
+        - name: AUTHENTIK_HOST
+          value: authentik.${domain_name}
+        - name: AUTHENTIK_HOST_BROWSER
+          value: authentik.${domain_name}
     global:
       volumes:
         - name: customcss
