@@ -39,8 +39,6 @@ spec:
         size: 20Gi
         storageClass: longhorn-fast
     loki:
-      pattern_ingester:
-        enabled: true
       auth_enabled: true
       limits_config:
         reject_old_samples: false
