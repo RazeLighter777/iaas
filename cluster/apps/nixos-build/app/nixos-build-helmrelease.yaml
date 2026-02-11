@@ -1,0 +1,108 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: nixos-build
+  namespace: nixos-build
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 4.0.1
+      interval: 30m
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  values:
+    controllers:
+      nixos-build:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          daemon:
+            image:
+              repository: ghcr.io/razelighter777/nixos-build-daemon
+              tag: 0.0.1
+            securityContext:
+              privileged: true
+              allowPrivilegeEscalation: true
+          ssh-gateway:
+            image:
+              repository: ghcr.io/razelighter777/nixos-build-ssh-gateway
+              tag: 0.0.1
+          nix-serve:
+            image:
+              repository: ghcr.io/razelighter777/nixos-build-nix-serve
+              tag: 0.0.1
+            env:
+              NIX_SECRET_KEY_FILE: /cache-keys/nix_cache_private.key
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: false
+        runAsUser: 0
+        runAsGroup: 0
+        fsGroup: 0
+        fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        controller: nixos-build
+        primary: true
+        ports:
+          http:
+            port: 8080
+      ssh:
+        controller: nixos-build
+        type: LoadBalancer
+        loadBalancerIP: ${nix_cache_lb_ip}
+        ports:
+          ssh:
+            port: 2222
+            targetPort: 22
+            protocol: TCP
+    ingress:
+      app:
+        enabled: false
+    persistence:
+      nix:
+        existingClaim: nixos-build-nix
+        globalMounts:
+          - path: /nix
+      ssh-runtime:
+        type: emptyDir
+        advancedMounts:
+          nixos-build:
+            ssh-gateway:
+              - path: /ssh
+      ssh-keys:
+        type: secret
+        name: nixos-build-ssh-keys
+        defaultMode: 0600
+        advancedMounts:
+          nixos-build:
+            ssh-gateway:
+              - path: /ssh/authorized_keys
+                subPath: authorized_keys
+              - path: /ssh/ssh_host_rsa_key
+                subPath: ssh_host_rsa_key
+              - path: /ssh/ssh_host_ed25519_key
+                subPath: ssh_host_ed25519_key
+      cache-keys-dir:
+        type: emptyDir
+        advancedMounts:
+          nixos-build:
+            nix-serve:
+              - path: /cache-keys
+      cache-keys:
+        type: secret
+        name: nixos-build-cache-keys
+        defaultMode: 0600
+        advancedMounts:
+          nixos-build:
+            nix-serve:
+              - path: /cache-keys/nix_cache_private.key
+                subPath: nix_cache_private.key
+              - path: /cache-keys/nix_cache_public.key
+                subPath: nix_cache_public.key

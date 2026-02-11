@@ -220,6 +220,30 @@ variable "DISCORD_NOTIFICATIONS_WEBHOOK" {
     type = string
 }
 
+### Nix build service
+variable "NIX_BUILDER_AUTHORIZED_KEYS" {
+    type = string
+}
+
+variable "NIX_SSH_HOST_RSA_KEY" {
+    type = string
+}
+
+variable "NIX_SSH_HOST_ED25519_KEY" {
+    type = string
+}
+
+variable "NIX_CACHE_PRIVATE_KEY" {
+    type = string
+}
+
+variable "NIX_CACHE_PUBLIC_KEY" {
+    type = string
+}
+
+variable "NIX_CACHE_LB_IP" {
+    type = string
+}
 variable "DISCORD_STATUS_WEBHOOK" {
     type = string
 }
@@ -253,6 +277,7 @@ resource "vault_kv_secret_v2" "cluster-settings" {
         "nfs_server_ip" = var.NFS_SERVER_IP
         "nfs_path" = var.NFS_PATH
         "omada_controller_ip" = var.OMADA_CONTROLLER_IP
+        "nix_cache_lb_ip" = var.NIX_CACHE_LB_IP
     })
 }
 
@@ -609,5 +634,18 @@ resource "vault_kv_secret_v2" "graphite_exporter" {
     name    = "graphite_exporter"
     data_json = jsonencode({
         "graphite_exporter_ip" = var.GRAPHITE_EXPORTER_IP
+    })
+}
+
+resource "vault_kv_secret_v2" "nix_build_service" {
+    mount    = vault_mount.kv.path
+    name    = "nix_build_service"
+    data_json = jsonencode({
+        "authorized_keys" = var.NIX_BUILDER_AUTHORIZED_KEYS
+        "ssh_host_rsa_key" = var.NIX_SSH_HOST_RSA_KEY
+        "ssh_host_ed25519_key" = var.NIX_SSH_HOST_ED25519_KEY
+        "nix_cache_private_key" = var.NIX_CACHE_PRIVATE_KEY
+        "nix_cache_public_key" = var.NIX_CACHE_PUBLIC_KEY
+        "nix_cache_lb_ip" = var.NIX_CACHE_LB_IP
     })
 }

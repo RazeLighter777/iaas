@@ -1,0 +1,21 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: nixos-build
+  namespace: nixos-build
+spec:
+  hosts:
+    - nix.${domain_name}
+  gateways:
+    - istio-system/istio-ingressgateway
+  http:
+    - match:
+        - authority:
+            exact: nix.${domain_name}
+          uri:
+            prefix: /
+      route:
+        - destination:
+            host: nixos-build.nixos-build.svc.cluster.local
+            port:
+              number: 8080
