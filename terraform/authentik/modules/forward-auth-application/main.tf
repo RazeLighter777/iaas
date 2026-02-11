@@ -97,6 +97,7 @@ resource "authentik_provider_proxy" "main" {
   access_token_validity         = var.access_token_validity
   property_mappings             = var.property_mappings
   skip_path_regex               = var.skip_path_regex
+  cookie_domain                 = "https://${var.domain_name}"
 }
 
 

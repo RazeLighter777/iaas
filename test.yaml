@@ -1,51 +1,20 @@
-apiVersion: networking.istio.io/v1alpha3
-kind: EnvoyFilter
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
 metadata:
-  name: authentik-forward-headers
-  namespace: istio-system
+  name: authentik-callback-vs
+  namespace: istio-system # Same namespace as Gateway
 spec:
-  workloadSelector:
-    labels:
-      istio: ingressgateway
-  configPatches:
-    # Patch to add headers BEFORE ext_authz filter runs
-    - applyTo: HTTP_FILTER
-      match:
-        context: GATEWAY
-        listener:
-          filterChain:
-            filter:
-              name: envoy.filters.network.http_connection_manager
-              subFilter:
-                name: envoy.filters.http.ext_authz
-      patch:
-        operation: INSERT_BEFORE
-        value:
-          name: envoy.filters.http.lua
-          typed_config:
-            "@type": type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua
-            inline_code: |
-              function envoy_on_request(request_handle)
-                local headers = request_handle:headers()
-                
-                -- Get the host from :authority pseudo-header
-                local host = headers:get(":authority")
-                
-                if host then
-                  -- Set X-Forwarded-Host to the actual host
-                  request_handle:headers():replace("x-forwarded-host", host)
-                end
-                
-                -- Always set these for HTTPS
-                request_handle:headers():replace("x-forwarded-proto", "https")
-                request_handle:headers():replace("x-forwarded-port", "443")
-                
-                -- Debug logging (check istio-proxy logs)
-                request_handle:logInfo(
-                  string.format(
-                    "Headers set - Host: %s, X-Forwarded-Host: %s, X-Forwarded-Proto: https",
-                    host or "nil",
-                    headers:get("x-forwarded-host") or "nil"
-                  )
-                )
-              end
+  hosts:
+    - "*.prizrak.me" # Replace with your actual domain
+  gateways:
+    - istio-system/istio-ingressgateway
+  http:
+    - match:
+        - uri:
+            prefix: "/outpost.goauthentik.io/callback"
+      route:
+        - destination:
+            host: ak-outpost-proxy-outpost.authentik.svc.cluster.local
+            port:
+              number: 9000

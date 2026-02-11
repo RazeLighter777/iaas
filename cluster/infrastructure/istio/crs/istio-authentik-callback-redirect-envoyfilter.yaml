@@ -1,0 +1,59 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: authentik-callback-400-redirect
+  namespace: istio-system
+spec:
+  workloadSelector:
+    labels:
+      istio: ingressgateway
+  configPatches:
+    - applyTo: HTTP_FILTER
+      match:
+        context: GATEWAY
+        listener:
+          filterChain:
+            filter:
+              name: envoy.filters.network.http_connection_manager
+              subFilter:
+                name: envoy.filters.http.ext_authz
+      patch:
+        operation: INSERT_BEFORE
+        value:
+          name: envoy.filters.http.lua
+          typed_config:
+            "@type": type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua
+            inlineCode: |
+              function envoy_on_request(handle)
+                local path = handle:headers():get(":path") or ""
+                if string.find(path, "^/outpost%.goauthentik%.io/callback") then
+                  local host = handle:headers():get(":authority") or handle:headers():get("host") or ""
+                  handle:streamInfo():dynamicMetadata():set("ak_callback", "path", path)
+                  handle:streamInfo():dynamicMetadata():set("ak_callback", "host", host)
+                end
+              end
+
+              function envoy_on_response(handle)
+                local status = tonumber(handle:headers():get(":status")) or 0
+                if status ~= 400 then
+                  return
+                end
+
+                local md = handle:streamInfo():dynamicMetadata():get("ak_callback")
+                if md == nil then
+                  return
+                end
+
+                local path = md["path"] or ""
+                if path == "" then
+                  return
+                end
+
+                local host = md["host"] or ""
+                if host == "" then
+                  return
+                end
+
+                handle:headers():replace(":status", "302")
+                handle:headers():replace("location", "https://" .. host)
+              end
