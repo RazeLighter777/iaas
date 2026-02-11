@@ -1,0 +1,61 @@
+name: build-and-push-container
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - containers/**
+      - .github/workflows/container-build.yaml
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  IMAGE_REPO: ghcr.io/${{ github.repository }}
+  VERSION: 0.0.1
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        container:
+          - name: nixos-build-daemon
+            context: containers/nixos-build-daemon
+            file: containers/nixos-build-daemon/Containerfile
+          - name: nixos-build-ssh-gateway
+            context: containers/nixos-build-ssh-gateway
+            file: containers/nixos-build-ssh-gateway/Containerfile
+          - name: nixos-build-nix-serve
+            context: containers/nixos-build-nix-serve
+            file: containers/nixos-build-nix-serve/Containerfile
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Podman
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y podman
+
+      - name: Login to GHCR
+        uses: redhat-actions/podman-login@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build image
+        run: |
+          podman build \
+            --file ${{ matrix.container.file }} \
+            --build-arg SOURCE_REPO=https://github.com/${{ github.repository }} \
+            --tag ${IMAGE_REPO}/${{ matrix.container.name }}:${VERSION} \
+            ${{ matrix.container.context }}
+
+      - name: Push image
+        run: |
+          podman push ${IMAGE_REPO}/${{ matrix.container.name }}:${VERSION}

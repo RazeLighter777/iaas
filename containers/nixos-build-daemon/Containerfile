@@ -1,0 +1,16 @@
+FROM nixos/nix:latest
+
+ARG SOURCE_REPO="unknown"
+
+LABEL org.opencontainers.image.title="nixos-build-daemon"
+LABEL org.opencontainers.image.description="Nix build daemon container for remote builds."
+LABEL org.opencontainers.image.source="${SOURCE_REPO}"
+
+RUN nix --version \
+    && nix-env -iA nixpkgs.openssh nixpkgs.nix-serve \
+    && mkdir -p /etc/nix /nix/var/nix/daemon-socket \
+    && printf 'sandbox = true\n' > /etc/nix/nix.conf
+
+VOLUME ["/nix", "/nix/var/nix/daemon-socket"]
+
+CMD ["/bin/sh", "-c", "exec nix-daemon --daemon"]

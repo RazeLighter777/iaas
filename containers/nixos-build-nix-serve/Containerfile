@@ -1,0 +1,16 @@
+FROM nixos/nix:latest
+
+ARG SOURCE_REPO="unknown"
+
+LABEL org.opencontainers.image.title="nixos-build-nix-serve"
+LABEL org.opencontainers.image.description="Nix binary cache server container using nix-serve."
+LABEL org.opencontainers.image.source="${SOURCE_REPO}"
+
+RUN nix --version \
+    && mkdir -p /nix
+
+EXPOSE 8080
+
+VOLUME ["/nix", "/cache-keys"]
+
+CMD ["/bin/sh", "-c", "exec /nix/var/nix/profiles/default/bin/nix-serve -p 8080"]

@@ -1,0 +1,50 @@
+FROM nixos/nix:latest
+
+ARG SOURCE_REPO="unknown"
+
+LABEL org.opencontainers.image.title="nixos-build-ssh-gateway"
+LABEL org.opencontainers.image.description="SSH gateway container for a Nix build daemon."
+LABEL org.opencontainers.image.source="${SOURCE_REPO}"
+
+RUN nix --version \
+	&& nix-env -iA nixpkgs.gnused \
+	&& mkdir -p /nix /var/empty /etc/ssh \
+	&& cp -L /etc/passwd /tmp/passwd \
+	&& cp -L /etc/group /tmp/group \
+	&& cp -L /etc/shadow /tmp/shadow \
+	&& rm -f /etc/passwd /etc/group /etc/shadow \
+	&& mv /tmp/passwd /etc/passwd \
+	&& mv /tmp/group /etc/group \
+	&& mv /tmp/shadow /etc/shadow \
+	&& (grep -q '^sshd:' /etc/passwd || printf '%s\n' 'sshd:x:74:74:sshd:/var/empty:/sbin/nologin' >> /etc/passwd) \
+	&& (grep -q '^sshd:' /etc/group || printf '%s\n' 'sshd:x:74:' >> /etc/group) \
+	&& /nix/var/nix/profiles/default/bin/sed -i 's/^root:!:/root::/' /etc/shadow \
+	&& mkdir -p /usr/local/bin \
+	&& ln -sf /nix/var/nix/profiles/default/bin/nix-store /usr/local/bin/nix-store \
+	&& ln -sf /nix/var/nix/profiles/default/bin/nix /usr/local/bin/nix \
+	&& printf '%s\n' \
+	'Port 22' \
+	'ListenAddress 0.0.0.0' \
+	'Protocol 2' \
+	'HostKey /ssh/ssh_host_rsa_key' \
+	'HostKey /ssh/ssh_host_ed25519_key' \
+	'PermitRootLogin prohibit-password' \
+	'PubkeyAuthentication yes' \
+	'PasswordAuthentication no' \
+	'KbdInteractiveAuthentication no' \
+	'ChallengeResponseAuthentication no' \
+	'UsePAM no' \
+	'AllowTcpForwarding yes' \
+	'X11Forwarding no' \
+	'PrintMotd no' \
+	'SetEnv PATH=/usr/local/bin:/nix/var/nix/profiles/default/bin:/usr/bin:/bin' \
+	'Subsystem sftp /nix/var/nix/profiles/default/libexec/sftp-server' \
+	'AuthorizedKeysFile /ssh/authorized_keys' \
+	'PidFile /ssh/sshd.pid' \
+	> /etc/ssh/sshd_config
+
+EXPOSE 22
+
+VOLUME ["/nix", "/ssh"]
+
+CMD ["/bin/sh", "-c", "exec /nix/var/nix/profiles/default/bin/sshd -D -e -f /etc/ssh/sshd_config"]
