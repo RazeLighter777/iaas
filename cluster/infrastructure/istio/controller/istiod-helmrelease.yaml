@@ -30,8 +30,9 @@ spec:
             port: "9000"
             pathPrefix: "/outpost.goauthentik.io/auth/envoy"
             headersToDownstreamOnAllow:
-              - set-cookie
+              - cookie
             headersToUpstreamOnAllow:
+              - set-cookie
               - X-Authentik-Email
               - X-Authentik-Entitlements
               - X-Authentik-Groups

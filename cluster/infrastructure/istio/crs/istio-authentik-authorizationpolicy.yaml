@@ -26,5 +26,3 @@ spec:
               - "authentik.${domain_name}"
               - "frigate.${domain_name}"
               - "hass.${domain_name}"
-            notPaths:
-              - /outpost.goauthentik.io/*
