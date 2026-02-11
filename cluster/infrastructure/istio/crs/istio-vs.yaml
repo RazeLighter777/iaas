@@ -17,3 +17,7 @@ spec:
             host: ak-outpost-proxy-outpost.authentik.svc.cluster.local
             port:
               number: 9000
+      headers:
+        request:
+          set:
+            X-Forwarded-Proto: https
