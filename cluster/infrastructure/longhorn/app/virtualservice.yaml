@@ -5,17 +5,23 @@ metadata:
   namespace: longhorn-system
 spec:
   hosts:
-  - longhorn.${domain_name}
+    - longhorn.${domain_name}
   gateways:
-  - istio-system/istio-ingressgateway
+    - istio-system/istio-ingressgateway
   http:
-  - route:
-    - destination:
-        host: longhorn-frontend.longhorn-system.svc.cluster.local
-        port:
-          number: 80
-    match:
-    - authority:
-        exact: longhorn.${domain_name}
-      uri:
-        prefix: /
+    - route:
+        - destination:
+            host: longhorn-frontend.longhorn-system.svc.cluster.local
+            port:
+              number: 80
+      headers:
+        request:
+          set:
+            X-Forwarded-Proto: "https"
+            X-Forwarded-Host: "longhorn.${domain_name}"
+            X-Forwarded-Port: "443"
+      match:
+        - authority:
+            exact: longhorn.${domain_name}
+          uri:
+            prefix: /
