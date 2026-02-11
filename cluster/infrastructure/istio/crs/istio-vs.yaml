@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: authentik-callback
+  namespace: istio-ingress
+spec:
+  hosts:
+    - "*.${domain_name}"
+  gateways:
+    - istio-ingress/ingressgateway
+  http:
+    - match:
+        - uri:
+            prefix: /outpost.goauthentik.io/
+      route:
+        - destination:
+            host: ak-outpost-proxy-outpost.authentik.svc.cluster.local
+            port:
+              number: 9000
