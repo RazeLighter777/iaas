@@ -14,7 +14,7 @@ permissions:
   packages: write
 
 env:
-  IMAGE_REPO: ghcr.io/${{ github.repository }}
+  IMAGE_REPO: ghcr.io/${{ toLower(github.repository) }}
   VERSION: 0.0.1
 
 jobs:
