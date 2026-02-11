@@ -28,7 +28,7 @@ spec:
           envoyExtAuthzHttp:
             service: "ak-outpost-proxy-outpost.authentik.svc.cluster.local"
             port: "9000"
-            pathPrefix: "/outpost.goauthentik.io/auth/envoy"
+            pathPrefix: "/outpost.goauthentik.io/"
             headersToDownstreamOnAllow:
               - cookie
             headersToUpstreamOnAllow:
