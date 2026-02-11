@@ -5,17 +5,23 @@ metadata:
   namespace: vaultwarden
 spec:
   hosts:
-  - vaultwarden.${domain_name}
+    - vaultwarden.${domain_name}
   gateways:
-  - istio-system/istio-ingressgateway
+    - istio-system/istio-ingressgateway
   http:
-  - route:
-    - destination:
-        host: vaultwarden.vaultwarden.svc.cluster.local
-        port:
-          number: 80
-    match:
-    - authority:
-        exact: vaultwarden.${domain_name}
-      uri:
-        prefix: /
+    - match:
+        - authority:
+            exact: vaultwarden.${domain_name}
+          uri:
+            prefix: /
+      headers:
+        request:
+          set:
+            X-Forwarded-Proto: "https"
+            X-Forwarded-Host: "vaultwarden.${domain_name}"
+            X-Forwarded-Port: "443"
+      route:
+        - destination:
+            host: vaultwarden.vaultwarden.svc.cluster.local
+            port:
+              number: 80
