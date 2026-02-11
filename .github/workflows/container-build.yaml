@@ -14,7 +14,7 @@ permissions:
   packages: write
 
 env:
-  IMAGE_REPO: ghcr.io/${{ toLower(github.repository) }}
+  IMAGE_REPO: ghcr.io/${{ github.repository }}
   VERSION: 0.0.1
 
 jobs:
@@ -50,12 +50,14 @@ jobs:
 
       - name: Build image
         run: |
+          IMAGE_REPO_LOWER=$(echo "${IMAGE_REPO}" | tr '[:upper:]' '[:lower:]')
           podman build \
             --file ${{ matrix.container.file }} \
             --build-arg SOURCE_REPO=https://github.com/${{ github.repository }} \
-            --tag ${IMAGE_REPO}/${{ matrix.container.name }}:${VERSION} \
+            --tag ${IMAGE_REPO_LOWER}/${{ matrix.container.name }}:${VERSION} \
             ${{ matrix.container.context }}
 
       - name: Push image
         run: |
-          podman push ${IMAGE_REPO}/${{ matrix.container.name }}:${VERSION}
+          IMAGE_REPO_LOWER=$(echo "${IMAGE_REPO}" | tr '[:upper:]' '[:lower:]')
+          podman push ${IMAGE_REPO_LOWER}/${{ matrix.container.name }}:${VERSION}
