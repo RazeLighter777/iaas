@@ -120,6 +120,12 @@ spec:
               - path: /nix
             nix-serve:
               - path: /nix
+      build:
+        type: emptyDir
+        advancedMounts:
+          nixos-build:
+            daemon:
+              - path: /build
       ssh-runtime:
         type: emptyDir
         advancedMounts:
