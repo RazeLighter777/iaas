@@ -38,6 +38,20 @@ spec:
             securityContext:
               runAsUser: 0
               runAsGroup: 0
+          ssh-perms:
+            image:
+              repository: busybox
+              tag: 1.37.0
+            command:
+              - /bin/sh
+              - -c
+              - |
+                set -e
+                chown root:root /ssh
+                chmod 0700 /ssh
+            securityContext:
+              runAsUser: 0
+              runAsGroup: 0
         containers:
           daemon:
             image:
@@ -111,6 +125,8 @@ spec:
         advancedMounts:
           nixos-build:
             ssh-gateway:
+              - path: /ssh
+            ssh-perms:
               - path: /ssh
       ssh-keys:
         type: secret
