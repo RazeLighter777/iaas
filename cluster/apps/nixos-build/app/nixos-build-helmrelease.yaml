@@ -25,7 +25,7 @@ spec:
           nix-seed:
             image:
               repository: ghcr.io/razelighter777/iaas/nixos-build-daemon
-              tag: 0.0.1
+              tag: 0.0.2
             command:
               - /bin/sh
               - -c
@@ -56,7 +56,7 @@ spec:
           daemon:
             image:
               repository: ghcr.io/razelighter777/iaas/nixos-build-daemon
-              tag: 0.0.1
+              tag: 0.0.2
             command:
               - /nix/var/nix/profiles/default/bin/nix-daemon
               - --daemon
@@ -122,12 +122,6 @@ spec:
               - path: /nix
             nix-serve:
               - path: /nix
-      build:
-        type: emptyDir
-        advancedMounts:
-          nixos-build:
-            daemon:
-              - path: /build
       ssh-runtime:
         type: emptyDir
         advancedMounts:
