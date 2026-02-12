@@ -24,7 +24,7 @@ spec:
           app:
             image:
               repository: rustfs/rustfs
-              tag: 1.0.0-alpha.81@sha256:eadee1b524ec05cbc1fe08426a95e589bc70e70cd15a4591edf176cabde238a6
+              tag: 1.0.0-alpha.81@sha256:4ee605dfe7c6548d1fa1856357e8a1eccd929e3176acf933fafeba3ce09a69f9
               pullPolicy: IfNotPresent
             args:
               - --access-key
