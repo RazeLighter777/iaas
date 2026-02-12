@@ -21,6 +21,23 @@ spec:
       nixos-build:
         annotations:
           reloader.stakater.com/auto: "true"
+        initContainers:
+          nix-seed:
+            image:
+              repository: ghcr.io/razelighter777/iaas/nixos-build-daemon
+              tag: 0.0.1
+            command:
+              - /bin/sh
+              - -c
+              - |
+                set -e
+                if [ ! -d /mnt/nix/store ]; then
+                  mkdir -p /mnt/nix
+                  cp -a /nix/. /mnt/nix/
+                fi
+            securityContext:
+              runAsUser: 0
+              runAsGroup: 0
         containers:
           daemon:
             image:
@@ -81,8 +98,16 @@ spec:
     persistence:
       nix:
         existingClaim: nixos-build-nix
-        globalMounts:
-          - path: /nix
+        advancedMounts:
+          nixos-build:
+            nix-seed:
+              - path: /mnt/nix
+            daemon:
+              - path: /nix
+            ssh-gateway:
+              - path: /nix
+            nix-serve:
+              - path: /nix
       ssh-runtime:
         type: emptyDir
         advancedMounts:
