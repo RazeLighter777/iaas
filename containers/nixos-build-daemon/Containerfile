@@ -8,13 +8,14 @@ LABEL org.opencontainers.image.source="${SOURCE_REPO}"
 
 RUN nix --version \
     && nix-env -iA nixpkgs.openssh nixpkgs.nix-serve \
-    && mkdir -p /etc/nix /nix/var/nix/daemon-socket /tmp/nix-build \
-    && chmod 1777 /tmp /tmp/nix-build \
+    && mkdir -p /etc/nix /nix/var/nix/daemon-socket /nix/var/nix/builds \
+    && chown root:root /nix/var/nix/builds \
+    && chmod 0755 /nix/var/nix/builds \
     && printf '%s\n' \
     'sandbox = true' \
     'build-users-group = nixbld' \
-    'build-dir = /tmp/nix-build' \
-    'sandbox-build-dir = /tmp/nix-build' \
+    'build-dir = /nix/var/nix/builds' \
+    'sandbox-build-dir = /nix/var/nix/builds' \
     > /etc/nix/nix.conf
 
 VOLUME ["/nix", "/nix/var/nix/daemon-socket"]
