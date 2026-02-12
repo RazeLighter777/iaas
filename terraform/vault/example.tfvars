@@ -109,5 +109,12 @@ NIX_CACHE_PUBLIC_KEY = "your-cache-name:REPLACE_WITH_NIX_CACHE_PUBLIC_KEY"
 
 NIX_CACHE_LB_IP = "192.168.1.1"
 
+NIX_CACHE_S3_BUCKET = "your-nix-cache-bucket"
+NIX_CACHE_S3_ENDPOINT = "s3.example.com"
+NIX_CACHE_S3_REGION = "us-east-1"
+NIX_CACHE_S3_SCHEME = "https"
+NIX_CACHE_S3_ACCESS_KEY_ID = "your-nix-cache-s3-access-key-id"
+NIX_CACHE_S3_SECRET_ACCESS_KEY = "your-nix-cache-s3-secret-access-key"
+
 # Graphite exporter IP
 GRAPHITE_EXPORTER_IP=192.168.1.x

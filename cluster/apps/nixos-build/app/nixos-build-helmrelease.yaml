@@ -25,7 +25,7 @@ spec:
           nix-seed:
             image:
               repository: ghcr.io/razelighter777/iaas/nixos-build-daemon
-              tag: 0.0.3
+              tag: 0.0.4
             command:
               - /bin/sh
               - -c
@@ -71,10 +71,12 @@ spec:
           daemon:
             image:
               repository: ghcr.io/razelighter777/iaas/nixos-build-daemon
-              tag: 0.0.3
+              tag: 0.0.4
             command:
-              - /nix/var/nix/profiles/default/bin/nix-daemon
-              - --daemon
+              - /usr/local/bin/start-nix-daemon.sh
+            envFrom:
+              - secretRef:
+                  name: nixos-build-cache-keys
             securityContext:
               privileged: true
               allowPrivilegeEscalation: true
@@ -90,43 +92,26 @@ spec:
               - /etc/ssh/sshd_config
             securityContext:
               privileged: true
-          nix-serve:
-            image:
-              repository: ghcr.io/razelighter777/iaas/nixos-build-nix-serve
-              tag: 0.0.1
-            command:
-              - /nix/var/nix/profiles/default/bin/nix-serve
-              - -p
-              - "8080"
-            env:
-              NIX_SECRET_KEY_FILE: /cache-keys/nix_cache_private.key
     defaultPodOptions:
       securityContext:
         runAsNonRoot: false
         runAsUser: 0
         runAsGroup: 0
     service:
-      app:
-        controller: nixos-build
-        primary: true
-        ports:
-          http:
-            port: 8080
       ssh:
         controller: nixos-build
+        primary: true
         type: LoadBalancer
         loadBalancerIP: ${nix_cache_lb_ip}
         ports:
           ssh:
-            port: 2222
+            port: 22
             targetPort: 22
             protocol: TCP
-    ingress:
-      app:
-        enabled: false
     persistence:
       nix:
-        existingClaim: nixos-build-nix
+        type: emptyDir
+        medium: Memory
         advancedMounts:
           nixos-build:
             nix-seed:
@@ -134,8 +119,6 @@ spec:
             daemon:
               - path: /nix
             ssh-gateway:
-              - path: /nix
-            nix-serve:
               - path: /nix
       ssh-runtime:
         type: emptyDir
@@ -171,7 +154,7 @@ spec:
         type: emptyDir
         advancedMounts:
           nixos-build:
-            nix-serve:
+            daemon:
               - path: /cache-keys
       cache-keys:
         type: secret
@@ -179,7 +162,7 @@ spec:
         defaultMode: 0600
         advancedMounts:
           nixos-build:
-            nix-serve:
+            daemon:
               - path: /cache-keys/nix_cache_private.key
                 subPath: nix_cache_private.key
               - path: /cache-keys/nix_cache_public.key

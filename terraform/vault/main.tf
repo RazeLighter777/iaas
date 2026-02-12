@@ -244,6 +244,31 @@ variable "NIX_CACHE_PUBLIC_KEY" {
 variable "NIX_CACHE_LB_IP" {
     type = string
 }
+
+variable "NIX_CACHE_S3_BUCKET" {
+    type = string
+}
+
+variable "NIX_CACHE_S3_ENDPOINT" {
+    type = string
+}
+
+variable "NIX_CACHE_S3_REGION" {
+    type = string
+}
+
+variable "NIX_CACHE_S3_SCHEME" {
+    type = string
+}
+
+variable "NIX_CACHE_S3_ACCESS_KEY_ID" {
+    type = string
+}
+
+variable "NIX_CACHE_S3_SECRET_ACCESS_KEY" {
+    type = string
+}
+
 variable "DISCORD_STATUS_WEBHOOK" {
     type = string
 }
@@ -647,5 +672,11 @@ resource "vault_kv_secret_v2" "nix_build_service" {
         "nix_cache_private_key" = var.NIX_CACHE_PRIVATE_KEY
         "nix_cache_public_key" = var.NIX_CACHE_PUBLIC_KEY
         "nix_cache_lb_ip" = var.NIX_CACHE_LB_IP
+        "nix_cache_s3_bucket" = var.NIX_CACHE_S3_BUCKET
+        "nix_cache_s3_endpoint" = var.NIX_CACHE_S3_ENDPOINT
+        "nix_cache_s3_region" = var.NIX_CACHE_S3_REGION
+        "nix_cache_s3_scheme" = var.NIX_CACHE_S3_SCHEME
+        "nix_cache_s3_access_key_id" = var.NIX_CACHE_S3_ACCESS_KEY_ID
+        "nix_cache_s3_secret_access_key" = var.NIX_CACHE_S3_SECRET_ACCESS_KEY
     })
 }

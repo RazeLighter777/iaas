@@ -7,17 +7,16 @@ LABEL org.opencontainers.image.description="Nix build daemon container for remot
 LABEL org.opencontainers.image.source="${SOURCE_REPO}"
 
 RUN nix --version \
-    && nix-env -iA nixpkgs.openssh nixpkgs.nix-serve \
-    && mkdir -p /etc/nix /nix/var/nix/daemon-socket /nix/var/nix/builds \
+    && nix-env -iA nixpkgs.openssh \
+    && mkdir -p /etc/nix /nix/var/nix/daemon-socket /nix/var/nix/builds /cache-keys \
     && chown root:root /nix/var/nix/builds \
-    && chmod 0755 /nix/var/nix/builds \
-    && printf '%s\n' \
-    'sandbox = true' \
-    'build-users-group = nixbld' \
-    'build-dir = /nix/var/nix/builds' \
-    'sandbox-build-dir = /nix/var/nix/builds' \
-    > /etc/nix/nix.conf
+    && chmod 0755 /nix/var/nix/builds
+
+COPY start-nix-daemon.sh /usr/local/bin/start-nix-daemon.sh
+COPY nix-post-build-hook.sh /usr/local/bin/nix-post-build-hook.sh
+
+RUN chmod 0755 /usr/local/bin/start-nix-daemon.sh /usr/local/bin/nix-post-build-hook.sh
 
 VOLUME ["/nix", "/nix/var/nix/daemon-socket"]
 
-CMD ["/bin/sh", "-c", "exec nix-daemon --daemon"]
+CMD ["/usr/local/bin/start-nix-daemon.sh"]

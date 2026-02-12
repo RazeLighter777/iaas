@@ -15,7 +15,7 @@ permissions:
 
 env:
   IMAGE_REPO: ghcr.io/${{ github.repository }}
-  VERSION: 0.0.3
+  VERSION: 0.0.4
 
 jobs:
   build-and-push:
@@ -29,9 +29,6 @@ jobs:
           - name: nixos-build-ssh-gateway
             context: containers/nixos-build-ssh-gateway
             file: containers/nixos-build-ssh-gateway/Containerfile
-          - name: nixos-build-nix-serve
-            context: containers/nixos-build-nix-serve
-            file: containers/nixos-build-nix-serve/Containerfile
     steps:
       - name: Checkout
         uses: actions/checkout@v4
