@@ -167,3 +167,8 @@ spec:
                 subPath: nix_cache_private.key
               - path: /cache-keys/nix_cache_public.key
                 subPath: nix_cache_public.key
+            ssh-gateway:
+              - path: /cache-keys/nix_cache_private.key
+                subPath: nix_cache_private.key
+              - path: /cache-keys/nix_cache_public.key
+                subPath: nix_cache_public.key
