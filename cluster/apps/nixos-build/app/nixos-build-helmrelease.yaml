@@ -24,7 +24,7 @@ spec:
         containers:
           daemon:
             image:
-              repository: ghcr.io/razelighter777/nixos-build-daemon
+              repository: ghcr.io/razelighter777/iaas/nixos-build-daemon
               tag: 0.0.1
             command:
               - /nix/var/nix/profiles/default/bin/nix-daemon
@@ -34,7 +34,7 @@ spec:
               allowPrivilegeEscalation: true
           ssh-gateway:
             image:
-              repository: ghcr.io/razelighter777/nixos-build-ssh-gateway
+              repository: ghcr.io/razelighter777/iaas/nixos-build-ssh-gateway
               tag: 0.0.1
             command:
               - /nix/var/nix/profiles/default/bin/sshd
@@ -44,7 +44,7 @@ spec:
               - /etc/ssh/sshd_config
           nix-serve:
             image:
-              repository: ghcr.io/razelighter777/nixos-build-nix-serve
+              repository: ghcr.io/razelighter777/iaas/nixos-build-nix-serve
               tag: 0.0.1
             command:
               - /nix/var/nix/profiles/default/bin/nix-serve
