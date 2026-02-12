@@ -23,4 +23,4 @@ fi
 
 nix sign-paths --key-file "${NIX_CACHE_PRIVATE_KEY_FILE}" ${paths}
 
-nix copy --to "s3://${NIX_S3_BUCKET}?endpoint=${NIX_S3_ENDPOINT}&region=${NIX_S3_REGION}&scheme=${NIX_S3_SCHEME:-https}" ${paths}
+nix copy --to "s3://${NIX_S3_BUCKET}?endpoint=${NIX_S3_ENDPOINT}&region=${NIX_S3_REGION}&scheme=${NIX_S3_SCHEME:-https}&profile=${AWS_PROFILE:-default}" ${paths}

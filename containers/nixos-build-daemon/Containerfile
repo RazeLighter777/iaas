@@ -6,6 +6,12 @@ LABEL org.opencontainers.image.title="nixos-build-daemon"
 LABEL org.opencontainers.image.description="Nix build daemon container for remote builds."
 LABEL org.opencontainers.image.source="${SOURCE_REPO}"
 
+ENV HOME=/root \
+    AWS_SHARED_CREDENTIALS_FILE=/root/.aws/credentials \
+    AWS_CONFIG_FILE=/root/.aws/config \
+    AWS_SDK_LOAD_CONFIG=1 \
+    AWS_EC2_METADATA_DISABLED=true
+
 RUN nix --version \
     && nix-env -iA nixpkgs.openssh \
     && mkdir -p /etc/nix /nix/var/nix/daemon-socket /nix/var/nix/builds /cache-keys \
