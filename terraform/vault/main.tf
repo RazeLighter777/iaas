@@ -641,9 +641,9 @@ resource "vault_kv_secret_v2" "nix_build_service" {
     mount    = vault_mount.kv.path
     name    = "nix_build_service"
     data_json = jsonencode({
-        "authorized_keys" = var.NIX_BUILDER_AUTHORIZED_KEYS
-        "ssh_host_rsa_key" = var.NIX_SSH_HOST_RSA_KEY
-        "ssh_host_ed25519_key" = var.NIX_SSH_HOST_ED25519_KEY
+        "authorized_keys" = replace(replace(var.NIX_BUILDER_AUTHORIZED_KEYS, "\r\n", "\n"), "\r", "\n")
+        "ssh_host_rsa_key" = replace(replace(var.NIX_SSH_HOST_RSA_KEY, "\r\n", "\n"), "\r", "\n")
+        "ssh_host_ed25519_key" = replace(replace(var.NIX_SSH_HOST_ED25519_KEY, "\r\n", "\n"), "\r", "\n")
         "nix_cache_private_key" = var.NIX_CACHE_PRIVATE_KEY
         "nix_cache_public_key" = var.NIX_CACHE_PUBLIC_KEY
         "nix_cache_lb_ip" = var.NIX_CACHE_LB_IP

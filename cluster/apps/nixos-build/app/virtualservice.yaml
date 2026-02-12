@@ -16,6 +16,6 @@ spec:
             prefix: /
       route:
         - destination:
-            host: nixos-build.nixos-build.svc.cluster.local
+            host: nixos-build-app.nixos-build.svc.cluster.local
             port:
               number: 8080
