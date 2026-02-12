@@ -38,6 +38,7 @@ RUN nix --version \
 	'X11Forwarding no' \
 	'PrintMotd no' \
 	'SetEnv PATH=/usr/local/bin:/nix/var/nix/profiles/default/bin:/usr/bin:/bin' \
+	'SetEnv NIX_REMOTE=daemon' \
 	'Subsystem sftp /nix/var/nix/profiles/default/libexec/sftp-server' \
 	'AuthorizedKeysFile /ssh/authorized_keys' \
 	'PidFile /ssh/sshd.pid' \

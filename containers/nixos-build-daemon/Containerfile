@@ -17,6 +17,6 @@ COPY nix-post-build-hook.sh /usr/local/bin/nix-post-build-hook.sh
 
 RUN chmod 0755 /usr/local/bin/start-nix-daemon.sh /usr/local/bin/nix-post-build-hook.sh
 
-VOLUME ["/nix", "/nix/var/nix/daemon-socket"]
+VOLUME ["/nix"]
 
 CMD ["/usr/local/bin/start-nix-daemon.sh"]

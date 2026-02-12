@@ -25,7 +25,7 @@ builders-use-substitutes = true
 substituters = ${substituters}
 trusted-substituters = ${substituters}
 trusted-public-keys = ${trusted_keys}
-post-build-hook = /usr/local/bin/nix-post-build-hook
+post-build-hook = /usr/local/bin/nix-post-build-hook.sh
 EOF
 
 if [ -n "${NIX_CACHE_PRIVATE_KEY_FILE:-}" ] && [ -s "${NIX_CACHE_PRIVATE_KEY_FILE}" ]; then
