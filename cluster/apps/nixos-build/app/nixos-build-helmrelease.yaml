@@ -73,6 +73,8 @@ spec:
               - -e
               - -f
               - /etc/ssh/sshd_config
+            securityContext:
+              privileged: true
           nix-serve:
             image:
               repository: ghcr.io/razelighter777/iaas/nixos-build-nix-serve
