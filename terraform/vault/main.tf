@@ -45,7 +45,7 @@ variable "WG_EASY_IP" {
     type = string
 }
 
-variable "EMQX_IP" {
+variable "RABBITMQ_IP" {
     type = string
 }
 
@@ -126,13 +126,17 @@ variable "NFS_PATH" {
     type = string
 }
 
-### Emqx
+### RabbitMQ
 
-variable "EMQX_USERNAME" {
+variable "RABBITMQ_USERNAME" {
     type = string
 }
 
-variable "EMQX_PASSWORD" {
+variable "RABBITMQ_PASSWORD" {
+    type = string
+}
+
+variable "RABBITMQ_ERLANG_COOKIE" {
     type = string
 }
 
@@ -296,7 +300,7 @@ resource "vault_kv_secret_v2" "cluster-settings" {
         "ingress_ip" = var.INGRESS_IP
         "homeassistant_ip" = var.HOMEASSISTANT_IP
         "wg_easy_ip" = var.WG_EASY_IP
-        "emqx_ip" = var.EMQX_IP
+        "rabbitmq_ip" = var.RABBITMQ_IP
         "minecraft_ip" = var.MINECRAFT_IP
         "email_address" = var.EMAIL_ADDRESS
         "nfs_server_ip" = var.NFS_SERVER_IP
@@ -317,12 +321,13 @@ resource "vault_kv_secret_v2" "s3" {
 }
 
 
-resource "vault_kv_secret_v2" "emqx" {
+resource "vault_kv_secret_v2" "rabbitmq" {
     mount    = vault_mount.kv.path
-    name    = "emqx"
+    name    = "rabbitmq"
     data_json = jsonencode({
-        "username" = var.EMQX_USERNAME
-        "password" = var.EMQX_PASSWORD
+        "username" = var.RABBITMQ_USERNAME
+        "password" = var.RABBITMQ_PASSWORD
+        "erlang_cookie" = var.RABBITMQ_ERLANG_COOKIE
     })
 }
 

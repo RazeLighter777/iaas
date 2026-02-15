@@ -1,0 +1,74 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: rabbitmq
+  namespace: rabbitmq
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: rabbitmq
+      version: 15.0.10
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami-charts
+        namespace: flux-system
+  install:
+    remediation:
+      retries: -1
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    auth:
+      username: admin
+      existingPasswordSecret: rabbitmq-secret
+      existingSecretPasswordKey: rabbitmq-password
+      existingErlangSecret: rabbitmq-secret
+      existingSecretErlangKey: rabbitmq-erlang-cookie
+
+    service:
+      type: LoadBalancer
+      loadBalancerIP: ${rabbitmq_ip}
+      ports:
+        amqp: 5672
+        amqpTls: 5671
+        dist: 25672
+        manager: 15672
+        epmd: 4369
+        metrics: 9419
+        mqtt: 1883
+        mqttTls: 8883
+
+    plugins: "rabbitmq_management rabbitmq_prometheus rabbitmq_mqtt"
+
+    communityPlugins: ""
+
+    extraConfiguration: |
+      mqtt.allow_anonymous = false
+      mqtt.vhost = /
+      mqtt.exchange = amq.topic
+      mqtt.subscription_ttl = 86400000
+      mqtt.prefetch = 10
+
+    persistence:
+      enabled: true
+      storageClass: longhorn
+      size: 8Gi
+
+    replicaCount: 3
+
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        memory: 1Gi
+        cpu: 1000m
+
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
