@@ -25,6 +25,7 @@ S3_REGION = "us-east-1"
 # RabbitMQ
 RABBITMQ_USERNAME = "admin"
 RABBITMQ_PASSWORD = "password"
+RABBITMQ_ERLANG_COOKIE = "changeme-secure-erlang-cookie"
 
 
 # Cameras

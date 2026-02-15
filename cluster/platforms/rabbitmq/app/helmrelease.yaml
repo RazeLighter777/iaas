@@ -26,7 +26,8 @@ spec:
       username: admin
       existingPasswordSecret: rabbitmq-secret
       existingSecretPasswordKey: rabbitmq-password
-      erlangCookie: changeme-erlang-cookie
+      existingErlangSecret: rabbitmq-secret
+      existingSecretErlangKey: rabbitmq-erlang-cookie
 
     service:
       type: LoadBalancer
@@ -46,8 +47,6 @@ spec:
     communityPlugins: ""
 
     extraConfiguration: |
-      mqtt.default_user = admin
-      mqtt.default_pass = CHANGEME
       mqtt.allow_anonymous = false
       mqtt.vhost = /
       mqtt.exchange = amq.topic

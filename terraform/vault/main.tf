@@ -136,6 +136,10 @@ variable "RABBITMQ_PASSWORD" {
     type = string
 }
 
+variable "RABBITMQ_ERLANG_COOKIE" {
+    type = string
+}
+
 
 ## OPNsense API keys
 variable "OPNSENSE_API_KEY" {
@@ -323,6 +327,7 @@ resource "vault_kv_secret_v2" "rabbitmq" {
     data_json = jsonencode({
         "username" = var.RABBITMQ_USERNAME
         "password" = var.RABBITMQ_PASSWORD
+        "erlang_cookie" = var.RABBITMQ_ERLANG_COOKIE
     })
 }
 
