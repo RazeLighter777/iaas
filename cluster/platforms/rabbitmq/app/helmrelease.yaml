@@ -27,7 +27,7 @@ spec:
       existingPasswordSecret: rabbitmq-secret
       existingSecretPasswordKey: rabbitmq-password
       erlangCookie: changeme-erlang-cookie
-    
+
     service:
       type: LoadBalancer
       loadBalancerIP: ${rabbitmq_ip}
@@ -40,11 +40,11 @@ spec:
         metrics: 9419
         mqtt: 1883
         mqttTls: 8883
-    
+
     plugins: "rabbitmq_management rabbitmq_prometheus rabbitmq_mqtt"
-    
+
     communityPlugins: ""
-    
+
     extraConfiguration: |
       mqtt.default_user = admin
       mqtt.default_pass = CHANGEME
@@ -53,14 +53,14 @@ spec:
       mqtt.exchange = amq.topic
       mqtt.subscription_ttl = 86400000
       mqtt.prefetch = 10
-    
+
     persistence:
       enabled: true
       storageClass: longhorn
       size: 8Gi
-    
+
     replicaCount: 3
-    
+
     resources:
       requests:
         cpu: 100m
@@ -68,7 +68,7 @@ spec:
       limits:
         memory: 1Gi
         cpu: 1000m
-    
+
     metrics:
       enabled: true
       serviceMonitor:
