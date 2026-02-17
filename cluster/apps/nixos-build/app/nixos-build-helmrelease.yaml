@@ -83,7 +83,10 @@ spec:
           ssh-gateway:
             image:
               repository: ghcr.io/razelighter777/iaas/nixos-build-ssh-gateway
-              tag: 0.0.7
+              tag: 0.0.8
+            envFrom:
+              - secretRef:
+                  name: nixos-build-cache-keys
             command:
               - /nix/var/nix/profiles/default/bin/sshd
               - -D

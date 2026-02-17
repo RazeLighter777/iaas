@@ -6,6 +6,8 @@ LABEL org.opencontainers.image.title="nixos-build-ssh-gateway"
 LABEL org.opencontainers.image.description="SSH gateway container for a Nix build daemon."
 LABEL org.opencontainers.image.source="${SOURCE_REPO}"
 
+COPY nix-post-build-hook.sh /usr/local/bin/nix-post-build-hook.sh
+
 RUN nix --version \
 	&& nix-env -iA nixpkgs.gnused \
 	&& mkdir -p /nix /var/empty /etc/ssh \
@@ -22,7 +24,7 @@ RUN nix --version \
 	&& mkdir -p /usr/local/bin \
 	&& printf '%s\n' '#!/bin/sh' 'exec /nix/var/nix/profiles/default/bin/nix-store --store unix:///nix/var/nix/daemon-socket/socket "$@"' > /usr/local/bin/nix-store \
 	&& printf '%s\n' '#!/bin/sh' 'exec /nix/var/nix/profiles/default/bin/nix --store unix:///nix/var/nix/daemon-socket/socket "$@"' > /usr/local/bin/nix \
-	&& chmod 0755 /usr/local/bin/nix-store /usr/local/bin/nix \
+	&& chmod 0755 /usr/local/bin/nix-store /usr/local/bin/nix /usr/local/bin/nix-post-build-hook.sh \
 	&& printf '%s\n' \
 	'Port 22' \
 	'ListenAddress 0.0.0.0' \
