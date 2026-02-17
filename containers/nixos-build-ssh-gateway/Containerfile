@@ -22,8 +22,16 @@ RUN nix --version \
 	&& (grep -q '^sshd:' /etc/group || printf '%s\n' 'sshd:x:74:' >> /etc/group) \
 	&& /nix/var/nix/profiles/default/bin/sed -i 's/^root:!:/root::/' /etc/shadow \
 	&& mkdir -p /usr/local/bin \
-	&& printf '%s\n' '#!/bin/sh' 'exec /nix/var/nix/profiles/default/bin/nix-store --store unix:///nix/var/nix/daemon-socket/socket "$@"' > /usr/local/bin/nix-store \
-	&& printf '%s\n' '#!/bin/sh' 'exec /nix/var/nix/profiles/default/bin/nix --store unix:///nix/var/nix/daemon-socket/socket "$@"' > /usr/local/bin/nix \
+	&& printf '%s\n' \
+	'#!/bin/sh' \
+	'unset NIX_S3_BUCKET NIX_S3_ENDPOINT NIX_S3_REGION NIX_S3_SCHEME AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN AWS_PROFILE' \
+	'exec /nix/var/nix/profiles/default/bin/nix-store --store unix:///nix/var/nix/daemon-socket/socket "$@"' \
+	> /usr/local/bin/nix-store \
+	&& printf '%s\n' \
+	'#!/bin/sh' \
+	'unset NIX_S3_BUCKET NIX_S3_ENDPOINT NIX_S3_REGION NIX_S3_SCHEME AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN AWS_PROFILE' \
+	'exec /nix/var/nix/profiles/default/bin/nix --store unix:///nix/var/nix/daemon-socket/socket "$@"' \
+	> /usr/local/bin/nix \
 	&& chmod 0755 /usr/local/bin/nix-store /usr/local/bin/nix /usr/local/bin/nix-post-build-hook.sh \
 	&& printf '%s\n' \
 	'Port 22' \
