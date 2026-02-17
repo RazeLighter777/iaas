@@ -54,6 +54,13 @@ if [ -n "${NIX_CACHE_PRIVATE_KEY_FILE:-}" ] && [ -s "${NIX_CACHE_PRIVATE_KEY_FIL
   printf '%s\n' "secret-key-files = ${NIX_CACHE_PRIVATE_KEY_FILE}" >> /etc/nix/nix.conf
 fi
 
+is_uint() {
+  case "$1" in
+    ''|*[!0-9]*) return 1 ;;
+    *) return 0 ;;
+  esac
+}
+
 if [ -n "${NIX_STORE_MIN_FREE:-}" ] && [ -n "${NIX_STORE_MAX_FREE:-}" ]; then
   {
     printf '%s\n' "min-free = ${NIX_STORE_MIN_FREE}"
@@ -64,7 +71,7 @@ elif [ -n "${NIX_STORE_MIN_FREE:-}" ] || [ -n "${NIX_STORE_MAX_FREE:-}" ]; then
 else
   min_pct="${NIX_STORE_MIN_FREE_PERCENT:-10}"
   max_pct="${NIX_STORE_MAX_FREE_PERCENT:-20}"
-  if ! printf '%s' "${min_pct}" | grep -Eq '^[0-9]+$' || ! printf '%s' "${max_pct}" | grep -Eq '^[0-9]+$'; then
+  if ! is_uint "${min_pct}" || ! is_uint "${max_pct}"; then
     echo "start-nix-daemon: invalid NIX_STORE_MIN_FREE_PERCENT/NIX_STORE_MAX_FREE_PERCENT; using defaults 10/20"
     min_pct=10
     max_pct=20
@@ -76,8 +83,19 @@ else
     max_pct=20
   fi
 
-  nix_total_bytes="$(df -Pk /nix | awk 'NR==2 {print $2 * 1024}')"
-  if printf '%s' "${nix_total_bytes}" | grep -Eq '^[0-9]+$' && [ "${nix_total_bytes}" -gt 0 ]; then
+  nix_total_blocks=""
+  while IFS=' ' read -r filesystem blocks used available capacity mounted_on; do
+    if [ "${filesystem}" = "Filesystem" ]; then
+      continue
+    fi
+    nix_total_blocks="${blocks}"
+    break
+  done <<EOF
+$(df -Pk /nix)
+EOF
+
+  if is_uint "${nix_total_blocks}" && [ "${nix_total_blocks}" -gt 0 ]; then
+    nix_total_bytes=$((nix_total_blocks * 1024))
     min_free_bytes=$((nix_total_bytes * min_pct / 100))
     max_free_bytes=$((nix_total_bytes * max_pct / 100))
 
