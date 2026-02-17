@@ -54,7 +54,6 @@ spec:
           subPath: custom.css
     redis:
       enabled: false
-      host: authentik-dragonfly
     server:
       replicas: 2
       metrics:

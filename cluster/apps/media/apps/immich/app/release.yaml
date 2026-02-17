@@ -103,7 +103,7 @@ spec:
               - name: IMMICH_OAUTH_SCOPE
                 value: "openid email profile"
               - name: REDIS_HOSTNAME
-                value: "immich-dragonfly.media.svc.cluster.local"
+                value: "immich-redis.media.svc.cluster.local"
             probes:
               liveness: &probes
                 enabled: true
@@ -165,7 +165,7 @@ spec:
                     name: immich-secret
                     key: DB_PASSWORD
               - name: REDIS_HOSTNAME
-                value: "immich-dragonfly.media.svc.cluster.local"
+                value: "immich-redis.media.svc.cluster.local"
             resources:
               requests:
                 cpu: 100m
