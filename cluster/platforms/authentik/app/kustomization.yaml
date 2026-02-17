@@ -9,3 +9,8 @@ resources:
   - ./cluster-backup.yaml
   - ./customcss-configmap.yaml
   - ./virtualservice.yaml
+patches:
+  - path: proxy-outpost-shm-patch.yaml
+    target:
+      kind: Deployment
+      name: ak-outpost-proxy-outpost
