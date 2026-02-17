@@ -10,3 +10,8 @@ resources:
   - ./customcss-configmap.yaml
   - ./virtualservice.yaml
   - ./dragonfly.yaml
+patches:
+  - path: proxy-outpost-shm-patch.yaml
+    target:
+      kind: Deployment
+      name: ak-outpost-proxy-outpost
