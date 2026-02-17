@@ -1,0 +1,23 @@
+---
+# This patch adds a /dev/shm volume to the authentik proxy outpost deployment
+# to prevent "no space left on device" errors when writing session files.
+# The proxy outpost uses /dev/shm for session state storage, and the default
+# tmpfs size is often too small for environments with many active sessions.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ak-outpost-proxy-outpost
+  namespace: authentik
+spec:
+  template:
+    spec:
+      containers:
+        - name: ak-outpost-proxy-outpost
+          volumeMounts:
+            - name: dev-shm
+              mountPath: /dev/shm
+      volumes:
+        - name: dev-shm
+          emptyDir:
+            medium: Memory
+            sizeLimit: 1Gi
