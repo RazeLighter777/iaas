@@ -54,4 +54,48 @@ if [ -n "${NIX_CACHE_PRIVATE_KEY_FILE:-}" ] && [ -s "${NIX_CACHE_PRIVATE_KEY_FIL
   printf '%s\n' "secret-key-files = ${NIX_CACHE_PRIVATE_KEY_FILE}" >> /etc/nix/nix.conf
 fi
 
+if [ -n "${NIX_STORE_MIN_FREE:-}" ] && [ -n "${NIX_STORE_MAX_FREE:-}" ]; then
+  {
+    printf '%s\n' "min-free = ${NIX_STORE_MIN_FREE}"
+    printf '%s\n' "max-free = ${NIX_STORE_MAX_FREE}"
+  } >> /etc/nix/nix.conf
+elif [ -n "${NIX_STORE_MIN_FREE:-}" ] || [ -n "${NIX_STORE_MAX_FREE:-}" ]; then
+  echo "start-nix-daemon: both NIX_STORE_MIN_FREE and NIX_STORE_MAX_FREE are required; skipping min/max free config"
+else
+  min_pct="${NIX_STORE_MIN_FREE_PERCENT:-10}"
+  max_pct="${NIX_STORE_MAX_FREE_PERCENT:-20}"
+  if ! printf '%s' "${min_pct}" | grep -Eq '^[0-9]+$' || ! printf '%s' "${max_pct}" | grep -Eq '^[0-9]+$'; then
+    echo "start-nix-daemon: invalid NIX_STORE_MIN_FREE_PERCENT/NIX_STORE_MAX_FREE_PERCENT; using defaults 10/20"
+    min_pct=10
+    max_pct=20
+  fi
+
+  if [ "${max_pct}" -le "${min_pct}" ]; then
+    echo "start-nix-daemon: NIX_STORE_MAX_FREE_PERCENT must be greater than NIX_STORE_MIN_FREE_PERCENT; using defaults 10/20"
+    min_pct=10
+    max_pct=20
+  fi
+
+  nix_total_bytes="$(df -Pk /nix | awk 'NR==2 {print $2 * 1024}')"
+  if printf '%s' "${nix_total_bytes}" | grep -Eq '^[0-9]+$' && [ "${nix_total_bytes}" -gt 0 ]; then
+    min_free_bytes=$((nix_total_bytes * min_pct / 100))
+    max_free_bytes=$((nix_total_bytes * max_pct / 100))
+
+    {
+      printf '%s\n' "min-free = ${min_free_bytes}"
+      printf '%s\n' "max-free = ${max_free_bytes}"
+    } >> /etc/nix/nix.conf
+  else
+    echo "start-nix-daemon: failed to determine /nix volume size, skipping min/max free config"
+  fi
+fi
+
+if [ -n "${NIX_KEEP_DERIVATIONS:-}" ]; then
+  printf '%s\n' "keep-derivations = ${NIX_KEEP_DERIVATIONS}" >> /etc/nix/nix.conf
+fi
+
+if [ -n "${NIX_KEEP_OUTPUTS:-}" ]; then
+  printf '%s\n' "keep-outputs = ${NIX_KEEP_OUTPUTS}" >> /etc/nix/nix.conf
+fi
+
 exec nix-daemon --daemon

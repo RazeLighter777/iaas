@@ -41,13 +41,19 @@ RUN nix --version \
 	'X11Forwarding no' \
 	'PrintMotd no' \
 	'SetEnv PATH=/usr/local/bin:/nix/var/nix/profiles/default/bin:/usr/bin:/bin' \
-	'SetEnv NIX_REMOTE=daemon' \
+	'SetEnv NIX_REMOTE=unix:///nix/var/nix/daemon-socket/socket' \
 	'Subsystem sftp /nix/var/nix/profiles/default/libexec/sftp-server' \
 	'AuthorizedKeysFile /ssh/authorized_keys' \
 	'PidFile /ssh/sshd.pid' \
 	> /etc/ssh/sshd_config
 
 EXPOSE 22
+
+ENV HOME=/root \
+    AWS_SHARED_CREDENTIALS_FILE=/root/.aws/credentials \
+    AWS_CONFIG_FILE=/root/.aws/config \
+    AWS_SDK_LOAD_CONFIG=1 \
+    AWS_EC2_METADATA_DISABLED=true
 
 VOLUME ["/nix", "/ssh"]
 

@@ -25,7 +25,7 @@ spec:
           nix-seed:
             image:
               repository: ghcr.io/razelighter777/iaas/nixos-build-daemon
-              tag: 0.0.7
+              tag: 0.0.9
             command:
               - /bin/sh
               - -c
@@ -83,7 +83,7 @@ spec:
           ssh-gateway:
             image:
               repository: ghcr.io/razelighter777/iaas/nixos-build-ssh-gateway
-              tag: 0.0.8
+              tag: 0.0.9
             envFrom:
               - secretRef:
                   name: nixos-build-cache-keys
