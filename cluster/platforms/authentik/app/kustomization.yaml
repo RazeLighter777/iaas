@@ -9,6 +9,7 @@ resources:
   - ./cluster-backup.yaml
   - ./customcss-configmap.yaml
   - ./virtualservice.yaml
+  - ./dragonfly.yaml
 patches:
   - path: proxy-outpost-shm-patch.yaml
     target:

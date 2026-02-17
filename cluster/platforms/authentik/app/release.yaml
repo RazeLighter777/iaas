@@ -53,9 +53,8 @@ spec:
           mountPath: /web/dist/custom.css
           subPath: custom.css
     redis:
-      enabled: true
-      global:
-        storageClass: longhorn-fast-unreplicated-strictlocal
+      enabled: false
+      host: authentik-dragonfly
     server:
       replicas: 2
       metrics:
