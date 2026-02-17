@@ -25,7 +25,7 @@ spec:
           nix-seed:
             image:
               repository: ghcr.io/razelighter777/iaas/nixos-build-daemon
-              tag: 0.0.9
+              tag: 0.0.10
             command:
               - /bin/sh
               - -c

@@ -2,7 +2,7 @@
 set -eu
 
 mkdir -p /etc/nix /nix/var/nix/daemon-socket /nix/var/nix/builds
-chown root:root /nix/var/nix/builds
+chown 0:0 /nix/var/nix/builds
 chmod 0755 /nix/var/nix/builds
 
 mkdir -p "${HOME:-/root}/.aws"
