@@ -9,3 +9,4 @@ resources:
   - ./cluster-backup.yaml
   - ./customcss-configmap.yaml
   - ./virtualservice.yaml
+  - ./dragonfly.yaml

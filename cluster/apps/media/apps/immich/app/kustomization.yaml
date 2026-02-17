@@ -10,6 +10,6 @@ resources:
   - immich-externalsecret.yaml
   - immich-oauth-externalsecret.yaml
   - immich-barman-externalsecret.yaml
-  - redis-release.yaml
+  - dragonfly.yaml
   - immich-machine-learning-config-pvc.yaml
   - virtualservice.yaml
