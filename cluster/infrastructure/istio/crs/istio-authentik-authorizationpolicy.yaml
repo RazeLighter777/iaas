@@ -27,3 +27,4 @@ spec:
               - "frigate.${domain_name}"
               - "hass.${domain_name}"
               - "nix.${domain_name}"
+              - "rss.${domain_name}"
