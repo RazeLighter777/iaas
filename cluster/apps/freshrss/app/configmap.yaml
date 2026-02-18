@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: freshrss-config
+  namespace: freshrss
+data:
+  PGID: "100"
+  PUID: "65534"
+  CRON_MIN: "*/15"
+  OIDC_ENABLED: "1"
+  OIDC_PROVIDER_METADATA_URL: https://authentik.${domain_name}/application/o/freshrss/.well-known/openid-configuration
+  OIDC_REMOTE_USER_CLAIM: preferred_username
+  OIDC_SCOPES: "openid profile"
+  OIDC_X_FORWARDED_HEADERS: X-Forwarded-Host X-Forwarded-Port X-Forwarded-Proto

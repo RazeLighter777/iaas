@@ -1,0 +1,41 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: freshrss-database
+  namespace: flux-system
+spec:
+  path: "./cluster/apps/freshrss/database"
+  targetNamespace: freshrss
+  interval: 5m
+  prune: true
+  wait: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  postBuild:
+    substituteFrom:
+      - kind: Secret
+        name: cluster-settings
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: freshrss-app
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: freshrss-database
+  path: "./cluster/apps/freshrss/app"
+  targetNamespace: freshrss
+  interval: 5m
+  prune: true
+  wait: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  postBuild:
+    substituteFrom:
+      - kind: Secret
+        name: cluster-settings

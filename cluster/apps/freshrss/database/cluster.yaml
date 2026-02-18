@@ -1,0 +1,21 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: freshrss-postgres
+  namespace: freshrss
+spec:
+  instances: 3
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.3
+  enableSuperuserAccess: true
+  primaryUpdateStrategy: unsupervised
+  storage:
+    size: 5Gi
+    storageClass: longhorn-fast
+  monitoring:
+    enablePodMonitor: true
+  bootstrap:
+    initdb:
+      database: freshrss
+      owner: freshrss
+      secret:
+        name: freshrss-db-secret
