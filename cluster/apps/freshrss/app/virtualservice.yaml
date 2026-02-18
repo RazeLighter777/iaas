@@ -13,7 +13,7 @@ spec:
         - destination:
             host: freshrss.freshrss.svc.cluster.local
             port:
-              number: 8080
+              number: 80
       match:
         - authority:
             exact: rss.${domain_name}
