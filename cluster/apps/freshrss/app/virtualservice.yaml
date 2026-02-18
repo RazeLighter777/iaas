@@ -1,0 +1,21 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: freshrss
+  namespace: freshrss
+spec:
+  hosts:
+    - rss.${domain_name}
+  gateways:
+    - istio-system/istio-ingressgateway
+  http:
+    - route:
+        - destination:
+            host: freshrss.freshrss.svc.cluster.local
+            port:
+              number: 8080
+      match:
+        - authority:
+            exact: rss.${domain_name}
+          uri:
+            prefix: /

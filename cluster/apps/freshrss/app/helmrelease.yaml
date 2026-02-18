@@ -1,0 +1,155 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: freshrss
+  namespace: freshrss
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 4.0.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      freshrss:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: freshrss/freshrss
+              tag: 1.28.1@sha256:9100f649f5c946f589f54cdb9be7a65996528f48f691ef90eb262a0e06e5a522
+            env:
+              - name: TZ
+                value: ${timezone}
+              - name: CRON_MIN
+                valueFrom:
+                  configMapKeyRef:
+                    name: freshrss-config
+                    key: CRON_MIN
+              - name: PGID
+                valueFrom:
+                  configMapKeyRef:
+                    name: freshrss-config
+                    key: PGID
+              - name: PUID
+                valueFrom:
+                  configMapKeyRef:
+                    name: freshrss-config
+                    key: PUID
+              - name: OIDC_ENABLED
+                valueFrom:
+                  configMapKeyRef:
+                    name: freshrss-config
+                    key: OIDC_ENABLED
+              - name: OIDC_PROVIDER_METADATA_URL
+                valueFrom:
+                  configMapKeyRef:
+                    name: freshrss-config
+                    key: OIDC_PROVIDER_METADATA_URL
+              - name: OIDC_REMOTE_USER_CLAIM
+                valueFrom:
+                  configMapKeyRef:
+                    name: freshrss-config
+                    key: OIDC_REMOTE_USER_CLAIM
+              - name: OIDC_SCOPES
+                valueFrom:
+                  configMapKeyRef:
+                    name: freshrss-config
+                    key: OIDC_SCOPES
+              - name: OIDC_X_FORWARDED_HEADERS
+                valueFrom:
+                  configMapKeyRef:
+                    name: freshrss-config
+                    key: OIDC_X_FORWARDED_HEADERS
+              - name: OIDC_CLIENT_ID
+                valueFrom:
+                  secretKeyRef:
+                    name: freshrss-oidc
+                    key: OIDC_CLIENT_ID
+              - name: OIDC_CLIENT_SECRET
+                valueFrom:
+                  secretKeyRef:
+                    name: freshrss-oidc
+                    key: OIDC_CLIENT_SECRET
+              - name: OIDC_CLIENT_CRYPTO_KEY
+                valueFrom:
+                  secretKeyRef:
+                    name: freshrss-oidc
+                    key: OIDC_CLIENT_CRYPTO_KEY
+              - name: DB_HOST
+                value: freshrss-postgres-rw.freshrss.svc.cluster.local
+              - name: DB_PORT
+                value: "5432"
+              - name: DB_BASE
+                value: freshrss
+              - name: DB_USER
+                valueFrom:
+                  secretKeyRef:
+                    name: freshrss-db-secret
+                    key: username
+              - name: DB_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: freshrss-db-secret
+                    key: password
+            resources:
+              requests:
+                cpu: 10m
+                memory: 128Mi
+              limits:
+                cpu: 500m
+                memory: 512Mi
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+    service:
+      app:
+        controller: freshrss
+        ports:
+          http:
+            port: 8080
+    ingress:
+      app:
+        enabled: false
+    persistence:
+      data:
+        enabled: true
+        existingClaim: freshrss
+        advancedMounts:
+          freshrss:
+            app:
+              - path: /var/www/FreshRSS/data
+                subPath: data
+                readOnly: false
+              - path: /var/www/FreshRSS/extensions
+                subPath: extensions
+                readOnly: false
+      tmpfs:
+        enabled: true
+        type: emptyDir
+        advancedMounts:
+          freshrss:
+            app:
+              - path: /var/www/FreshRSS/data/cache
+                subPath: cache
