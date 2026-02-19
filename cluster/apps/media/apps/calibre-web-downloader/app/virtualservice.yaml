@@ -1,0 +1,21 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: calibre-web-downloader
+  namespace: media
+spec:
+  hosts:
+  - booktok.${domain_name}
+  gateways:
+  - istio-system/istio-ingressgateway
+  http:
+  - route:
+    - destination:
+        host: calibre-web-downloader.media.svc.cluster.local
+        port:
+          number: 8084
+    match:
+    - authority:
+        exact: booktok.${domain_name}
+      uri:
+        prefix: /

@@ -1,0 +1,21 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: calibre-web-automated
+  namespace: media
+spec:
+  hosts:
+  - cwa.${domain_name}
+  gateways:
+  - istio-system/istio-ingressgateway
+  http:
+  - route:
+    - destination:
+        host: calibre-web-automated.media.svc.cluster.local
+        port:
+          number: 8083
+    match:
+    - authority:
+        exact: cwa.${domain_name}
+      uri:
+        prefix: /
