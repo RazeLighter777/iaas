@@ -6,6 +6,13 @@ metadata:
   namespace: hortusfox
 data:
   APP_TIMEZONE: "${timezone}"
+  PROXY_ENABLE: "true"
+  PROXY_HEADER_EMAIL: "X-authentik-email"
+  PROXY_HEADER_USERNAME: "X-authentik-username"
+  PROXY_AUTO_SIGNUP: "true"
+  PROXY_WHITELIST: ""
+  PROXY_HIDE_LOGOUT: "true"
+  PROXY_OVERWRITE_VALUES: "true"
   # HAProxy service hostname created by the Percona PXC operator
   DB_HOST: "hortusfox-mysql-haproxy"
   DB_PORT: "3306"

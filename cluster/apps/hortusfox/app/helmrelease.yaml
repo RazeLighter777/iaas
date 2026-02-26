@@ -68,6 +68,41 @@ spec:
                   configMapKeyRef:
                     name: hortusfox-config
                     key: APP_TIMEZONE
+              PROXY_ENABLE:
+                valueFrom:
+                  configMapKeyRef:
+                    name: hortusfox-config
+                    key: PROXY_ENABLE
+              PROXY_HEADER_EMAIL:
+                valueFrom:
+                  configMapKeyRef:
+                    name: hortusfox-config
+                    key: PROXY_HEADER_EMAIL
+              PROXY_HEADER_USERNAME:
+                valueFrom:
+                  configMapKeyRef:
+                    name: hortusfox-config
+                    key: PROXY_HEADER_USERNAME
+              PROXY_AUTO_SIGNUP:
+                valueFrom:
+                  configMapKeyRef:
+                    name: hortusfox-config
+                    key: PROXY_AUTO_SIGNUP
+              PROXY_WHITELIST:
+                valueFrom:
+                  configMapKeyRef:
+                    name: hortusfox-config
+                    key: PROXY_WHITELIST
+              PROXY_HIDE_LOGOUT:
+                valueFrom:
+                  configMapKeyRef:
+                    name: hortusfox-config
+                    key: PROXY_HIDE_LOGOUT
+              PROXY_OVERWRITE_VALUES:
+                valueFrom:
+                  configMapKeyRef:
+                    name: hortusfox-config
+                    key: PROXY_OVERWRITE_VALUES
               DB_PASSWORD:
                 valueFrom:
                   secretKeyRef:
