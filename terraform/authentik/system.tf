@@ -28,7 +28,8 @@ resource "authentik_outpost" "proxyoutpost" {
     module.ircbooksearch.proxy_provider_id,
     module.openclaw.proxy_provider_id,
     module.mqtt.proxy_provider_id,
-    module.omada.proxy_provider_id
+    module.omada.proxy_provider_id,
+    module.hortusfox.proxy_provider_id
   ]
 
   config = jsonencode({
