@@ -285,6 +285,11 @@ variable "GRAPHITE_EXPORTER_IP" {
     type = string
 }
 
+### HortusFox
+variable "HORTUSFOX_ADMIN_EMAIL" {
+    type = string
+}
+
 ## Secrets
 
 resource "vault_kv_secret_v2" "cluster-settings" {
