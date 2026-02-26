@@ -41,10 +41,11 @@ spec:
               - /bin/sh
               - -ec
               - |
-                for migration_dir in /tmp/migrations /var/www/html/migrations /app/migrations /var/www/html/database/migrations; do
+                for migration_dir in /tmp/migrations /var/www/html/migrations /var/www/html/app/migrations /app/migrations /var/www/html/database/migrations; do
                   if [ -d "$migration_dir" ]; then
-                    find "$migration_dir" -type f -name '*.php' -exec sed -i "s/TEXT NULL DEFAULT ''/TEXT NULL/g" {} +
-                    find "$migration_dir" -type f -name '*.php' -exec sed -i "s/TEXT NOT NULL DEFAULT ''/TEXT NOT NULL/g" {} +
+                    find "$migration_dir" -type f -name '*.php' -exec sed -E -i \
+                      -e "s/(TINYTEXT|TEXT|MEDIUMTEXT|LONGTEXT)([[:space:]]+NOT[[:space:]]+NULL|[[:space:]]+NULL)[[:space:]]+DEFAULT[[:space:]]+''/\\1\\2/g" \
+                      -e "s/(TINYTEXT|TEXT|MEDIUMTEXT|LONGTEXT)([[:space:]]+NOT[[:space:]]+NULL|[[:space:]]+NULL)[[:space:]]+DEFAULT[[:space:]]+\\\\'\\\\'/\\1\\2/g" {} +
                   fi
                 done
 
