@@ -12,6 +12,7 @@ spec:
   interval: 5m
   prune: true
   wait: true
+  force: true
   sourceRef:
     kind: GitRepository
     name: flux-system
