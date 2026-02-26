@@ -10,6 +10,13 @@ spec:
   pxc:
     size: 3
     image: percona/percona-xtradb-cluster:8.0.36-28.1
+    configuration: |
+      [mysqld]
+      max_connections=200
+      table_open_cache=8000
+      tmp_table_size=64M
+      max_heap_table_size=64M
+      innodb_buffer_pool_size=1G
     volumeSpec:
       persistentVolumeClaim:
         storageClassName: longhorn-fast
@@ -18,11 +25,11 @@ spec:
             storage: 5Gi
     resources:
       requests:
-        cpu: 100m
-        memory: 256Mi
-      limits:
-        cpu: 500m
+        cpu: 250m
         memory: 1Gi
+      limits:
+        cpu: 1000m
+        memory: 2Gi
   haproxy:
     enabled: true
     size: 2
@@ -33,8 +40,8 @@ spec:
       timeoutSeconds: 20
     resources:
       requests:
-        cpu: 50m
-        memory: 64Mi
-      limits:
-        cpu: 200m
+        cpu: 100m
         memory: 128Mi
+      limits:
+        cpu: 500m
+        memory: 256Mi
