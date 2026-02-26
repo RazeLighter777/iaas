@@ -1,0 +1,52 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: hortusfox-mysql-bootstrap
+  namespace: hortusfox
+spec:
+  backoffLimit: 10
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: mysql-bootstrap
+          image: percona/percona-xtradb-cluster:8.0.36-28.1
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: MYSQL_HOST
+              value: hortusfox-mysql-haproxy
+            - name: MYSQL_PORT
+              value: "3306"
+            - name: APP_DB_NAME
+              value: hortusfox
+            - name: APP_DB_USER
+              value: hortusfox
+            - name: ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: internal-hortusfox-mysql
+                  key: root
+            - name: APP_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: hortusfox-secrets
+                  key: DB_PASSWORD
+          command:
+            - /bin/sh
+            - -ec
+            - |
+              until MYSQL_PWD="$ROOT_PASSWORD" mysql -h "$MYSQL_HOST" -P "$MYSQL_PORT" -u root -e 'SELECT 1' >/dev/null 2>&1; do
+                echo "Waiting for MySQL availability..."
+                sleep 5
+              done
+
+              MYSQL_PWD="$ROOT_PASSWORD" mysql -h "$MYSQL_HOST" -P "$MYSQL_PORT" -u root <<SQL
+              CREATE DATABASE IF NOT EXISTS \`$APP_DB_NAME\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+              CREATE USER IF NOT EXISTS '$APP_DB_USER'@'%' IDENTIFIED WITH caching_sha2_password BY '$APP_DB_PASSWORD';
+              ALTER USER '$APP_DB_USER'@'%' IDENTIFIED WITH caching_sha2_password BY '$APP_DB_PASSWORD';
+              GRANT ALL PRIVILEGES ON \`$APP_DB_NAME\`.* TO '$APP_DB_USER'@'%';
+              FLUSH PRIVILEGES;
+              SQL
+
+              echo "MySQL bootstrap completed."

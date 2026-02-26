@@ -4,3 +4,4 @@ namespace: hortusfox
 resources:
   - cluster.yaml
   - externalsecret.yaml
+  - bootstrap-job.yaml
