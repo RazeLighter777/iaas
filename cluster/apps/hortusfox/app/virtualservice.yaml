@@ -1,0 +1,22 @@
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: hortusfox
+  namespace: hortusfox
+spec:
+  hosts:
+    - plants.${domain_name}
+  gateways:
+    - istio-system/istio-ingressgateway
+  http:
+    - route:
+        - destination:
+            host: hortusfox.hortusfox.svc.cluster.local
+            port:
+              number: 8080
+      match:
+        - authority:
+            exact: plants.${domain_name}
+          uri:
+            prefix: /

@@ -1,0 +1,732 @@
+From 53162ab3d5559c670e6ba895300c5359ce920c7a Mon Sep 17 00:00:00 2001
+From: "copilot-swe-agent[bot]" <198982749+Copilot@users.noreply.github.com>
+Date: Thu, 26 Feb 2026 01:05:34 +0000
+Subject: [PATCH 1/2] Initial plan
+
+
+From 7c79597039dce34be0a4247ea1dbe7ef93831f7c Mon Sep 17 00:00:00 2001
+From: "copilot-swe-agent[bot]" <198982749+Copilot@users.noreply.github.com>
+Date: Thu, 26 Feb 2026 01:18:07 +0000
+Subject: [PATCH 2/2] Add HortusFox plant management with Percona MySQL
+ operator
+
+Co-authored-by: RazeLighter777 <25808399+RazeLighter777@users.noreply.github.com>
+---
+ cluster/apps/hortusfox/app/configmap.yaml     |  17 +++
+ .../apps/hortusfox/app/externalsecret.yaml    |  21 ++++
+ cluster/apps/hortusfox/app/helmrelease.yaml   | 111 ++++++++++++++++++
+ cluster/apps/hortusfox/app/kustomization.yaml |   8 ++
+ cluster/apps/hortusfox/app/pvc.yaml           |  13 ++
+ .../apps/hortusfox/app/virtualservice.yaml    |  22 ++++
+ cluster/apps/hortusfox/database/cluster.yaml  |  36 ++++++
+ .../hortusfox/database/externalsecret.yaml    |  26 ++++
+ .../hortusfox/database/kustomization.yaml     |   6 +
+ cluster/apps/hortusfox/ks.yaml                |  44 +++++++
+ cluster/apps/hortusfox/kustomization.yaml     |   5 +
+ cluster/apps/hortusfox/namespace.yaml         |   5 +
+ .../percona-operator/crds/helmrelease.yaml    |  23 ++++
+ .../percona-operator/crds/kustomization.yaml  |   4 +
+ .../infrastructure/percona-operator/ks.yaml   |  38 ++++++
+ .../percona-operator/kustomization.yaml       |   5 +
+ .../percona-operator/namespace.yaml           |   5 +
+ .../operator/helmrelease.yaml                 |  26 ++++
+ .../operator/kustomization.yaml               |   4 +
+ cluster/sources/percona.yaml                  |   9 ++
+ terraform/vault/example.tfvars                |   4 +-
+ terraform/vault/hortusfox.tf                  |  89 ++++++++++++++
+ terraform/vault/main.tf                       |   5 +
+ 23 files changed, 525 insertions(+), 1 deletion(-)
+ create mode 100644 cluster/apps/hortusfox/app/configmap.yaml
+ create mode 100644 cluster/apps/hortusfox/app/externalsecret.yaml
+ create mode 100644 cluster/apps/hortusfox/app/helmrelease.yaml
+ create mode 100644 cluster/apps/hortusfox/app/kustomization.yaml
+ create mode 100644 cluster/apps/hortusfox/app/pvc.yaml
+ create mode 100644 cluster/apps/hortusfox/app/virtualservice.yaml
+ create mode 100644 cluster/apps/hortusfox/database/cluster.yaml
+ create mode 100644 cluster/apps/hortusfox/database/externalsecret.yaml
+ create mode 100644 cluster/apps/hortusfox/database/kustomization.yaml
+ create mode 100644 cluster/apps/hortusfox/ks.yaml
+ create mode 100644 cluster/apps/hortusfox/kustomization.yaml
+ create mode 100644 cluster/apps/hortusfox/namespace.yaml
+ create mode 100644 cluster/infrastructure/percona-operator/crds/helmrelease.yaml
+ create mode 100644 cluster/infrastructure/percona-operator/crds/kustomization.yaml
+ create mode 100644 cluster/infrastructure/percona-operator/ks.yaml
+ create mode 100644 cluster/infrastructure/percona-operator/kustomization.yaml
+ create mode 100644 cluster/infrastructure/percona-operator/namespace.yaml
+ create mode 100644 cluster/infrastructure/percona-operator/operator/helmrelease.yaml
+ create mode 100644 cluster/infrastructure/percona-operator/operator/kustomization.yaml
+ create mode 100644 cluster/sources/percona.yaml
+ create mode 100644 terraform/vault/hortusfox.tf
+
+diff --git a/cluster/apps/hortusfox/app/configmap.yaml b/cluster/apps/hortusfox/app/configmap.yaml
+new file mode 100644
+index 00000000..80271aba
+--- /dev/null
++++ b/cluster/apps/hortusfox/app/configmap.yaml
+@@ -0,0 +1,17 @@
++---
++apiVersion: v1
++kind: ConfigMap
++metadata:
++  name: hortusfox-config
++  namespace: hortusfox
++data:
++  APP_TIMEZONE: "${timezone}"
++  # HAProxy service hostname created by the Percona PXC operator
++  DB_HOST: "hortusfox-mysql-haproxy"
++  DB_PORT: "3306"
++  # The 'hortusfox' database and user must be created manually after the cluster is ready,
++  # e.g.: CREATE DATABASE hortusfox; CREATE USER 'hortusfox'@'%' IDENTIFIED BY '<DB_PASSWORD>';
++  #       GRANT ALL PRIVILEGES ON hortusfox.* TO 'hortusfox'@'%'; FLUSH PRIVILEGES;
++  DB_DATABASE: "hortusfox"
++  DB_USERNAME: "hortusfox"
++  DB_CHARSET: "utf8mb4"
+diff --git a/cluster/apps/hortusfox/app/externalsecret.yaml b/cluster/apps/hortusfox/app/externalsecret.yaml
+new file mode 100644
+index 00000000..d5ac805c
+--- /dev/null
++++ b/cluster/apps/hortusfox/app/externalsecret.yaml
+@@ -0,0 +1,21 @@
++---
++apiVersion: external-secrets.io/v1
++kind: ExternalSecret
++metadata:
++  name: hortusfox-secrets
++  namespace: hortusfox
++spec:
++  refreshInterval: "15m"
++  secretStoreRef:
++    name: global-secret-store
++    kind: ClusterSecretStore
++  target:
++    name: hortusfox-secrets
++    template:
++      data:
++        DB_PASSWORD: "{{ .db_password }}"
++        APP_ADMIN_EMAIL: "{{ .admin_email }}"
++        APP_ADMIN_PASSWORD: "{{ .admin_password }}"
++  dataFrom:
++    - extract:
++        key: hortusfox
+diff --git a/cluster/apps/hortusfox/app/helmrelease.yaml b/cluster/apps/hortusfox/app/helmrelease.yaml
+new file mode 100644
+index 00000000..f15bcd8c
+--- /dev/null
++++ b/cluster/apps/hortusfox/app/helmrelease.yaml
+@@ -0,0 +1,111 @@
++# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
++---
++apiVersion: helm.toolkit.fluxcd.io/v2
++kind: HelmRelease
++metadata:
++  name: hortusfox
++  namespace: hortusfox
++spec:
++  interval: 30m
++  chart:
++    spec:
++      chart: app-template
++      version: 4.0.1
++      sourceRef:
++        kind: HelmRepository
++        name: bjw-s
++        namespace: flux-system
++      interval: 30m
++  maxHistory: 2
++  install:
++    remediation:
++      retries: 3
++  upgrade:
++    cleanupOnFail: true
++    remediation:
++      strategy: rollback
++      retries: 3
++  uninstall:
++    keepHistory: false
++  values:
++    controllers:
++      hortusfox:
++        annotations:
++          reloader.stakater.com/auto: "true"
++        containers:
++          app:
++            image:
++              repository: ghcr.io/danielbrendel/hortusfox-web
++              tag: "4.1"
++            env:
++              DB_HOST:
++                valueFrom:
++                  configMapKeyRef:
++                    name: hortusfox-config
++                    key: DB_HOST
++              DB_PORT:
++                valueFrom:
++                  configMapKeyRef:
++                    name: hortusfox-config
++                    key: DB_PORT
++              DB_DATABASE:
++                valueFrom:
++                  configMapKeyRef:
++                    name: hortusfox-config
++                    key: DB_DATABASE
++              DB_USERNAME:
++                valueFrom:
++                  configMapKeyRef:
++                    name: hortusfox-config
++                    key: DB_USERNAME
++              DB_CHARSET:
++                valueFrom:
++                  configMapKeyRef:
++                    name: hortusfox-config
++                    key: DB_CHARSET
++              APP_TIMEZONE:
++                valueFrom:
++                  configMapKeyRef:
++                    name: hortusfox-config
++                    key: APP_TIMEZONE
++              DB_PASSWORD:
++                valueFrom:
++                  secretKeyRef:
++                    name: hortusfox-secrets
++                    key: DB_PASSWORD
++              APP_ADMIN_EMAIL:
++                valueFrom:
++                  secretKeyRef:
++                    name: hortusfox-secrets
++                    key: APP_ADMIN_EMAIL
++              APP_ADMIN_PASSWORD:
++                valueFrom:
++                  secretKeyRef:
++                    name: hortusfox-secrets
++                    key: APP_ADMIN_PASSWORD
++            resources:
++              requests:
++                cpu: 50m
++                memory: 128Mi
++              limits:
++                cpu: 500m
++                memory: 512Mi
++    service:
++      app:
++        controller: hortusfox
++        ports:
++          http:
++            port: 8080
++    ingress:
++      app:
++        enabled: false
++    persistence:
++      data:
++        existingClaim: hortusfox
++        advancedMounts:
++          hortusfox:
++            app:
++              - path: /app/public/uploads
++                subPath: uploads
++              - path: /app/public/img
++                subPath: img
+diff --git a/cluster/apps/hortusfox/app/kustomization.yaml b/cluster/apps/hortusfox/app/kustomization.yaml
+new file mode 100644
+index 00000000..fe8add8c
+--- /dev/null
++++ b/cluster/apps/hortusfox/app/kustomization.yaml
+@@ -0,0 +1,8 @@
++apiVersion: kustomize.config.k8s.io/v1beta1
++kind: Kustomization
++resources:
++  - ./helmrelease.yaml
++  - ./externalsecret.yaml
++  - ./virtualservice.yaml
++  - ./pvc.yaml
++  - ./configmap.yaml
+diff --git a/cluster/apps/hortusfox/app/pvc.yaml b/cluster/apps/hortusfox/app/pvc.yaml
+new file mode 100644
+index 00000000..26af04d0
+--- /dev/null
++++ b/cluster/apps/hortusfox/app/pvc.yaml
+@@ -0,0 +1,13 @@
++---
++apiVersion: v1
++kind: PersistentVolumeClaim
++metadata:
++  name: hortusfox
++  namespace: hortusfox
++spec:
++  accessModes:
++    - ReadWriteOnce
++  storageClassName: longhorn-fast
++  resources:
++    requests:
++      storage: 5Gi
+diff --git a/cluster/apps/hortusfox/app/virtualservice.yaml b/cluster/apps/hortusfox/app/virtualservice.yaml
+new file mode 100644
+index 00000000..fb453821
+--- /dev/null
++++ b/cluster/apps/hortusfox/app/virtualservice.yaml
+@@ -0,0 +1,22 @@
++---
++apiVersion: networking.istio.io/v1beta1
++kind: VirtualService
++metadata:
++  name: hortusfox
++  namespace: hortusfox
++spec:
++  hosts:
++    - plants.${domain_name}
++  gateways:
++    - istio-system/istio-ingressgateway
++  http:
++    - route:
++        - destination:
++            host: hortusfox.hortusfox.svc.cluster.local
++            port:
++              number: 8080
++      match:
++        - authority:
++            exact: plants.${domain_name}
++          uri:
++            prefix: /
+diff --git a/cluster/apps/hortusfox/database/cluster.yaml b/cluster/apps/hortusfox/database/cluster.yaml
+new file mode 100644
+index 00000000..42e8fbe9
+--- /dev/null
++++ b/cluster/apps/hortusfox/database/cluster.yaml
+@@ -0,0 +1,36 @@
++---
++apiVersion: pxc.percona.com/v1
++kind: PerconaXtraDBCluster
++metadata:
++  name: hortusfox-mysql
++  namespace: hortusfox
++spec:
++  crVersion: "1.14.0"
++  secretsName: hortusfox-mysql-secrets
++  pxc:
++    size: 3
++    image: percona/percona-xtradb-cluster:8.0.36-28.1
++    volumeSpec:
++      persistentVolumeClaim:
++        storageClassName: longhorn-fast
++        resources:
++          requests:
++            storage: 5Gi
++    resources:
++      requests:
++        cpu: 100m
++        memory: 256Mi
++      limits:
++        cpu: 500m
++        memory: 1Gi
++  haproxy:
++    enabled: true
++    size: 2
++    image: percona/percona-xtradb-cluster-operator:1.14.0-haproxy
++    resources:
++      requests:
++        cpu: 50m
++        memory: 64Mi
++      limits:
++        cpu: 200m
++        memory: 128Mi
+diff --git a/cluster/apps/hortusfox/database/externalsecret.yaml b/cluster/apps/hortusfox/database/externalsecret.yaml
+new file mode 100644
+index 00000000..fbab5e0c
+--- /dev/null
++++ b/cluster/apps/hortusfox/database/externalsecret.yaml
+@@ -0,0 +1,26 @@
++---
++apiVersion: external-secrets.io/v1
++kind: ExternalSecret
++metadata:
++  name: hortusfox-mysql-secrets
++  namespace: hortusfox
++spec:
++  refreshInterval: "15m"
++  secretStoreRef:
++    name: global-secret-store
++    kind: ClusterSecretStore
++  target:
++    name: hortusfox-mysql-secrets
++    template:
++      data:
++        root: "{{ .mysql_root_password }}"
++        xtrabackup: "{{ .mysql_xtrabackup_password }}"
++        monitor: "{{ .mysql_monitor_password }}"
++        clustercheck: "{{ .mysql_clustercheck_password }}"
++        proxyadmin: "{{ .mysql_proxyadmin_password }}"
++        operator: "{{ .mysql_operator_password }}"
++        replication: "{{ .mysql_replication_password }}"
++        heartbeat: "{{ .mysql_heartbeat_password }}"
++  dataFrom:
++    - extract:
++        key: hortusfox
+diff --git a/cluster/apps/hortusfox/database/kustomization.yaml b/cluster/apps/hortusfox/database/kustomization.yaml
+new file mode 100644
+index 00000000..5dd1880d
+--- /dev/null
++++ b/cluster/apps/hortusfox/database/kustomization.yaml
+@@ -0,0 +1,6 @@
++apiVersion: kustomize.config.k8s.io/v1beta1
++kind: Kustomization
++namespace: hortusfox
++resources:
++  - cluster.yaml
++  - externalsecret.yaml
+diff --git a/cluster/apps/hortusfox/ks.yaml b/cluster/apps/hortusfox/ks.yaml
+new file mode 100644
+index 00000000..993fa2e8
+--- /dev/null
++++ b/cluster/apps/hortusfox/ks.yaml
+@@ -0,0 +1,44 @@
++---
++apiVersion: kustomize.toolkit.fluxcd.io/v1
++kind: Kustomization
++metadata:
++  name: hortusfox-database
++  namespace: flux-system
++spec:
++  dependsOn:
++    - name: percona-operator
++  targetNamespace: hortusfox
++  path: "./cluster/apps/hortusfox/database"
++  interval: 5m
++  prune: true
++  wait: true
++  sourceRef:
++    kind: GitRepository
++    name: flux-system
++    namespace: flux-system
++  postBuild:
++    substituteFrom:
++      - kind: Secret
++        name: cluster-settings
++---
++apiVersion: kustomize.toolkit.fluxcd.io/v1
++kind: Kustomization
++metadata:
++  name: hortusfox-app
++  namespace: flux-system
++spec:
++  dependsOn:
++    - name: hortusfox-database
++  targetNamespace: hortusfox
++  path: "./cluster/apps/hortusfox/app"
++  interval: 5m
++  prune: true
++  wait: true
++  sourceRef:
++    kind: GitRepository
++    name: flux-system
++    namespace: flux-system
++  postBuild:
++    substituteFrom:
++      - kind: Secret
++        name: cluster-settings
+diff --git a/cluster/apps/hortusfox/kustomization.yaml b/cluster/apps/hortusfox/kustomization.yaml
+new file mode 100644
+index 00000000..cf31e8c9
+--- /dev/null
++++ b/cluster/apps/hortusfox/kustomization.yaml
+@@ -0,0 +1,5 @@
++apiVersion: kustomize.config.k8s.io/v1beta1
++kind: Kustomization
++resources:
++  - ./namespace.yaml
++  - ./ks.yaml
+diff --git a/cluster/apps/hortusfox/namespace.yaml b/cluster/apps/hortusfox/namespace.yaml
+new file mode 100644
+index 00000000..a1ef59fc
+--- /dev/null
++++ b/cluster/apps/hortusfox/namespace.yaml
+@@ -0,0 +1,5 @@
++---
++apiVersion: v1
++kind: Namespace
++metadata:
++  name: hortusfox
+diff --git a/cluster/infrastructure/percona-operator/crds/helmrelease.yaml b/cluster/infrastructure/percona-operator/crds/helmrelease.yaml
+new file mode 100644
+index 00000000..4a043d86
+--- /dev/null
++++ b/cluster/infrastructure/percona-operator/crds/helmrelease.yaml
+@@ -0,0 +1,23 @@
++---
++apiVersion: helm.toolkit.fluxcd.io/v2
++kind: HelmRelease
++metadata:
++  name: percona-operator-crds
++  namespace: percona-operator
++spec:
++  interval: 24h
++  chart:
++    spec:
++      chart: pxc-operator
++      version: "1.14.0"
++      sourceRef:
++        kind: HelmRepository
++        name: percona
++        namespace: flux-system
++      interval: 24h
++  install:
++    crds: CreateReplace
++  upgrade:
++    crds: CreateReplace
++  values:
++    replicaCount: 0
+diff --git a/cluster/infrastructure/percona-operator/crds/kustomization.yaml b/cluster/infrastructure/percona-operator/crds/kustomization.yaml
+new file mode 100644
+index 00000000..3f1edb8c
+--- /dev/null
++++ b/cluster/infrastructure/percona-operator/crds/kustomization.yaml
+@@ -0,0 +1,4 @@
++apiVersion: kustomize.config.k8s.io/v1beta1
++kind: Kustomization
++resources:
++  - ./helmrelease.yaml
+diff --git a/cluster/infrastructure/percona-operator/ks.yaml b/cluster/infrastructure/percona-operator/ks.yaml
+new file mode 100644
+index 00000000..e1172958
+--- /dev/null
++++ b/cluster/infrastructure/percona-operator/ks.yaml
+@@ -0,0 +1,38 @@
++---
++apiVersion: kustomize.toolkit.fluxcd.io/v1
++kind: Kustomization
++metadata:
++  name: percona-crds
++  namespace: flux-system
++spec:
++  targetNamespace: percona-operator
++  interval: 1h
++  retryInterval: 2m
++  timeout: 5m
++  path: "./cluster/infrastructure/percona-operator/crds"
++  prune: true
++  wait: true
++  sourceRef:
++    kind: GitRepository
++    name: flux-system
++    namespace: flux-system
++---
++apiVersion: kustomize.toolkit.fluxcd.io/v1
++kind: Kustomization
++metadata:
++  name: percona-operator
++  namespace: flux-system
++spec:
++  dependsOn:
++    - name: percona-crds
++  targetNamespace: percona-operator
++  interval: 1h
++  retryInterval: 2m
++  timeout: 5m
++  path: "./cluster/infrastructure/percona-operator/operator"
++  prune: true
++  wait: true
++  sourceRef:
++    kind: GitRepository
++    name: flux-system
++    namespace: flux-system
+diff --git a/cluster/infrastructure/percona-operator/kustomization.yaml b/cluster/infrastructure/percona-operator/kustomization.yaml
+new file mode 100644
+index 00000000..cf31e8c9
+--- /dev/null
++++ b/cluster/infrastructure/percona-operator/kustomization.yaml
+@@ -0,0 +1,5 @@
++apiVersion: kustomize.config.k8s.io/v1beta1
++kind: Kustomization
++resources:
++  - ./namespace.yaml
++  - ./ks.yaml
+diff --git a/cluster/infrastructure/percona-operator/namespace.yaml b/cluster/infrastructure/percona-operator/namespace.yaml
+new file mode 100644
+index 00000000..fd4efc6e
+--- /dev/null
++++ b/cluster/infrastructure/percona-operator/namespace.yaml
+@@ -0,0 +1,5 @@
++---
++apiVersion: v1
++kind: Namespace
++metadata:
++  name: percona-operator
+diff --git a/cluster/infrastructure/percona-operator/operator/helmrelease.yaml b/cluster/infrastructure/percona-operator/operator/helmrelease.yaml
+new file mode 100644
+index 00000000..817511ab
+--- /dev/null
++++ b/cluster/infrastructure/percona-operator/operator/helmrelease.yaml
+@@ -0,0 +1,26 @@
++---
++apiVersion: helm.toolkit.fluxcd.io/v2
++kind: HelmRelease
++metadata:
++  name: percona-operator
++  namespace: percona-operator
++spec:
++  interval: 1h
++  chart:
++    spec:
++      chart: pxc-operator
++      version: "1.14.0"
++      sourceRef:
++        kind: HelmRepository
++        name: percona
++        namespace: flux-system
++      interval: 24h
++  install:
++    crds: Skip
++    remediation:
++      retries: 3
++  upgrade:
++    crds: Skip
++    cleanupOnFail: true
++    remediation:
++      retries: 3
+diff --git a/cluster/infrastructure/percona-operator/operator/kustomization.yaml b/cluster/infrastructure/percona-operator/operator/kustomization.yaml
+new file mode 100644
+index 00000000..3f1edb8c
+--- /dev/null
++++ b/cluster/infrastructure/percona-operator/operator/kustomization.yaml
+@@ -0,0 +1,4 @@
++apiVersion: kustomize.config.k8s.io/v1beta1
++kind: Kustomization
++resources:
++  - ./helmrelease.yaml
+diff --git a/cluster/sources/percona.yaml b/cluster/sources/percona.yaml
+new file mode 100644
+index 00000000..153fe28b
+--- /dev/null
++++ b/cluster/sources/percona.yaml
+@@ -0,0 +1,9 @@
++---
++apiVersion: source.toolkit.fluxcd.io/v1
++kind: HelmRepository
++metadata:
++  name: percona
++  namespace: flux-system
++spec:
++  interval: 24h
++  url: https://percona.github.io/percona-helm-charts/
+diff --git a/terraform/vault/example.tfvars b/terraform/vault/example.tfvars
+index 686037ad..5188ce73 100644
+--- a/terraform/vault/example.tfvars
++++ b/terraform/vault/example.tfvars
+@@ -117,4 +117,6 @@ NIX_CACHE_S3_ACCESS_KEY_ID = "your-nix-cache-s3-access-key-id"
+ NIX_CACHE_S3_SECRET_ACCESS_KEY = "your-nix-cache-s3-secret-access-key"
+ 
+ # Graphite exporter IP
+-GRAPHITE_EXPORTER_IP=192.168.1.x
+\ No newline at end of file
++GRAPHITE_EXPORTER_IP=192.168.1.x
++# HortusFox
++HORTUSFOX_ADMIN_EMAIL = "your-email@example.com"
+diff --git a/terraform/vault/hortusfox.tf b/terraform/vault/hortusfox.tf
+new file mode 100644
+index 00000000..81adc943
+--- /dev/null
++++ b/terraform/vault/hortusfox.tf
+@@ -0,0 +1,89 @@
++### HortusFox
++
++resource "random_password" "hortusfox_db_password" {
++  length  = 32
++  special = false
++  numeric = true
++  upper   = true
++}
++
++resource "random_password" "hortusfox_admin_password" {
++  length  = 32
++  special = false
++  numeric = true
++  upper   = true
++}
++
++resource "random_password" "hortusfox_mysql_root_password" {
++  length  = 32
++  special = false
++  numeric = true
++  upper   = true
++}
++
++resource "random_password" "hortusfox_mysql_xtrabackup_password" {
++  length  = 32
++  special = false
++  numeric = true
++  upper   = true
++}
++
++resource "random_password" "hortusfox_mysql_monitor_password" {
++  length  = 32
++  special = false
++  numeric = true
++  upper   = true
++}
++
++resource "random_password" "hortusfox_mysql_clustercheck_password" {
++  length  = 32
++  special = false
++  numeric = true
++  upper   = true
++}
++
++resource "random_password" "hortusfox_mysql_proxyadmin_password" {
++  length  = 32
++  special = false
++  numeric = true
++  upper   = true
++}
++
++resource "random_password" "hortusfox_mysql_operator_password" {
++  length  = 32
++  special = false
++  numeric = true
++  upper   = true
++}
++
++resource "random_password" "hortusfox_mysql_replication_password" {
++  length  = 32
++  special = false
++  numeric = true
++  upper   = true
++}
++
++resource "random_password" "hortusfox_mysql_heartbeat_password" {
++  length  = 32
++  special = false
++  numeric = true
++  upper   = true
++}
++
++resource "vault_kv_secret_v2" "hortusfox" {
++  mount     = vault_mount.kv.path
++  name      = "hortusfox"
++  data_json = jsonencode({
++    db_password                 = random_password.hortusfox_db_password.result
++    admin_email                 = var.HORTUSFOX_ADMIN_EMAIL
++    admin_password              = random_password.hortusfox_admin_password.result
++    mysql_root_password         = random_password.hortusfox_mysql_root_password.result
++    mysql_xtrabackup_password   = random_password.hortusfox_mysql_xtrabackup_password.result
++    mysql_monitor_password      = random_password.hortusfox_mysql_monitor_password.result
++    mysql_clustercheck_password = random_password.hortusfox_mysql_clustercheck_password.result
++    mysql_proxyadmin_password   = random_password.hortusfox_mysql_proxyadmin_password.result
++    mysql_operator_password     = random_password.hortusfox_mysql_operator_password.result
++    mysql_replication_password  = random_password.hortusfox_mysql_replication_password.result
++    mysql_heartbeat_password    = random_password.hortusfox_mysql_heartbeat_password.result
++  })
++}
+diff --git a/terraform/vault/main.tf b/terraform/vault/main.tf
+index 3307b507..de9d5aed 100644
+--- a/terraform/vault/main.tf
++++ b/terraform/vault/main.tf
+@@ -285,6 +285,11 @@ variable "GRAPHITE_EXPORTER_IP" {
+     type = string
+ }
+ 
++### HortusFox
++variable "HORTUSFOX_ADMIN_EMAIL" {
++    type = string
++}
++
+ ## Secrets
+ 
+ resource "vault_kv_secret_v2" "cluster-settings" {

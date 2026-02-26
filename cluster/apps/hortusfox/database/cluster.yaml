@@ -1,0 +1,36 @@
+---
+apiVersion: pxc.percona.com/v1
+kind: PerconaXtraDBCluster
+metadata:
+  name: hortusfox-mysql
+  namespace: hortusfox
+spec:
+  crVersion: "1.14.0"
+  secretsName: hortusfox-mysql-secrets
+  pxc:
+    size: 3
+    image: percona/percona-xtradb-cluster:8.0.36-28.1
+    volumeSpec:
+      persistentVolumeClaim:
+        storageClassName: longhorn-fast
+        resources:
+          requests:
+            storage: 5Gi
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 1Gi
+  haproxy:
+    enabled: true
+    size: 2
+    image: percona/percona-xtradb-cluster-operator:1.14.0-haproxy
+    resources:
+      requests:
+        cpu: 50m
+        memory: 64Mi
+      limits:
+        cpu: 200m
+        memory: 128Mi

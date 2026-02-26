@@ -118,3 +118,5 @@ NIX_CACHE_S3_SECRET_ACCESS_KEY = "your-nix-cache-s3-secret-access-key"
 
 # Graphite exporter IP
 GRAPHITE_EXPORTER_IP=192.168.1.x
+# HortusFox
+HORTUSFOX_ADMIN_EMAIL = "your-email@example.com"
