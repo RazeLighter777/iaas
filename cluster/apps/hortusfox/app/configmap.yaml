@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hortusfox-config
+  namespace: hortusfox
+data:
+  APP_TIMEZONE: "${timezone}"
+  # HAProxy service hostname created by the Percona PXC operator
+  DB_HOST: "hortusfox-mysql-haproxy"
+  DB_PORT: "3306"
+  # The 'hortusfox' database and user must be created manually after the cluster is ready,
+  # e.g.: CREATE DATABASE hortusfox; CREATE USER 'hortusfox'@'%' IDENTIFIED BY '<DB_PASSWORD>';
+  #       GRANT ALL PRIVILEGES ON hortusfox.* TO 'hortusfox'@'%'; FLUSH PRIVILEGES;
+  DB_DATABASE: "hortusfox"
+  DB_USERNAME: "hortusfox"
+  DB_CHARSET: "utf8mb4"
