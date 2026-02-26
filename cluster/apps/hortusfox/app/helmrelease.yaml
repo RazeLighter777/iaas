@@ -41,12 +41,14 @@ spec:
               - /bin/sh
               - -ec
               - |
-                if [ -d /tmp/migrations ]; then
-                  find /tmp/migrations -type f -name '*.php' -exec sed -i "s/TEXT NULL DEFAULT ''/TEXT NULL/g" {} +
-                  find /tmp/migrations -type f -name '*.php' -exec sed -i "s/TEXT NOT NULL DEFAULT ''/TEXT NOT NULL/g" {} +
-                fi
+                for migration_dir in /tmp/migrations /var/www/html/migrations /app/migrations /var/www/html/database/migrations; do
+                  if [ -d "$migration_dir" ]; then
+                    find "$migration_dir" -type f -name '*.php' -exec sed -i "s/TEXT NULL DEFAULT ''/TEXT NULL/g" {} +
+                    find "$migration_dir" -type f -name '*.php' -exec sed -i "s/TEXT NOT NULL DEFAULT ''/TEXT NOT NULL/g" {} +
+                  fi
+                done
 
-                exec /bin/bash /var/www/html/docker-entrypoint.sh
+                exec /bin/bash /var/www/html/docker-entrypoint.sh apache2-foreground
             env:
               DB_HOST:
                 valueFrom:
