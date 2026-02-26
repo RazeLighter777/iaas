@@ -37,6 +37,16 @@ spec:
             image:
               repository: ghcr.io/danielbrendel/hortusfox-web
               tag: "v5.7"
+            command:
+              - /bin/sh
+              - -ec
+              - |
+                if [ -d /tmp/migrations ]; then
+                  find /tmp/migrations -type f -name '*.php' -exec sed -i "s/TEXT NULL DEFAULT ''/TEXT NULL/g" {} +
+                  find /tmp/migrations -type f -name '*.php' -exec sed -i "s/TEXT NOT NULL DEFAULT ''/TEXT NOT NULL/g" {} +
+                fi
+
+                exec /bin/bash /var/www/html/docker-entrypoint.sh
             env:
               DB_HOST:
                 valueFrom:
