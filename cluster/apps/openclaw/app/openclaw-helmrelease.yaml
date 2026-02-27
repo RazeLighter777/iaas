@@ -23,7 +23,8 @@ spec:
         pod:
           nodeSelector:
             kubernetes.io/arch: amd64
-          serviceAccountName: clawdbot
+        serviceAccount:
+          name: clawdbot
         containers:
           app:
             image:
