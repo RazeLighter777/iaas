@@ -146,6 +146,11 @@ spec:
               - /bin/bash
               - bash
               - bash ./data/check
+          - name: clawdbot-shell
+            fields:
+            - container.image.repository
+            values:
+            - - ghcr.io/openclaw/openclaw
           override:
             exceptions: append
       cilium-socket-exceptions.yaml: |-
