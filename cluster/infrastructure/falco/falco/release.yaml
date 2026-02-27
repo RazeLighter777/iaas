@@ -104,6 +104,11 @@ spec:
             - container.image.repository
             values:
             - - registry.k8s.io/external-dns/external-dns
+          - name: clawdbot
+            fields:
+            - k8s.ns.name
+            values:
+            - - openclaw
           override:
             exceptions: append
 
@@ -159,3 +164,11 @@ spec:
               - socket
           override:
             exceptions: append
+
+    resources:
+      limits:
+        cpu: "2"
+        memory: 1Gi
+      requests:
+        cpu: 200m
+        memory: 512Mi
