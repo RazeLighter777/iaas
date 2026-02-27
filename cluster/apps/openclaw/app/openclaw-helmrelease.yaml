@@ -207,6 +207,19 @@ spec:
             - apiGroups: ["helm.toolkit.fluxcd.io"]
               resources: ["helmreleases"]
               verbs: ["get", "list", "watch"]
+            - apiGroups: [""]
+              resources: ["services/proxy"]
+              verbs: ["get", "create"]
+            - apiGroups: ["monitoring.coreos.com"]
+              resources:
+                [
+                  "prometheusrules",
+                  "alertmanagers",
+                  "prometheuses",
+                  "podmonitors",
+                  "servicemonitors",
+                ]
+              verbs: ["get", "list", "watch"]
         clawdbot-write-restricted:
           type: Role
           rules:
