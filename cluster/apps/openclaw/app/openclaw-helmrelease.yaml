@@ -78,19 +78,19 @@ spec:
                 export HOMEBREW_REPOSITORY=/home/node/.local/homebrew
 
                 # Init: fix gateway controlUi settings to allow non-loopback access
-                HOME_DIR="${HOME:-/home/node}"
-                CONFIG_FILE="${HOME_DIR}/.openclaw/openclaw.json"
-                if [ -z "${CONFIG_FILE}" ]; then
+                HOME_DIR="$${HOME:-/home/node}"
+                CONFIG_FILE="$${HOME_DIR}/.openclaw/openclaw.json"
+                if [ -z "$${CONFIG_FILE}" ]; then
                   echo "CONFIG_FILE resolved to empty path" >&2
                   exit 1
                 fi
-                mkdir -p "$(dirname "${CONFIG_FILE}")"
-                if [ ! -f "${CONFIG_FILE}" ]; then
-                  echo '{"gateway":{"controlUi":{"dangerouslyAllowHostHeaderOriginFallback":true}}}' > "${CONFIG_FILE}"
+                mkdir -p "$(dirname "$${CONFIG_FILE}")"
+                if [ ! -f "$${CONFIG_FILE}" ]; then
+                  echo '{"gateway":{"controlUi":{"dangerouslyAllowHostHeaderOriginFallback":true}}}' > "$${CONFIG_FILE}"
                 else
                   node -e "
                     const fs = require('fs');
-                    const f = '${CONFIG_FILE}';
+                    const f = '$${CONFIG_FILE}';
                     let c = {};
                     try { c = JSON.parse(fs.readFileSync(f, 'utf8')); }
                     catch(e) { console.error('Warning: could not parse ' + f + ': ' + e.message); }
