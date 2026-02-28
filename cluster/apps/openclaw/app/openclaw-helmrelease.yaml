@@ -77,6 +77,25 @@ spec:
                 export HOMEBREW_CELLAR=/home/node/.local/homebrew/Cellar
                 export HOMEBREW_REPOSITORY=/home/node/.local/homebrew
 
+                # Init: fix gateway controlUi settings to allow non-loopback access
+                CONFIG_FILE="${HOME}/.openclaw/openclaw.json"
+                mkdir -p "$(dirname "${CONFIG_FILE}")"
+                if [ ! -f "${CONFIG_FILE}" ]; then
+                  echo '{"gateway":{"controlUi":{"dangerouslyAllowHostHeaderOriginFallback":true}}}' > "${CONFIG_FILE}"
+                else
+                  node -e "
+                    const fs = require('fs');
+                    const f = '${CONFIG_FILE}';
+                    let c = {};
+                    try { c = JSON.parse(fs.readFileSync(f, 'utf8')); }
+                    catch(e) { console.error('Warning: could not parse ' + f + ': ' + e.message); }
+                    if (!c.gateway) c.gateway = {};
+                    if (!c.gateway.controlUi) c.gateway.controlUi = {};
+                    c.gateway.controlUi.dangerouslyAllowHostHeaderOriginFallback = true;
+                    fs.writeFileSync(f, JSON.stringify(c, null, 2));
+                  "
+                fi
+
                 exec node /app/dist/index.js gateway --bind lan --port 18789 --allow-unconfigured
             env:
               HOME: &homepath /home/node
