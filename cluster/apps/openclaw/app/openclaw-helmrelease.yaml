@@ -29,7 +29,7 @@ spec:
           app:
             image:
               repository: ghcr.io/openclaw/openclaw
-              tag: main@sha256:d9238746d1e4eb57fc884b7381b505e822500587f02360e3032a51656be88808
+              tag: main@sha256:53c1f337130e2d5cabc2662c2b61f9251f9c2482f45c3984b294da13acf7601e
               pullPolicy: IfNotPresent
             command:
               - /bin/sh
