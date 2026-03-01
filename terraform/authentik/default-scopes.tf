@@ -9,3 +9,7 @@ data "authentik_property_mapping_provider_scope" "scope-profile" {
 data "authentik_property_mapping_provider_scope" "scope-openid" {
   name = "authentik default OAuth Mapping: OpenID 'openid'"
 }
+
+data "authentik_property_mapping_provider_scope" "scope-offline-access" {
+  name = "authentik default OAuth Mapping: OpenID 'offline_access'"
+}

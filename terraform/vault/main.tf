@@ -685,3 +685,52 @@ resource "vault_kv_secret_v2" "nix_build_service" {
         "nix_cache_s3_secret_access_key" = var.NIX_CACHE_S3_SECRET_ACCESS_KEY
     })
 }
+
+### Harbor
+
+resource "random_password" "harbor_db_password" {
+  length  = 32
+  special = true
+  numeric = true
+  upper   = true
+}
+
+resource "random_password" "harbor_admin_password" {
+  length  = 32
+  special = true
+  numeric = true
+  upper   = true
+}
+
+resource "random_password" "harbor_oidc_client_id" {
+  length  = 32
+  special = false
+  numeric = false
+  upper   = false
+}
+
+resource "random_password" "harbor_oidc_client_secret" {
+  length  = 32
+  special = false
+  numeric = false
+  upper   = false
+}
+
+resource "random_password" "harbor_secret_key" {
+  length  = 16
+  special = false
+  numeric = true
+  upper   = true
+}
+
+resource "vault_kv_secret_v2" "harbor" {
+  mount     = vault_mount.kv.path
+  name      = "harbor"
+  data_json = jsonencode({
+    db_password        = random_password.harbor_db_password.result
+    admin_password     = random_password.harbor_admin_password.result
+    oidc_client_id     = random_password.harbor_oidc_client_id.result
+    oidc_client_secret = random_password.harbor_oidc_client_secret.result
+    secret_key         = random_password.harbor_secret_key.result
+  })
+}

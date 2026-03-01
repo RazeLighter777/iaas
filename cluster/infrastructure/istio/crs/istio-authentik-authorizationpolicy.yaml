@@ -28,3 +28,4 @@ spec:
               - "hass.${domain_name}"
               - "nix.${domain_name}"
               - "rss.${domain_name}"
+              - "harbor.${domain_name}"
