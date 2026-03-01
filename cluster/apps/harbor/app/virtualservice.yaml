@@ -1,0 +1,21 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: harbor
+  namespace: harbor
+spec:
+  hosts:
+  - harbor.${domain_name}
+  gateways:
+  - istio-system/istio-ingressgateway
+  http:
+  - route:
+    - destination:
+        host: harbor.harbor.svc.cluster.local
+        port:
+          number: 80
+    match:
+    - authority:
+        exact: harbor.${domain_name}
+      uri:
+        prefix: /
