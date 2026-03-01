@@ -20,4 +20,4 @@ spec:
         - name: dev-shm
           emptyDir:
             medium: Memory
-            sizeLimit: 1Gi
+            sizeLimit: 3Gi
