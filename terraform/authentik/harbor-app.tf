@@ -43,8 +43,18 @@ resource "authentik_group" "harbor-users" {
   name = "harbor-users"
 }
 
+resource "authentik_group" "harbor-admins" {
+  name = "harbor-admins"
+}
+
 resource "authentik_policy_binding" "harbor-users-binding" {
   target = authentik_application.harbor.uuid
   group  = authentik_group.harbor-users.id
+  order  = 0
+}
+
+resource "authentik_policy_binding" "harbor-admins-binding" {
+  target = authentik_application.harbor.uuid
+  group  = authentik_group.harbor-admins.id
   order  = 0
 }
