@@ -102,18 +102,18 @@ spec:
               ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER: "ember"
               ZIGBEE2MQTT_CONFIG_SERIAL_PORT: "/dev/ttyUSB0"
               ZIGBEE2MQTT_CONFIG_MQTT_REJECT_UNAUTHORIZED: true
-              ZIGBEE2MQTT_CONFIG_MQTT_SERVER: "mqtt://emqx-cluster-headless.emqx.svc.cluster.local:1883"
+              ZIGBEE2MQTT_CONFIG_MQTT_SERVER: "mqtt://rabbitmq.rabbitmq.svc.cluster.local:1883"
               ZIGBEE2MQTT_CONFIG_MQTT_VERSION: 5
               ZIGBEE2MQTT_CONFIG_MQTT_USER:
                 valueFrom:
                   secretKeyRef:
                     name: zigbee2mqtt-secret
-                    key: EMQX_DASHBOARD__DEFAULT_USERNAME
+                    key: RABBITMQ_USERNAME
               ZIGBEE2MQTT_CONFIG_MQTT_PASSWORD:
                 valueFrom:
                   secretKeyRef:
                     name: zigbee2mqtt-secret
-                    key: EMQX_DASHBOARD__DEFAULT_PASSWORD
+                    key: RABBITMQ_PASSWORD
               ZIGBEE2MQTT_CONFIG_PERMIT_JOIN: true
       home-assistant:
         pod:

@@ -255,9 +255,9 @@ data:
             failure-threshold: 5
             send-on-resolved: true
             description: "Zigbee2MQTT is down"
-      - name: emqx
+      - name: rabbitmq
         group: home
-        url: https://mqtt.${domain_name}/status
+        url: https://mqtt.${domain_name}/
         interval: 1m
         conditions:
           - "[STATUS] == 200"
@@ -265,7 +265,7 @@ data:
           - type: discord
             failure-threshold: 5
             send-on-resolved: true
-            description: "EMQX is down"
+            description: "RabbitMQ is down"
       - name: clawdbot
         group: apps
         url: https://clawdbot.${domain_name}/health
