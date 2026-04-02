@@ -6,7 +6,6 @@ configMapGenerator:
   - dashboards/control-plane.json
   - dashboards/cluster.json
   - dashboards/logs.json
-  - dashboards/opnsense.json
   name: flux-grafana-dashboards
   options:
     labels:
