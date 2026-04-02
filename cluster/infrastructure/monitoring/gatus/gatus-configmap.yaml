@@ -110,17 +110,6 @@ data:
             failure-threshold: 5
             send-on-resolved: true
             description: "Gatus is down"
-      - name: capacitor
-        group: monitoring
-        url: https://capacitor.${domain_name}/health
-        interval: 1m
-        conditions:
-          - "[STATUS] == 200"
-        alerts:
-          - type: discord
-            failure-threshold: 5
-            send-on-resolved: true
-            description: "Capacitor is down"
       - name: calibre-web
         group: media
         url: https://cwa.${domain_name}/health
