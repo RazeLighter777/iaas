@@ -1,8 +1,8 @@
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
-  name: emqx-cluster-dashboard
-  namespace: emqx
+  name: rabbitmq-management
+  namespace: rabbitmq
 spec:
   hosts:
   - mqtt.${domain_name}
@@ -11,9 +11,9 @@ spec:
   http:
   - route:
     - destination:
-        host: emqx-cluster-dashboard.emqx.svc.cluster.local
+        host: rabbitmq.rabbitmq.svc.cluster.local
         port:
-          number: 18083
+          number: 15672
     match:
     - authority:
         exact: mqtt.${domain_name}
