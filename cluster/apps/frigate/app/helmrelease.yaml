@@ -70,7 +70,7 @@ spec:
           main:
             image:
               repository: ghcr.io/blakeblackshear/frigate
-              tag:  21e4b36-amd64@sha256:642ad064ed5723419fe5495c534f2f09b4b8f9509baa94247d2b75ae0f6a8dc1
+              tag:  21ff257-amd64@sha256:fd2fec855b16aaf656da64039086c39bc29ec6ad9847a38db140affa4e2e01bf
             env:
               TZ: ${timezone}
             securityContext:
