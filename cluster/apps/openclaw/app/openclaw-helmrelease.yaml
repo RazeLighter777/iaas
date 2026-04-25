@@ -69,6 +69,10 @@ spec:
                   git clone --depth 1 https://github.com/Homebrew/brew $HOMEBREW_PREFIX
                 fi
 
+                # Install hashicorp vault if not present
+                brew tap hashicorp/tap
+                brew install hashicorp/tap/vault
+
                 # Set up symlink and PATH
                 ln -sf /app/openclaw.mjs /home/node/.local/bin/openclaw
                 export PATH="/home/node/.local/bin:/home/node/.local/go/bin:/home/node/.local/homebrew/bin:$PATH"
