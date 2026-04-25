@@ -72,7 +72,8 @@ spec:
                 # Install hashicorp vault if not present
                 brew tap hashicorp/tap
                 brew install hashicorp/tap/vault
-
+                # install brew jq
+                brew install jq
                 # Set up symlink and PATH
                 ln -sf /app/openclaw.mjs /home/node/.local/bin/openclaw
                 export PATH="/home/node/.local/bin:/home/node/.local/go/bin:/home/node/.local/homebrew/bin:$PATH"
