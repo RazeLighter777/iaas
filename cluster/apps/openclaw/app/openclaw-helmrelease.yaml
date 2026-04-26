@@ -131,8 +131,8 @@ spec:
                     path: /health
                     port: &port 18789
                   periodSeconds: 30
-                  timeoutSeconds: 5
-                  failureThreshold: 5
+                  timeoutSeconds: 10
+                  failureThreshold: 10
               readiness:
                 enabled: true
                 custom: true
@@ -140,9 +140,9 @@ spec:
                   httpGet:
                     path: /health
                     port: *port
-                  periodSeconds: 10
-                  timeoutSeconds: 5
-                  failureThreshold: 5
+                  periodSeconds: 30
+                  timeoutSeconds: 10
+                  failureThreshold: 10
               startup:
                 enabled: true
                 spec:
@@ -154,10 +154,10 @@ spec:
               capabilities: { drop: ["ALL"] }
             resources:
               requests:
-                cpu: 100m
-                memory: 512Mi
+                cpu: 1000m
+                memory: 1024Mi
               limits:
-                memory: 2Gi
+                memory: 4Gi
     defaultPodOptions:
       shareProcessNamespace: true
       securityContext:
