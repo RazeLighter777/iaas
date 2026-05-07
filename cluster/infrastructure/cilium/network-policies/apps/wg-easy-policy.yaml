@@ -1,0 +1,52 @@
+---
+# Network policy for the wg-easy WireGuard VPN service
+# wg-easy provides a UI and manages WireGuard VPN connections
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: wg-easy-policy
+  namespace: wg-easy
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/instance: wg-easy
+  # Ingress: Allow nginx for UI, and external clients for VPN
+  ingress:
+    # Allow nginx ingress controller to reach the web UI
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: ingress-nginx
+            app.kubernetes.io/name: ingress-nginx
+            app.kubernetes.io/component: controller
+      toPorts:
+        - ports:
+            - port: "51822"
+              protocol: TCP
+    # Allow VPN connections from any external source (UDP port for WireGuard)
+    - fromEntities:
+        - world
+      toPorts:
+        - ports:
+            - port: "51821"
+              protocol: UDP
+    # Allow monitoring/metrics scraping
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: monitoring
+  # Egress: DNS and external access for VPN routing
+  egress:
+    # DNS resolution via CoreDNS
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+          rules:
+            dns:
+              - matchPattern: "*"
+    # Allow VPN traffic to be routed externally
+    - toEntities:
+        - world

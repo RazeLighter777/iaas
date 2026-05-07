@@ -1,0 +1,57 @@
+---
+# Network policy for the blog service
+# The blog service uses git-sync to pull from GitHub and serves content via nginx
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: blog-policy
+  namespace: blog
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/instance: blog
+  # Ingress: Allow nginx ingress controller to reach the blog service
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: ingress-nginx
+            app.kubernetes.io/name: ingress-nginx
+            app.kubernetes.io/component: controller
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP
+    # Allow monitoring/metrics scraping
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: monitoring
+  # Egress: DNS, HTTPS to GitHub, and npm registry
+  egress:
+    # DNS resolution via CoreDNS
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+          rules:
+            dns:
+              - matchPattern: "*"
+    # HTTPS to GitHub for git-sync
+    - toFQDNs:
+        - matchName: "github.com"
+        - matchPattern: "*.github.com"
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
+    # HTTPS to npm registry for dependencies (registry.npmjs.org)
+    - toFQDNs:
+        - matchName: "registry.npmjs.org"
+        - matchPattern: "*.npmjs.org"
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
