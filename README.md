@@ -52,7 +52,7 @@ At this point, the cluster has maintained roughly nine months of uptime, with no
 
 - **[Cloudnative PG](https://cloudnative-pg.io/)**: A PostgreSQL operator for managing PostgreSQL clusters.
 - **[Redis](https://redis.io)**: Low latency key-value store.
-- **[EMQX](https://www.emqx.com/)**: An open-source MQTT broker. Also paywalled, so I'll replace it soon.
+- **[RabbitMQ](https://www.rabbitmq.com/)**: A reliable and mature open-source message broker with MQTT support for smart home integration.
 
 ## 🏠 Smart Home
 
