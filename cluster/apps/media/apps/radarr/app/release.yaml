@@ -77,7 +77,7 @@ spec:
             image:
               repository: ghcr.io/home-operations/radarr
               # renovate: datasource=github-releases depName=home-operations/radarr
-              tag: 5.28.0.10205@sha256:80dec94f1eea0715471853011efdf2c49cf92f8fe3b17b722ad8f8a637e3fead
+              tag: 6.2.1.10437@sha256:09979c77f9be3f324c133e1e73fea2b5c7eed37b586ed7c8a8a60c9b6932f175
             env:
                 - name: RADARR__APP__INSTANCENAME
                   value: ${domain_name} Radarr
