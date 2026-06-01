@@ -115,7 +115,7 @@ data:
         url: https://cwa.${domain_name}/health
         interval: 1m
         conditions:
-          - "[STATUS] == 404"
+          - "[STATUS] == 200"
         alerts:
           - type: discord
             failure-threshold: 5
