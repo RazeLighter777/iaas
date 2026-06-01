@@ -137,23 +137,6 @@ variable "EMQX_PASSWORD" {
 }
 
 
-## OPNsense API keys
-variable "OPNSENSE_API_KEY" {
-    type = string
-}
-
-variable "OPNSENSE_API_SECRET" {
-    type = string
-}
-
-variable "OPNSENSE_ROUTER_IP" {
-    type = string
-}
-
-variable "OPNSENSE_WIREGUARD_PRIVATE_KEY" {
-    type = string
-}
-
 ### longhorn s3 backup creds and bucket
 
 variable "LONGHORN_S3_BUCKET" {
@@ -285,11 +268,6 @@ variable "GRAPHITE_EXPORTER_IP" {
     type = string
 }
 
-### HortusFox
-variable "HORTUSFOX_ADMIN_EMAIL" {
-    type = string
-}
-
 ## Secrets
 
 resource "vault_kv_secret_v2" "cluster-settings" {
@@ -330,18 +308,6 @@ resource "vault_kv_secret_v2" "emqx" {
         "password" = var.EMQX_PASSWORD
     })
 }
-
-resource "vault_kv_secret_v2" "opnsense" {
-    mount    = vault_mount.kv.path
-    name    = "opnsense"
-    data_json = jsonencode({
-        "api_key" = var.OPNSENSE_API_KEY
-        "api_secret" = var.OPNSENSE_API_SECRET
-        "opnsense_router_ip" = var.OPNSENSE_ROUTER_IP
-        "wireguard_private_key" = var.OPNSENSE_WIREGUARD_PRIVATE_KEY
-    })
-}
-
 
 resource "vault_kv_secret_v2" "cloudnative_s3" {
     mount    = vault_mount.kv.path
