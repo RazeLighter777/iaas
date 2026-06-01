@@ -1,0 +1,63 @@
+---
+# Garbage-collect orphaned prometheus_client multiprocess .db files in /dev/shm.
+# gunicorn workers in the authentik server write per-PID files to
+# /dev/shm/authentik_prometheus_tmp/ and prometheus_client does not clean them
+# up when a worker exits, eventually filling tmpfs. This sidecar deletes files
+# whose owning PID is no longer present in the shared process namespace.
+# See: https://github.com/goauthentik/authentik/issues (recurring /dev/shm full)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authentik-server
+  namespace: authentik
+spec:
+  template:
+    spec:
+      shareProcessNamespace: true
+      containers:
+        - name: server
+          volumeMounts:
+            - name: dev-shm
+              mountPath: /dev/shm
+        - name: shm-gc
+          image: busybox:1.37
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            runAsNonRoot: false
+            runAsUser: 0
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+          resources:
+            requests:
+              cpu: 5m
+              memory: 16Mi
+            limits:
+              memory: 32Mi
+          volumeMounts:
+            - name: dev-shm
+              mountPath: /dev/shm
+          command:
+            - /bin/sh
+            - -c
+            - |
+              set -u
+              while true; do
+                if [ -d /dev/shm/authentik_prometheus_tmp ]; then
+                  for file in /dev/shm/authentik_prometheus_tmp/*.db; do
+                    [ -e "$file" ] || continue
+                    pid=$(basename "$file" | grep -oE '[0-9]+\.db$' | cut -d'.' -f1)
+                    if [ -n "$pid" ] && [ ! -d "/proc/$pid" ]; then
+                      echo "shm-gc: removing $(basename "$file") (pid $pid gone)"
+                      rm -f "$file"
+                    fi
+                  done
+                fi
+                sleep 3600
+              done
+      volumes:
+        - name: dev-shm
+          emptyDir:
+            medium: Memory
+            sizeLimit: 4Gi

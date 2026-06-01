@@ -14,3 +14,7 @@ patches:
     target:
       kind: Deployment
       name: ak-outpost-proxy-outpost
+  - path: server-shm-gc-patch.yaml
+    target:
+      kind: Deployment
+      name: authentik-server
