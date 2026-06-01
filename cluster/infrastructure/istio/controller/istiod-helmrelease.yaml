@@ -17,7 +17,7 @@ spec:
         kind: HelmRepository
         name: istio
         namespace: flux-system
-      version: "1.29.2"
+      version: "1.30.0"
   values:
     profile: ambient
     env:
