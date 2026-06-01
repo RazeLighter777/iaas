@@ -86,11 +86,13 @@ spec:
                   {{- range $i, $a := .Alerts }}
                   {{- if lt $i $max }}
                   **{{ $a.Labels.alertname }}**{{ if ne $a.Labels.severity "" }} ({{ $a.Labels.severity | title }}){{ end }}
-                  {{- if ne $a.Annotations.summary "" }}
+                  {{- if and (ne $a.Annotations.summary "") (ne $a.Annotations.summary $a.Labels.alertname) }}
                   {{ $a.Annotations.summary }}
-                  {{- else if ne $a.Annotations.description "" }}
+                  {{- end }}
+                  {{- if and (ne $a.Annotations.description "") (ne $a.Annotations.description $a.Annotations.summary) (ne $a.Annotations.description $a.Labels.alertname) }}
                   {{ $a.Annotations.description }}
-                  {{- else if ne $a.Annotations.message "" }}
+                  {{- end }}
+                  {{- if and (ne $a.Annotations.message "") (ne $a.Annotations.message $a.Annotations.description) (ne $a.Annotations.message $a.Annotations.summary) }}
                   {{ $a.Annotations.message }}
                   {{- end }}
                   {{- if or (ne $a.Annotations.runbook_url "") (ne $a.GeneratorURL "") }}

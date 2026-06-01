@@ -74,10 +74,15 @@ spec:
             values:
             - - cilium-cni
           - name: containerd
-            fields: 
+            fields:
             - proc.pname
             values:
             - - containerd
+          - name: cilium-sysctlfix
+            fields:
+            - proc.exepath
+            values:
+            - - /opt/cni/bin/cilium-sysctlfix
           override:
             exceptions: append
 
@@ -109,6 +114,20 @@ spec:
             - k8s.ns.name
             values:
             - - openclaw
+          - name: cloudnative-pg-manager
+            fields:
+            - container.image.repository
+            - proc.exepath
+            values:
+            - - ghcr.io/cloudnative-pg/postgresql
+              - /controller/manager
+          - name: istio-pilot-discovery
+            fields:
+            - container.image.repository
+            - proc.exepath
+            values:
+            - - registry.istio.io/release/pilot
+              - /usr/local/bin/pilot-discovery
           override:
             exceptions: append
 
@@ -151,6 +170,15 @@ spec:
             - container.image.repository
             values:
             - - ghcr.io/openclaw/openclaw
+          - name: freshrss-actualize-cron
+            fields:
+            - container.image.repository
+            - proc.pname
+            - proc.cmdline
+            values:
+            - - docker.io/freshrss/freshrss
+              - su
+              - sh -c php /var/www/FreshRSS/app/actualize_script.php
           override:
             exceptions: append
       cilium-socket-exceptions.yaml: |-
