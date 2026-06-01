@@ -46,7 +46,6 @@ At this point, the cluster has maintained roughly nine months of uptime, with no
 ### Games
 
 - **[SillyTavern](https://github.com/sillytavern/SillyTavern)**: AI roleplay web ui.
-- **[Minecraft](https://www.minecraft.net/)**: Minecraft server
 
 ### 🗂️ Databases
 
