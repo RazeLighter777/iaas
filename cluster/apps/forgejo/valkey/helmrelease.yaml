@@ -1,0 +1,37 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: valkey
+  namespace: forgejo
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: valkey
+      version: "0.9.4"
+      sourceRef:
+        kind: HelmRepository
+        name: valkey
+        namespace: flux-system
+  values:
+    image:
+      registry: docker.io
+      repository: valkey/valkey
+    service:
+      type: ClusterIP
+      port: 6379
+    dataStorage:
+      enabled: true
+      className: longhorn-fast
+      requestedSize: 5Gi
+      accessModes:
+        - ReadWriteOnce
+    auth:
+      enabled: false
+    resources:
+      requests:
+        cpu: 50m
+        memory: 128Mi
+      limits:
+        memory: 512Mi

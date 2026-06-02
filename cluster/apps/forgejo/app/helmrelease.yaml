@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: forgejo
-      version: "11.0.0"
+      version: "17.1.0"
       sourceRef:
         kind: HelmRepository
         name: forgejo
@@ -46,13 +46,6 @@ spec:
     postgresql:
       enabled: false
     postgresql-ha:
-      enabled: false
-
-    redis-cluster:
-      enabled: false
-    valkey:
-      enabled: true
-    valkey-cluster:
       enabled: false
 
     gitea:
@@ -124,10 +117,13 @@ spec:
           INSTALL_LOCK: true
         session:
           PROVIDER: redis
+          PROVIDER_CONFIG: "redis://valkey.forgejo.svc.cluster.local:6379/0"
         cache:
           ADAPTER: redis
+          HOST: "redis://valkey.forgejo.svc.cluster.local:6379/0"
         queue:
           TYPE: redis
+          CONN_STR: "redis://valkey.forgejo.svc.cluster.local:6379/0"
         metrics:
           ENABLED: true
         log:

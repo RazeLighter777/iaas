@@ -21,11 +21,28 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
+  name: forgejo-valkey
+  namespace: flux-system
+spec:
+  path: "./cluster/apps/forgejo/valkey"
+  targetNamespace: forgejo
+  interval: 5m
+  prune: true
+  wait: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
   name: forgejo-app
   namespace: flux-system
 spec:
   dependsOn:
     - name: forgejo-database
+    - name: forgejo-valkey
   path: "./cluster/apps/forgejo/app"
   targetNamespace: forgejo
   interval: 5m
