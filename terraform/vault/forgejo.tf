@@ -67,6 +67,17 @@ variable "FORGEJO_RUNNER_TOKEN" {
   sensitive   = true
 }
 
+variable "FORGEJO_SMTP_USER" {
+  type        = string
+  description = "SMTP username for Forgejo's mailer (for Gmail, your full address e.g. you@gmail.com)."
+}
+
+variable "FORGEJO_SMTP_PASSWD" {
+  type        = string
+  description = "SMTP password for Forgejo's mailer (for Gmail, a 16-char App Password from myaccount.google.com/apppasswords)."
+  sensitive   = true
+}
+
 resource "vault_kv_secret_v2" "forgejo" {
   mount = vault_mount.kv.path
   name  = "forgejo"
@@ -81,5 +92,7 @@ resource "vault_kv_secret_v2" "forgejo" {
     lfs_jwt_secret     = random_password.forgejo_lfs_jwt_secret.result
     runner_uuid        = var.FORGEJO_RUNNER_UUID
     runner_token       = var.FORGEJO_RUNNER_TOKEN
+    smtp_user          = var.FORGEJO_SMTP_USER
+    smtp_passwd        = var.FORGEJO_SMTP_PASSWD
   })
 }

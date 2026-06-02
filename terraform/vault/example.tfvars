@@ -116,6 +116,11 @@ FORGEJO_RUNNER_TOKEN = "your-forgejo-runner-registration-token"
 # Forgejo runner UUID (assigned by Forgejo after the runner registers; visible in Site Admin -> Actions -> Runners)
 FORGEJO_RUNNER_UUID = "00000000-0000-0000-0000-000000000000"
 
+# Forgejo outgoing mailer SMTP credentials
+# For Gmail: USER = full email address, PASSWD = 16-char App Password from myaccount.google.com/apppasswords (requires 2FA on the account)
+FORGEJO_SMTP_USER = "you@gmail.com"
+FORGEJO_SMTP_PASSWD = "your-16-char-app-password"
+
 NIX_CACHE_S3_BUCKET = "your-nix-cache-bucket"
 NIX_CACHE_S3_ENDPOINT = "s3.example.com"
 NIX_CACHE_S3_REGION = "us-east-1"

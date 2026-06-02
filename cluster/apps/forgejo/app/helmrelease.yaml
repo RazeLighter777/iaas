@@ -77,6 +77,16 @@ spec:
             secretKeyRef:
               name: forgejo-secrets
               key: LFS_JWT_SECRET
+        - name: FORGEJO__MAILER__USER
+          valueFrom:
+            secretKeyRef:
+              name: forgejo-secrets
+              key: SMTP_USER
+        - name: FORGEJO__MAILER__PASSWD
+          valueFrom:
+            secretKeyRef:
+              name: forgejo-secrets
+              key: SMTP_PASSWD
       oauth:
         - name: "Authentik"
           provider: "openidConnect"
@@ -90,22 +100,30 @@ spec:
         server:
           DOMAIN: git.${domain_name}
           ROOT_URL: https://git.${domain_name}
-          SSH_DOMAIN: git.${domain_name}
-          SSH_PORT: 22
+          SSH_DOMAIN: princessbelongsto.me
+          SSH_PORT: 2222
           SSH_LISTEN_PORT: 2222
           START_SSH_SERVER: true
           OFFLINE_MODE: true
-          LANDING_PAGE: explore
+          LANDING_PAGE: home
         database:
           DB_TYPE: postgres
           HOST: forgejo-postgres-rw.forgejo.svc.cluster.local:5432
           NAME: forgejo
           USER: forgejo
+        repository:
+          DEFAULT_BRANCH: master
+          DEFAULT_PRIVATE: private
+          ENABLE_PUSH_CREATE_USER: false
+          ENABLE_PUSH_CREATE_ORG: false
         service:
           DISABLE_REGISTRATION: true
           ALLOW_ONLY_EXTERNAL_REGISTRATION: true
           SHOW_REGISTRATION_BUTTON: false
-          ENABLE_NOTIFY_MAIL: false
+          ENABLE_NOTIFY_MAIL: true
+          ENABLE_INTERNAL_SIGNIN: false
+          ENABLE_BASIC_AUTHENTICATION: true
+          REQUIRE_SIGNIN_VIEW: false
         openid:
           ENABLE_OPENID_SIGNIN: false
           ENABLE_OPENID_SIGNUP: false
@@ -114,10 +132,11 @@ spec:
           USERNAME: nickname
           UPDATE_AVATAR: true
           ACCOUNT_LINKING: auto
-        repository:
-          DEFAULT_BRANCH: master
         security:
           INSTALL_LOCK: true
+          DISABLE_GIT_HOOKS: true
+          REVERSE_PROXY_LIMIT: 1
+          REVERSE_PROXY_TRUSTED_PROXIES: 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
         session:
           PROVIDER: redis
           PROVIDER_CONFIG: "redis://valkey.forgejo.svc.cluster.local:6379/0"
@@ -127,6 +146,29 @@ spec:
         queue:
           TYPE: redis
           CONN_STR: "redis://valkey.forgejo.svc.cluster.local:6379/0"
+        indexer:
+          REPO_INDEXER_ENABLED: true
+          REPO_INDEXER_TYPE: bleve
+          ISSUE_INDEXER_TYPE: bleve
+        packages:
+          ENABLED: true
+        federation:
+          ENABLED: false
+        webhook:
+          ALLOWED_HOST_LIST: external
+        mailer:
+          ENABLED: true
+          PROTOCOL: smtp+starttls
+          SMTP_ADDR: smtp.gmail.com
+          SMTP_PORT: 587
+          FROM: forgejo@prizrak.me
+        ui:
+          DEFAULT_THEME: forgejo-auto
+        picture:
+          DISABLE_GRAVATAR: true
+          ENABLE_FEDERATED_AVATAR: false
+        cron.update_checker:
+          ENABLED: false
         metrics:
           ENABLED: true
         log:
@@ -135,13 +177,16 @@ spec:
         actions:
           ENABLED: true
           DEFAULT_ACTIONS_URL: github
+        git.timeout:
+          MIGRATE: 3600
+          MIRROR: 1800
 
     resources:
       requests:
         cpu: 100m
         memory: 512Mi
       limits:
-        memory: 2Gi
+        memory: 6Gi
 
     actions:
       enabled: true
