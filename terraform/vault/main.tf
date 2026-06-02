@@ -228,6 +228,10 @@ variable "NIX_CACHE_LB_IP" {
     type = string
 }
 
+variable "FORGEJO_SSH_LB_IP" {
+    type = string
+}
+
 variable "NIX_CACHE_S3_BUCKET" {
     type = string
 }
@@ -286,6 +290,7 @@ resource "vault_kv_secret_v2" "cluster-settings" {
         "nfs_path" = var.NFS_PATH
         "omada_controller_ip" = var.OMADA_CONTROLLER_IP
         "nix_cache_lb_ip" = var.NIX_CACHE_LB_IP
+        "forgejo_ssh_lb_ip" = var.FORGEJO_SSH_LB_IP
     })
 }
 

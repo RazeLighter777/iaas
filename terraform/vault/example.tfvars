@@ -109,6 +109,8 @@ NIX_CACHE_PUBLIC_KEY = "your-cache-name:REPLACE_WITH_NIX_CACHE_PUBLIC_KEY"
 
 NIX_CACHE_LB_IP = "192.168.1.1"
 
+FORGEJO_SSH_LB_IP = "192.168.1.x"
+
 NIX_CACHE_S3_BUCKET = "your-nix-cache-bucket"
 NIX_CACHE_S3_ENDPOINT = "s3.example.com"
 NIX_CACHE_S3_REGION = "us-east-1"

@@ -1,0 +1,21 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: forgejo
+  namespace: forgejo
+spec:
+  hosts:
+    - git.${domain_name}
+  gateways:
+    - istio-system/istio-ingressgateway
+  http:
+    - route:
+        - destination:
+            host: forgejo-http.forgejo.svc.cluster.local
+            port:
+              number: 3000
+      match:
+        - authority:
+            exact: git.${domain_name}
+          uri:
+            prefix: /
