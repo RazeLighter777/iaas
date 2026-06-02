@@ -6,5 +6,5 @@ metadata:
   namespace: flux-system
 spec:
   interval: 24h
-  url: https://code.forgejo.org/forgejo-helm
-  type: default
+  url: oci://code.forgejo.org/forgejo-helm
+  type: oci
