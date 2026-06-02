@@ -56,6 +56,14 @@ resource "random_password" "forgejo_lfs_jwt_secret" {
   upper   = true
 }
 
+resource "random_uuid" "forgejo_runner_uuid" {}
+
+variable "FORGEJO_RUNNER_TOKEN" {
+  type        = string
+  description = "Registration token issued by Forgejo (Site Admin -> Actions -> Runners -> Create new Runner)."
+  sensitive   = true
+}
+
 resource "vault_kv_secret_v2" "forgejo" {
   mount = vault_mount.kv.path
   name  = "forgejo"
@@ -68,5 +76,7 @@ resource "vault_kv_secret_v2" "forgejo" {
     internal_token     = random_password.forgejo_internal_token.result
     jwt_secret         = random_password.forgejo_jwt_secret.result
     lfs_jwt_secret     = random_password.forgejo_lfs_jwt_secret.result
+    runner_uuid        = random_uuid.forgejo_runner_uuid.result
+    runner_token       = var.FORGEJO_RUNNER_TOKEN
   })
 }

@@ -82,7 +82,9 @@ spec:
           provider: "openidConnect"
           existingSecret: forgejo-oauth
           autoDiscoverUrl: "https://authentik.${domain_name}/application/o/forgejo/.well-known/openid-configuration"
-          scopes: "openid profile email"
+          scopes: "openid profile email groups"
+          groupClaimName: "groups"
+          adminGroup: "forgejo-admins"
       config:
         APP_NAME: "Forgejo"
         server:
@@ -130,6 +132,9 @@ spec:
         log:
           LEVEL: info
           MODE: console
+        actions:
+          ENABLED: true
+          DEFAULT_ACTIONS_URL: github
 
     resources:
       requests:
@@ -139,4 +144,4 @@ spec:
         memory: 2Gi
 
     actions:
-      enabled: false
+      enabled: true
