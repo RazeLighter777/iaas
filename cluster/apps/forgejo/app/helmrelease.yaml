@@ -49,13 +49,9 @@ spec:
       enabled: false
 
     redis-cluster:
-      enabled: true
-      image:
-        registry: docker.io
-        repository: bitnamilegacy/redis-cluster
-        tag: 7.4.2-debian-12-r0
-    valkey:
       enabled: false
+    valkey:
+      enabled: true
     valkey-cluster:
       enabled: false
 
