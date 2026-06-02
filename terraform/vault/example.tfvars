@@ -113,6 +113,8 @@ FORGEJO_SSH_LB_IP = "192.168.1.x"
 
 # Forgejo runner registration token (Site Admin -> Actions -> Runners -> Create new Runner)
 FORGEJO_RUNNER_TOKEN = "your-forgejo-runner-registration-token"
+# Forgejo runner UUID (assigned by Forgejo after the runner registers; visible in Site Admin -> Actions -> Runners)
+FORGEJO_RUNNER_UUID = "00000000-0000-0000-0000-000000000000"
 
 NIX_CACHE_S3_BUCKET = "your-nix-cache-bucket"
 NIX_CACHE_S3_ENDPOINT = "s3.example.com"

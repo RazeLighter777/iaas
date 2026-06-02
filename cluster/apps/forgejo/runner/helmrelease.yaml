@@ -126,12 +126,18 @@ spec:
               - name: docker-certs
                 emptyDir: {}
             restartPolicy: Never
+    serviceAccount:
+      forgejo-runner:
+        enabled: true
+
     controllers:
       forgejo-runner:
         type: deployment
         replicas: 1
         annotations:
           reloader.stakater.com/auto: "true"
+        serviceAccount:
+          identifier: forgejo-runner
         pod:
           labels:
             app.kubernetes.io/component: forgejo-runner

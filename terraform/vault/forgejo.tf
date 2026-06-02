@@ -56,7 +56,10 @@ resource "random_password" "forgejo_lfs_jwt_secret" {
   upper   = true
 }
 
-resource "random_uuid" "forgejo_runner_uuid" {}
+variable "FORGEJO_RUNNER_UUID" {
+  type        = string
+  description = "UUID Forgejo assigned to this runner after registration (visible in Site Admin -> Actions -> Runners)."
+}
 
 variable "FORGEJO_RUNNER_TOKEN" {
   type        = string
@@ -76,7 +79,7 @@ resource "vault_kv_secret_v2" "forgejo" {
     internal_token     = random_password.forgejo_internal_token.result
     jwt_secret         = random_password.forgejo_jwt_secret.result
     lfs_jwt_secret     = random_password.forgejo_lfs_jwt_secret.result
-    runner_uuid        = random_uuid.forgejo_runner_uuid.result
+    runner_uuid        = var.FORGEJO_RUNNER_UUID
     runner_token       = var.FORGEJO_RUNNER_TOKEN
   })
 }
