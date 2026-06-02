@@ -172,29 +172,10 @@ spec:
             - - ghcr.io/openclaw/openclaw
           - name: freshrss-actualize-cron
             fields:
-            - container.image.repository
-            - proc.pname
-            - proc.cmdline
-            values:
-            - - docker.io/freshrss/freshrss
-              - su
-              - sh -c php /var/www/FreshRSS/app/actualize_script.php
-          override:
-            exceptions: append
-      shell-untrusted-binary-exceptions.yaml: |-
-        # Exception for FreshRSS cron job spawning a shell via `su www-data`
-        # to run the actualize_script.php feed refresher.
-        # This addresses the false positive: "Shell spawned by untrusted binary"
-        - rule: Shell spawned by untrusted binary
-          exceptions:
-          - name: freshrss-actualize-cron
-            fields:
-            - container.image.repository
             - proc.pname
             - proc.pcmdline
             values:
-            - - docker.io/freshrss/freshrss
-              - su
+            - - su
               - su www-data -s /bin/sh -c php /var/www/FreshRSS/app/actualize_script.php
           override:
             exceptions: append
