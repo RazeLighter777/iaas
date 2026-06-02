@@ -82,6 +82,7 @@ spec:
           provider: "openidConnect"
           existingSecret: forgejo-oauth
           autoDiscoverUrl: "https://authentik.${domain_name}/application/o/forgejo/.well-known/openid-configuration"
+          scopes: "openid profile email"
       config:
         APP_NAME: "Forgejo"
         server:
