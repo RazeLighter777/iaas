@@ -29,3 +29,4 @@ spec:
               - "nix.${domain_name}"
               - "rss.${domain_name}"
               - "harbor.${domain_name}"
+              - "git.${domain_name}"
