@@ -36,11 +36,12 @@ spec:
         value:
           typed_config:
             "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
-            # `original_ip_detection_extensions` supersedes the legacy
-            # use_remote_address + xff_num_trusted_hops. Setting both makes
-            # Envoy reject the listener:
-            #   "Original IP detection extensions and use_remote_address may
-            #    not be mixed"
+            # Istio's gateway template sets use_remote_address: true by
+            # default. Envoy rejects the listener if that legacy flag is
+            # combined with original_ip_detection_extensions, so we have to
+            # explicitly set it false here. The xff extension below
+            # reimplements the same behaviour plus a trusted-CIDR allowlist.
+            use_remote_address: false
             original_ip_detection_extensions:
               - name: envoy.extensions.http.original_ip_detection.xff
                 typed_config:
