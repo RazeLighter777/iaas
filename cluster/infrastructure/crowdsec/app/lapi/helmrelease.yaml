@@ -147,11 +147,14 @@ spec:
     # ----- configuration files mounted into LAPI/agent pods -----
     config:
       # LAPI: postgres backend + auto-registration on cluster CIDRs.
+      # `$${VAR}` -> `${VAR}` after Flux postBuild substitute, then expanded
+      # by CrowdSec at runtime from the pod env. Plain `${VAR}` here would
+      # be eaten by Flux (cluster-settings doesn't have DB_PASSWORD etc.).
       config.yaml.local: |
         db_config:
           type: postgresql
           user: crowdsec
-          password: ${DB_PASSWORD}
+          password: $${DB_PASSWORD}
           db_name: crowdsec
           host: crowdsec-pg-rw.crowdsec.svc.cluster.local
           port: 5432
@@ -160,7 +163,7 @@ spec:
           server:
             auto_registration:
               enabled: true
-              token: ${REGISTRATION_TOKEN}
+              token: $${REGISTRATION_TOKEN}
               allowed_ranges:
                 - "127.0.0.1/32"
                 - "10.0.0.0/8"

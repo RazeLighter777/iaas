@@ -4,3 +4,5 @@ metadata:
   name: crowdsec
   labels:
     app.kubernetes.io/component: security
+    # Agent DaemonSet hostPath-mounts /var/log -- blocked by `baseline`.
+    pod-security.kubernetes.io/enforce: privileged
