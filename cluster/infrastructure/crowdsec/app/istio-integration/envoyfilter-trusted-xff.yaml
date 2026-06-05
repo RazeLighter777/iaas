@@ -36,8 +36,11 @@ spec:
         value:
           typed_config:
             "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
-            use_remote_address: true
-            xff_num_trusted_hops: 1
+            # `original_ip_detection_extensions` supersedes the legacy
+            # use_remote_address + xff_num_trusted_hops. Setting both makes
+            # Envoy reject the listener:
+            #   "Original IP detection extensions and use_remote_address may
+            #    not be mixed"
             original_ip_detection_extensions:
               - name: envoy.extensions.http.original_ip_detection.xff
                 typed_config:
