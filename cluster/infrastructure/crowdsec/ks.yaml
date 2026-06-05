@@ -6,7 +6,8 @@ metadata:
   name: crowdsec
   namespace: flux-system
 spec:
-  targetNamespace: crowdsec
+  # No targetNamespace -- istio-integration/ resources need to land in
+  # istio-system, and every other manifest sets its own namespace.
   dependsOn:
     - name: cloudnative
     - name: kube-prometheus-stack
