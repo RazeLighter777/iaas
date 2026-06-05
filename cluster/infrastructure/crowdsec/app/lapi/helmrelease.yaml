@@ -181,11 +181,12 @@ spec:
       # leave profiles.yaml empty to use defaults.
 
       # Custom parser for Istio/Envoy JSON access logs (no upstream hub parser).
+      # downstream_remote_address is already the real client IP because the
+      # EnvoyFilter in istio-integration/ sets use_remote_address + trusted XFF.
       parsers:
         s01-parse:
           istio-envoy.yaml: |-
-            filter: |
-              evt.Parsed.program == 'istio-ingress' && evt.Parsed.message startsWith '{'
+            filter: "evt.Parsed.program == 'istio-ingress' && evt.Parsed.message startsWith '{'"
             onsuccess: next_stage
             name: custom/istio-envoy
             description: "Parse Istio ingressgateway JSON access logs"
@@ -200,7 +201,7 @@ spec:
                   apply_on: message
                 statics:
                   - meta: source_ip
-                    expression: 'JsonExtract(evt.Parsed.json_log, "x_forwarded_for") != "" ? JsonExtractSlice(JsonExtract(evt.Parsed.json_log, "x_forwarded_for"), ",", 0) : JsonExtract(evt.Parsed.json_log, "downstream_remote_address")'
+                    expression: 'JsonExtract(evt.Parsed.json_log, "downstream_remote_address")'
                   - meta: http_status
                     expression: 'JsonExtract(evt.Parsed.json_log, "response_code")'
                   - meta: http_path
