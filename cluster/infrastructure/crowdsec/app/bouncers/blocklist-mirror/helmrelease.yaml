@@ -1,0 +1,81 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: crowdsec-blocklist-mirror
+  namespace: crowdsec
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 4.0.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  dependsOn:
+    - name: crowdsec
+      namespace: crowdsec
+  values:
+    controllers:
+      crowdsec-blocklist-mirror:
+        replicas: 1
+        strategy: RollingUpdate
+        pod:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 2000
+            runAsGroup: 2000
+        containers:
+          app:
+            image:
+              repository: docker.io/crowdsecurity/blocklist-mirror
+              tag: v0.0.6
+            args:
+              - -c
+              - /etc/crowdsec/bouncer/cfg.yaml
+            resources:
+              requests:
+                cpu: 10m
+                memory: 32Mi
+              limits:
+                memory: 128Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+    persistence:
+      config:
+        type: secret
+        name: crowdsec-blocklist-mirror
+        globalMounts:
+          - path: /etc/crowdsec/bouncer/cfg.yaml
+            subPath: cfg.yaml
+            readOnly: true
+      tls:
+        type: secret
+        name: crowdsec-bouncer-tls
+        globalMounts:
+          - path: /etc/crowdsec-bouncer/tls
+            readOnly: true
+
+    service:
+      app:
+        controller: crowdsec-blocklist-mirror
+        ports:
+          http:
+            port: 41412
+
+    serviceMonitor:
+      app:
+        serviceName: crowdsec-blocklist-mirror
+        endpoints:
+          - port: http
+            scheme: http
+            path: /metrics
+            interval: 1m
+            scrapeTimeout: 30s

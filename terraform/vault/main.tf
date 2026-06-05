@@ -232,6 +232,11 @@ variable "FORGEJO_SSH_LB_IP" {
     type = string
 }
 
+variable "CROWDSEC_SYSLOG_IP" {
+    type        = string
+    description = "LoadBalancer IP for the CrowdSec syslog listener (UDP 514). External network gear ships syslog here."
+}
+
 variable "NIX_CACHE_S3_BUCKET" {
     type = string
 }
@@ -291,6 +296,7 @@ resource "vault_kv_secret_v2" "cluster-settings" {
         "omada_controller_ip" = var.OMADA_CONTROLLER_IP
         "nix_cache_lb_ip" = var.NIX_CACHE_LB_IP
         "forgejo_ssh_lb_ip" = var.FORGEJO_SSH_LB_IP
+        "crowdsec_syslog_ip" = var.CROWDSEC_SYSLOG_IP
     })
 }
 

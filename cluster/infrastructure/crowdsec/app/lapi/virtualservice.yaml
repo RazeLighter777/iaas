@@ -1,0 +1,23 @@
+# LAPI exposure for LAN/WireGuard reachability. External agents on hosts you own
+# connect here and auto-register using the shared registration_token + TLS cert.
+# Authentik is not in the auth chain for this hostname (see notHosts on the
+# istio-authentik AuthorizationPolicy).
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: crowdsec-lapi
+  namespace: crowdsec
+spec:
+  hosts:
+    - crowdsec-lapi.${domain_name}
+  gateways:
+    - istio-system/istio-ingressgateway
+  http:
+    - match:
+        - authority:
+            exact: crowdsec-lapi.${domain_name}
+      route:
+        - destination:
+            host: crowdsec-service.crowdsec.svc.cluster.local
+            port:
+              number: 8080

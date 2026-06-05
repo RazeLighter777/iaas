@@ -1,0 +1,49 @@
+# Makes the ingressgateway treat X-Forwarded-For as authoritative when (and
+# only when) the immediate connection comes from the cloudflared pod CIDR.
+#
+# Effect on traffic:
+#   * Cloudflared (WAN path):   downstream_remote_address = real client IP
+#                               (last hop XFF, set by cloudflared from
+#                                CF-Connecting-IP).
+#   * LAN-direct path:           downstream_remote_address = LAN client IP
+#                               (no XFF, useRemoteAddress falls back to L4).
+#
+# `xff_num_trusted_hops: 1` strips exactly one hop off the XFF tail (the
+# cloudflared pod) and uses what's left as the remote address.
+#
+# Pod CIDR is the Talos / Cilium kube-pool default (10.244.0.0/16). If the
+# IPAM pool changes, update both this filter and the qBittorrent egress rule
+# in cluster/apps/media/apps/qbittorrent/app/helmrelease.yaml.
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: crowdsec-trusted-xff
+  namespace: istio-system
+spec:
+  workloadSelector:
+    labels:
+      istio: ingressgateway
+  configPatches:
+    - applyTo: NETWORK_FILTER
+      match:
+        context: GATEWAY
+        listener:
+          filterChain:
+            filter:
+              name: envoy.filters.network.http_connection_manager
+      patch:
+        operation: MERGE
+        value:
+          typed_config:
+            "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+            use_remote_address: true
+            xff_num_trusted_hops: 1
+            original_ip_detection_extensions:
+              - name: envoy.extensions.http.original_ip_detection.xff
+                typed_config:
+                  "@type": type.googleapis.com/envoy.extensions.http.original_ip_detection.xff.v3.XffConfig
+                  xff_num_trusted_hops: 1
+                  xff_trusted_cidrs:
+                    cidrs:
+                      - address_prefix: 10.244.0.0
+                        prefix_len: 16

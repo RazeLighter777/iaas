@@ -30,3 +30,5 @@ spec:
               - "rss.${domain_name}"
               - "harbor.${domain_name}"
               - "git.${domain_name}"
+              - "crowdsec-lapi.${domain_name}"
+              - "block.${domain_name}"

@@ -1,0 +1,23 @@
+# Public-read blocklist for external consumers (pfSense/OPNsense/UniFi etc.).
+# `block.${domain_name}` is bypassed by Authentik (see notHosts on
+# istio-authentik AuthorizationPolicy). Access auth happens inside the
+# blocklist-mirror via its own `trusted_ips` allow-list.
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: crowdsec-blocklist-mirror
+  namespace: crowdsec
+spec:
+  hosts:
+    - block.${domain_name}
+  gateways:
+    - istio-system/istio-ingressgateway
+  http:
+    - match:
+        - authority:
+            exact: block.${domain_name}
+      route:
+        - destination:
+            host: crowdsec-blocklist-mirror.crowdsec.svc.cluster.local
+            port:
+              number: 41412

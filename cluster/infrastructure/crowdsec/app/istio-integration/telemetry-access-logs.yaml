@@ -1,0 +1,21 @@
+# Enables JSON access logging on the ingressgateway pods so the CrowdSec agent
+# DaemonSet can tail /var/log/containers/istio-ingressgateway-*.log and feed
+# them into the custom istio-envoy parser.
+#
+# Provider `envoy-json` is defined in cluster/infrastructure/istio/controller/
+# istiod-helmrelease.yaml under meshConfig.extensionProviders.
+#
+# Lives in istio-system (where the gateway pods run) but is owned by the
+# crowdsec kustomization so it's deleted if CrowdSec is uninstalled.
+apiVersion: telemetry.istio.io/v1
+kind: Telemetry
+metadata:
+  name: crowdsec-ingress-access-logs
+  namespace: istio-system
+spec:
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  accessLogging:
+    - providers:
+        - name: envoy-json

@@ -13,3 +13,4 @@ spec:
     - cidr: ${graphite_exporter_ip}/32
     - cidr: ${nix_cache_lb_ip}/32
     - cidr: ${forgejo_ssh_lb_ip}/32
+    - cidr: ${crowdsec_syslog_ip}/32

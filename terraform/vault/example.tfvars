@@ -111,6 +111,25 @@ NIX_CACHE_LB_IP = "192.168.1.1"
 
 FORGEJO_SSH_LB_IP = "192.168.1.x"
 
+# CrowdSec
+# A free LAN IP for the syslog listener (UDP 514). Must be reachable from
+# any network gear that ships syslog.
+CROWDSEC_SYSLOG_IP = "192.168.1.x"
+# Enrollment key from app.crowdsec.net (Settings -> Engines -> Add). Leave as
+# the placeholder if you haven't created a CrowdSec console org yet; the LAPI
+# will still come up, it just won't appear in the SaaS dashboard.
+CROWDSEC_CONSOLE_ENROLL_KEY = "your-crowdsec-console-enroll-key"
+# Cloudflare account + zone IDs (from dash.cloudflare.com -> Overview pane).
+CF_ACCOUNT_ID = "your-cloudflare-account-id"
+CF_ZONE_ID = "your-cloudflare-zone-id"
+# Cloudflare API token for the Workers bouncer. Required scopes (Account):
+#   Workers Scripts:Edit, Workers KV Storage:Edit, Workers Routes:Edit,
+#   Account Settings:Read.
+# Zone-level (target zone only):
+#   Zone Settings:Edit, Workers Routes:Edit, Turnstile:Edit.
+# Create at dash.cloudflare.com/profile/api-tokens.
+CF_WORKERS_BOUNCER_TOKEN = "your-cloudflare-workers-bouncer-api-token"
+
 # Forgejo runner registration token (Site Admin -> Actions -> Runners -> Create new Runner)
 FORGEJO_RUNNER_TOKEN = "your-forgejo-runner-registration-token"
 # Forgejo runner UUID (assigned by Forgejo after the runner registers; visible in Site Admin -> Actions -> Runners)
