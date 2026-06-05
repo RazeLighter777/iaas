@@ -42,7 +42,7 @@ spec:
         - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: crowdsec-pg-app
+              name: crowdsec-db-secret
               key: password
         # Auto-enroll the LAPI into the CrowdSec console on startup.
         - name: ENROLL_INSTANCE_NAME
