@@ -173,6 +173,27 @@ spec:
       # Default profile (4h ban + captcha escalation) ships with the chart;
       # leave profiles.yaml empty to use defaults.
 
+      # Test scenario: hitting /crowdsec-test-NtktlJHV4TfBSK3wvlhiOBnl on any
+      # protected host produces an alert (no decision, remediation: false).
+      # Lets us verify the istio access-log -> parser -> scenario chain
+      # without affecting live traffic.
+      scenarios:
+        http-generic-test.yaml: |-
+          type: trigger
+          name: crowdsecurity/http-generic-test
+          description: "Crowdsec Generic Test Scenario: basic HTTP trigger"
+          filter: |
+            evt.Meta.log_type in ["http_access-log", "http_error-log"] and evt.Meta.http_path == "/crowdsec-test-NtktlJHV4TfBSK3wvlhiOBnl"
+          blackhole: 5m
+          groupby: "evt.Meta.source_ip"
+          labels:
+            confidence: 0
+            spoofable: 3
+            behavior: "http:test"
+            label: "CrowdSec Generic Test Scenario"
+            service: http
+            remediation: false
+
       # Custom parser for Istio/Envoy JSON access logs (no upstream hub parser).
       # downstream_remote_address is already the real client IP because the
       # EnvoyFilter in istio-integration/ sets use_remote_address + trusted XFF.
