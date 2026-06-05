@@ -8,7 +8,7 @@ metadata:
 spec:
   targetNamespace: crowdsec
   dependsOn:
-    - name: cloudnative-pg
+    - name: cloudnative
     - name: kube-prometheus-stack
     - name: external-secrets-crs
     - name: istio-crs
