@@ -81,18 +81,11 @@ spec:
           podName: "forgejo-*"
           program: forgejo
       additionalAcquisition:
-        # Pull from in-cluster Loki for log streams already collected by Alloy
-        # (covers external hosts shipping to Loki, as well as any pod we don't tail directly).
-        - source: loki
-          url: http://loki-stack-gateway.monitoring.svc.cluster.local
-          headers:
-            X-Scope-OrgID: default
-          query: '{job="external"} |~ ".*"'
-          since: 1h
-          labels:
-            type: syslog
         # Syslog listener for network gear (router, switches, NAS, etc.).
         # Service is exposed via LoadBalancer below.
+        # TODO: add a `loki` source pointing at loki-read.monitoring.svc:3100
+        # once external hosts are actually shipping to Loki. The gateway on
+        # :80 does not proxy /ready, so the agent's startup probe fails.
         - source: syslog
           listen_addr: 0.0.0.0
           listen_port: 1514
