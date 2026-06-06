@@ -346,14 +346,16 @@ spec:
               "username": "CrowdSec",
               "embeds": [
                 {
-                  "title": "CrowdSec remediation triggered",
+                  "title": "CrowdSec alert",
                   "color": 15158332,
                   "fields": [
                     {"name": "Scenario", "value": "`{{ .Scenario }}`", "inline": false},
-                    {"name": "Source", "value": "`{{ (index .Decisions 0).Value }}`", "inline": true},
-                    {"name": "Scope", "value": "`{{ (index .Decisions 0).Scope }}`", "inline": true},
+                    {"name": "Source", "value": "`{{ .Source.Value }}`", "inline": true},
+                    {"name": "Scope", "value": "`{{ .Source.Scope }}`", "inline": true},
+                    {{- if .Decisions }}
                     {"name": "Action", "value": "`{{ (index .Decisions 0).Type }}` for `{{ (index .Decisions 0).Duration }}`", "inline": false},
                     {"name": "Origin", "value": "`{{ (index .Decisions 0).Origin }}`", "inline": true},
+                    {{- end }}
                     {"name": "Events", "value": "{{ .EventsCount }}", "inline": true}
                   ]
                 }
