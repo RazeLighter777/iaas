@@ -119,7 +119,7 @@ spec:
             - container.image.repository
             - proc.exepath
             values:
-            - - ghcr.io/cloudnative-pg/postgresql
+            - - ghcr.io/cloudnative-pg/cloudnative-pg
               - /controller/manager
           - name: istio-pilot-discovery
             fields:
@@ -128,6 +128,27 @@ spec:
             values:
             - - registry.istio.io/release/pilot
               - /usr/local/bin/pilot-discovery
+          - name: crowdsec-capi-register
+            fields:
+            - container.image.repository
+            - proc.exepath
+            values:
+            - - docker.io/crowdsecurity/crowdsec
+              - /kubectl-bin/kubectl
+          - name: longhorn-manager
+            fields:
+            - container.image.repository
+            - proc.exepath
+            values:
+            - - docker.io/longhornio/longhorn-manager
+              - /usr/local/sbin/longhorn-manager
+          - name: longhorn-csi-attacher
+            fields:
+            - container.image.repository
+            - proc.exepath
+            values:
+            - - docker.io/longhornio/csi-attacher
+              - /csi-attacher
           override:
             exceptions: append
 
@@ -177,6 +198,22 @@ spec:
             values:
             - - su
               - su www-data -s /bin/sh -c php /var/www/FreshRSS/app/actualize_script.php
+          override:
+            exceptions: append
+
+      longhorn-stdio-exceptions.yaml: |-
+        # Exception for Longhorn instance manager (SPDK daemon) using dup3
+        # to plumb stdio to its local IPC sockets. This addresses the false
+        # positive: "Redirect STDOUT/STDIN to Network Connection in Container"
+        - rule: Redirect STDOUT/STDIN to Network Connection in Container
+          exceptions:
+          - name: longhorn-instance-manager
+            fields:
+            - container.image.repository
+            - proc.pname
+            values:
+            - - docker.io/longhornio/longhorn-instance-manager
+              - longhorn-instan
           override:
             exceptions: append
 
