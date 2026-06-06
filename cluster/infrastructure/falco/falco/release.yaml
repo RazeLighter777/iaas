@@ -202,18 +202,25 @@ spec:
             exceptions: append
 
       longhorn-stdio-exceptions.yaml: |-
-        # Exception for Longhorn instance manager (SPDK daemon) using dup3
-        # to plumb stdio to its local IPC sockets. This addresses the false
-        # positive: "Redirect STDOUT/STDIN to Network Connection in Container"
+        # Longhorn daemons (instance-manager SPDK + longhorn-manager) use dup3
+        # to plumb stdio to their gRPC/IPC sockets. Match on proc.name since
+        # these run as PID 1 in their container (proc.pname is <NA>).
         - rule: Redirect STDOUT/STDIN to Network Connection in Container
           exceptions:
           - name: longhorn-instance-manager
             fields:
             - container.image.repository
-            - proc.pname
+            - proc.name
             values:
             - - docker.io/longhornio/longhorn-instance-manager
               - longhorn-instan
+          - name: longhorn-manager
+            fields:
+            - container.image.repository
+            - proc.name
+            values:
+            - - docker.io/longhornio/longhorn-manager
+              - longhorn-manage
           override:
             exceptions: append
 
