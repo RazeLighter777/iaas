@@ -73,6 +73,16 @@ spec:
             - proc.pname
             values:
             - - cilium-cni
+          # cilium-cni invoked directly by containerd runs as the top-level
+          # process (proc.pname=<NA>), so the pname-based exception above
+          # doesn't match. Cover that case via proc.name + proc.exepath.
+          - name: cilium-cni-runtime
+            fields:
+            - proc.name
+            - proc.exepath
+            values:
+            - - cilium-cni
+              - /opt/cni/bin/cilium-cni
           - name: containerd
             fields:
             - proc.pname
