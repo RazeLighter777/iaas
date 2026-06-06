@@ -6,9 +6,28 @@ metadata:
   namespace: external-dns
   labels:
     ingress-name: cloudflared-tunnel
+    external-dns/provider: cloudflare
 spec:
   endpoints:
     - dnsName: "*.${domain_name}"
       recordType: CNAME
       targets:
         - ${TUNNEL_ID}.cfargotunnel.com
+---
+# LAN bypass — resolves *.${domain_name} to the istio ingress LB so
+# LAN clients skip the Cloudflare tunnel. Served by the on-router
+# PowerDNS (services.powerdns in configuration.nix); dnsmasq forwards
+# the ${domain_name} zone to it via split-horizon.
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: lan-wildcard
+  namespace: external-dns
+  labels:
+    external-dns/provider: pdns
+spec:
+  endpoints:
+    - dnsName: "*.${domain_name}"
+      recordType: A
+      targets:
+        - ${ingress_ip}

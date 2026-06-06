@@ -151,3 +151,5 @@ NIX_CACHE_S3_SECRET_ACCESS_KEY = "your-nix-cache-s3-secret-access-key"
 GRAPHITE_EXPORTER_IP=192.168.1.x
 # HortusFox
 HORTUSFOX_ADMIN_EMAIL = "your-email@example.com"
+# PowerDNS API key — must match /root/pdns.env on the router
+PDNS_API_KEY = "openssl-rand-hex-32-output"

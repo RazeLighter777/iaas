@@ -277,6 +277,14 @@ variable "GRAPHITE_EXPORTER_IP" {
     type = string
 }
 
+# PowerDNS API key — must match /root/pdns.env on the router (nixrouter).
+# Generate once with `openssl rand -hex 32` and set the same value in both
+# places. external-dns reads it from vault via the `pdns` secret.
+variable "PDNS_API_KEY" {
+    type      = string
+    sensitive = true
+}
+
 ## Secrets
 
 resource "vault_kv_secret_v2" "cluster-settings" {
@@ -641,6 +649,14 @@ resource "vault_kv_secret_v2" "graphite_exporter" {
     name    = "graphite_exporter"
     data_json = jsonencode({
         "graphite_exporter_ip" = var.GRAPHITE_EXPORTER_IP
+    })
+}
+
+resource "vault_kv_secret_v2" "pdns" {
+    mount    = vault_mount.kv.path
+    name    = "pdns"
+    data_json = jsonencode({
+        "api_key" = var.PDNS_API_KEY
     })
 }
 
