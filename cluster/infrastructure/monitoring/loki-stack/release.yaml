@@ -10,7 +10,7 @@ spec:
       namespace: rustfs
   chart:
     spec:
-      version: "6.x"
+      version: "7.x"
       chart: loki
       sourceRef:
         kind: HelmRepository
