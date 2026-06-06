@@ -55,6 +55,12 @@ variable "CF_WORKERS_BOUNCER_TOKEN" {
   sensitive   = true
 }
 
+variable "CROWDSEC_DISCORD_WEBHOOK" {
+  type        = string
+  description = "Discord webhook URL for CrowdSec remediation alerts. Create at Discord server -> Integrations -> Webhooks."
+  sensitive   = true
+}
+
 resource "vault_kv_secret_v2" "crowdsec" {
   mount = vault_mount.kv.path
   name  = "crowdsec"
@@ -66,5 +72,6 @@ resource "vault_kv_secret_v2" "crowdsec" {
     cf_account_id            = var.CF_ACCOUNT_ID
     cf_zone_id               = var.CF_ZONE_ID
     cf_workers_bouncer_token = var.CF_WORKERS_BOUNCER_TOKEN
+    discord_webhook          = var.CROWDSEC_DISCORD_WEBHOOK
   })
 }

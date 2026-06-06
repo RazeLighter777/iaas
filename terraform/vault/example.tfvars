@@ -129,6 +129,9 @@ CF_ZONE_ID = "your-cloudflare-zone-id"
 #   Zone Settings:Edit, Workers Routes:Edit, Turnstile:Edit.
 # Create at dash.cloudflare.com/profile/api-tokens.
 CF_WORKERS_BOUNCER_TOKEN = "your-cloudflare-workers-bouncer-api-token"
+# Discord webhook URL for CrowdSec remediation alerts. Create at Discord server
+# -> Integrations -> Webhooks -> New Webhook.
+CROWDSEC_DISCORD_WEBHOOK = "https://discordapp.com/api/webhooks/your-webhook-id/your-webhook-token"
 
 # Forgejo runner registration token (Site Admin -> Actions -> Runners -> Create new Runner)
 FORGEJO_RUNNER_TOKEN = "your-forgejo-runner-registration-token"

@@ -52,6 +52,12 @@ spec:
             secretKeyRef:
               name: crowdsec-lapi-shared
               key: enrollKey
+        # Consumed by config/notifications/discord.yaml via ${VAR} expansion.
+        - name: DISCORD_WEBHOOK_URL
+          valueFrom:
+            secretKeyRef:
+              name: crowdsec-lapi-shared
+              key: discordWebhook
       service:
         type: ClusterIP
       metrics:
@@ -180,8 +186,36 @@ spec:
         share_tainted: true
         share_context: true
 
-      # Default profile (4h ban + captcha escalation) ships with the chart;
-      # leave profiles.yaml empty to use defaults.
+      # Profiles drive *which* notifiers fire on *which* alerts. Without an
+      # explicit profiles.yaml CrowdSec falls back to a built-in default that
+      # bans for 4h but never calls user notifications. We replicate the
+      # default's filter + decision and wire the notifications: list so any
+      # actionable IP/Range remediation fans out to both Alertmanager and
+      # Discord. Alerts where the scenario sets `remediation: false` (e.g. the
+      # http-istio-test scenario above) skip this profile because
+      # Alert.Remediation is false.
+      profiles.yaml: |
+        name: default_ip_remediation
+        filters:
+          - Alert.Remediation == true && Alert.GetScope() == "Ip"
+        decisions:
+          - type: ban
+            duration: 4h
+        notifications:
+          - http_alertmanager
+          - discord
+        on_success: break
+        ---
+        name: default_range_remediation
+        filters:
+          - Alert.Remediation == true && Alert.GetScope() == "Range"
+        decisions:
+          - type: ban
+            duration: 4h
+        notifications:
+          - http_alertmanager
+          - discord
+        on_success: break
 
       # Test scenario: hitting /crowdsec-test-NtktlJHV4TfBSK3wvlhiOBnl on any
       # protected host produces an alert (no decision, remediation: false).
@@ -251,7 +285,9 @@ spec:
               - parsed: http_user_agent
                 expression: 'JsonExtract(evt.Parsed.message, "user_agent")'
 
-      # Notifications: POST to Alertmanager (Falco pattern).
+      # Notifications: POST to Alertmanager (Falco pattern) + Discord webhook.
+      # Both are referenced from profiles.yaml above. Notification files are
+      # mounted into /etc/crowdsec/notifications/ by the chart.
       notifications:
         http.yaml: |
           type: http
@@ -278,6 +314,41 @@ spec:
               {{ end }}
             ]
           url: http://kube-prometheus-stack-alertmanager.monitoring.svc.cluster.local:9093/api/v2/alerts
+          method: POST
+          headers:
+            Content-Type: application/json
+
+        # Discord embeds payload. group_threshold:1 ensures one HTTP POST per
+        # alert (Discord rejects multi-object bodies). DISCORD_WEBHOOK_URL is
+        # injected from the crowdsec-lapi-shared secret; the `$${...}` escapes
+        # Flux's postBuild substitution so CrowdSec expands it at runtime.
+        discord.yaml: |
+          type: http
+          name: discord
+          log_level: info
+          group_wait: 5s
+          group_threshold: 1
+          format: |
+            {{ range . -}}
+            {
+              "username": "CrowdSec",
+              "embeds": [
+                {
+                  "title": "CrowdSec remediation triggered",
+                  "color": 15158332,
+                  "fields": [
+                    {"name": "Scenario", "value": "`{{ .Scenario }}`", "inline": false},
+                    {"name": "Source", "value": "`{{ (index .Decisions 0).Value }}`", "inline": true},
+                    {"name": "Scope", "value": "`{{ (index .Decisions 0).Scope }}`", "inline": true},
+                    {"name": "Action", "value": "`{{ (index .Decisions 0).Type }}` for `{{ (index .Decisions 0).Duration }}`", "inline": false},
+                    {"name": "Origin", "value": "`{{ (index .Decisions 0).Origin }}`", "inline": true},
+                    {"name": "Events", "value": "{{ .EventsCount }}", "inline": true}
+                  ]
+                }
+              ]
+            }
+            {{ end }}
+          url: $${DISCORD_WEBHOOK_URL}
           method: POST
           headers:
             Content-Type: application/json
