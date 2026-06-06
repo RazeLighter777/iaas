@@ -6,7 +6,7 @@ spec:
   interval: 5m
   chart:
     spec:
-      version: "4.x"
+      version: "9.x"
       chart: falco
       sourceRef:
         kind: HelmRepository
