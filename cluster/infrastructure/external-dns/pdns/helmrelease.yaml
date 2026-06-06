@@ -40,11 +40,11 @@ spec:
       - --label-filter=external-dns/provider=pdns
       - --events
       - --ignore-ingress-tls-spec
+      - --txt-wildcard-replacement=wildcard
     policy: sync
     sources: ["crd"]
     txtPrefix: pdns.
     txtOwnerId: pdns
-    txtWildcardReplacement: wildcard
     domainFilters:
       - ${domain_name}
     serviceMonitor:
