@@ -18,7 +18,7 @@ resource "authentik_provider_oauth2" "freshrss" {
   allowed_redirect_uris = [
     {
       matching_mode = "strict"
-      url           = "https://rss.${var.domain_name}/i/oidc/callback"
+      url           = "https://rss.${var.domain_name}/i/oidc/"
     }
   ]
 
