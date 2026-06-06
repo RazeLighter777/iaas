@@ -208,26 +208,25 @@ spec:
             onsuccess: next_stage
             name: custom/istio-envoy
             description: "Parse Istio ingressgateway JSON access logs"
+            # evt.Parsed.message is the raw JSON envoy access log line; we can
+            # JsonExtract directly from it without a grok step. A grok like
+            # %{DATA:json_log} would *not* work here: DATA is lazy and matches
+            # zero chars at position 0, leaving json_log empty.
             statics:
               - meta: log_type
                 value: http_access-log
               - parsed: program
                 value: istio
-            nodes:
-              - grok:
-                  pattern: '%{DATA:json_log}'
-                  apply_on: message
-                statics:
-                  - meta: source_ip
-                    expression: 'JsonExtract(evt.Parsed.json_log, "downstream_remote_address")'
-                  - meta: http_status
-                    expression: 'JsonExtract(evt.Parsed.json_log, "response_code")'
-                  - meta: http_path
-                    expression: 'JsonExtract(evt.Parsed.json_log, "path")'
-                  - meta: http_verb
-                    expression: 'JsonExtract(evt.Parsed.json_log, "method")'
-                  - meta: http_user_agent
-                    expression: 'JsonExtract(evt.Parsed.json_log, "user_agent")'
+              - meta: source_ip
+                expression: 'JsonExtract(evt.Parsed.message, "downstream_remote_address")'
+              - meta: http_status
+                expression: 'JsonExtract(evt.Parsed.message, "response_code")'
+              - meta: http_path
+                expression: 'JsonExtract(evt.Parsed.message, "path")'
+              - meta: http_verb
+                expression: 'JsonExtract(evt.Parsed.message, "method")'
+              - meta: http_user_agent
+                expression: 'JsonExtract(evt.Parsed.message, "user_agent")'
 
       # Notifications: POST to Alertmanager (Falco pattern).
       notifications:
