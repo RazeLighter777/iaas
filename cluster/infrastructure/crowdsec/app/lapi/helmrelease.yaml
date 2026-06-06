@@ -70,6 +70,12 @@ spec:
           memory: 384Mi
       # Tail pod logs directly off the host (default behaviour).
       hostVarLog: true
+      env:
+        # Space-separated hub items installed by the chart's entrypoint on
+        # startup. base-http-scenarios pulls in http-cve as a sub-collection
+        # plus the http-logs enrichment parser; http-dos adds DoS scenarios.
+        - name: COLLECTIONS
+          value: "crowdsecurity/base-http-scenarios crowdsecurity/http-dos"
       acquisition:
         # Despite the HelmRelease metadata.namespace being istio-ingress,
         # the istio-ingressgateway chart deploys the actual gateway pods
@@ -180,12 +186,14 @@ spec:
       # Test scenario: hitting /crowdsec-test-NtktlJHV4TfBSK3wvlhiOBnl on any
       # protected host produces an alert (no decision, remediation: false).
       # Lets us verify the istio access-log -> parser -> scenario chain
-      # without affecting live traffic.
+      # without affecting live traffic. Renamed under the `custom/` namespace
+      # to avoid colliding with the hub's crowdsecurity/http-generic-test
+      # pulled in by base-http-scenarios.
       scenarios:
-        http-generic-test.yaml: |-
+        http-istio-test.yaml: |-
           type: trigger
-          name: crowdsecurity/http-generic-test
-          description: "Crowdsec Generic Test Scenario: basic HTTP trigger"
+          name: custom/http-istio-test
+          description: "Custom HTTP test trigger for the Istio acquisition chain"
           filter: |
             evt.Meta.log_type in ["http_access-log", "http_error-log"] and evt.Meta.http_path == "/crowdsec-test-NtktlJHV4TfBSK3wvlhiOBnl"
           blackhole: 5m
@@ -212,9 +220,16 @@ spec:
             # JsonExtract directly from it without a grok step. A grok like
             # %{DATA:json_log} would *not* work here: DATA is lazy and matches
             # zero chars at position 0, leaving json_log empty.
+            #
+            # Fields required downstream:
+            #   meta.service=http and meta.log_type      -> http-logs s02 filter
+            #   parsed.request (path with query)          -> http-logs grok -> file_name/static_ressource/http_args
+            #   parsed.verb, parsed.target_fqdn           -> http-* scenario filters and groupby
             statics:
               - meta: log_type
                 value: http_access-log
+              - meta: service
+                value: http
               - parsed: program
                 value: istio
               - meta: source_ip
@@ -226,6 +241,14 @@ spec:
               - meta: http_verb
                 expression: 'JsonExtract(evt.Parsed.message, "method")'
               - meta: http_user_agent
+                expression: 'JsonExtract(evt.Parsed.message, "user_agent")'
+              - parsed: verb
+                expression: 'JsonExtract(evt.Parsed.message, "method")'
+              - parsed: request
+                expression: 'JsonExtract(evt.Parsed.message, "path")'
+              - parsed: target_fqdn
+                expression: 'JsonExtract(evt.Parsed.message, "authority")'
+              - parsed: http_user_agent
                 expression: 'JsonExtract(evt.Parsed.message, "user_agent")'
 
       # Notifications: POST to Alertmanager (Falco pattern).
