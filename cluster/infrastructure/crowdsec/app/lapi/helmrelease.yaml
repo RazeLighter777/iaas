@@ -195,6 +195,18 @@ spec:
       # http-istio-test scenario above) skip this profile because
       # Alert.Remediation is false.
       profiles.yaml: |
+        # Test-only profile: fires on the hub's http-generic-test scenario so
+        # we can validate the notification pipeline without triggering a real
+        # ban. `on_success: continue` keeps the remediation profiles below in
+        # play. Safe to leave (test scenario only matches a magic path) but
+        # can be removed once the Discord wiring is confirmed.
+        name: notify_test
+        filters:
+          - Alert.Scenario == "crowdsecurity/http-generic-test"
+        notifications:
+          - discord
+        on_success: continue
+        ---
         name: default_ip_remediation
         filters:
           - Alert.Remediation == true && Alert.GetScope() == "Ip"
