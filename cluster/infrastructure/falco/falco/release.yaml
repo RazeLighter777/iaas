@@ -211,10 +211,11 @@ spec:
           override:
             exceptions: append
 
-      longhorn-stdio-exceptions.yaml: |-
-        # Longhorn daemons (instance-manager SPDK + longhorn-manager) use dup3
-        # to plumb stdio to their gRPC/IPC sockets. Match on proc.name since
-        # these run as PID 1 in their container (proc.pname is <NA>).
+      stdio-redirect-exceptions.yaml: |-
+        # Apps that legitimately dup3 stdio onto internal sockets:
+        # - Longhorn instance-manager (SPDK) and longhorn-manager: gRPC/IPC sockets
+        # - Authentik server (gunicorn/uvicorn): worker -> master IPC
+        # Match on proc.name since these run as PID 1 (proc.pname is <NA>).
         - rule: Redirect STDOUT/STDIN to Network Connection in Container
           exceptions:
           - name: longhorn-instance-manager
@@ -231,6 +232,13 @@ spec:
             values:
             - - docker.io/longhornio/longhorn-manager
               - longhorn-manage
+          - name: authentik-server
+            fields:
+            - container.image.repository
+            - proc.name
+            values:
+            - - ghcr.io/goauthentik/server
+              - authentik
           override:
             exceptions: append
 
