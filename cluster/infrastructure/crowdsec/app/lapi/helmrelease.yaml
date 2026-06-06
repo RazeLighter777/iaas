@@ -71,7 +71,11 @@ spec:
       # Tail pod logs directly off the host (default behaviour).
       hostVarLog: true
       acquisition:
-        - namespace: istio-ingress
+        # Despite the HelmRelease metadata.namespace being istio-ingress,
+        # the istio-ingressgateway chart deploys the actual gateway pods
+        # to istio-system. The acquisition file glob matches by the pod's
+        # *runtime* namespace, not the HelmRelease's.
+        - namespace: istio-system
           podName: "istio-ingressgateway-*"
           program: istio-ingress
         - namespace: authentik
