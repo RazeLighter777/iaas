@@ -42,3 +42,10 @@ spec:
       prometheus.io/scrape: "true"
       prometheus.io/port: "15090"
       prometheus.io/path: "/stats/prometheus"
+      # Trust exactly 1 proxy hop in front of the gateway (cloudflared, for
+      # WAN traffic). Sets envoy.xff_num_trusted_hops=1 natively without
+      # conflicting with Istio's default use_remote_address:true. LAN-direct
+      # traffic has no XFF so the L4 source IP is used as-is.
+      proxy.istio.io/config: |
+        gatewayTopology:
+          numTrustedProxies: 1
