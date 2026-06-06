@@ -44,6 +44,7 @@ spec:
     sources: ["crd"]
     txtPrefix: pdns.
     txtOwnerId: pdns
+    txtWildcardReplacement: wildcard
     domainFilters:
       - ${domain_name}
     serviceMonitor:
