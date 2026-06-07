@@ -340,13 +340,38 @@ spec:
           log_level: info
           group_wait: 5s
           group_threshold: 1
+          # Taunts only fire when .Decisions is non-empty (actual remediation,
+          # not informational alerts like crowdsecurity/http-generic-test).
+          # Index is seconds-of-minute mod list length: cheap rotation without
+          # needing a stable random seed across alerts.
           format: |
+            {{- $taunts := list
+              "L Bozo."
+              "I can't let you do that Dave."
+              "Skill issue."
+              "Press S to Spit"
+              "WASTED"
+              "L + ratio + IP banned."
+              "360 noscoped."
+              "Get rekt."
+              "Scrape these."
+              "Get bezongled"
+              "Hasta La Vista, Baby"
+              "Yeeted into the void."
+              "Thanks for playing. Try again in 4 hours."
+              "Sorry, your vulnerable box is in another castle"
+              "lmao no"
+            -}}
+            {{- $idx := mod (now | date "05" | atoi) (len $taunts) -}}
             {{ range . -}}
             {
               "username": "CrowdSec",
               "embeds": [
                 {
-                  "title": "CrowdSec alert",
+                  "title": "{{ if .Decisions }}Intruder Locked Out{{ else }}CrowdSec alert{{ end }}",
+                  {{- if .Decisions }}
+                  "description": "{{ index $taunts $idx }}",
+                  {{- end }}
                   "color": 15158332,
                   "fields": [
                     {"name": "Scenario", "value": "`{{ .Scenario }}`", "inline": false},
