@@ -239,6 +239,23 @@ spec:
             values:
             - - ghcr.io/goauthentik/server
               - authentik
+          # CNPG instance manager (PID 1 in postgres container) dups stdio
+          # onto loopback and pod-local sockets for its TLS status port and
+          # internal gRPC. Applies to all CNPG clusters.
+          - name: cloudnative-pg-instance-manager
+            fields:
+            - container.image.repository
+            - proc.name
+            values:
+            - - ghcr.io/cloudnative-pg/postgresql
+              - manager
+          - name: cloudnative-pgvecto-instance-manager
+            fields:
+            - container.image.repository
+            - proc.name
+            values:
+            - - ghcr.io/tensorchord/cloudnative-pgvecto.rs
+              - manager
           override:
             exceptions: append
 
