@@ -77,7 +77,7 @@ spec:
             image:
               repository: ghcr.io/home-operations/prowlarr
               # renovate: datasource=github-releases depName=home-operations/prowlarr-develop
-              tag: 1.37.0.5076@sha256:aab0bfd4e96bdca19cca280a2bbf8ac60b9251dcae13459856b724a2dd3ae020
+              tag: 2.4.0.5397@sha256:8a140c9104c754a272f5e0d1dfcb32a06f07946a431a45c1083a16344f531748
             env:
                 - name: PROWLARR__APP__INSTANCENAME
                   value: ${domain_name} Prowlarr
