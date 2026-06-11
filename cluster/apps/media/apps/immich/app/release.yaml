@@ -57,7 +57,7 @@ spec:
           app:
             image:
               repository: ghcr.io/immich-app/immich-server
-              tag: v2.5.6
+              tag: v2.7.5
             env:
               - name: IMMICH_LOG_LEVEL
                 value: log
@@ -148,7 +148,7 @@ spec:
           app:
             image:
               repository: ghcr.io/immich-app/immich-machine-learning
-              tag: v2.5.6-openvino
+              tag: v2.7.5-openvino
             env:
               - name: DB_HOSTNAME
                 value: *dbhost
