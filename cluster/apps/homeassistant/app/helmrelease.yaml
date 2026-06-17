@@ -42,7 +42,7 @@ spec:
               privileged: true
             image:
               repository: ghcr.io/zwave-js/zwave-js-ui
-              tag: 10.11.0
+              tag: 11.20.0
             resources:
               requests:
                 cpu: 100m
