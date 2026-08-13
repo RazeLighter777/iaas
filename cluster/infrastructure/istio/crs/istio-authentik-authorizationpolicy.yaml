@@ -32,3 +32,4 @@ spec:
               - "git.${domain_name}"
               - "crowdsec-lapi.${domain_name}"
               - "block.${domain_name}"
+              - "lore.${domain_name}"

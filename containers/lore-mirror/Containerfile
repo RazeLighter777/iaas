@@ -1,0 +1,31 @@
+FROM debian:trixie-slim
+
+ARG SOURCE_REPO="unknown"
+
+LABEL org.opencontainers.image.title="lore-mirror"
+LABEL org.opencontainers.image.description="grokmirror + public-inbox mirror of lore.kernel.org lists."
+LABEL org.opencontainers.image.source="${SOURCE_REPO}"
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        grokmirror \
+        public-inbox \
+        git \
+        curl \
+        ca-certificates \
+        tini \
+        xapian-tools \
+    && rm -rf /var/lib/apt/lists/* \
+    && useradd -u 1000 -m -d /home/lore lore
+
+COPY grokmirror.conf /etc/lore-mirror/grokmirror.conf
+COPY mirror.sh httpd.sh /usr/local/bin/
+
+RUN chmod 0755 /usr/local/bin/mirror.sh /usr/local/bin/httpd.sh
+
+ENV HOME=/data/home
+
+USER 1000
+
+ENTRYPOINT ["/usr/bin/tini", "--"]
+CMD ["/usr/local/bin/mirror.sh"]

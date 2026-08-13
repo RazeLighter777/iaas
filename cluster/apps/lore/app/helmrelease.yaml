@@ -1,0 +1,108 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: lore
+  namespace: lore
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 4.0.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    defaultPodOptions:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    controllers:
+      lore:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          mirror:
+            image:
+              repository: ghcr.io/razelighter777/lore-mirror
+              tag: 0.0.12
+            env:
+              - name: TZ
+                value: ${timezone}
+              - name: INBOX_URL
+                value: https://lore.${domain_name}/lkml
+              - name: INBOX_ADDRESS
+                value: linux-kernel@vger.kernel.org
+              - name: REFRESH_SECONDS
+                value: "300"
+              - name: INDEX_JOBS
+                value: "2"
+              - name: INDEX_LEVEL
+                value: full
+            resources:
+              requests:
+                cpu: 100m
+                memory: 512Mi
+              limits:
+                cpu: "4"
+                memory: 6Gi
+          httpd:
+            image:
+              repository: ghcr.io/razelighter777/lore-mirror
+              tag: 0.0.12
+            command:
+              - /usr/bin/tini
+              - --
+              - /usr/local/bin/httpd.sh
+            env:
+              - name: TZ
+                value: ${timezone}
+              - name: LISTEN
+                value: 0.0.0.0:8080
+            probes:
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: 8080
+                  initialDelaySeconds: 10
+                  periodSeconds: 15
+            resources:
+              requests:
+                cpu: 50m
+                memory: 256Mi
+              limits:
+                cpu: "2"
+                memory: 2Gi
+    service:
+      app:
+        controller: lore
+        ports:
+          http:
+            port: 80
+            targetPort: 8080
+    ingress:
+      app:
+        enabled: false
+    persistence:
+      data:
+        enabled: true
+        existingClaim: lore
+        globalMounts:
+          - path: /data

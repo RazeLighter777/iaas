@@ -63,6 +63,10 @@ At this point, the cluster has maintained roughly nine months of uptime, with no
 
 - **[Jellyfin](https://jellyfin.org/)**: A media server for streaming and organizing media.
 
+### 📬 Mail Archives
+
+- **[public-inbox](https://public-inbox.org/)**: A public LKML mirror at lore.prizrak.me, continuously synced from lore.kernel.org with [grokmirror](https://github.com/mricon/grokmirror).
+
 ### 🪪 Identity Management
 
 - **[Authentik](https://goauthentik.io/)**: An identity provider for authentication and authorization.
