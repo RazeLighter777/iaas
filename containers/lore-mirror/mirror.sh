@@ -12,6 +12,7 @@ REFRESH_SECONDS=${REFRESH_SECONDS:-300}
 INDEX_JOBS=${INDEX_JOBS:-2}
 INDEX_LEVEL=${INDEX_LEVEL:-full}
 INDEX_BATCH_SIZE=${INDEX_BATCH_SIZE:-10m}
+INDEX_PARALLEL=${INDEX_PARALLEL:-1}
 PI_CONFIG_FILE="${HOME}/.public-inbox/config"
 GROK_CONF="${HOME}/grokmirror.conf"
 
@@ -109,12 +110,15 @@ while true; do
     for l in ${LISTS}; do
         init_inbox "${l}"
     done
-    for l in ${LISTS}; do
-        if git config -f "${PI_CONFIG_FILE}" --get "publicinbox.${l}.inboxdir" >/dev/null 2>&1; then
-            public-inbox-index --no-fsync -j "${INDEX_JOBS}" \
-                --batch-size "${INDEX_BATCH_SIZE}" "${TOPLEVEL}/${l}"
-        fi
-    done
+    # Index inboxes, up to INDEX_PARALLEL lists at a time (separate inboxes
+    # have independent databases, so concurrent indexing is safe).
+    export TOPLEVEL PI_CONFIG_FILE INDEX_JOBS INDEX_BATCH_SIZE
+    printf '%s\n' ${LISTS} | xargs -P "${INDEX_PARALLEL}" -I{} bash -c '
+        l={}
+        git config -f "${PI_CONFIG_FILE}" --get "publicinbox.${l}.inboxdir" >/dev/null 2>&1 || exit 0
+        exec public-inbox-index --no-fsync -j "${INDEX_JOBS}" \
+            --batch-size "${INDEX_BATCH_SIZE}" "${TOPLEVEL}/${l}"
+    '
 
     sleep "${REFRESH_SECONDS}"
 done

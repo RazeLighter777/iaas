@@ -40,7 +40,7 @@ spec:
           mirror:
             image:
               repository: ghcr.io/razelighter777/iaas/lore-mirror
-              tag: 0.0.16
+              tag: 0.0.17
             env:
               - name: TZ
                 value: ${timezone}
@@ -55,20 +55,24 @@ spec:
               - name: REFRESH_SECONDS
                 value: "300"
               - name: INDEX_JOBS
-                value: "2"
+                value: "3"
               - name: INDEX_LEVEL
                 value: full
+              - name: INDEX_BATCH_SIZE
+                value: 100m
+              - name: INDEX_PARALLEL
+                value: "3"
             resources:
               requests:
-                cpu: 100m
-                memory: 512Mi
+                cpu: 500m
+                memory: 2Gi
               limits:
-                cpu: "4"
-                memory: 6Gi
+                cpu: "12"
+                memory: 16Gi
           httpd:
             image:
               repository: ghcr.io/razelighter777/iaas/lore-mirror
-              tag: 0.0.16
+              tag: 0.0.17
             command:
               - /usr/bin/tini
               - --
