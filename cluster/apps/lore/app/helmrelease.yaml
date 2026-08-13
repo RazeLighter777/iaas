@@ -39,7 +39,7 @@ spec:
         containers:
           mirror:
             image:
-              repository: ghcr.io/razelighter777/lore-mirror
+              repository: ghcr.io/razelighter777/iaas/lore-mirror
               tag: 0.0.12
             env:
               - name: TZ
@@ -63,7 +63,7 @@ spec:
                 memory: 6Gi
           httpd:
             image:
-              repository: ghcr.io/razelighter777/lore-mirror
+              repository: ghcr.io/razelighter777/iaas/lore-mirror
               tag: 0.0.12
             command:
               - /usr/bin/tini
