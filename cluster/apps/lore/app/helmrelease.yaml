@@ -40,7 +40,7 @@ spec:
           mirror:
             image:
               repository: ghcr.io/razelighter777/iaas/lore-mirror
-              tag: 0.0.17
+              tag: 0.0.18
             env:
               - name: TZ
                 value: ${timezone}
@@ -59,7 +59,7 @@ spec:
               - name: INDEX_LEVEL
                 value: full
               - name: INDEX_BATCH_SIZE
-                value: 100m
+                value: 10m
               - name: INDEX_PARALLEL
                 value: "3"
             resources:
@@ -72,7 +72,7 @@ spec:
           httpd:
             image:
               repository: ghcr.io/razelighter777/iaas/lore-mirror
-              tag: 0.0.17
+              tag: 0.0.18
             command:
               - /usr/bin/tini
               - --
@@ -82,6 +82,8 @@ spec:
                 value: ${timezone}
               - name: LISTEN
                 value: 0.0.0.0:8080
+              - name: HTTPD_WORKERS
+                value: "4"
             # No readiness probe: httpd can't listen until the initial multi-hour
             # mirror+index completes, and an unready pod would wedge the helm
             # install (and with it the flux apps dependency chain).

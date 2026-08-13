@@ -5,6 +5,7 @@
 set -u
 
 LISTEN=${LISTEN:-0.0.0.0:8080}
+HTTPD_WORKERS=${HTTPD_WORKERS:-2}
 CONFIG="${HOME}/.public-inbox/config"
 
 until [ -s "${CONFIG}" ]; do
@@ -12,7 +13,7 @@ until [ -s "${CONFIG}" ]; do
     sleep 30
 done
 
-public-inbox-httpd -l "${LISTEN}" &
+public-inbox-httpd -l "${LISTEN}" -W "${HTTPD_WORKERS}" &
 pid=$!
 trap 'kill -TERM ${pid} 2>/dev/null' TERM INT
 
