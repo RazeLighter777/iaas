@@ -13,13 +13,6 @@ spec:
         - authority:
             exact: lore.${domain_name}
           uri:
-            exact: /
-      redirect:
-        uri: /lkml/
-    - match:
-        - authority:
-            exact: lore.${domain_name}
-          uri:
             prefix: /
       route:
         - destination:

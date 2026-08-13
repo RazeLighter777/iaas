@@ -9,4 +9,4 @@ spec:
   storageClassName: longhorn-fast-unreplicated
   resources:
     requests:
-      storage: 400Gi
+      storage: 1Ti

@@ -40,14 +40,18 @@ spec:
           mirror:
             image:
               repository: ghcr.io/razelighter777/iaas/lore-mirror
-              tag: 0.0.12
+              tag: 0.0.13
             env:
               - name: TZ
                 value: ${timezone}
-              - name: INBOX_URL
-                value: https://lore.${domain_name}/lkml
-              - name: INBOX_ADDRESS
-                value: linux-kernel@vger.kernel.org
+              - name: URL_BASE
+                value: https://lore.${domain_name}
+              - name: LISTS
+                value: >-
+                  lkml netdev linux-mm linux-fsdevel bpf linux-security-module
+                  stable kvm linux-block io-uring linux-arm-kernel dri-devel
+                  linux-ext4 linux-btrfs linux-xfs linux-crypto linux-pci
+                  linux-usb linux-wireless
               - name: REFRESH_SECONDS
                 value: "300"
               - name: INDEX_JOBS
@@ -64,7 +68,7 @@ spec:
           httpd:
             image:
               repository: ghcr.io/razelighter777/iaas/lore-mirror
-              tag: 0.0.12
+              tag: 0.0.13
             command:
               - /usr/bin/tini
               - --
