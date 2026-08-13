@@ -74,15 +74,9 @@ spec:
                 value: ${timezone}
               - name: LISTEN
                 value: 0.0.0.0:8080
-            probes:
-              readiness:
-                enabled: true
-                custom: true
-                spec:
-                  tcpSocket:
-                    port: 8080
-                  initialDelaySeconds: 10
-                  periodSeconds: 15
+            # No readiness probe: httpd can't listen until the initial multi-hour
+            # mirror+index completes, and an unready pod would wedge the helm
+            # install (and with it the flux apps dependency chain).
             resources:
               requests:
                 cpu: 50m
