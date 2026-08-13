@@ -40,7 +40,7 @@ spec:
           mirror:
             image:
               repository: ghcr.io/razelighter777/iaas/lore-mirror
-              tag: 0.0.13
+              tag: 0.0.14
             env:
               - name: TZ
                 value: ${timezone}
@@ -68,7 +68,7 @@ spec:
           httpd:
             image:
               repository: ghcr.io/razelighter777/iaas/lore-mirror
-              tag: 0.0.13
+              tag: 0.0.14
             command:
               - /usr/bin/tini
               - --

@@ -75,7 +75,27 @@ init_inbox() {
     fi
 }
 
+# An unclean shutdown mid-index leaves hot SQLite rollback journals that the
+# read-only httpd workers cannot recover (they 500 instead). Recover them by
+# briefly opening each database read-write before serving/indexing resumes.
+recover_journals() {
+    for l in ${LISTS}; do
+        for db in "${TOPLEVEL}/${l}/msgmap.sqlite3" \
+                  "${TOPLEVEL}/${l}/over.sqlite3" \
+                  "${TOPLEVEL}/${l}/xap15/over.sqlite3"; do
+            [ -f "${db}-journal" ] || continue
+            perl -MDBI -e '
+                my $dbh = eval { DBI->connect("dbi:SQLite:dbname=$ARGV[0]", "", "",
+                    {RaiseError => 1, sqlite_busy_timeout => 5000}) } or exit 0;
+                eval { $dbh->do("BEGIN IMMEDIATE"); $dbh->do("COMMIT") };
+                print "recovered journal: $ARGV[0]\n" unless $@;
+            ' "${db}" || true
+        done
+    done
+}
+
 write_grok_conf
+recover_journals
 
 while true; do
     grok-pull -v -c "${GROK_CONF}"
