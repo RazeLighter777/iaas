@@ -15,7 +15,7 @@ permissions:
 
 env:
   IMAGE_REPO: ghcr.io/${{ github.repository }}
-  VERSION: 0.0.14
+  VERSION: 0.0.15
 
 jobs:
   build-and-push:

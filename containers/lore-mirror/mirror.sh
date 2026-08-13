@@ -104,8 +104,12 @@ while true; do
         echo "grok-pull exited with ${rc}; retrying in ${REFRESH_SECONDS}s" >&2
     fi
 
+    # Init every inbox before indexing any: indexing a large list takes days,
+    # and the others' web endpoints only exist once initialized.
     for l in ${LISTS}; do
         init_inbox "${l}"
+    done
+    for l in ${LISTS}; do
         if git config -f "${PI_CONFIG_FILE}" --get "publicinbox.${l}.inboxdir" >/dev/null 2>&1; then
             public-inbox-index --no-fsync -j "${INDEX_JOBS}" \
                 --batch-size "${INDEX_BATCH_SIZE}" "${TOPLEVEL}/${l}"
