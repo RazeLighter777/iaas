@@ -9,10 +9,15 @@ SITE=${SITE:-https://lore.kernel.org}
 LISTS=${LISTS:-lkml}
 URL_BASE=${URL_BASE:-https://lore.example.com}
 REFRESH_SECONDS=${REFRESH_SECONDS:-300}
-INDEX_JOBS=${INDEX_JOBS:-2}
+# public-inbox-index needs jobs >= shards+1 (one master + one worker per
+# Xapian shard); inboxes here are created with 3 shards, hence 4.
+INDEX_JOBS=${INDEX_JOBS:-4}
 INDEX_LEVEL=${INDEX_LEVEL:-full}
 INDEX_BATCH_SIZE=${INDEX_BATCH_SIZE:-10m}
 INDEX_PARALLEL=${INDEX_PARALLEL:-1}
+EXTINDEX_JOBS=${EXTINDEX_JOBS:-0}
+EXTINDEX_DIR=${TOPLEVEL}/extindex
+CSS_DIR=/usr/share/lore-mirror
 PI_CONFIG_FILE="${HOME}/.public-inbox/config"
 GROK_CONF="${HOME}/grokmirror.conf"
 
@@ -76,22 +81,68 @@ init_inbox() {
     fi
 }
 
+# Match lore.kernel.org's web appearance: its light/dark 216-color stylesheets,
+# real list descriptions (grokmirror stores lore's description in each epoch
+# repo; strip the "[epoch N]" suffix), and short inbox names on the landing
+# page (WwwListing renders the bare name only when publicinbox.<name>.url is
+# unset; URLs then derive from the request Host header, which suits a mirror).
+sync_www_cosmetics() {
+    if ! git config -f "${PI_CONFIG_FILE}" --get-all publicinbox.css >/dev/null 2>&1; then
+        git config -f "${PI_CONFIG_FILE}" --add publicinbox.css \
+            "${CSS_DIR}/216light.css media=screen,print"
+        git config -f "${PI_CONFIG_FILE}" --add publicinbox.css \
+            "${CSS_DIR}/216dark.css media='screen and (prefers-color-scheme:dark)'"
+    fi
+    for l in ${LISTS}; do
+        [ -d "${TOPLEVEL}/${l}" ] || continue
+        git config -f "${PI_CONFIG_FILE}" --unset-all "publicinbox.${l}.url" 2>/dev/null || true
+        desc_src="${TOPLEVEL}/${l}/git/0.git/description"
+        [ -f "${desc_src}" ] || continue
+        desc=$(sed 's/ \[epoch [0-9]*\]$//' "${desc_src}")
+        case "${desc}" in ''|Unnamed*) continue;; esac
+        [ "${desc}" = "$(cat "${TOPLEVEL}/${l}/description" 2>/dev/null)" ] && continue
+        printf '%s\n' "${desc}" > "${TOPLEVEL}/${l}/description"
+    done
+}
+
+# Cross-list search index ("all/", like lore.kernel.org's): also gives the
+# landing page its search form. Only registered in the config (making the web
+# UI use it) after the first full build completes, so the listing never runs
+# off a partially-populated misc index.
+run_extindex() {
+    [ "${EXTINDEX_JOBS}" = 0 ] && return 0
+    if public-inbox-extindex --all --no-fsync -j "${EXTINDEX_JOBS}" \
+            --batch-size "${INDEX_BATCH_SIZE}" "${EXTINDEX_DIR}"; then
+        host=${URL_BASE#*://}
+        printf 'All of %s\n' "${host%%/*}" > "${EXTINDEX_DIR}/description"
+        if ! git config -f "${PI_CONFIG_FILE}" --get extindex.all.topdir >/dev/null 2>&1; then
+            git config -f "${PI_CONFIG_FILE}" extindex.all.topdir "${EXTINDEX_DIR}"
+        fi
+    fi
+}
+
 # An unclean shutdown mid-index leaves hot SQLite rollback journals that the
 # read-only httpd workers cannot recover (they 500 instead). Recover them by
 # briefly opening each database read-write before serving/indexing resumes.
 recover_journals() {
-    for l in ${LISTS}; do
-        for db in "${TOPLEVEL}/${l}/msgmap.sqlite3" \
-                  "${TOPLEVEL}/${l}/over.sqlite3" \
-                  "${TOPLEVEL}/${l}/xap15/over.sqlite3"; do
-            [ -f "${db}-journal" ] || continue
-            perl -MDBI -e '
-                my $dbh = eval { DBI->connect("dbi:SQLite:dbname=$ARGV[0]", "", "",
-                    {RaiseError => 1, sqlite_busy_timeout => 5000}) } or exit 0;
-                eval { $dbh->do("BEGIN IMMEDIATE"); $dbh->do("COMMIT") };
-                print "recovered journal: $ARGV[0]\n" unless $@;
-            ' "${db}" || true
+    extindex_dbs=""
+    [ -d "${EXTINDEX_DIR}" ] && \
+        extindex_dbs=$(find "${EXTINDEX_DIR}" -name '*.sqlite3' 2>/dev/null)
+    {
+        for l in ${LISTS}; do
+            printf '%s\n' "${TOPLEVEL}/${l}/msgmap.sqlite3" \
+                          "${TOPLEVEL}/${l}/over.sqlite3" \
+                          "${TOPLEVEL}/${l}/xap15/over.sqlite3"
         done
+        [ -n "${extindex_dbs}" ] && printf '%s\n' "${extindex_dbs}"
+    } | while read -r db; do
+        [ -f "${db}-journal" ] || continue
+        perl -MDBI -e '
+            my $dbh = eval { DBI->connect("dbi:SQLite:dbname=$ARGV[0]", "", "",
+                {RaiseError => 1, sqlite_busy_timeout => 5000}) } or exit 0;
+            eval { $dbh->do("BEGIN IMMEDIATE"); $dbh->do("COMMIT") };
+            print "recovered journal: $ARGV[0]\n" unless $@;
+        ' "${db}" || true
     done
 }
 
@@ -110,6 +161,7 @@ while true; do
     for l in ${LISTS}; do
         init_inbox "${l}"
     done
+    sync_www_cosmetics
     # Index inboxes, up to INDEX_PARALLEL lists at a time (separate inboxes
     # have independent databases, so concurrent indexing is safe).
     export TOPLEVEL PI_CONFIG_FILE INDEX_JOBS INDEX_BATCH_SIZE
@@ -119,6 +171,9 @@ while true; do
         exec public-inbox-index --no-fsync -j "${INDEX_JOBS}" \
             --batch-size "${INDEX_BATCH_SIZE}" "${TOPLEVEL}/${l}"
     '
+    # After the per-list indexes are current (the xargs above blocks until
+    # then), fold everything into the cross-list "all" extindex.
+    run_extindex
 
     sleep "${REFRESH_SECONDS}"
 done

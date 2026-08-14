@@ -40,7 +40,7 @@ spec:
           mirror:
             image:
               repository: ghcr.io/razelighter777/iaas/lore-mirror
-              tag: 0.0.18
+              tag: 0.0.19
             env:
               - name: TZ
                 value: ${timezone}
@@ -54,25 +54,30 @@ spec:
                   linux-usb linux-wireless
               - name: REFRESH_SECONDS
                 value: "300"
+              # jobs must be shards+1 (inboxes have 3 Xapian shards) or
+              # public-inbox-index warns and bumps it internally
               - name: INDEX_JOBS
-                value: "3"
+                value: "4"
               - name: INDEX_LEVEL
                 value: full
               - name: INDEX_BATCH_SIZE
-                value: 10m
+                value: 100m
               - name: INDEX_PARALLEL
                 value: "3"
+              # cross-list "all" search index, like lore.kernel.org's
+              - name: EXTINDEX_JOBS
+                value: "9"
             resources:
               requests:
-                cpu: 500m
-                memory: 2Gi
+                cpu: "2"
+                memory: 4Gi
               limits:
-                cpu: "12"
-                memory: 16Gi
+                cpu: "24"
+                memory: 48Gi
           httpd:
             image:
               repository: ghcr.io/razelighter777/iaas/lore-mirror
-              tag: 0.0.18
+              tag: 0.0.19
             command:
               - /usr/bin/tini
               - --

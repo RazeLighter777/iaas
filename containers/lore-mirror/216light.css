@@ -1,0 +1,53 @@
+/*
+ * CC0-1.0 <https://creativecommons.org/publicdomain/zero/1.0/legalcode>
+ * Light color scheme using 216 web-safe colors.
+ * Suitable for print, and blinding people with brightness.
+ * Haphazardly thrown together because bright colors hurt my eyes
+ */
+* { font-size: 100%; font-family: monospace; background:#fff; color:#003 }
+pre { white-space: pre-wrap }
+input,
+textarea { background:#cfc }
+
+/*
+ * Underlined links add visual noise which make them hard-to-read.
+ * Use colors to make them stand out, instead.
+ */
+a:link { color:#00f; text-decoration:none }
+a:visited { color:#808 }
+
+/* quoted text gets a different color */
+*.q { color:#006 }
+
+/*
+ * these may be used with cgit, too
+ * (cgit uses <div>, public-inbox uses <span>)
+ */
+*.add { color:#060 }
+*.del {color:#900 }
+*.head { color:#000 }
+*.hunk { color:#960 }
+
+/*
+ * highlight 3.x colors (tested 3.18) for displaying blobs.
+ * This doesn't use most of the colors available, as I find too
+ * many colors overwhelming, so the default is commented out.
+ */
+.hl.num { color:#f30 } /* number */
+.hl.esc { color:#f0f } /* escape character */
+.hl.str { color:#f30 } /* string */
+.hl.ppc { color:#c3c } /* preprocessor */
+.hl.pps { color:#f30 } /* preprocessor string */
+.hl.slc { color:#099 } /* single-line comment */
+.hl.com { color:#099 } /* multi-line comment */
+/* .hl.opt { color:#ccc } */ /* operator */
+/* .hl.ipl { color:#ccc } */ /* interpolation */
+
+/* keyword groups kw[a-z] */
+.hl.kwa { color:#f90 }
+.hl.kwb { color:#060 }
+.hl.kwc { color:#f90 }
+/* .hl.kwd { color:#ccc } */
+
+/* line-number (unused by public-inbox) */
+/* .hl.lin { color:#ccc } */

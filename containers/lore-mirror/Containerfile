@@ -19,6 +19,7 @@ RUN apt-get update \
     && useradd -u 1000 -m -d /home/lore lore
 
 COPY mirror.sh httpd.sh /usr/local/bin/
+COPY 216light.css 216dark.css /usr/share/lore-mirror/
 
 RUN chmod 0755 /usr/local/bin/mirror.sh /usr/local/bin/httpd.sh
 
