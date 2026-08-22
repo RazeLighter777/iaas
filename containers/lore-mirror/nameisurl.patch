@@ -1,0 +1,81 @@
+Backport of upstream public-inbox commit fa9d151442450469f401f6e0b325c680e9a4cde2
+("www_listing: support publicInbox.nameIsUrl", slated for 2.0.0) onto the 1.9.0
+WwwListing.pm shipped in Debian trixie. Without it, both listing code paths
+filter inboxes by their configured publicinbox.<name>.url values, so inboxes
+without urls never appear on the landing page.
+
+commit fa9d151442450469f401f6e0b325c680e9a4cde2
+Author: Eric Wong <e@80x24.org>
+Date:   Thu Nov 30 11:41:06 2023 +0000
+
+    www_listing: support publicInbox.nameIsUrl
+    
+    This is a convenient (and slightly memory-saving) alternative to
+    specifying a `publicinbox.*.url' entry for every single inbox
+    when using publicinbox.wwwListing.
+
+diff --git a/lib/PublicInbox/WwwListing.pm b/lib/PublicInbox/WwwListing.pm
+index 21e5b8bc..e3d2e84c 100644
+--- a/lib/PublicInbox/WwwListing.pm
++++ b/lib/PublicInbox/WwwListing.pm
+@@ -41,10 +41,7 @@ sub list_match_i { # ConfigIter callback
+ 	if (defined($section)) {
+ 		return if $section !~ m!\Apublicinbox\.([^/]+)\z!;
+ 		my $ibx = $cfg->lookup_name($1) or return;
+-		if (!$ibx->{-hide}->{$ctx->hide_key} &&
+-					grep(/$re/, @{$ibx->{url} // []})) {
+-			$ctx->ibx_entry($ibx);
+-		}
++		$ctx->ibx_entry($ibx) unless $ctx->hide_inbox($ibx, $re);
+ 	} else { # undef == "EOF"
+ 		$ctx->{-wcb}->($ctx->psgi_triple);
+ 	}
+@@ -54,13 +51,17 @@ sub url_filter {
+ 	my ($ctx, $key, $default) = @_;
+ 	$key //= 'publicInbox.wwwListing';
+ 	$default //= '404';
+-	my $v = $ctx->{www}->{pi_cfg}->{lc $key} // $default;
++	my $cfg = $ctx->{www}->{pi_cfg};
++	my $v = $cfg->{lc $key} // $default;
+ again:
+ 	if ($v eq 'match=domain') {
+ 		my $h = $ctx->{env}->{HTTP_HOST} // $ctx->{env}->{SERVER_NAME};
+ 		$h =~ s/:[0-9]+\z//;
+ 		(qr!\A(?:https?:)?//\Q$h\E(?::[0-9]+)?/!i, "url:$h");
+ 	} elsif ($v eq 'all') {
++		my $niu = $cfg->{lc 'publicinbox.nameIsUrl'};
++		defined($niu) && $cfg->git_bool($niu) and
++			$ctx->{-name_is_url} = [ '.' ];
+ 		(qr/./, undef);
+ 	} elsif ($v eq '404') {
+ 		(undef, undef);
+@@ -76,6 +77,12 @@ EOF
+ 
+ sub hide_key { 'www' }
+ 
++sub hide_inbox {
++	my ($ctx, $ibx, $re) = @_;
++	$ibx->{-hide}->{$ctx->hide_key} ||
++		!grep(/$re/, @{$ibx->{url} // $ctx->{-name_is_url} // []})
++}
++
+ sub add_misc_ibx { # MiscSearch->retry_reopen callback
+ 	my ($misc, $ctx, $re, $qs) = @_;
+ 	require PublicInbox::SearchQuery;
+@@ -104,15 +111,13 @@ sub add_misc_ibx { # MiscSearch->retry_reopen callback
+ 		$ctx->ibx_entry($pi_cfg->ALL // die('BUG: ->ALL expected'), {});
+ 	}
+ 	my $mset = $misc->mset($qs, $opt); # sorts by $MODIFIED (mtime)
+-	my $hide_key = $ctx->hide_key;
+ 
+ 	for my $mi ($mset->items) {
+ 		my $doc = $mi->get_document;
+ 		my ($eidx_key) = PublicInbox::Search::xap_terms('Q', $doc);
+ 		$eidx_key // next;
+ 		my $ibx = $pi_cfg->lookup_eidx_key($eidx_key) // next;
+-		next if $ibx->{-hide}->{$hide_key};
+-		grep(/$re/, @{$ibx->{url} // []}) or next;
++		next if $ctx->hide_inbox($ibx, $re);
+ 		$ctx->ibx_entry($ibx, $misc->doc2ibx_cache_ent($doc));
+ 		if ($r) { # for descriptions in search_nav_bot
+ 			my $pct = PublicInbox::Search::get_pct($mi);

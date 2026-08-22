@@ -86,9 +86,10 @@ init_inbox() {
 # repo; strip the "[epoch N]" suffix), and short inbox names on the landing
 # page. WwwListing renders the bare name only when publicinbox.<name>.url is
 # unset (URLs then derive from the request Host header, which suits a mirror),
-# but its non-extindex code path filters inboxes BY their configured urls, so
-# unsetting them before [extindex "all"] exists empties the landing page: keep
-# urls until the extindex is registered, drop them after.
+# but both its listing code paths filter inboxes BY their urls — an inbox with
+# none is never listed. publicinbox.nameIsUrl=true (upstream fa9d151442,
+# backported into this image's WwwListing.pm) makes the name stand in for the
+# url, so urls stay unset everywhere.
 sync_www_cosmetics() {
     if ! git config -f "${PI_CONFIG_FILE}" --get-all publicinbox.css >/dev/null 2>&1; then
         git config -f "${PI_CONFIG_FILE}" --add publicinbox.css \
@@ -96,15 +97,11 @@ sync_www_cosmetics() {
         git config -f "${PI_CONFIG_FILE}" --add publicinbox.css \
             "${CSS_DIR}/216dark.css media='screen and (prefers-color-scheme:dark)'"
     fi
-    with_all=0
-    git config -f "${PI_CONFIG_FILE}" --get extindex.all.topdir >/dev/null 2>&1 && with_all=1
+    git config -f "${PI_CONFIG_FILE}" --get publicinbox.nameisurl >/dev/null 2>&1 || \
+        git config -f "${PI_CONFIG_FILE}" publicinbox.nameIsUrl true
     for l in ${LISTS}; do
         [ -d "${TOPLEVEL}/${l}" ] || continue
-        if [ "${with_all}" = 1 ]; then
-            git config -f "${PI_CONFIG_FILE}" --unset-all "publicinbox.${l}.url" 2>/dev/null || true
-        elif ! git config -f "${PI_CONFIG_FILE}" --get "publicinbox.${l}.url" >/dev/null 2>&1; then
-            git config -f "${PI_CONFIG_FILE}" "publicinbox.${l}.url" "${URL_BASE}/${l}"
-        fi
+        git config -f "${PI_CONFIG_FILE}" --unset-all "publicinbox.${l}.url" 2>/dev/null || true
         desc_src="${TOPLEVEL}/${l}/git/0.git/description"
         [ -f "${desc_src}" ] || continue
         desc=$(sed 's/ \[epoch [0-9]*\]$//' "${desc_src}")

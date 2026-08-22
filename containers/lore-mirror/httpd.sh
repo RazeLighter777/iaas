@@ -13,7 +13,10 @@ until [ -s "${CONFIG}" ]; do
     sleep 30
 done
 
-public-inbox-httpd -l "${LISTEN}" -W "${HTTPD_WORKERS}" &
+# The .psgi wrapper adds Plack::Middleware::ReverseProxy so generated
+# absolute URLs honor X-Forwarded-Proto from the TLS-terminating proxy.
+public-inbox-httpd -l "${LISTEN}" -W "${HTTPD_WORKERS}" \
+    /usr/share/lore-mirror/www.psgi &
 pid=$!
 trap 'kill -TERM ${pid} 2>/dev/null' TERM INT
 
