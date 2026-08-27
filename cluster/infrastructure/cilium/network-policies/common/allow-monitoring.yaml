@@ -1,0 +1,13 @@
+---
+# Common policy to allow Prometheus/Alloy to scrape metrics
+# Allows monitoring stack to collect metrics from pods
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-monitoring-scrape
+spec:
+  endpointSelector: {}  # Applies to all pods in the namespace where deployed
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: monitoring
