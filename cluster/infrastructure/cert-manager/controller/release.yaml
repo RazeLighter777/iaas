@@ -18,6 +18,12 @@ spec:
       interval: 12h
   values:
     installCRDs: true
+    # prizrak.me is split-horizon: the LAN DNS box serves an internal view and
+    # claims authority, so DNS-01 self-checks must go straight to public
+    # resolvers where the real (Cloudflare) TXT records live.
+    extraArgs:
+      - --dns01-recursive-nameservers=1.1.1.1:53,8.8.8.8:53
+      - --dns01-recursive-nameservers-only
     prometheus: 
       enabled: true
       servicemonitor:
