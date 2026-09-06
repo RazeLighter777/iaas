@@ -203,31 +203,6 @@ variable "DISCORD_NOTIFICATIONS_WEBHOOK" {
     type = string
 }
 
-### Nix build service
-variable "NIX_BUILDER_AUTHORIZED_KEYS" {
-    type = string
-}
-
-variable "NIX_SSH_HOST_RSA_KEY" {
-    type = string
-}
-
-variable "NIX_SSH_HOST_ED25519_KEY" {
-    type = string
-}
-
-variable "NIX_CACHE_PRIVATE_KEY" {
-    type = string
-}
-
-variable "NIX_CACHE_PUBLIC_KEY" {
-    type = string
-}
-
-variable "NIX_CACHE_LB_IP" {
-    type = string
-}
-
 variable "FORGEJO_SSH_LB_IP" {
     type = string
 }
@@ -235,30 +210,6 @@ variable "FORGEJO_SSH_LB_IP" {
 variable "CROWDSEC_SYSLOG_IP" {
     type        = string
     description = "LoadBalancer IP for the CrowdSec syslog listener (UDP 514). External network gear ships syslog here."
-}
-
-variable "NIX_CACHE_S3_BUCKET" {
-    type = string
-}
-
-variable "NIX_CACHE_S3_ENDPOINT" {
-    type = string
-}
-
-variable "NIX_CACHE_S3_REGION" {
-    type = string
-}
-
-variable "NIX_CACHE_S3_SCHEME" {
-    type = string
-}
-
-variable "NIX_CACHE_S3_ACCESS_KEY_ID" {
-    type = string
-}
-
-variable "NIX_CACHE_S3_SECRET_ACCESS_KEY" {
-    type = string
 }
 
 variable "DISCORD_STATUS_WEBHOOK" {
@@ -302,7 +253,6 @@ resource "vault_kv_secret_v2" "cluster-settings" {
         "nfs_server_ip" = var.NFS_SERVER_IP
         "nfs_path" = var.NFS_PATH
         "omada_controller_ip" = var.OMADA_CONTROLLER_IP
-        "nix_cache_lb_ip" = var.NIX_CACHE_LB_IP
         "forgejo_ssh_lb_ip" = var.FORGEJO_SSH_LB_IP
         "crowdsec_syslog_ip" = var.CROWDSEC_SYSLOG_IP
     })
@@ -552,21 +502,6 @@ resource "vault_kv_secret_v2" "frigate" {
 }
 
 
-resource "random_password" "n8n_encryption_key" {
-  length = 32
-  special = false
-  numeric = false
-  upper = false
-}
-
-resource "vault_kv_secret_v2" "n8n" {
-  mount    = vault_mount.kv.path
-  name     = "n8n"
-  data_json = jsonencode({
-    "N8N_ENCRYPTION_KEY" = random_password.n8n_encryption_key.result
-    })
-} 
-
 resource "random_password" "open_webui_oauth_client_id" {
   length = 32
   special = false
@@ -657,25 +592,6 @@ resource "vault_kv_secret_v2" "pdns" {
     name    = "pdns"
     data_json = jsonencode({
         "api_key" = var.PDNS_API_KEY
-    })
-}
-
-resource "vault_kv_secret_v2" "nix_build_service" {
-    mount    = vault_mount.kv.path
-    name    = "nix_build_service"
-    data_json = jsonencode({
-        "authorized_keys" = replace(replace(var.NIX_BUILDER_AUTHORIZED_KEYS, "\r\n", "\n"), "\r", "\n")
-        "ssh_host_rsa_key" = replace(replace(var.NIX_SSH_HOST_RSA_KEY, "\r\n", "\n"), "\r", "\n")
-        "ssh_host_ed25519_key" = replace(replace(var.NIX_SSH_HOST_ED25519_KEY, "\r\n", "\n"), "\r", "\n")
-        "nix_cache_private_key" = var.NIX_CACHE_PRIVATE_KEY
-        "nix_cache_public_key" = var.NIX_CACHE_PUBLIC_KEY
-        "nix_cache_lb_ip" = var.NIX_CACHE_LB_IP
-        "nix_cache_s3_bucket" = var.NIX_CACHE_S3_BUCKET
-        "nix_cache_s3_endpoint" = var.NIX_CACHE_S3_ENDPOINT
-        "nix_cache_s3_region" = var.NIX_CACHE_S3_REGION
-        "nix_cache_s3_scheme" = var.NIX_CACHE_S3_SCHEME
-        "nix_cache_s3_access_key_id" = var.NIX_CACHE_S3_ACCESS_KEY_ID
-        "nix_cache_s3_secret_access_key" = var.NIX_CACHE_S3_SECRET_ACCESS_KEY
     })
 }
 

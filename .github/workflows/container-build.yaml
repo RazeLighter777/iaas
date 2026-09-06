@@ -23,12 +23,6 @@ jobs:
     strategy:
       matrix:
         container:
-          - name: nixos-build-daemon
-            context: containers/nixos-build-daemon
-            file: containers/nixos-build-daemon/Containerfile
-          - name: nixos-build-ssh-gateway
-            context: containers/nixos-build-ssh-gateway
-            file: containers/nixos-build-ssh-gateway/Containerfile
           - name: lore-mirror
             context: containers/lore-mirror
             file: containers/lore-mirror/Containerfile

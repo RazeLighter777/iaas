@@ -16,7 +16,6 @@ EMQX_IP = "192.168.1.x"
 MINECRAFT_IP = "192.168.1.x"
 EMAIL_ADDRESS = "your-email@example.com"
 
-
 # S3 backups
 
 S3_ENDPOINT = "https://s3.example.com"
@@ -25,7 +24,6 @@ S3_REGION = "us-east-1"
 # Emqx
 EMQX_USERNAME = "admin"
 EMQX_PASSWORD = "password"
-
 
 # Cameras
 
@@ -83,32 +81,6 @@ NFS_PATH = "/mnt/mainpool"
 
 JELLYFIN_API_KEY = "your-jellyfin-api-key"
 
-# Nix build service
-
-NIX_BUILDER_AUTHORIZED_KEYS = <<EOF
-ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBUILDERPUBKEYEXAMPLE nix-build
-EOF
-
-NIX_SSH_HOST_RSA_KEY = <<EOF
------BEGIN RSA PRIVATE KEY-----
-REPLACE_WITH_SSH_HOST_RSA_PRIVATE_KEY
------END RSA PRIVATE KEY-----
-EOF
-
-NIX_SSH_HOST_ED25519_KEY = <<EOF
------BEGIN OPENSSH PRIVATE KEY-----
-REPLACE_WITH_SSH_HOST_ED25519_PRIVATE_KEY
------END OPENSSH PRIVATE KEY-----
-EOF
-
-NIX_CACHE_PRIVATE_KEY = <<EOF
-your-cache-name:REPLACE_WITH_NIX_CACHE_PRIVATE_KEY
-EOF
-
-NIX_CACHE_PUBLIC_KEY = "your-cache-name:REPLACE_WITH_NIX_CACHE_PUBLIC_KEY"
-
-NIX_CACHE_LB_IP = "192.168.1.1"
-
 FORGEJO_SSH_LB_IP = "192.168.1.x"
 
 # CrowdSec
@@ -142,13 +114,6 @@ FORGEJO_RUNNER_UUID = "00000000-0000-0000-0000-000000000000"
 # For Gmail: USER = full email address, PASSWD = 16-char App Password from myaccount.google.com/apppasswords (requires 2FA on the account)
 FORGEJO_SMTP_USER = "you@gmail.com"
 FORGEJO_SMTP_PASSWD = "your-16-char-app-password"
-
-NIX_CACHE_S3_BUCKET = "your-nix-cache-bucket"
-NIX_CACHE_S3_ENDPOINT = "s3.example.com"
-NIX_CACHE_S3_REGION = "us-east-1"
-NIX_CACHE_S3_SCHEME = "https"
-NIX_CACHE_S3_ACCESS_KEY_ID = "your-nix-cache-s3-access-key-id"
-NIX_CACHE_S3_SECRET_ACCESS_KEY = "your-nix-cache-s3-secret-access-key"
 
 # Graphite exporter IP
 GRAPHITE_EXPORTER_IP=192.168.1.x
