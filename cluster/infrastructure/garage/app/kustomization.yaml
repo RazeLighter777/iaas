@@ -5,3 +5,4 @@ resources:
   - garage-config.yaml
   - garage-pvc.yaml
   - garage-helmrelease.yaml
+  - virtualservice.yaml

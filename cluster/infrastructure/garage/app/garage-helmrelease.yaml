@@ -82,6 +82,11 @@ spec:
         ports:
           http:
             port: *adminport
+      web:
+        controller: garage
+        ports:
+          http:
+            port: 3902
     persistence:
       config:
         type: configMap

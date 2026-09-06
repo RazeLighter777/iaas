@@ -18,7 +18,6 @@ spec:
             notHosts:
               - "jellyfin.${domain_name}"
               - "s3.${domain_name}"
-              - "rustfs.${domain_name}"
               - "blog.${domain_name}"
               - "vaultwarden.${domain_name}"
               - "grafana.${domain_name}"

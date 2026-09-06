@@ -1,0 +1,34 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: garage-s3
+  namespace: garage
+spec:
+  hosts:
+    - s3.${domain_name}
+  gateways:
+    - istio-system/istio-ingressgateway
+  http:
+    - match:
+        - authority:
+            exact: s3.${domain_name}
+          uri:
+            prefix: /media/
+      rewrite:
+        uri: /
+        authority: media.web.garage
+      route:
+        - destination:
+            host: garage-web.garage.svc.cluster.local
+            port:
+              number: 3902
+    - route:
+        - destination:
+            host: garage-s3.garage.svc.cluster.local
+            port:
+              number: 3900
+      match:
+        - authority:
+            exact: s3.${domain_name}
+          uri:
+            prefix: /
