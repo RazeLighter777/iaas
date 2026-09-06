@@ -6,8 +6,8 @@ spec:
   interval: 5m
   dependsOn:
     - name: kube-prometheus-stack
-    - name: rustfs
-      namespace: rustfs
+    - name: garage
+      namespace: garage
   chart:
     spec:
       version: "7.x"
@@ -63,8 +63,8 @@ spec:
           chunks: loki-chunks
           ruler: loki-ruler
         s3:
-          endpoint: rustfs-s3.rustfs.svc.cluster.local:9000
-          region: ${S3_REGION}
+          endpoint: garage-s3.garage.svc.cluster.local:3900
+          region: us-east-1
           accessKeyId: ${AWS_ACCESS_KEY_ID}
           secretAccessKey: ${AWS_SECRET_ACCESS_KEY}
           s3ForcePathStyle: true
