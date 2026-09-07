@@ -87,7 +87,7 @@ jobs:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
     - name: Setup Terraform
       if: steps.changes.outputs.authentik == 'true'
-      uses: hashicorp/setup-terraform@v3
+      uses: hashicorp/setup-terraform@v4
       with:
         terraform_version: 1.11.2
     - name: Test Terraform Authentik
@@ -113,7 +113,7 @@ jobs:
             - 'terraform/servarr/**'
     - name: Setup Terraform
       if: steps.changes.outputs.servarr == 'true'
-      uses: hashicorp/setup-terraform@v3
+      uses: hashicorp/setup-terraform@v4
       with:
         terraform_version: 1.11.2
     - name: Test Terraform Servarr
@@ -139,7 +139,7 @@ jobs:
             - 'terraform/vault/**'
     - name: Setup Terraform
       if: steps.changes.outputs.vault == 'true'
-      uses: hashicorp/setup-terraform@v3
+      uses: hashicorp/setup-terraform@v4
       with:
         terraform_version: 1.11.2
     - name: Test Terraform Vault
