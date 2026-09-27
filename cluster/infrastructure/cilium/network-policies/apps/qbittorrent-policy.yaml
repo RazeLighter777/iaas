@@ -1,0 +1,84 @@
+---
+# Network policy for qbittorrent with gluetun VPN sidecar
+# qbittorrent uses gluetun for VPN connectivity, with all traffic routed through the VPN
+# The pod contains: qbittorrent app, gluetun VPN, coredns, port-forward sync, and metrics exporter
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: qbittorrent-policy
+  namespace: media
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/instance: qbittorrent
+  # Ingress: Allow nginx for web UI, and authentik for authentication
+  ingress:
+    # Allow nginx ingress controller to reach the web UI
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: ingress-nginx
+            app.kubernetes.io/name: ingress-nginx
+            app.kubernetes.io/component: controller
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP
+    # Allow authentik outpost for forward auth
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: authentik
+            app.kubernetes.io/name: authentik
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP
+    # Allow monitoring/metrics scraping on exporter port
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: monitoring
+      toPorts:
+        - ports:
+            - port: "17871"
+              protocol: TCP
+  # Egress: DNS, VPN endpoints, and access to k8s services
+  egress:
+    # DNS resolution via local coredns sidecar (internal to pod)
+    # and cluster DNS for service discovery
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+          rules:
+            dns:
+              - matchPattern: "*"
+    # Allow gluetun to establish VPN connection (OpenVPN/Wireguard)
+    # VPN providers use various ports
+    - toEntities:
+        - world
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
+            - port: "1194"
+              protocol: UDP
+            - port: "1195"
+              protocol: UDP
+            - port: "1196"
+              protocol: UDP
+            - port: "1197"
+              protocol: UDP
+    # Allow access to Kubernetes service network for inter-pod communication
+    # This is needed for gluetun's FIREWALL_OUTBOUND_SUBNETS setting
+    - toCIDR:
+        - 10.96.0.0/12    # Kubernetes service CIDR
+        - 10.244.0.0/16   # Kubernetes pod CIDR
+    # Allow torrent traffic through VPN to external peers/trackers
+    # Note: gluetun handles routing ALL traffic through VPN via iptables
+    # Cilium policy allows outbound, but gluetun ensures it goes through VPN tunnel
+    # Torrent protocol requires access to random high ports for peer connections
+    - toEntities:
+        - world
