@@ -152,7 +152,7 @@ spec:
             httpHeaderValue1: default
       image:
         repository: grafana/grafana
-        tag: 12.4.3@sha256:2e986801428cd689c2358605289c90ab37d2b39e24808874971f54c99bcdc412
+        tag: 13.3.2@sha256:81556409ba48b2b922e0adb69a2511337d8ba7578f11962eefa6149a2d815101
       defaultDashboardsEnabled: true
       ingress:
         enabled: true
